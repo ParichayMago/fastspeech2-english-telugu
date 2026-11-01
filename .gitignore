@@ -116,3 +116,26 @@ output/
 *.npy
 TextGrid/
 hifigan/*.pth.tar
+
+# Assignment: keep data, credentials, environments and weights out of ordinary Git.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.venv/
+.venvs/
+.tools/
+__pycache__/
+*.py[cod]
+data/
+raw_data/
+preprocessed_data/
+output/
+logs/
+*.ckpt
+*.pth
+*.pt
+*.onnx
+*.safetensors
+# Store checkpoints through LFS or documented external downloads at submission.
