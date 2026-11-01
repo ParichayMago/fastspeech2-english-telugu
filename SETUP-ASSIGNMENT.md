@@ -53,7 +53,7 @@ documented external download at submission.
 
 ## 2. Machine recommendation for later
 
-Runpod has been selected with a US$20 maximum total spend. Runpod OAuth access is verified. Creation is waiting for account credit;
+Runpod has been selected with a US$20 maximum total spend. Runpod OAuth access is verified. A no-volume Pod creation was rejected for unavailable capacity;
 no cloud resources have been created. The budget plan in
 `setup/runpod-budget.json` reserves US$15 for GPU compute and US$5 for storage,
 tax and contingency. These are planning amounts, not an active billing cap.
@@ -66,8 +66,8 @@ Proposed starting configuration:
 | System memory | At least 24 GB; prefer more for preprocessing |
 | CPU | Approximately 6-8 vCPUs |
 | Container | Official Runpod PyTorch template, Linux x86_64, NVIDIA driver compatible with CUDA 11.8 |
-| Container disk | 30 GB starting allocation |
-| Persistent storage | 50 GB initially at `/workspace`, preferably a network volume |
+| Container disk | 50 GB of temporary storage; erased on stop/restart |
+| Persistent cloud storage | None; master data and completed results stay on the Mac |
 | Access | SSH; optional JupyterLab through the official template |
 | Training | English and Telugu separately; initially one run at a time |
 
@@ -83,17 +83,33 @@ plane before handing it back. Future training runs need active cost monitoring.
 This budget file is not an automatic account spending cap. GPU setup and idle
 time count toward the total. Keep automatic top-up disabled.
 
-A 50 GB standard network volume costs US$3.50/month, prorated, and continues
-billing after compute stops. Keep storage, tax and contingency within the US$5
-reserve. Training quality and total training time have not been established.
-Runpod rejected the initial volume creation because it requires at least US$5
-of account credit. Fresh account reads confirmed no Pods or network volumes.
+The user selected local Mac storage instead of a network volume. No network
+volume will be created. The Pod still needs 50 GB of temporary container disk,
+billed only while it runs. The current proposed GPU rate is US$0.59/hour;
+50 GB at US$0.10/GB/month adds approximately US$0.00694/hour (720-hour month),
+so the planned running rate is approximately US$0.597/hour before tax. Actual
+Pod pricing must be checked after creation. GPU credit is still required.
+A no-volume Pod create returned a valid-request capacity error; no Pod exists.
 
-Network volumes are independent of the Pod. A Pod's ordinary volume survives
-stopping but is deleted when the Pod is deleted; the container disk is lost on
-stop/restart. Keep checkpoints and data under `/workspace` and maintain a second
-backup before deleting anything. Storage can continue to incur charges while
-compute is stopped.
+There is no persistent cloud volume in the selected plan. `/workspace` is a
+normal directory on the Pod's temporary container disk, not a persistent mount.
+Keep the master project and datasets on the Mac. Copy the working files to the
+Pod, then copy checkpoints, generated audio, plots and reports back before
+stopping. A stop, restart, reset or termination erases temporary Pod data.
+
+Run this on the Mac after checkpoints/results exist, using verified direct SSH
+connection details:
+
+```bash
+bash setup/sync-results-to-local.sh USER@HOST PORT PRIVATE_KEY_PATH
+```
+
+It copies the English/Telugu folders, Results, Report, logs and setup metadata
+to `../fastspeech2-backups` by default, without deleting local files. It does
+not copy raw datasets or stop the Pod. Run it regularly during training and
+inspect the required outputs before stopping. The Mac must be reachable for a
+sync to succeed. Once the Pod is stopped, GPU and container-disk billing stop;
+restarting requires transferring files and rebuilding the temporary environment.
 
 Sources:
 - https://www.runpod.io/pricing
@@ -134,7 +150,7 @@ bash setup/bootstrap-cloud.sh 2>&1 | tee /workspace/fs2-bootstrap.log
 
 The bootstrap checks the GPU, installs required container system packages when
 run as root, and creates an isolated environment at
-`/workspace/.venvs/fastspeech2`. It uses Python 3.10, official PyTorch 2.0.1 CUDA
+`/workspace/.venvs/fastspeech2` on temporary disk in this plan. It uses Python 3.10, official PyTorch 2.0.1 CUDA
 11.8 wheels and proposed pinned speech dependencies. This avoids changing the
 PyTorch installation supplied by the cloud template. The old upstream
 `requirements.txt` is retained as a reference; do not install it over this
@@ -151,7 +167,7 @@ temporary synthetic data only to check software and does not represent model
 training or evaluation. It writes `/workspace/logs/environment-check.json` only
 after all checks pass. Do not regard an install-only success as readiness.
 
-Activate in subsequent SSH sessions:
+Activate in later SSH sessions while this same Pod remains running:
 
 ```bash
 source /workspace/.venvs/fastspeech2/bin/activate

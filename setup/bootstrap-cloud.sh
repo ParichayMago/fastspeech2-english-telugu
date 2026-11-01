@@ -2,6 +2,7 @@
 set -euo pipefail
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 WORKSPACE=${FS2_WORKSPACE:-/workspace}
+STORAGE_MODE=${FS2_STORAGE_MODE:-ephemeral}
 if [[ ${1:-} == --plan ]]; then
   printf 'Install isolated Python 3.10 environment under %s/.venvs/fastspeech2\n' "$WORKSPACE"
   printf 'Install PyTorch 2.0.1 CUDA 11.8 and pinned speech dependencies.\n'
@@ -15,7 +16,14 @@ fi
 [[ -f "$ROOT/train.py" && -f "$ROOT/LICENSE" ]] || { printf 'Run inside the prepared FastSpeech2 checkout.\n' >&2; exit 1; }
 command -v nvidia-smi >/dev/null || { printf 'NVIDIA driver/GPU not available.\n' >&2; exit 1; }
 nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv
-[[ -d "$WORKSPACE" && -w "$WORKSPACE" ]] || { printf 'Persistent workspace is missing or unwritable: %s\n' "$WORKSPACE" >&2; exit 1; }
+if [[ "$STORAGE_MODE" == ephemeral ]]; then
+  mkdir -p "$WORKSPACE"
+  printf 'Ephemeral storage: copy checkpoints and results to the Mac BEFORE stopping this Pod.\n'
+elif [[ "$STORAGE_MODE" != persistent ]]; then
+  printf 'FS2_STORAGE_MODE must be ephemeral or persistent.\n' >&2
+  exit 1
+fi
+[[ -d "$WORKSPACE" && -w "$WORKSPACE" ]] || { printf 'Workspace is missing or unwritable: %s\n' "$WORKSPACE" >&2; exit 1; }
 
 # System packages belong to this disposable cloud container, not the laptop.
 if [[ $(id -u) == 0 ]]; then

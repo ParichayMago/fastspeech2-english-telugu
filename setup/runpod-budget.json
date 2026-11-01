@@ -1,5 +1,5 @@
 {
-  "status": "waiting_for_account_credit_no_resources_created",
+  "status": "ephemeral_pod_request_valid_but_no_capacity_no_resources_created",
   "provider": "Runpod",
   "maximum_total_spend_usd": 20,
   "gpu_compute_envelope_usd": 15,
@@ -12,8 +12,8 @@
   "reference_price_url": "https://www.runpod.io/pricing",
   "fallback_gpu": "NVIDIA GeForce RTX 3090",
   "fallback_reference_gpu_hourly_rate_usd": 0.5,
-  "initial_persistent_storage_gb": 50,
-  "initial_container_disk_gb": 30,
+  "initial_persistent_storage_gb": 0,
+  "initial_container_disk_gb": 50,
   "initial_trial_duration_hours": 2,
   "provider_scheduled_stop_required_before_launch": false,
   "automatic_top_up": false,
@@ -26,9 +26,14 @@
     "Maintain a local copy of checkpoints before any separately authorized cloud-storage deletion.",
     "No claim is made that both language models will reach acceptable quality within this budget.",
     "The current Runpod plugin documents that stop-after/terminate-after flags were not enforced and were removed. They are not a billing guard.",
-    "Create failed before any resource existed because the account requires at least $5 of credit for a network volume."
+    "User selected local Mac storage instead of a separately billed network volume.",
+    "Creation of a no-volume Pod failed with a valid-request capacity error; a fresh list-pods read confirmed none exist.",
+    "Remote temporary disk still bills while the Pod is running. No remote storage should remain billable after a verified stop.",
+    "Keep datasets locally, copy working data to the Pod, and sync checkpoints/results to the Mac before stop, restart, reset or termination."
   ],
-  "planned_data_center": "EU-RO-1",
-  "cost_control": "Stop Pod with the Runpod control plane after setup and verification; do not rely on removed stop-after flags.",
-  "minimum_credit_required_for_network_volume_usd": 5
+  "planned_data_center": null,
+  "cost_control": "Sync and verify local checkpoints/results, then explicitly stop GPU compute. Temporary Pod data is lost on stop.",
+  "minimum_credit_required_for_network_volume_usd": null,
+  "storage_strategy": "Mac holds master data; cloud Pod uses temporary container disk only; sync results before stop",
+  "network_volume": false
 }
