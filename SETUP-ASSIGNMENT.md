@@ -53,7 +53,7 @@ documented external download at submission.
 
 ## 2. Machine recommendation for later
 
-Runpod has been selected with a US$20 maximum total spend. Access is pending;
+Runpod has been selected with a US$20 maximum total spend. Runpod OAuth access is verified. Creation is waiting for account credit;
 no cloud resources have been created. The budget plan in
 `setup/runpod-budget.json` reserves US$15 for GPU compute and US$5 for storage,
 tax and contingency. These are planning amounts, not an active billing cap.
@@ -62,7 +62,7 @@ Proposed starting configuration:
 | Setting | Recommendation |
 | --- | --- |
 | Provider/workload | Runpod on-demand GPU Pod |
-| GPU | 1 NVIDIA RTX A5000, 24 GB VRAM; RTX 3090 as a fallback |
+| GPU | 1 NVIDIA L4, 24 GB VRAM; verify live availability before creating |
 | System memory | At least 24 GB; prefer more for preprocessing |
 | CPU | Approximately 6-8 vCPUs |
 | Container | Official Runpod PyTorch template, Linux x86_64, NVIDIA driver compatible with CUDA 11.8 |
@@ -71,14 +71,23 @@ Proposed starting configuration:
 | Access | SSH; optional JupyterLab through the official template |
 | Training | English and Telugu separately; initially one run at a time |
 
-The live pricing page checked on 1 November lists RTX A5000 at US$0.27/hour
-and RTX 3090 at US$0.50/hour, before storage and tax. Availability and the exact
-console quote still need verification. Begin with a two-hour provider-scheduled
-stop, then measure setup/training throughput before allocating additional time.
-GPU setup and idle time also consume the budget. Do not enable automatic top-up.
-Storage continues to incur charges after compute stops, so track it within the
-same US$20 total and keep a local checkpoint backup. Training quality and total
-training time have not been established yet.
+The Runpod MCP GPU catalog checked on 1 November lists NVIDIA L4 at
+US$0.59/hour in Secure Cloud. The last stock read showed LOW availability in
+EU-RO-1. This is not a reservation; verify again before creating. A5000 and
+RTX 3090 were unavailable in the catalog reads made during this attempt.
+
+The current Runpod plugin documents that the old stop-after/terminate-after
+flags were not enforced and were removed. Do not rely on them. The setup plan
+is to verify the environment, then explicitly stop the Pod through the control
+plane before handing it back. Future training runs need active cost monitoring.
+This budget file is not an automatic account spending cap. GPU setup and idle
+time count toward the total. Keep automatic top-up disabled.
+
+A 50 GB standard network volume costs US$3.50/month, prorated, and continues
+billing after compute stops. Keep storage, tax and contingency within the US$5
+reserve. Training quality and total training time have not been established.
+Runpod rejected the initial volume creation because it requires at least US$5
+of account credit. Fresh account reads confirmed no Pods or network volumes.
 
 Network volumes are independent of the Pod. A Pod's ordinary volume survives
 stopping but is deleted when the Pod is deleted; the container disk is lost on

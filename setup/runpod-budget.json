@@ -1,30 +1,34 @@
 {
-  "status": "planned_only_no_cloud_resources_created",
+  "status": "waiting_for_account_credit_no_resources_created",
   "provider": "Runpod",
   "maximum_total_spend_usd": 20,
   "gpu_compute_envelope_usd": 15,
   "storage_tax_and_contingency_reserve_usd": 5,
   "maximum_simultaneous_pods": 1,
-  "preferred_gpu": "NVIDIA RTX A5000",
+  "preferred_gpu": "NVIDIA L4",
   "minimum_gpu_memory_gb": 24,
-  "reference_gpu_hourly_rate_usd": 0.27,
+  "reference_gpu_hourly_rate_usd": 0.59,
   "reference_price_checked_date": "2026-11-01",
   "reference_price_url": "https://www.runpod.io/pricing",
   "fallback_gpu": "NVIDIA GeForce RTX 3090",
-  "fallback_reference_gpu_hourly_rate_usd": 0.50,
+  "fallback_reference_gpu_hourly_rate_usd": 0.5,
   "initial_persistent_storage_gb": 50,
   "initial_container_disk_gb": 30,
   "initial_trial_duration_hours": 2,
-  "provider_scheduled_stop_required_before_launch": true,
+  "provider_scheduled_stop_required_before_launch": false,
   "automatic_top_up": false,
   "automatic_data_deletion": false,
   "execution_notes": [
     "This file records the budget; it is not an active billing cap or a provisioner.",
     "Verify current inventory, the actual all-resource hourly quote, tax and existing charges before launch.",
-    "Start with a two-hour scheduled stop and benchmark training throughput before allocating more time.",
     "Any further GPU time counts toward the same total budget, including environment setup and idle time.",
     "Stop before compute reaches its envelope; storage can continue billing after a Pod stops.",
     "Maintain a local copy of checkpoints before any separately authorized cloud-storage deletion.",
-    "No claim is made that both language models will reach acceptable quality within this budget."
-  ]
+    "No claim is made that both language models will reach acceptable quality within this budget.",
+    "The current Runpod plugin documents that stop-after/terminate-after flags were not enforced and were removed. They are not a billing guard.",
+    "Create failed before any resource existed because the account requires at least $5 of credit for a network volume."
+  ],
+  "planned_data_center": "EU-RO-1",
+  "cost_control": "Stop Pod with the Runpod control plane after setup and verification; do not rely on removed stop-after flags.",
+  "minimum_credit_required_for_network_volume_usd": 5
 }
