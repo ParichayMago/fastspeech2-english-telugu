@@ -53,25 +53,32 @@ documented external download at submission.
 
 ## 2. Machine recommendation for later
 
-No rental is authorized at present. Proposed starting configuration:
+Runpod has been selected with a US$20 maximum total spend. Access is pending;
+no cloud resources have been created. The budget plan in
+`setup/runpod-budget.json` reserves US$15 for GPU compute and US$5 for storage,
+tax and contingency. These are planning amounts, not an active billing cap.
+Proposed starting configuration:
 
 | Setting | Recommendation |
 | --- | --- |
 | Provider/workload | Runpod on-demand GPU Pod |
-| GPU | 1 NVIDIA RTX 4090, 24 GB VRAM |
-| System memory | At least 32 GB where available |
+| GPU | 1 NVIDIA RTX A5000, 24 GB VRAM; RTX 3090 as a fallback |
+| System memory | At least 24 GB; prefer more for preprocessing |
 | CPU | Approximately 6-8 vCPUs |
 | Container | Official Runpod PyTorch template, Linux x86_64, NVIDIA driver compatible with CUDA 11.8 |
 | Container disk | 30 GB starting allocation |
-| Persistent storage | 100 GB at `/workspace`, preferably a network volume |
+| Persistent storage | 50 GB initially at `/workspace`, preferably a network volume |
 | Access | SSH; optional JupyterLab through the official template |
 | Training | English and Telugu separately; initially one run at a time |
 
-The live pricing page checked on 1 November lists RTX 4090 at US$0.89/hour.
-That is about US$21.36 for 24 active hours or US$42.72 for 48 active hours,
-before storage/tax. These are budgeting examples, not training-time estimates.
-Confirm the exact console quote and availability before any rental. The older
-GPU-specific marketing page shows different rates, so use the live console.
+The live pricing page checked on 1 November lists RTX A5000 at US$0.27/hour
+and RTX 3090 at US$0.50/hour, before storage and tax. Availability and the exact
+console quote still need verification. Begin with a two-hour provider-scheduled
+stop, then measure setup/training throughput before allocating additional time.
+GPU setup and idle time also consume the budget. Do not enable automatic top-up.
+Storage continues to incur charges after compute stops, so track it within the
+same US$20 total and keep a local checkpoint backup. Training quality and total
+training time have not been established yet.
 
 Network volumes are independent of the Pod. A Pod's ordinary volume survives
 stopping but is deleted when the Pod is deleted; the container disk is lost on
