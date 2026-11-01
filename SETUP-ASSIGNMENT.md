@@ -1,16 +1,21 @@
 # FastSpeech 2 assignment: private repository and cloud setup
 
-Prepared 1 November 2026. No GPU has been rented, no cloud account has been
-changed, and no private GitHub repository has yet been created. This kit contains
-scripts to perform those repository and environment setup steps once access is
-available. It does not implement the English/Telugu assignment itself.
+Updated 1 November 2026. The private repository has been created and pushed:
+https://github.com/ParichayMago/fastspeech2-english-telugu
+
+This directory is the local checkout of that private repository.
+No GPU has been rented and no cloud account has been changed. The cloud
+environment is prepared but has not been installed on a remote machine. This
+kit does not implement the English/Telugu assignment itself.
 
 ## 1. Create the private repository from your Mac
 
 Requirements: Git, Python 3, GitHub CLI (`gh`), a valid GitHub login, and network
-access to GitHub. The current agent terminal cannot resolve GitHub; its `gh`
-login check also failed. The connected GitHub app can read upstream code but does
-not expose repository creation.
+access to GitHub. GitHub network access and the `ParichayMago` CLI login have
+now been verified. The repository creation and push are complete. The commands
+below document the completed setup; do not rerun into the existing checkout.
+The connected GitHub app does not expose repository creation, so the authenticated
+GitHub CLI was used.
 
 If login is needed, run this in your own Terminal and complete the browser flow:
 
@@ -95,9 +100,9 @@ rsync -av -e 'ssh -p PORT' \
 
 This copies the checkout and Git metadata without copying GitHub credentials.
 No GitHub login is required on the GPU machine. SSH host identity checking is
-left enabled. This chat's current terminal network restriction must be resolved
-before the agent can use SSH; an authorized provider web terminal is an
-alternative when available. Long jobs should run in `tmux`.
+left enabled. Network access from this chat's terminal is now available. A
+future cloud host, SSH connection and accepted host identity are still needed
+before operating a GPU machine. Long jobs should run in `tmux`.
 
 ## 4. Bootstrap on the GPU machine
 
@@ -156,7 +161,8 @@ machine yet. No pretrained weights or datasets are downloaded by the bootstrap.
 4. Configure speaker handling. Svarah has multiple speakers; preserve the
    available identities and explicitly document any speaker selection.
 5. Extract real training statistics and features. Obtain a compatible pretrained
-   vocoder separately and verify sample rate, mel bins and frequency settings.
+   vocoder and verify sample rate, mel bins and frequency settings. Upstream
+   includes HiFi-GAN checkpoints; verify their compatibility before using them.
 6. Test a small training/inference run for each language before full training.
 
 References:
@@ -168,7 +174,7 @@ References:
 
 ## Current validation
 
-Local checks: shell syntax, Python syntax, no-change plan mode, and mocked checks
-that only a confirmed private repository is pushed. These do not verify GitHub
-authentication, real repository creation, dependency resolution, GPU execution,
-dataset preparation, Telugu support or trained audio quality.
+Completed checks: shell syntax, Python syntax, no-change plan mode, mocked
+private-push guards, real GitHub authentication, private repository creation and
+initial push. Cloud dependency resolution, GPU execution, dataset preparation,
+Telugu support and trained audio quality remain unverified.
