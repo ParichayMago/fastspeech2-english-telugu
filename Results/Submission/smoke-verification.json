@@ -1,16 +1,23 @@
 {
-  "release": "assignment-v3",
+  "release": "assignment-v4",
   "commands": [
     {
       "command": [
-        "setup/download_checkpoints.py",
+        "src/setup/verify_submission_layout.py",
+        "--strict"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "src/setup/download_checkpoints.py",
         "--check-only"
       ],
       "exit_code": 0
     },
     {
       "command": [
-        "setup/prepare_final_inference.py",
+        "src/setup/prepare_final_inference.py",
         "--nltk-only"
       ],
       "exit_code": 0
@@ -21,7 +28,7 @@
         "unittest",
         "discover",
         "-s",
-        "setup",
+        "src/setup",
         "-p",
         "test_*.py",
         "-v"
@@ -34,7 +41,7 @@
         "unittest",
         "discover",
         "-s",
-        "audio_review",
+        "src/audio_review",
         "-p",
         "test_server.py",
         "-v"
@@ -43,27 +50,29 @@
     },
     {
       "command": [
-        "setup/analyze_speaker_coverage.py"
+        "src/setup/analyze_speaker_coverage.py"
       ],
       "exit_code": 0
     },
     {
       "command": [
-        "setup/verify_frozen_regeneration.py"
+        "src/setup/verify_frozen_regeneration.py"
       ],
       "exit_code": 0
     }
   ],
   "full_local_tests": 45,
+  "public_package_setup_summary": "Ran 33 tests in 14.705s\n\nOK (skipped=1)",
+  "public_package_ui_tests_passed": 9,
   "public_package_real_data_integration": "Explicitly skipped because private fixtures are absent",
+  "strict_submission_layout_passed": true,
+  "clean_final_catalog_items": 10,
   "all_ten_WAVs_and_arrays_exact": true,
+  "archive_sha256": "cfbf0c3d2861a1c0fa0be69875b409fa64d6c19efb9ed580fd52c40954f26502",
+  "speaker_coverage_reproduces": true,
+  "report_in_archive_matches": true,
+  "local_Runpod_state_excluded": true,
   "cuda_host_tested": false,
   "cloud_resources_changed": false,
-  "archive_sha256": "fffb89764ab4f9024308050cd38e6a2e9d75c77f352d0dbc9e8209c115ec418f",
-  "public_package_ui_tests_passed": 9,
-  "clean_final_catalog_items": 10,
-  "speaker_coverage_reproduced_without_private_data": true,
-  "report_in_archive_matches": true,
-  "trained_models_retrained": false,
-  "public_package_setup_summary": "Ran 33 tests in 8.686s\n\nOK (skipped=1)"
+  "trained_models_retrained": false
 }

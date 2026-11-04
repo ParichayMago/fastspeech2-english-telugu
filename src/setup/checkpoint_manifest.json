@@ -1,0 +1,21 @@
+{
+  "release_tag": "assignment-v4",
+  "archive_url": "https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v4/fastspeech2-assignment-v4.zip",
+  "files": [
+    {
+      "path": "English/checkpoints/final.pth.tar",
+      "bytes": 146379717,
+      "sha256": "74ce8b28183ec37f98a001bfcd5b484cb660a2eea2d1a780ef6dc8ea7e6a38bc"
+    },
+    {
+      "path": "Telugu/checkpoints/final.pth.tar",
+      "bytes": 142942235,
+      "sha256": "2268f94c05c0c90d9a4b85780971b40dd07297bc39a16271b375311d4b7fcfb8"
+    },
+    {
+      "path": "src/hifigan/generator_universal.pth.tar",
+      "bytes": 55788858,
+      "sha256": "771eaf4876485a35e25577563d390c262e23c2421e4a8c929eacfde34a5b7a60"
+    }
+  ]
+}

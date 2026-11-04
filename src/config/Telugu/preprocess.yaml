@@ -1,0 +1,78 @@
+dataset: IndicTTSTelugu
+path:
+  corpus_path: /home/ming/Data/LJSpeech-1.1
+  lexicon_path: src/lexicon/librispeech-lexicon.txt
+  raw_path: data/preprocessing/telugu/corpus/train
+  preprocessed_path: data/features/gap-fixed-v2/telugu
+preprocessing:
+  val_size: 512
+  text:
+    text_cleaners: []
+    language: en
+  audio:
+    sampling_rate: 22050
+    max_wav_value: 32768.0
+  stft:
+    filter_length: 1024
+    hop_length: 256
+    win_length: 1024
+  mel:
+    n_mel_channels: 80
+    mel_fmin: 0
+    mel_fmax: 8000
+  pitch:
+    feature: phoneme_level
+    normalization: true
+  energy:
+    feature: phoneme_level
+    normalization: true
+assignment_allowed_phones:
+- telphcff
+- telphcfg
+- telphcfgqcla
+- telphcfp
+- telphcfpqcla
+- telphcgb
+- telphcgbqcla
+- telphcgn
+- telphchd
+- telphcic
+- telphcii
+- telphciiqcla
+- telphcil
+- telphclc
+- telphgb
+- telphgbqcgk
+- telphgbqcik
+- telphgbqcna
+- telphgc
+- telphgcqcla
+- telphgd
+- telphgdqcla
+- telphge
+- telphgeqcla
+- telphgf
+- telphgfqcna
+- telphgi
+- telphgj
+- telphgjqcna
+- telphgk
+- telphgl
+- telphglqcla
+- telphgm
+- telphgn
+- telphgo
+- telphgp
+- telphgpqcna
+- telphha
+- telphhaqcla
+- telphhc
+- telphhd
+- telphhe
+- telphheqcla
+- telphhf
+- telphhfqcna
+estimated_acoustic_speaker_labels: false
+feature_version: gap-fixed-v2
+checkpoint_compatibility: Legacy checkpoints were trained with truncated targets;
+  prepare separate fresh training.

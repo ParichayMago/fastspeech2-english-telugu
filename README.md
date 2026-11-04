@@ -30,33 +30,64 @@ rather than ordinary Git. The repository URL is intended for assignment evaluati
 - Both models use a frozen universal HiFi-GAN. Final outputs use unity controls
   and no denoising, external silence, sentence concatenation or duration scaling.
 
-## Layout
+## Submission layout
+
+The repository root is the `project/` directory shown in the assignment.
+The required deliverables have this structure:
 
 ```text
-English/ and Telugu/
-  train.py, preprocess.py, inference.py, config.yaml
-  checkpoints/final.pth.tar, checkpoints/checkpoint.json
-  resources/                    # frozen lexicon, stats and speaker mappings
-Results/English/ and Results/Telugu/
-  training_loss.png, validation_loss.png, loss_history.csv
-  test_generated_audios/        # WAV, exact text, JSON, NPZ and CSV
-  variance_adaptor_plots/{duration,pitch,energy}/
-Results/Assignment/              # review page, manifests and verification
-Results/Training/               # saved run observations and backup records
-Report/Technical_Report.pdf
-setup/                          # shared implementations and dependency profiles
-config/English/ and config/Telugu/  # preprocessing/model/training YAMLs
+project/
+├── English/
+│   ├── train.py
+│   ├── preprocess.py
+│   ├── inference.py
+│   ├── config.yaml
+│   ├── checkpoints/
+│   └── resources/
+├── Telugu/
+│   ├── train.py
+│   ├── preprocess.py
+│   ├── inference.py
+│   ├── config.yaml
+│   ├── checkpoints/
+│   └── resources/
+├── Results/
+│   ├── English/
+│   │   ├── training_loss.png
+│   │   ├── validation_loss.png
+│   │   ├── test_generated_audios/
+│   │   └── variance_adaptor_plots/{duration,pitch,energy}/
+│   └── Telugu/
+│       ├── training_loss.png
+│       ├── validation_loss.png
+│       ├── test_generated_audios/
+│       └── variance_adaptor_plots/{duration,pitch,energy}/
+├── Report/
+│   └── Technical_Report.pdf
+├── README.md
+├── requirements.txt
+└── src/                        # shared implementation and tools
 ```
 
-`English/config.yaml` and `Telugu/config.yaml` configure **frozen inference**.
-Training uses the three YAML files in each language's `config/` directory; the
-learned-pause experiment uses `data/rebuild-config/learned-pauses-v1/English/`.
+`src/` keeps the shared FastSpeech 2 modules, HiFi-GAN, preprocessing helpers,
+training configurations, tests and review server together. Both language
+entrypoints import that implementation; their model weights remain separate.
+The original MIT license is retained at the root. Additional audit and run
+records live under `Results/`, and upstream demos are isolated in `src/reference/`.
+They are not the assignment's generated test audios.
+
+`English/config.yaml` and `Telugu/config.yaml` configure frozen inference.
+Training configurations are `src/config/English/` and `src/config/Telugu/`;
+the pause experiment uses `data/rebuild-config/learned-pauses-v1/English/`.
+Historical logs and checkpoint internals retain their original paths and hashes;
+the commands below describe the current layout. No model retraining is needed
+for this organization change.
 
 ## Complete submission download
 
-Download [fastspeech2-assignment-v3.zip](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v3/fastspeech2-assignment-v3.zip)
-and [SHA256SUMS](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v3/SHA256SUMS)
-from the [assignment release](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/assignment-v3).
+Download [fastspeech2-assignment-v4.zip](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v4/fastspeech2-assignment-v4.zip)
+and [SHA256SUMS](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v4/SHA256SUMS)
+from the [assignment release](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/assignment-v4).
 The ZIP contains a `project/` folder matching the required layout, including all
 three model files, the report, code, 10 audios and 30 variance plots. Verify it
 with `shasum -a 256 -c SHA256SUMS` before extracting.
@@ -70,9 +101,9 @@ For inference only:
 
 ```bash
 uv venv --python 3.10 .venvs/final-inference
-uv pip install --python .venvs/final-inference/bin/python -r setup/requirements-inference.txt
-python3 setup/download_checkpoints.py
-.venvs/final-inference/bin/python setup/prepare_final_inference.py --nltk-only
+uv pip install --python .venvs/final-inference/bin/python -r src/setup/requirements-inference.txt
+python3 src/setup/download_checkpoints.py
+.venvs/final-inference/bin/python src/setup/prepare_final_inference.py --nltk-only
 ```
 
 For the full preprocessing/training stack, create a separate environment:
@@ -91,7 +122,7 @@ uv pip install --python .venvs/assignment/bin/python torch==2.8.0 torchaudio==2.
 
 Forced alignment uses MFA **3.3.9 in a separate conda-forge environment**. The
 Linux alignment wrapper expects `/workspace/.venvs/mfa/bin/mfa` and the saved
-English `english_us_arpa.zip` model. See `setup/bootstrap-preprocessing.sh` for
+English `english_us_arpa.zip` model. See `src/setup/bootstrap-preprocessing.sh` for
 its environment setup and system eSpeak-NG dependency. Native feature-extraction
 packages may require build tools and libsndfile. Report authoring dependencies
 are separate in `Report/requirements-report.txt`; optional English ASR diagnostics
@@ -105,13 +136,13 @@ Required local files:
 | --- | --- |
 | `English/checkpoints/final.pth.tar` | `74ce8b28183ec37f98a001bfcd5b484cb660a2eea2d1a780ef6dc8ea7e6a38bc` |
 | `Telugu/checkpoints/final.pth.tar` | `2268f94c05c0c90d9a4b85780971b40dd07297bc39a16271b375311d4b7fcfb8` |
-| `hifigan/generator_universal.pth.tar` | `771eaf4876485a35e25577563d390c262e23c2421e4a8c929eacfde34a5b7a60` |
+| `src/hifigan/generator_universal.pth.tar` | `771eaf4876485a35e25577563d390c262e23c2421e4a8c929eacfde34a5b7a60` |
 
 Inference verifies weights, resources, symbol inventory and vocoder hashes.
-It does not require raw datasets or training feature directories. Run `python3 setup/download_checkpoints.py` to download the submission archive
-and restore only these three hash-verified files. Use `--archive /path/to/fastspeech2-assignment-v3.zip`
+It does not require raw datasets or training feature directories. Run `python3 src/setup/download_checkpoints.py` to download the submission archive
+and restore only these three hash-verified files. Use `--archive /path/to/fastspeech2-assignment-v4.zip`
 to reuse a download, or `--check-only` to verify existing weights without network
-access. `setup/prepare_final_inference.py --nltk-only` downloads text resources
+access. `src/setup/prepare_final_inference.py --nltk-only` downloads text resources
 while leaving frozen weights/configs intact.
 
 Run commands from the repository root:
@@ -121,11 +152,11 @@ Run commands from the repository root:
 .venvs/final-inference/bin/python Telugu/inference.py --test-id T1
 .venvs/final-inference/bin/python English/inference.py --text "I like Telugu."
 .venvs/final-inference/bin/python Telugu/inference.py --text "నాకు తెలుగు అంటే ఇష్టం."
-.venvs/final-inference/bin/python setup/generate_assignment_outputs.py
-.venvs/final-inference/bin/python setup/verify_assignment_outputs.py
+.venvs/final-inference/bin/python src/setup/generate_assignment_outputs.py
+.venvs/final-inference/bin/python src/setup/verify_assignment_outputs.py
 ```
 
-The ten exact source strings are in `setup/assignment_test_sentences.json`.
+The ten exact source strings are in `src/setup/assignment_test_sentences.json`.
 The supplied split words `rhyth m` and `అడ విలో` are preserved. Spoken number/date
 normalization is stored separately from source text. Unsupported Telugu phones
 or numeric ordinals fail explicitly rather than being silently removed.
@@ -152,18 +183,18 @@ fit on training audio and validation assigns to frozen centroids.
 
 Acquire dataset access under each source's conditions. Raw data, embeddings,
 TextGrids and features are excluded from Git. Audit/download, split selection,
-raw export and speaker estimation are implemented in `setup/audit_datasets.py`,
-`setup/prepare_splits.py`, `setup/export_split_audio.py` and
-`setup/estimate_english_speakers.py`. Source membership, partitions and frozen conditioning labels are distributed in
+raw export and speaker estimation are implemented in `src/setup/audit_datasets.py`,
+`src/setup/prepare_splits.py`, `src/setup/export_split_audio.py` and
+`src/setup/estimate_english_speakers.py`. Source membership, partitions and frozen conditioning labels are distributed in
 `Results/DataSplits/selection-membership.jsonl`, without raw text or audio.
 After obtaining gated Svarah access, the following commands reconstruct the same
 source selections from the pinned datasets in a clean checkout:
 
 ```bash
-python setup/audit_datasets.py --dataset english --download --revision ebbf7777fe771490696a3f7b007097606fa8c924
-python setup/audit_datasets.py --dataset telugu --download --revision 7ab3c18491bef3f5d4e820c2701b5f78f54031d6
-python setup/restore_assignment_splits.py
-python setup/export_split_audio.py
+python src/setup/audit_datasets.py --dataset english --download --revision ebbf7777fe771490696a3f7b007097606fa8c924
+python src/setup/audit_datasets.py --dataset telugu --download --revision 7ab3c18491bef3f5d4e820c2701b5f78f54031d6
+python src/setup/restore_assignment_splits.py
+python src/setup/export_split_audio.py
 ```
 
 The restoration command verifies dataset revisions and audio hashes and preserves
@@ -176,8 +207,8 @@ On the prepared Linux environment, with those manifests/audio restored:
 ```bash
 python English/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2
 python Telugu/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2
-python setup/verify_preprocessed_features.py --language english --feature-version gap-fixed-v2
-python setup/verify_preprocessed_features.py --language telugu --feature-version gap-fixed-v2
+python src/setup/verify_preprocessed_features.py --language english --feature-version gap-fixed-v2
+python src/setup/verify_preprocessed_features.py --language telugu --feature-version gap-fixed-v2
 ```
 
 Stages are `corpus`, `align`, `features`, and `check`. The `check` stage performs a
@@ -187,13 +218,13 @@ training-only pause statistics. It requires an unbuilt feature destination and
 refuses to overwrite completed features:
 
 ```bash
-python setup/build_learned_pause_features.py
-python setup/test_learned_pause.py
+python src/setup/build_learned_pause_features.py
+python src/setup/test_learned_pause.py
 ```
 
 If features already exist, recreate only their configurations with
-`python setup/build_learned_pause_features.py --configs-only`. The published
-`config/learned-pauses-v1/English/` also records the original experiment
+`python src/setup/build_learned_pause_features.py --configs-only`. The published
+`src/config/learned-pauses-v1/English/` also records the original experiment
 configuration; newly measured data must use its regenerated configuration.
 
 See `Report/Alignment_Gap_Fix.txt` and `Report/Learned_Pause_Pilot.txt` for target
@@ -232,7 +263,7 @@ These are alternative independent runs. To reproduce the paired scheduling used
 in the corrected experiment, the shared runner alternates separate optimizers:
 
 ```bash
-python setup/train_assignment.py --run-id bilingual-new --fresh --language both --minutes 120 --max-steps 30000 --batch-size 8
+python src/setup/train_assignment.py --run-id bilingual-new --fresh --language both --minutes 120 --max-steps 30000 --batch-size 8
 ```
 
 Both bounds apply: elapsed minutes or maximum steps, whichever is reached first.
@@ -258,7 +289,7 @@ Exact historical arguments are in each run's language-specific `run-config.json`
 
 ```bash
 .venvs/final-inference/bin/python -m unittest discover -s setup -p test_final_inference.py -v
-.venvs/final-inference/bin/python setup/verify_assignment_outputs.py
+.venvs/final-inference/bin/python src/setup/verify_assignment_outputs.py
 ```
 
 Training curves in `Results/English/` describe the selected learned-pause run;
@@ -271,13 +302,14 @@ in Hz, and energy is linear spectral L2, not dB. These are not measured waveform
 pitch or subjective quality scores. English ASR is diagnostic; Telugu recognition
 was excluded after its natural-audio control failed. Native listening is pending.
 
-## Corrected release: assignment-v3
+## Corrected release: assignment-v4
 
 This release fixes best-checkpoint preservation, base/fine-tune/pause resume,
 pause-configuration reconstruction, tensor device allocation, energy-control
 wiring and review-UI metadata compatibility. Frozen weights are unchanged; all
 ten WAVs and every prediction array regenerate identically under unity controls.
-This version also rejects retained STOP markers before session writes and
+This version organizes shared code under `src/` so the required language,
+results and report folders are clear at the repository root. It also rejects retained STOP markers before session writes and
 discovers all ten final recordings in the annotation server. It documents speaker
 coverage and remaining speech-quality/punctuation limitations. The current local
 suites pass 36 setup and nine server tests; browser playback/save/export checks
@@ -291,7 +323,7 @@ Python's standard library.
 ```bash
 python -m unittest discover -s setup -p test_review_fixes.py -v
 python -m unittest discover -s audio_review -p test_server.py -v
-python setup/verify_frozen_regeneration.py
+python src/setup/verify_frozen_regeneration.py
 ```
 
 The first suite uses portable synthetic fixtures and tests real CPU interrupted
@@ -315,8 +347,8 @@ pronunciation and quality observations. Telugu needs a Telugu-speaking reviewer.
 Existing dataset and historical sample reviews remain separate choices.
 
 ```bash
-.venvs/inference/bin/python setup/prepare_listening_comparison.py
-.venvs/inference/bin/python audio_review/server.py --port 8770 --store data/audio-review/listening-review-v1.json
+.venvs/inference/bin/python src/setup/prepare_listening_comparison.py
+.venvs/inference/bin/python src/audio_review/server.py --port 8770 --store data/audio-review/listening-review-v1.json
 ```
 
 Open `http://127.0.0.1:8770/?view=comparison`. Six A/B pairs cover E1, E2a,
@@ -350,7 +382,7 @@ uses CPU inference only; it does not resume training or start cloud resources.
 Speaker coverage can be recomputed without raw datasets:
 
 ```bash
-python setup/analyze_speaker_coverage.py
+python src/setup/analyze_speaker_coverage.py
 ```
 
 The saved analysis distinguishes 3,039 selected from 3,037 accepted English
@@ -370,7 +402,7 @@ pronunciation and quality observations for all ten final recordings remain pendi
 - [HiFi-GAN](https://arxiv.org/abs/2010.05646)
 - [Technical report](Report/Technical_Report.pdf)
 
-The original upstream README is preserved in `docs/UPSTREAM_README.md`; the
+The original upstream README is preserved in `src/docs/UPSTREAM_README.md`; the
 upstream license remains in `LICENSE`. Respect dataset/model licenses when
 redistributing artifacts. The GitHub URL must still be submitted through the assignment form.
 No form submission is performed by the download or training scripts.

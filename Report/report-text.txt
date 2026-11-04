@@ -138,10 +138,10 @@ frames, and the length regulator generates the acoustic span. Terminal boundary 
 design; it supplies sentence context, not trailing silence. The safety cap 354 frames is the
 training-observed maximum, not a hand-set punctuation pause. Lexical durations have a one-frame floor.
 Telugu adaptation
-The Telugu path preserves a bijective IPA-to-ASCII phone map, its own lexicon/alignment model, statistics
-and checkpoint. Unknown phones are rejected. Telugu uses the base variance adaptor; no learned
-word-boundary/pause heads were added. The models share a frozen vocoder, not acoustic parameters or
-optimizers.
+The Telugu path preserves a bijective IPA-to-ASCII phone map, its own src/lexicon/alignment model,
+statistics and checkpoint. Unknown phones are rejected. Telugu uses the base variance adaptor; no
+learned word-boundary/pause heads were added. The models share a frozen vocoder, not acoustic
+parameters or optimizers.
 FastSpeech 2 | English and Telugu | 4 November 2026
 3 / 25
 
@@ -725,28 +725,28 @@ PAGE 21
 IMPLEMENTATION AND EVALUATION
 Appendix A. Reproducibility
 Run commands from the repository root. Use an isolated Python 3.10 environment.
-setup/requirements-inference.txt pins the local inference packages; root requirements.txt combines the
-preprocessing, training and inference dependencies. The recorded GPU training used PyTorch
+src/setup/requirements-inference.txt pins the local inference packages; root requirements.txt combines
+the preprocessing, training and inference dependencies. The recorded GPU training used PyTorch
 2.8.0+cu128. The README gives the CUDA wheel installation command and separate MFA setup.
 uv venv --python 3.10 .venvs/final-inference
-uv pip install --python .venvs/final-inference/bin/python -r setup/requirements-inference.txt
-python3 setup/download_checkpoints.py
-.venvs/final-inference/bin/python setup/prepare_final_inference.py --nltk-only
+uv pip install --python .venvs/final-inference/bin/python -r src/setup/requirements-inference.txt
+python3 src/setup/download_checkpoints.py
+.venvs/final-inference/bin/python src/setup/prepare_final_inference.py --nltk-only
 .venvs/final-inference/bin/python English/inference.py --test-id E1
 .venvs/final-inference/bin/python Telugu/inference.py --test-id T1
-.venvs/final-inference/bin/python setup/generate_assignment_outputs.py
-.venvs/final-inference/bin/python setup/verify_assignment_outputs.py
+.venvs/final-inference/bin/python src/setup/generate_assignment_outputs.py
+.venvs/final-inference/bin/python src/setup/verify_assignment_outputs.py
 Preprocessing in a clean reconstruction
-The README lists pinned dataset-audit commands, setup/restore_assignment_splits.py and
+The README lists pinned dataset-audit commands, src/setup/restore_assignment_splits.py and
 export_split_audio.py to restore the published source membership and frozen speaker labels after
 authorized dataset access. On Linux alignment expects MFA 3.3.9 at /workspace/.venvs/mfa and the
 saved english_us_arpa.zip under /workspace/.cache/mfa/pretrained_models/acoustic/. The following
 wrappers build corpora, alignments and corrected features, then check a real batch:
 python English/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2
 python Telugu/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2
-python setup/build_learned_pause_features.py
+python src/setup/build_learned_pause_features.py
 The last command builds measured pause features and the three training YAMLs. For existing features, add --configs-only to
-reconstruct the YAMLs without rewriting targets. The committed config/learned-pauses-v1/English/ snapshot records the
+reconstruct the YAMLs without rewriting targets. The committed src/config/learned-pauses-v1/English/ snapshot records the
 original experiment. Dataset access follows source license/gate conditions.
 Training reconstruction
 python English/train.py --run-id english-new --fresh --minutes 120 --max-steps 30000 --batch-size 8
@@ -788,17 +788,20 @@ Results/Assignment/index.html; assignment_test_outputs.zip
 Measured analyses / recognition
 Results/Assignment/analysis/
 Report source and figure scripts
-setup/build_technical_report.py; create_report_figures.py
+src/setup/build_technical_report.py; create_report_figures.py
+The repository root is the assignment's project/ directory: English/, Telugu/, Results/, Report/, README.md and
+requirements.txt. Shared modules and tools are grouped under src/; original upstream demos are isolated in src/reference/.
+Historical training records retain their original paths and hashes. Current commands above use the reorganized source paths.
 The assignment release contains a complete project/ archive with separate English/Telugu model-only checkpoints and the
-frozen vocoder. SHA256SUMS verifies the archive; setup/download_checkpoints.py verifies each restored model.
+frozen vocoder. SHA256SUMS verifies the archive; src/setup/download_checkpoints.py verifies each restored model.
 Per-language training wrappers, updated requirements and the README are included. The repository URL remains to be
 submitted through the assignment form.
-Corrected assignment-v3 release: complete project and checkpoint download
+Corrected assignment-v4 release: complete project and checkpoint download
 GitHub repository: ParichayMago/fastspeech2-english-telugu
 Recreate the report without cloud compute
-.venvs/inference/bin/python setup/analyze_assignment_outputs.py
-.venvs/inference/bin/python setup/create_report_figures.py
-.venvs/report/bin/python setup/build_technical_report.py
+.venvs/inference/bin/python src/setup/analyze_assignment_outputs.py
+.venvs/inference/bin/python src/setup/create_report_figures.py
+.venvs/report/bin/python src/setup/build_technical_report.py
 The report builder consumes the saved English recognition cache. Optional analysis flag --asr computes missing or changed
 Whisper-small results and requires openai-whisper==20250625. Report dependencies are pinned in
 Report/requirements-report.txt. The included Noto Sans Telugu font is shaped with HarfBuzz and distributed under the
@@ -810,7 +813,7 @@ FastSpeech 2 | English and Telugu | 4 November 2026
 PAGE 23
 IMPLEMENTATION AND EVALUATION
 Appendix C. Post-review corrections
-Release assignment-v3 includes the prior recovery/portability fixes and corrects retained-STOP handling
+Release assignment-v4 includes the prior recovery/portability fixes and corrects retained-STOP handling
 and final-recording discovery. Historical logs, weights, ten test WAVs and predicted arrays are preserved.
 These software fixes require no retraining and do not establish clearer speech.
 Correction
@@ -819,9 +822,9 @@ Best-checkpoint preservation
 Restore historical best loss/hash and stale-validation count; worse evaluations
 cannot replace best; missing/corrupt best files fail closed.
 Base and fine-tune recovery
-Restore saved model/configuration and Adam state, including fixed learning-rate
-groups and early stopping. Resume does not reread the original parent
-checkpoint.
+Restore saved src/model/configuration and Adam state, including fixed
+learning-rate groups and early stopping. Resume does not reread the original
+parent checkpoint.
 Pause configurations
 Feature construction writes all three YAMLs from measured training statistics.
 --configs-only reconstructs them; original configs are also distributed.
@@ -850,8 +853,8 @@ were not repeated; CPU device tests simulate CUDA availability and include meta-
 Reproduce the correction checks
 python -m unittest discover -s setup -p test_review_fixes.py -v
 python -m unittest discover -s audio_review -p test_server.py -v
-python setup/verify_frozen_regeneration.py
-python setup/evaluate_pause_baselines.py
+python src/setup/verify_frozen_regeneration.py
+python src/setup/evaluate_pause_baselines.py
 Recovery tests require the full requirements.txt stack, including TensorBoard. The baseline command needs local held-out
 pause targets; its saved result is distributed. Real-data integration explicitly skips when private fixtures are absent; skips are
 not passes. Per-sentence listening observations, especially Telugu pronunciation, remain outstanding. MOS scores and
@@ -906,7 +909,7 @@ positives; duration MAE worsens and the E4 comma has zero frames. Telugu removes
 supplies no pause slots despite internal silence in training; T4 inputs are unchanged when its comma is
 removed. The review-server and STOP fixes address software behavior, not these acoustic-model
 limitations.
-python setup/analyze_speaker_coverage.py
+python src/setup/analyze_speaker_coverage.py
 Recomputes coverage from distributed selection-membership.jsonl, rejected feature IDs and saved clustering metadata. Full
 per-label counts, durations and input SHA256 values: Results/Assignment/analysis/english-speaker-coverage.json. No raw
 audio, new training or cloud compute is required.
@@ -946,7 +949,7 @@ Dataset revisions, split integrity and hours: Results/DatasetAudit/; Results/Dat
 Corrected feature integrity and restored gaps: Results/Preprocessing/gap-fixed-v2/rebuild-summary.json.
 Optimizer logs: Results/Training/{gap-fixed-v2-20261103,english-finetune-pilot-20261104,english-learned-pauses-pilot-20261
 104}/<language>/metrics.jsonl; copied unchanged from local output/runs/ backups.
-Exact source strings: setup/assignment_test_sentences.json; source PDF SHA256
+Exact source strings: src/setup/assignment_test_sentences.json; source PDF SHA256
 a88e379253c50a018ff6319c05a372a57a0d416cf7c4dc20807d7752e67e323f.
 Final output hashes and software checks: Results/Assignment/verification.json; checkpoint-selection.json; CLI smoke
 verification.

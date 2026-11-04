@@ -1,6 +1,6 @@
 {
   "verified_utc": "2026-11-04T14:04:49.072521+00:00",
-  "release": "assignment-v3",
+  "release": "assignment-v4",
   "setup_tests_passed": 36,
   "audio_review_tests_passed": 9,
   "total_local_tests_passed": 45,
@@ -20,7 +20,7 @@
   "trained_weight_SHA256": {
     "English/checkpoints/final.pth.tar": "74ce8b28183ec37f98a001bfcd5b484cb660a2eea2d1a780ef6dc8ea7e6a38bc",
     "Telugu/checkpoints/final.pth.tar": "2268f94c05c0c90d9a4b85780971b40dd07297bc39a16271b375311d4b7fcfb8",
-    "hifigan/generator_universal.pth.tar": "771eaf4876485a35e25577563d390c262e23c2421e4a8c929eacfde34a5b7a60"
+    "src/hifigan/generator_universal.pth.tar": "771eaf4876485a35e25577563d390c262e23c2421e4a8c929eacfde34a5b7a60"
   },
   "real_data_integration_passed_locally": true,
   "synthetic_fixture_tests_portable": true,
@@ -29,7 +29,6 @@
   "cloud_resources_used": false,
   "retraining_required_for_these_fixes": false,
   "scope_limit": "Listening observations remain outstanding; no auditory improvement is inferred from these fixes.",
-  "published_pause_preprocessing_and_model_configs_match_historical_run": true,
   "retained_STOP_rejected_before_session_writes": true,
   "explicit_and_implicit_resume_STOP_tested": true,
   "midrun_STOP_saves_gracefully": true,
@@ -40,13 +39,20 @@
   "speaker_coverage_recomputed_from_distributed_membership": true,
   "per_sentence_listening_observations_still_pending": true,
   "latest_fix_source_sha256": {
-    "setup/train_assignment.py": "945eb9e24875cb76f5e6625682dee8b85b24e23f85ad6368ffbb0938007fd011",
-    "setup/test_review_fixes.py": "ba926d63b29ab82ef271a34bf45e584293dd5d5a59a128340ee13ea9466e5250",
-    "audio_review/server.py": "206dde73444c13075cdd9bf12061e79a7079b010b7cfcc6874ad22ddee56598d",
-    "audio_review/test_server.py": "870f42af8f23a0aedb5cab12fbaf2443e8ebac7d3e2239641b09c9a801f2d9f8",
-    "audio_review/static/index.html": "0d50793677c023daf941931a419bdb9eb6fe4983349a9fe6e28406b09200ae2b",
-    "audio_review/static/app.js": "ae281be37c0e65a2aa8017a0240107afe3040b60ea096c3c181ea7bf342e6dd9",
-    "audio_review/static/style.css": "581e2bdef53851340373e51103784b6c3e667f905d93dece925c280d205cef44",
-    "setup/analyze_speaker_coverage.py": "daca5b370c64c2fcc2657bb9c6061d9169c0fa8770c191bdfe89045719b41b3f"
-  }
+    "src/setup/train_assignment.py": "d7c6dbf42bf7f41b0c2de99a747bd0a47f120b4ac01a1e43ff698668de05b777",
+    "src/setup/test_review_fixes.py": "2da4ab4ddea78d48378d33083e0c1ebfca2cc9a467003207250a68c14dd83524",
+    "src/audio_review/server.py": "f0bc008a160089f11b9fa202cc818942b3a97cbcbf89fe2c168a455ba073729b",
+    "src/audio_review/test_server.py": "2a8493aeb17300e13f64b04cd6887ed9785f1ed2069e9f08df48656c791e619b",
+    "src/audio_review/static/index.html": "0d50793677c023daf941931a419bdb9eb6fe4983349a9fe6e28406b09200ae2b",
+    "src/audio_review/static/app.js": "ae281be37c0e65a2aa8017a0240107afe3040b60ea096c3c181ea7bf342e6dd9",
+    "src/audio_review/static/style.css": "581e2bdef53851340373e51103784b6c3e667f905d93dece925c280d205cef44",
+    "src/setup/analyze_speaker_coverage.py": "5d62c838f51045ae19016316dd9a709bacf9fb4bee7fc0fd889673afb8e44648",
+    "src/setup/verify_submission_layout.py": "b6db4ff224e5585d5d5da1caf4c2afa744dfaf2a3c6a68243c9e6cfb3a7e69f9",
+    "src/setup/extract_assignment_features.py": "52766a77870cda3a95f68db3c29fb83e9043920e0d109fa53c14a63931e0b5cc",
+    "src/layout-migration.json": "cfacae8e319ca425712af86b2642c2726a86fcb39ece82305268d128b4bb0233"
+  },
+  "pause_configuration_change": "Only the lexicon path is relocated under src/; acoustic settings and pause targets are unchanged.",
+  "repository_layout": "English/, Telugu/, Results/, Report/, README.md and requirements.txt at project root; shared code under src/.",
+  "layout_regression": "45 local tests pass; all ten WAVs and every prediction array regenerate identically.",
+  "actual_data_batch_smokes": "Both languages pass one in-memory CPU update and validation. No weights are saved or released checkpoints changed."
 }

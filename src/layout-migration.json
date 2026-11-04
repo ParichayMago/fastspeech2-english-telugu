@@ -1,0 +1,29 @@
+{
+  "from_commit": "8e988bb154599fa473f81ca6c246175aac12e07d",
+  "path_moves": {
+    "audio": "src/audio",
+    "config": "src/config",
+    "hifigan": "src/hifigan",
+    "lexicon": "src/lexicon",
+    "model": "src/model",
+    "preprocessor": "src/preprocessor",
+    "setup": "src/setup",
+    "text": "src/text",
+    "transformer": "src/transformer",
+    "utils": "src/utils",
+    "dataset.py": "src/dataset.py",
+    "evaluate.py": "src/evaluate.py",
+    "prepare_align.py": "src/prepare_align.py",
+    "preprocess.py": "src/preprocess.py",
+    "synthesize.py": "src/synthesize.py",
+    "train.py": "src/train.py",
+    "demo": "src/reference/demo",
+    "img": "src/reference/img",
+    "index.html": "src/reference/index.html",
+    "preprocessed_data": "src/reference/preprocessed_data",
+    "docs": "src/docs",
+    "SETUP-ASSIGNMENT.md": "src/docs/history/SETUP-ASSIGNMENT.md",
+    "audio_review": "src/audio_review"
+  },
+  "note": "Historical source paths/hashes refer to the earlier commit. Data, outputs, final checkpoints, acoustic arrays and WAVs are preserved; only source/resource lookup locations change."
+}

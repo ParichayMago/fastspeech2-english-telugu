@@ -146,3 +146,11 @@ logs/
 /AGENTS.md
 /ASSIGNMENT-WORKSPACE.md
 /Results/Submission/*.zip
+
+# Shared implementation assets after repository layout cleanup.
+/src/hifigan/*.pth.tar
+/src/hifigan/*.pth.tar.*
+
+# Keep the existing local listening server running during source relocation.
+/audio_review/
+/src/setup/runpod-assignment.json
