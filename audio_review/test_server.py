@@ -4,6 +4,7 @@ import hashlib
 import http.client
 import io
 import json
+import shutil
 from pathlib import Path
 import tempfile
 import threading
@@ -11,7 +12,7 @@ import unittest
 import wave
 from http.server import ThreadingHTTPServer
 
-from server import ROOT, ReviewStore, allowed_path, build_catalog, handler_for, range_bounds
+from server import ROOT, ReviewStore, PairReviewStore, allowed_path, build_catalog, handler_for, range_bounds, comparison_pairs
 
 
 class ReviewTests(unittest.TestCase):
@@ -29,6 +30,13 @@ class ReviewTests(unittest.TestCase):
         generated=cls.root/'Results/Training/english/fixture';generated.mkdir(parents=True)
         (generated/'preview.wav').write_bytes(wav.read_bytes())
         (generated/'preview.json').write_text(json.dumps(dict(source_text='Source-text metadata fixture',speaker_label='en_fixture',checkpoint_step=1)))
+        comparison=cls.root/'Results/Listening/english-parent-vs-learned-pauses';comparison.mkdir(parents=True)
+        clips={}
+        for variant in ('A','B'):
+            path=comparison/(variant+'.wav');path.write_bytes(wav.read_bytes())
+            clips[variant]=dict(audio_path=str(path.relative_to(cls.root)),audio_sha256=hashlib.sha256(path.read_bytes()).hexdigest())
+        (comparison/'comparison.json').write_text(json.dumps(dict(speaker='en_fixture',
+            pairs=[dict(id='E1',text='Synthetic comparison sentence.',clips=clips)],system_key={'E1':{'A':'parent','B':'learned'}})))
         cls.catalog = build_catalog(cls.root)
         cls.item = next(i for i in cls.catalog.values() if i['kind'] == 'dataset' and i['language'] == 'english' and i['split'] == 'train')
 
@@ -43,7 +51,8 @@ class ReviewTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.path = Path(self.temp.name) / 'reviews.json'
         self.store = ReviewStore(self.path)
-        self.server = ThreadingHTTPServer(('127.0.0.1', 0), handler_for({self.item['id']: self.item}, self.store, 'test-token',self.root))
+        self.pair_store=PairReviewStore(Path(self.temp.name)/'pair-reviews.json')
+        self.server = ThreadingHTTPServer(('127.0.0.1', 0), handler_for(self.catalog, self.store, 'test-token',self.root,self.pair_store))
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True); self.thread.start()
 
     def tearDown(self):
@@ -58,6 +67,60 @@ class ReviewTests(unittest.TestCase):
 
     def payload(self):
         return dict(id=self.item['id'], sha256=self.item['sha256'], status='good', issues=['hiss'], notes='Keep after listening')
+
+    def pair_payload(self):
+        pair=comparison_pairs(self.catalog)['E1']
+        return dict(id='E1',audio_sha256=pair['audio_sha256'],listened_both=True,reviewer='Synthetic test only',
+                    preferences=dict(clarity='A',pacing='same',intonation='unsure',overall='B'),
+                    notes=dict(A='Synthetic A note',B='Synthetic B note',comparison='Synthetic comparison'))
+
+    def test_final_only_snapshot_discovers_all_ten_and_uses_actual_audio_hash(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);audio=(self.root/self.item['path']).read_bytes()
+            for language,ids in [('English',['E1','E2a','E2b','E3','E4']),('Telugu',['T1','T2a','T2b','T3','T4'])]:
+                folder=root/'Results'/language/'test_generated_audios';folder.mkdir(parents=True)
+                for sid in ids:
+                    (folder/(sid+'.wav')).write_bytes(audio)
+                    (folder/(sid+'.json')).write_text(json.dumps(dict(source_text='Exact '+sid,speaker='fixture',audio_sha256='outdated')))
+            catalog=build_catalog(root)
+            self.assertEqual(len(catalog),10)
+            self.assertEqual({i['language'] for i in catalog.values()},{'english','telugu'})
+            for item in catalog.values():
+                self.assertEqual(item['kind'],'final');self.assertEqual(item['text'],'Exact '+item['sample_id'])
+                self.assertEqual(item['sha256'],hashlib.sha256(audio).hexdigest());self.assertTrue(item['flagged'])
+
+    def test_comparison_review_persists_exports_and_does_not_expose_mapping(self):
+        _,body=self.request('GET','/api/catalog');catalog=json.loads(body)
+        self.assertEqual(len(catalog['comparison_pairs']),1)
+        self.assertNotIn('system_key',body.decode());self.assertNotIn('"A": "parent"',body.decode())
+        self.assertNotIn('checkpoint_sha256',body.decode())
+        self.assertEqual(catalog['pair_reviews'],{})
+        status,_=self.request('POST','/api/comparison-review',self.pair_payload(),{'X-Review-Token':'test-token'})
+        self.assertEqual(status,200)
+        self.assertEqual(PairReviewStore(self.pair_store.path).snapshot()['E1']['preferences']['overall'],'B')
+        _,body=self.request('GET','/api/comparison-export');export=json.loads(body)
+        self.assertEqual(len(export),1);self.assertEqual(export[0]['notes']['A'],'Synthetic A note')
+        # Stale judgments must never appear as ratings for changed audio.
+        entry=self.pair_store.snapshot()['E1'];entry['audio_sha256']={'A':'stale','B':'stale'}
+        self.pair_store.commit('E1',entry)
+        _,body=self.request('GET','/api/comparison-export');self.assertEqual(json.loads(body),[])
+
+    def test_comparison_rejects_stale_incomplete_or_unlistened_judgments(self):
+        payload=self.pair_payload()
+        self.assertEqual(self.request('POST','/api/comparison-review',payload)[0],403)
+        invalid=[dict(audio_sha256={'A':'old','B':'old'}),dict(listened_both=False),dict(preferences={}),dict(preferences=[]),
+                 dict(notes=[]),dict(notes=dict(A='',B='A note',comparison=''))]
+        for patch in invalid:
+            self.assertEqual(self.request('POST','/api/comparison-review',{**payload,**patch},{'X-Review-Token':'test-token'})[0],400)
+        self.assertEqual(self.pair_store.snapshot(),{})
+
+    def test_comparison_rejects_missing_pair_and_changed_audio(self):
+        catalog={k:v for k,v in self.catalog.items() if not(v.get('pair_id')=='E1' and v.get('variant')=='B')}
+        with self.assertRaisesRegex(ValueError,'matched A and B'):comparison_pairs(catalog)
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);source=self.root/'Results/Listening';shutil.copytree(source,root/'Results/Listening')
+            path=root/'Results/Listening/english-parent-vs-learned-pauses/A.wav';path.write_bytes(path.read_bytes()+b'changed')
+            with self.assertRaisesRegex(ValueError,'audio changed'):build_catalog(root)
 
     def test_review_survives_reload_and_export_preserves_split(self):
         status, _ = self.request('POST', '/api/review', self.payload(), {'X-Review-Token': 'test-token'})

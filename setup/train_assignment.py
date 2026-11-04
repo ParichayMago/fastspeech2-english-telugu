@@ -101,6 +101,12 @@ def main(argv=None, language=None):
         p.error('Early stopping requires fine-tuning initialization and nonnegative patience')
     if args.learned_pauses and (args.language != 'english' or not (args.initialize_from or args.resuming)):
         p.error('Learned pauses require an initialized English-only experiment')
+    run_root=ROOT/'output/runs'/args.run_id if args.run_id else None
+    out = run_root/'session' if run_root else ROOT/'output/training-session'
+    if (out/'STOP').exists():
+        p.error('Retained STOP marker blocks training: '+str(out/'STOP')+
+                '. After confirming that you intend to continue, remove this marker explicitly '
+                'and rerun --resume. No checkpoints or session files have been changed.')
     os.chdir(ROOT)
     import numpy as np
     import torch
@@ -120,8 +126,6 @@ def main(argv=None, language=None):
     if args.device=='cuda' and not torch.cuda.is_available():
         raise RuntimeError('CUDA is required by default; choose --device cpu explicitly for local tests')
     device = torch.device(args.device)
-    run_root=ROOT/'output/runs'/args.run_id if args.run_id else None
-    out = run_root/'session' if run_root else ROOT/'output/training-session'
     if args.fresh and (out/'status.json').exists():
         raise ValueError('Fresh run already exists; use a new run ID')
     out.mkdir(parents=True, exist_ok=True)

@@ -1,6 +1,6 @@
 {
-  "release_tag": "assignment-v2",
-  "archive_url": "https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v2/fastspeech2-assignment-v2.zip",
+  "release_tag": "assignment-v3",
+  "archive_url": "https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v3/fastspeech2-assignment-v3.zip",
   "files": [
     {
       "path": "English/checkpoints/final.pth.tar",

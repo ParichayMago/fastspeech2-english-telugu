@@ -125,6 +125,40 @@ class HelperTests(unittest.TestCase):
 
 
 class RunnerRecoveryTests(unittest.TestCase):
+    def test_retained_stop_rejects_explicit_and_implicit_resume_without_writes(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary).resolve();fixture(root)
+            self.run_training(root,['--run-id','stopped','--fresh','--max-steps','2'])
+            folder=root/'output/runs/stopped';marker=folder/'session/STOP';marker.touch()
+            before={str(p.relative_to(folder)):hashlib.sha256(p.read_bytes()).hexdigest()
+                    for p in folder.rglob('*') if p.is_file()}
+            for mode in (['--resume'],[]):
+                with contextlib.redirect_stderr(io.StringIO()) as errors:
+                    with self.assertRaises(SystemExit) as failure:
+                        self.run_training(root,['--run-id','stopped',*mode,'--max-steps','4'])
+                self.assertEqual(failure.exception.code,2)
+                self.assertIn('Retained STOP marker',errors.getvalue())
+                self.assertIn('remove this marker explicitly',errors.getvalue())
+                self.assertEqual(before,{str(p.relative_to(folder)):hashlib.sha256(p.read_bytes()).hexdigest()
+                                         for p in folder.rglob('*') if p.is_file()})
+            marker.unlink()  # Explicitly release only this synthetic test's stop request.
+            self.run_training(root,['--run-id','stopped','--resume','--max-steps','4'])
+            self.assertEqual(torch.load(folder/'english/latest.pth.tar',map_location='cpu',weights_only=False)['step'],4)
+
+    def test_new_stop_during_training_still_saves_gracefully(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary).resolve();fixture(root);original=runner.atomic_json
+            def request_stop(path,value):
+                original(path,value)
+                progress=value.get('languages',{}).get('english',{}).get('train',{})
+                if progress.get('step')==1:
+                    (path.parent/'STOP').touch()
+            with patch.object(runner,'atomic_json',side_effect=request_stop):
+                self.run_training(root,['--run-id','stop-during-run','--fresh','--max-steps','4'])
+            folder=root/'output/runs/stop-during-run'
+            self.assertEqual(torch.load(folder/'english/latest.pth.tar',map_location='cpu',weights_only=False)['step'],1)
+            self.assertEqual(json.loads((folder/'session/status.json').read_text())['stop_reason'],'stop_requested')
+
     def run_training(self,root,args):
         cwd=Path.cwd();handlers={s:signal.getsignal(s) for s in (signal.SIGTERM,signal.SIGINT)}
         try:

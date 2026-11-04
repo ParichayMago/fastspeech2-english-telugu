@@ -23,6 +23,8 @@ def main():
     r=ROOT;d=json.loads((r/'Results/Assignment/analysis/measured-analysis.json').read_text())
     asr=json.loads((r/'Results/Assignment/analysis/english-asr.json').read_text())
     baselines=json.loads((r/'Results/Assignment/analysis/pause-baselines.json').read_text())
+    coverage=json.loads((r/'Results/Assignment/analysis/english-speaker-coverage.json').read_text())
+    release=json.loads((r/'setup/checkpoint_manifest.json').read_text())['release_tag']
     gen=json.loads((r/'Results/Assignment/generation.json').read_text());info={s['id']:s for s in gen['samples']}
     audits=d['dataset_audits'];runs=d['training_runs'];samples=d['samples']
     selected=json.loads((r/'Results/Assignment/checkpoint-selection.json').read_text())
@@ -107,7 +109,7 @@ def main():
     para('The first implementation stage established the data pipeline. We checked usable audio duration, built reproducible train/validation splits and handled speaker conditioning. English required estimated acoustic speaker labels because original speaker IDs were unavailable in the audited snapshot. Telugu required a pronunciation lexicon and a stable phone mapping compatible with the reference implementation.')
     para('We next trained separate English and Telugu models using aligned duration, pitch and energy targets. Inspection of the initial synthesized speech led to an alignment audit: omitted internal gaps had shortened acoustic targets. We repaired the feature extractor, rebuilt both languages\' features and trained fresh models while preserving the earlier experiments.')
     para('The later English experiments addressed remaining clarity and pacing concerns. A low-learning-rate fine-tune was followed by an extension with word-boundary and punctuation embeddings and learned pause-presence and pause-duration predictors. Finally, we selected checkpoints using complete validation evaluations, generated the required test audios and analysed their variance predictions alongside the loss curves.')
-    para('The report follows an introduction-method-experiments-discussion structure, informed by the Seed-TTS technical report [11]. Methods and data appear on pp. 2-5, experimental results on pp. 6-9, sentence-level analysis on pp. 10-19, and discussion, reproducibility, corrections and references on pp. 20-24.','small')
+    para('The report follows an introduction-method-experiments-discussion structure, informed by the Seed-TTS technical report [11]. Methods and data appear on pp. 2-5, experimental results on pp. 6-9, sentence-level analysis on pp. 10-19, and discussion, reproducibility, corrections, speaker coverage and references on pp. 20-25.','small')
 
     # 2
     page('1. Introduction and dataset preparation')
@@ -123,7 +125,7 @@ def main():
     sub('1.2 Subsampling and split separation')
     para('Seed 20261102 determines an ordering of atomic groups. Validation is selected first, then training, greedily approaching each duration target. Groups connect repeated normalized transcripts, identical audio hashes and English chunks from the same recording. No group crosses splits. The selected Telugu subset uses the source male label. These are held-out utterance/recording splits, not speaker-disjoint evaluation.')
     sub('1.3 Speaker conditioning')
-    para('The audited Svarah snapshot lacked recoverable original speaker IDs. Training-only average-linkage cosine clustering of pretrained SpeechBrain ECAPA embeddings produced 254 estimated conditioning labels. Validation assigns to frozen training centroids. These labels can fragment or merge voices and are not verified people. All final English tests use en_est_0155. Telugu uses one source label, te_male; this label is not a claim of independently verified human identity [9].')
+    para('The audited Svarah snapshot lacked recoverable original speaker IDs. Training-only average-linkage cosine clustering of pretrained SpeechBrain ECAPA embeddings, with heuristic distance threshold 0.30, produced 254 estimated labels. Validation uses frozen training centroids. These labels can fragment or merge voices; they are not verified people. All final English tests retain en_est_0155 from earlier diagnostics. Label coverage and selection limits are quantified in Appendix D. Telugu uses the source label te_male, without independently verified identity [9].')
     sub('1.4 Dataset revisions')
     for language in ('english','telugu'):
         para(d['data_splits']['datasets'][language]['dataset'],'small');code(d['data_splits']['datasets'][language]['revision'])
@@ -219,7 +221,7 @@ def main():
     v=baselines['selected_model'];baseline_rows.append(['Selected model (+1,000)',pct(v['precision']),pct(v['recall']),pct(v['f1'])])
     table(['Held-out occurrence policy','Precision','Recall','F1'],baseline_rows,[W*.43,W*.19,W*.19,W*.19])
     para('The baselines use the same 7,348 internal validation boundaries, with 1,751 positive targets; terminal slots are excluded. Every-boundary prediction gives TP/FP/FN 1,751/5,597/0; punctuation-only gives 214/75/1,537. They are evaluation comparators and do not alter synthesized audio. Model counts come from the saved complete validation, not a new GPU evaluation.','small')
-    para('The selected model improves F1 over the every-boundary baseline by 7.2 percentage points. Its false positives still outnumber true positives, and pause-duration MAE rises from 204.5 to 207.3 ms. E4 assigns zero frames at its comma. A matched listening comparison is still needed to establish a useful prosody improvement.')
+    para('The selected model improves F1 over the every-boundary baseline by 7.2 percentage points. Its false positives still outnumber true positives, and pause-duration MAE rises from 204.5 to 207.3 ms. E4 assigns zero frames at its comma. The final pause-enabled English selection reflects its punctuation-aware architecture and within-run validation minimum, not demonstrated audible superiority over its parent.')
     para('Training coverage is sparse: commas have 1,050 positive pauses among 1,445 internal markers; questions have 12/12, clauses 1/2, and exclamations no internal examples. Most period/question markers are terminal. Full counts are retained in the preprocessing summary.','small')
 
     # 9
@@ -309,7 +311,7 @@ def main():
     para('The system is operational, source-preserving and reproducible for the ten tests. It predicts nonconstant phoneme-level variance, uses frontend-supplied conduct stress and changes pattu predictions across contexts. Validation plateaus favor earlier checkpoints. English pause F1 is 45.6% versus 38.5% and 21.0% for simple occurrence baselines; selected pause-duration MAE is slightly worse than initialization. These results establish limited predictor-level gains, while audible prosody improvement remains unproven.')
     sub('Limitations and future work')
     para('First, collect native per-test listening observations using the existing review page and preserve those observations separately from automated scores. Audit OOV and number/cross-language pronunciations, especially E1/E3/E4 and T1/T3/T4. Improve speaker-label confidence and coherent voice coverage before assuming more English steps will fix clarity. Rebalance informative punctuation examples and validate occurrence calibration and pause timing independently; held-out clause/exclamation coverage is currently insufficient.')
-    para('Only after those checks should another bounded pilot be considered. Finer pitch trajectories, a voiced/unvoiced model, Telugu punctuation supervision or a better-matched vocoder may help, but no such improvement was measured here. They are future experiments, not completed results.')
+    para('Only after those checks should another bounded pilot be considered. T4 has identical phonemes and all-zero boundary inputs with or without its comma: Telugu punctuation cannot condition the current acoustic output. Fixing this requires consistent training and inference supervision. Finer pitch trajectories, a voiced/unvoiced model or a better-matched vocoder are also unmeasured future experiments. Appendix D quantifies speaker sparsity and the remaining quality-evaluation limits.')
 
     # 21
     page('Appendix A. Reproducibility')
@@ -332,7 +334,7 @@ def main():
     sub('Training reconstruction')
     code('python English/train.py --run-id english-new --fresh --minutes 120 --max-steps 30000 --batch-size 8')
     code('python Telugu/train.py --run-id telugu-new --fresh --minutes 120 --max-steps 30000 --batch-size 8')
-    para('These commands start new CUDA runs. Fine-tuning adds --initialize-from, its matching --initialize-sha256, --learning-rate 2e-5 and patience 5. Pause training also adds --learned-pauses, its generated --config-root, --new-head-learning-rate 2e-4 and patience 8. Resume an existing run with --resume and its run ID, without initialization flags; policy, configurations, optimizer and best selection are restored. Explicit --device cpu supports local tests. See Appendix C for corrected recovery validation.')
+    para('These commands start new CUDA runs. Fine-tuning adds --initialize-from, its matching --initialize-sha256, --learning-rate 2e-5 and patience 5. Pause training adds --learned-pauses, its generated --config-root, --new-head-learning-rate 2e-4 and patience 8. Resume with --resume and the run ID, without initialization flags. A retained session/STOP is rejected before writes; remove only that run\'s marker after explicitly deciding to continue. Policy, optimizer and best selection are restored. Explicit --device cpu supports local tests.')
 
     # 22
     page('Appendix B. Checkpoints and artifacts')
@@ -350,7 +352,7 @@ def main():
       ['Measured analyses / recognition','Results/Assignment/analysis/'],
       ['Report source and figure scripts','setup/build_technical_report.py; create_report_figures.py']], [W*.40,W*.60])
     para('The assignment release contains a complete project/ archive with separate English/Telugu model-only checkpoints and the frozen vocoder. SHA256SUMS verifies the archive; setup/download_checkpoints.py verifies each restored model. Per-language training wrappers, updated requirements and the README are included. The repository URL remains to be submitted through the assignment form.','small')
-    story.append(P('<link href="https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/assignment-v2" color="#087b78">Corrected assignment-v2 release: complete project and checkpoint download</link>','small',True))
+    story.append(P('<link href="https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/'+release+'" color="#087b78">Corrected '+release+' release: complete project and checkpoint download</link>','small',True))
     story.append(P('<link href="https://github.com/ParichayMago/fastspeech2-english-telugu" color="#087b78">GitHub repository: ParichayMago/fastspeech2-english-telugu</link>','small',True))
     sub('Recreate the report without cloud compute')
     code('.venvs/inference/bin/python setup/analyze_assignment_outputs.py')
@@ -360,16 +362,17 @@ def main():
 
     # 23 - distinguish implementation corrections from historical model training.
     page('Appendix C. Post-review corrections')
-    para('Release assignment-v2 corrects recovery and portability defects identified after the first public package. The historical training logs, selected weights, ten test WAVs and predicted arrays are preserved. These changes require no retraining and do not claim to improve the existing speech acoustically.')
+    para('Release '+release+' includes the prior recovery/portability fixes and corrects retained-STOP handling and final-recording discovery. Historical logs, weights, ten test WAVs and predicted arrays are preserved. These software fixes require no retraining and do not establish clearer speech.')
     table(['Correction','Verified behavior'],[
       ['Best-checkpoint preservation','Restore historical best loss/hash and stale-validation count; worse evaluations cannot replace best; missing/corrupt best files fail closed.'],
       ['Base and fine-tune recovery','Restore saved model/configuration and Adam state, including fixed learning-rate groups and early stopping. Resume does not reread the original parent checkpoint.'],
       ['Pause configurations','Feature construction writes all three YAMLs from measured training statistics. --configs-only reconstructs them; original configs are also distributed.'],
       ['Tensor device allocation','Masks use lengths.device and length-regulator output uses x.device, independent of CUDA availability.'],
       ['Energy control','Both phoneme-level and frame-level energy paths receive e_control. Unity-control generation remains identical.'],
-      ['Review interface','Accept source_text metadata and use isolated synthetic HTTP/audio fixtures instead of requiring private dataset recordings.']], [W*.31,W*.69])
+      ['Review interface','Discover all ten final WAV/JSON pairs, original transcripts and current hashes; export all reviewed statuses. Saved judgments remain local.'],
+      ['Retained stop request','Reject explicit/implicit resume before writes when session/STOP remains; never clear it automatically. New in-run stop requests still save gracefully.']], [W*.31,W*.69])
     sub('Local validation and its scope')
-    para('The setup suite passes 33 tests, including ten new recovery/config/device/control regression tests. Five audio-review server tests pass. Real-data pause integration runs locally against existing features and parent weights. Portable synthetic CPU tests interrupt and resume base, fixed-rate and learned-pause runs; they also exercise legacy checkpoints, exact Adam continuation, historical-best preservation and clean configuration reconstruction.')
+    para('The local setup suite passes 36 tests and the review server passes nine: 45 total. Synthetic CPU fixtures exercise base, fixed-rate and pause recovery, legacy checkpoints, Adam continuation, historical best/config restoration, retained-STOP rejection without writes and graceful in-run stopping. Real-data pause integration also passes locally. Browser checks cover audio playback, save/reload/export, draft retention and narrow-screen layout; synthetic ratings use temporary stores, not listener data.')
     para('All ten frozen sentences regenerate with identical WAV SHA256 values and exact equality of every exported array, including mels and pause-head outputs. No released model parameters were updated. No Runpod resource was started or modified. CUDA-host execution and a fresh dependency installation were not repeated; CPU device tests simulate CUDA availability and include meta-device allocation.')
     sub('Reproduce the correction checks')
     code('python -m unittest discover -s setup -p test_review_fixes.py -v')
@@ -379,6 +382,25 @@ def main():
     para('Recovery tests require the full requirements.txt stack, including TensorBoard. The baseline command needs local held-out pause targets; its saved result is distributed. Real-data integration explicitly skips when private fixtures are absent; skips are not passes. Per-sentence listening observations, especially Telugu pronunciation, remain outstanding. MOS scores and audible pause improvements are not asserted.','small')
 
     # 24
+    page('Appendix D. Speaker coverage and remaining limits')
+    selected_cov=coverage['selected_training_source'];accepted_cov=coverage['accepted_training_source']
+    sub('Estimated English label coverage')
+    table(['Measure','Selected source','Accepted source'],[
+      ['Training clips / estimated labels',f"{selected_cov['clips']:,} / {selected_cov['labels']}",f"{accepted_cov['clips']:,} / {accepted_cov['labels']}"],
+      ['Labels with 1-2 clips',f"{selected_cov['labels_with_one_or_two_clips']} (30.3%)",f"{accepted_cov['labels_with_one_or_two_clips']} (30.3%)"],
+      ['Median clips / source seconds per label',f"7 / {selected_cov['median_source_seconds_per_label']:.1f} s",f"7 / {accepted_cov['median_source_seconds_per_label']:.1f} s"],
+      ['Final label en_est_0155: clips',str(selected_cov['final_label']['clips']),str(accepted_cov['final_label']['clips'])],
+      ['Final label: source duration',f"{selected_cov['final_label']['source_minutes']:.3f} min",f"{accepted_cov['final_label']['source_minutes']:.3f} min"]],[W*.54,W*.23,W*.23])
+    para('These durations sum source WAV lengths, including edges, not cropped acoustic features or non-silent speech. Two selected clips fail feature preparation. Shared English parameters learn from the full approximately five-hour selection across all labels; 7.5 minutes describes one conditioning label, not the entire English corpus. Accepted aligned feature hours remain 4.6536 as reported in Section 2.1.','small')
+    para('ECAPA clustering uses training recordings with at least 3 s of speech, average-linkage cosine distance and an uncalibrated 0.30 threshold. Short training and validation recordings use frozen training centroids. The publisher reports 117 speakers [4], while this pipeline estimates 254 labels. That mismatch warrants a fragmentation/merge audit; it cannot establish exact identity errors or causation for poor English speech.')
+    para('The final label is third by selected source duration and is retained for continuity with earlier previews. No systematic perceptual ranking of labels was recorded. Sparse per-label coverage and uncertain membership are plausible conditioning risks, not experimentally isolated causes. A verified label map or coherent voice subset would change the modeling experiment and require new training/evaluation.')
+    sub('Remaining evaluation and modeling limits')
+    para('Pronunciation, clarity and overall-quality observations for every frozen test recording remain incomplete, particularly for Telugu. Ratings on earlier previews do not substitute for those observations. ASR disagreement (including E4 at 54.5%) flags investigation but does not identify exact audible errors. No MOS or audible parent-versus-pause improvement is established.')
+    para('English pause occurrence improves against simple baselines, but 1,705 false positives exceed 1,022 true positives; duration MAE worsens and the E4 comma has zero frames. Telugu removes punctuation and supplies no pause slots despite internal silence in training; T4 inputs are unchanged when its comma is removed. The review-server and STOP fixes address software behavior, not these acoustic-model limitations.')
+    code('python setup/analyze_speaker_coverage.py')
+    para('Recomputes coverage from distributed selection-membership.jsonl, rejected feature IDs and saved clustering metadata. Full per-label counts, durations and input SHA256 values: Results/Assignment/analysis/english-speaker-coverage.json. No raw audio, new training or cloud compute is required.','small')
+
+    # 25
     page('References')
     refs=[
       ('1','Ren et al. FastSpeech 2: Fast and High-Quality End-to-End Text to Speech. ICLR 2021.','https://arxiv.org/abs/2006.04558'),

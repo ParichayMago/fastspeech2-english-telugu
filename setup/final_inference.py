@@ -29,7 +29,7 @@ def test_cases():
 
 
 class InferenceEngine:
-    def __init__(self,language):
+    def __init__(self,language,*,config=None,parent_english=False):
         os.chdir(ROOT)
         import numpy as np
         import torch,yaml
@@ -39,7 +39,7 @@ class InferenceEngine:
         from model.learned_pause import LearnedPauseFastSpeech2
         from setup.final_text_frontend import TextFrontend
         self.language=language
-        self.config=yaml.safe_load((ROOT/language.title()/'config.yaml').read_text())
+        self.config=copy.deepcopy(config) if config is not None else yaml.safe_load((ROOT/language.title()/'config.yaml').read_text())
         c=self.config
         assert c['language']==language and c['device']=='cpu'
         assert hashlib.sha256(json.dumps(symbols).encode()).hexdigest()==c['trained_symbols_sha256']
@@ -55,6 +55,9 @@ class InferenceEngine:
         # to training; raw datasets are not required to instantiate the model.
         pre['path']['preprocessed_path']=str(self.resources)
         self.learned=c['checkpoint']['model_type']=='learned_pause_v1'
+        if parent_english and (language!='english' or self.learned):
+            raise ValueError('Parent inputs require the plain English parent checkpoint')
+        self.parent_english=parent_english
         model_class=LearnedPauseFastSpeech2 if self.learned else FastSpeech2
         torch.set_num_threads(4)
         self.model=model_class(pre,model_config).eval()
@@ -74,6 +77,9 @@ class InferenceEngine:
         import torch,numpy as np,soundfile as sf
         c=self.config
         encoded=self.frontend.encode(text)
+        if self.parent_english:
+            from setup.final_text_frontend import parent_english_inputs
+            encoded=parent_english_inputs(encoded)
         if sample_id is None:
             sample_id='custom-'+hashlib.sha256((text+'|'+c['checkpoint']['sha256']).encode()).hexdigest()[:12]
         if not re.fullmatch(r'[A-Za-z0-9_-]+',sample_id):raise ValueError('Invalid sample ID')

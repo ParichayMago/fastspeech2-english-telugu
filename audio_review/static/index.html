@@ -5,7 +5,7 @@
 <div class="shell">
 <aside>
  <div class="eyebrow">LIBRARY</div>
- <nav aria-label="Audio source"><button class="source active" data-kind="dataset">◉ <span>Dataset recordings</span></button></nav>
+ <nav aria-label="Audio source"><button class="source active" data-kind="final">◉ <span>Final assignment audio</span></button><button class="source" data-kind="comparison">⇄ <span>English A/B comparison</span></button><button class="source" data-kind="dataset">◉ <span>Dataset recordings</span></button><button class="source" data-kind="generated">◉ <span>Earlier generated audio</span></button></nav>
  <label>Language<select id="language"><option value="english">English</option><option value="telugu">Telugu</option><option value="all">Both languages</option></select></label>
  <label id="splitLabel">Dataset split<select id="split"><option value="train">Training</option><option value="validation">Validation</option><option value="all">Both splits</option></select></label>
  <label>Speaker<select id="speaker"><option value="all">All speakers</option></select></label>
@@ -15,9 +15,14 @@
  <p class="sidebarNote">Reviews are saved separately. Selecting audio does not change training or move recordings between splits.</p>
 </aside>
 <main>
- <div class="heading"><div><div class="eyebrow" id="sectionLabel">DATASET RECORDINGS</div><h1>A good voice starts<br>with a good listen.</h1><p id="intro">Listen to the original recordings and choose what is worth keeping.</p></div><div class="headerActions"><div class="savePill" id="saved" role="status">Ready</div><button id="topExport">↓ Export good selections</button></div></div>
+ <div class="heading"><div><div class="eyebrow" id="sectionLabel">DATASET RECORDINGS</div><h1>A good voice starts<br>with a good listen.</h1><p id="intro">Listen to the original recordings and choose what is worth keeping.</p></div><div class="headerActions"><div class="savePill" id="saved" role="status">Ready</div><button id="topExport">↓ Export good selections</button><button id="allExport">↓ Export all observations</button></div></div>
  <div class="toolbar"><input id="search" type="search" placeholder="Search transcript, speaker or sample…" aria-label="Search recordings"><span id="matchCount"></span></div><p id="scopeSummary" class="scopeSummary"></p>
- <div class="workbench">
+ <section id="listening" class="compare" hidden aria-label="English listening comparison">
+  <h2>Which version sounds better?</h2><p>Use headphones and listen at 1×. A/B labels vary by sentence. Judge exact words, clarity, pauses and intonation. You can choose “Unsure”; there is no assumed winner.</p>
+  <label>Sentence<select id="pairSelect"></select></label><p id="pairProgress"></p><form id="pairForm"></form>
+  <button id="exportPairs" type="button">↓ Export saved comparisons</button><p id="pairSavePath"></p>
+ </section>
+ <div class="workbench" id="workbench">
   <section class="queue" aria-label="Recordings"><div class="queueHeader">RECORDINGS <span id="position"></span></div><div id="list"></div><div class="pagination"><button id="pagePrev" aria-label="Previous page">←</button><span id="pageLabel"></span><button id="pageNext" aria-label="Next page">→</button></div></section>
   <section class="detail" id="detail"><p class="empty">Loading your audio library…</p></section>
  </div>

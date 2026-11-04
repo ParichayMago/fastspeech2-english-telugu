@@ -15,6 +15,27 @@ os.environ.setdefault('NLTK_DATA', str(NLTK_DIR))
 from setup.learned_pause_frontend import words_and_types
 
 
+def parent_english_inputs(encoded):
+    """Keep common lexical pronunciations but omit the child's new pause slots.
+
+    This is a system comparison, not a controlled ablation of just the pause head:
+    the parent was trained before text-derived boundary slots were introduced.
+    """
+    import copy
+    from text import text_to_sequence
+    result=copy.deepcopy(encoded)
+    keep=[i for i,kind in enumerate(encoded['boundary_types']) if not kind]
+    result['phones']=[encoded['phones'][i] for i in keep]
+    result['boundary_types']=[0]*len(keep)
+    for span in result['word_spans']:
+        start,end=span['start'],span['end']
+        span['start']=sum(i<start for i in keep);span['end']=sum(i<end for i in keep)
+    result['sequence']=text_to_sequence('{'+' '.join(result['phones'])+'}',[])
+    if len(result['sequence'])!=len(result['phones']):raise ValueError('Untrained parent phone')
+    result['normalization_note']+='; parent representation omits learned-pause boundary slots'
+    return result
+
+
 def english_spoken_form(text):
     from num2words import num2words
     changes = []

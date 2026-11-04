@@ -1,10 +1,10 @@
 {
-  "verified_utc": "2026-11-04T06:41:45.912327+00:00",
-  "release": "assignment-v2",
-  "setup_tests_passed": 33,
-  "audio_review_tests_passed": 5,
-  "total_local_tests_passed": 38,
-  "new_review_regression_tests": 10,
+  "verified_utc": "2026-11-04T14:04:49.072521+00:00",
+  "release": "assignment-v3",
+  "setup_tests_passed": 36,
+  "audio_review_tests_passed": 9,
+  "total_local_tests_passed": 45,
+  "new_review_regression_tests": 12,
   "tested_resume_modes": [
     "base",
     "fixed-rate English",
@@ -29,5 +29,24 @@
   "cloud_resources_used": false,
   "retraining_required_for_these_fixes": false,
   "scope_limit": "Listening observations remain outstanding; no auditory improvement is inferred from these fixes.",
-  "published_pause_preprocessing_and_model_configs_match_historical_run": true
+  "published_pause_preprocessing_and_model_configs_match_historical_run": true,
+  "retained_STOP_rejected_before_session_writes": true,
+  "explicit_and_implicit_resume_STOP_tested": true,
+  "midrun_STOP_saves_gracefully": true,
+  "clean_snapshot_discovers_all_ten_final_recordings": true,
+  "all_review_statuses_exportable": true,
+  "browser_playback_save_reload_export_passed": true,
+  "browser_synthetic_ratings_isolated": true,
+  "speaker_coverage_recomputed_from_distributed_membership": true,
+  "per_sentence_listening_observations_still_pending": true,
+  "latest_fix_source_sha256": {
+    "setup/train_assignment.py": "945eb9e24875cb76f5e6625682dee8b85b24e23f85ad6368ffbb0938007fd011",
+    "setup/test_review_fixes.py": "ba926d63b29ab82ef271a34bf45e584293dd5d5a59a128340ee13ea9466e5250",
+    "audio_review/server.py": "206dde73444c13075cdd9bf12061e79a7079b010b7cfcc6874ad22ddee56598d",
+    "audio_review/test_server.py": "870f42af8f23a0aedb5cab12fbaf2443e8ebac7d3e2239641b09c9a801f2d9f8",
+    "audio_review/static/index.html": "0d50793677c023daf941931a419bdb9eb6fe4983349a9fe6e28406b09200ae2b",
+    "audio_review/static/app.js": "ae281be37c0e65a2aa8017a0240107afe3040b60ea096c3c181ea7bf342e6dd9",
+    "audio_review/static/style.css": "581e2bdef53851340373e51103784b6c3e667f905d93dece925c280d205cef44",
+    "setup/analyze_speaker_coverage.py": "daca5b370c64c2fcc2657bb9c6061d9169c0fa8770c191bdfe89045719b41b3f"
+  }
 }

@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "verified_utc": "2026-11-04T06:43:57.309106+00:00",
+  "verified_utc": "2026-11-04T14:05:28.735711+00:00",
   "scope": "File/shape/unit/provenance checks; not perceptual quality assessment",
   "samples": [
     {
@@ -395,8 +395,8 @@
     }
   },
   "source_sha256": {
-    "setup/final_text_frontend.py": "2fac11244b4758b3b97ffb973b77d9db6d8807d3560a5ca928f1a9abcade0282",
-    "setup/final_inference.py": "a342e3e786dcf11963689a0d278c132b076de2488b72cf25a8a73af82bbeb912",
+    "setup/final_text_frontend.py": "3fb9ef8da544d77524ed926cdf11d19308704f88fd9a4043bed04a83df26928f",
+    "setup/final_inference.py": "99f223c56764ab8370a8b81331b8ea1554881b2c12bc38e1d9f3d9447e0897d9",
     "setup/generate_assignment_outputs.py": "127f17393c3ebd1dd3f27cc655d40c5a13a0071a4c3fff0a8746d8db84cbfd05",
     "setup/prepare_final_inference.py": "726ef313b42ecdc2fc7e7ed3ae1077d8412add6e2faf1cf81be48494b1121adf",
     "setup/verify_assignment_outputs.py": "16bb11ce72fbd6fc6068ee4dff70760a8b3fc0b26e37cab274965b5cd2541847",
@@ -412,7 +412,7 @@
     "utils/tools.py": "038b05e53c3cdcad52dfef2282c3885496873cfb236dc6de64fbfa25b377426c",
     "setup/training_recovery.py": "63e525756d2d3a2eb7d2339adf7ae55187c134667cdcee1d245e004b8b0e8c13",
     "setup/learned_pause_config.py": "6c10d25275b9f7c4a2716952c0deef9b3f49001ff8b0fb6eb6916d2525657fd6",
-    "setup/train_assignment.py": "8fa1f4f3b4897c0b5d7b5277dd719f1522121cd5102d8709c8504e48430bfe78"
+    "setup/train_assignment.py": "945eb9e24875cb76f5e6625682dee8b85b24e23f85ad6368ffbb0938007fd011"
   },
   "audio_count": 10,
   "variance_plot_count": 30,

@@ -75,6 +75,32 @@ def build_catalog(root=ROOT):
             flagged=False, sample_id=path.parent.name, title=('Corrected' if corrected else 'Previous') + ' · step ' + str(info.get('checkpoint_step', '?')),
             text=info.get('text') or info.get('source_text') or info.get('raw_text',''),
             version='Corrected / untreated' if corrected else 'Previous run / untreated', flags=[])
+    for language in ('English','Telugu'):
+        directory=root/'Results'/language/'test_generated_audios'
+        for metadata_path in sorted(directory.glob('*.json')):
+            info=json.loads(metadata_path.read_text());path=metadata_path.with_suffix('.wav')
+            if not path.is_file():continue
+            sha=hashlib.sha256(path.read_bytes()).hexdigest()
+            mismatch=bool(info.get('audio_sha256') and info['audio_sha256']!=sha)
+            add(path,kind='final',language=language.lower(),split='final',
+                speaker=info.get('speaker','unknown'),estimated=bool(info.get('speaker_labels_estimated')),
+                flagged=mismatch,sample_id=metadata_path.stem,title=metadata_path.stem+' · final submission',
+                text=info.get('source_text',''),version='Final / untreated',
+                flags=['metadata_sha256_mismatch'] if mismatch else [],sha256=sha)
+    comparison_path=root/'Results/Listening/english-parent-vs-learned-pauses/comparison.json'
+    if comparison_path.exists():
+        comparison=json.loads(comparison_path.read_text())
+        for pair in comparison['pairs']:
+            for variant in ('A','B'):
+                clip=pair['clips'][variant];path=root/clip['audio_path']
+                if not path.is_file():continue
+                actual=hashlib.sha256(path.read_bytes()).hexdigest()
+                if actual!=clip['audio_sha256']:
+                    raise ValueError('Listening comparison audio changed; regenerate comparison: '+str(path))
+                add(path,kind='comparison',language='english',split='comparison',speaker=comparison['speaker'],
+                    estimated=True,flagged=False,sample_id=pair['id']+'-'+variant,
+                    title=pair['id']+' · version '+variant,text=pair['text'],version='Untreated comparison',
+                    pair_id=pair['id'],variant=variant,flags=[],sha256=actual)
     run = root / 'Results/Training/gap-fixed-v2-20261103'
     diagnosis_path = run / 'english_diagnostics/diagnosis.json'
     if diagnosis_path.exists():
@@ -116,14 +142,46 @@ class ReviewStore:
         entry = dict(status=status, notes=notes, issues=sorted(set(issues)), updated_utc=utc(),
                      audio_sha256=item['sha256'], path=item['path'], language=item['language'],
                      split=item['split'], speaker=item['speaker'], kind=item['kind'])
+        return self.commit(item['id'],entry)
+
+    def commit(self,key,entry):
         with self.lock:
-            updated = {**self.reviews, item['id']: entry}
+            updated = {**self.reviews, key: entry}
             self.path.parent.mkdir(parents=True, exist_ok=True)
             temporary = self.path.with_suffix('.tmp')
             temporary.write_text(json.dumps({'version': 1, 'reviews': updated}, ensure_ascii=False, indent=2) + '\n')
             temporary.replace(self.path)
             self.reviews = updated
         return entry
+
+
+def comparison_pairs(catalog):
+    groups={}
+    for item in catalog.values():
+        if item['kind']=='comparison':groups.setdefault(item['pair_id'],{})[item['variant']]=item
+    pairs={}
+    for key,clips in groups.items():
+        if set(clips)!={'A','B'} or clips['A']['text']!=clips['B']['text']:
+            raise ValueError('Listening comparison requires matched A and B audio: '+key)
+        pairs[key]=dict(id=key,text=clips['A']['text'],clips=clips,
+                        audio_sha256={v:i['sha256'] for v,i in clips.items()})
+    return pairs
+
+
+class PairReviewStore(ReviewStore):
+    def save(self,pair,data):
+        preferences=data.get('preferences',{})
+        dimensions={'clarity','pacing','intonation','overall'}
+        if not isinstance(preferences,dict) or set(preferences)!=dimensions or any(v not in {'A','B','same','neither','unsure'} for v in preferences.values()):
+            raise ValueError('Choose a response for each comparison dimension')
+        notes=data.get('notes',{});reviewer=data.get('reviewer','')
+        if (not isinstance(notes,dict) or set(notes)!={'A','B','comparison'} or
+                any(not isinstance(v,str) or len(v)>4000 for v in notes.values()) or
+                any(not notes[v].strip() for v in ('A','B')) or
+                not isinstance(reviewer,str) or len(reviewer)>100 or data.get('listened_both') is not True):
+            raise ValueError('Listen to both versions and supply valid notes')
+        return self.commit(pair['id'],dict(preferences=preferences,notes=notes,reviewer=reviewer,
+            listened_both=True,audio_sha256=pair['audio_sha256'],updated_utc=utc()))
 
 
 def range_bounds(header, size):
@@ -138,7 +196,12 @@ def range_bounds(header, size):
     return start, end
 
 
-def handler_for(catalog, store, token, root=ROOT):
+def handler_for(catalog, store, token, root=ROOT, pair_store=None):
+    pairs=comparison_pairs(catalog)
+    pair_store=pair_store or PairReviewStore(store.path.with_name(store.path.stem+'-pairs.json'))
+    def valid_pair_reviews():
+        return {k:v for k,v in pair_store.snapshot().items()
+                if k in pairs and v.get('audio_sha256')==pairs[k]['audio_sha256']}
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args):
             pass
@@ -169,7 +232,13 @@ def handler_for(catalog, store, token, root=ROOT):
                 # A changed generated file needs a fresh judgment, not an old rating.
                 reviews = {key: value for key, value in reviews.items() if key in catalog and value.get('audio_sha256') == catalog[key]['sha256']}
                 return self.send_json({'items': list(catalog.values()), 'reviews': reviews, 'token': token,
-                                       'saved_to': str(store.path), 'catalog_utc': utc()})
+                                       'saved_to': str(store.path), 'catalog_utc': utc(),
+                                       'comparison_pairs':list(pairs.values()),'pair_reviews':valid_pair_reviews(),
+                                       'pair_saved_to':str(pair_store.path)})
+            if url.path=='/api/comparison-export':
+                rows=[dict(id=k,text=pairs[k]['text'],**v) for k,v in valid_pair_reviews().items()]
+                return self.send_bytes(json.dumps(rows,ensure_ascii=False,indent=2).encode(),
+                    headers={'Content-Disposition':'attachment; filename="listening-comparisons.json"'})
             if url.path == '/api/export':
                 query = parse_qs(url.query)
                 reviews = store.snapshot()
@@ -193,7 +262,8 @@ def handler_for(catalog, store, token, root=ROOT):
                     # Spreadsheet consumers must treat review text as literal text.
                     row = {k: ('\'' + v if isinstance(v, str) and v.startswith(('=', '+', '-', '@')) else v) for k, v in row.items()}
                     writer.writerow(row)
-                return self.send_bytes(buffer.getvalue().encode('utf-8-sig'), 'text/csv; charset=utf-8', headers={'Content-Disposition': 'attachment; filename="good-audio.csv"'})
+                filename='audio-observations.csv' if query.get('status')==['all'] else 'good-audio.csv'
+                return self.send_bytes(buffer.getvalue().encode('utf-8-sig'), 'text/csv; charset=utf-8', headers={'Content-Disposition': 'attachment; filename="'+filename+'"'})
             if url.path.startswith('/audio/'):
                 item = catalog.get(url.path[len('/audio/'):])
                 if not item:
@@ -232,7 +302,7 @@ def handler_for(catalog, store, token, root=ROOT):
         def do_POST(self):
             if not self.valid_host() or self.headers.get('X-Review-Token') != token:
                 return self.send_json({'error': 'Reload the local review page'}, 403)
-            if self.path != '/api/review':
+            if self.path not in ('/api/review','/api/comparison-review'):
                 return self.send_json({'error': 'Not found'}, 404)
             try:
                 length = int(self.headers.get('Content-Length', '0'))
@@ -241,6 +311,11 @@ def handler_for(catalog, store, token, root=ROOT):
                 data = json.loads(self.rfile.read(length))
                 if not isinstance(data, dict):
                     raise ValueError('Expected a review object')
+                if self.path=='/api/comparison-review':
+                    pair=pairs.get(data.get('id'))
+                    if not pair or data.get('audio_sha256')!=pair['audio_sha256']:
+                        raise ValueError('Comparison audio changed; reload')
+                    return self.send_json({'review':pair_store.save(pair,data)})
                 item = catalog.get(data.get('id'))
                 if not item or data.get('sha256') != item['sha256']:
                     raise ValueError('Audio changed; reload before reviewing')
@@ -255,9 +330,13 @@ def handler_for(catalog, store, token, root=ROOT):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--port', type=int, default=8766)
+    parser.add_argument('--store',default='data/audio-review/ratings.json',help='Separate local listening session ratings')
     args = parser.parse_args()
+    store_path=(ROOT/args.store).resolve()
+    if not store_path.is_relative_to((ROOT/'data/audio-review').resolve()):
+        parser.error('Reviews must stay under data/audio-review/')
     catalog = build_catalog()
-    store = ReviewStore(ROOT / 'data/audio-review/ratings.json')
+    store = ReviewStore(store_path)
     server = ThreadingHTTPServer(('127.0.0.1', args.port), handler_for(catalog, store, secrets.token_urlsafe(32)))
     print(f'Audio review: http://127.0.0.1:{server.server_port} ({len(catalog):,} recordings)', flush=True)
     try:

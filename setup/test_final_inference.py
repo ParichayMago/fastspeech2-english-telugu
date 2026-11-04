@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import unittest
 
-from final_text_frontend import TextFrontend,english_spoken_form,telugu_spoken_form
+from final_text_frontend import TextFrontend,english_spoken_form,telugu_spoken_form,parent_english_inputs
 
 ROOT=Path(__file__).resolve().parent.parent
 
@@ -34,6 +34,19 @@ class FinalFrontendTests(unittest.TestCase):
         self.assertEqual(noun['phones'],['K','AA1','N','D','AH0','K','T'])
         self.assertEqual(verb['phones'],['K','AH0','N','D','AH1','K','T'])
         self.assertEqual(a['source_text'],self.cases['E2a']['text'])
+
+    def test_parent_projection_preserves_lexical_inputs_and_does_not_mutate_child(self):
+        for key in ('E1','E2a','E2b','E3','E4'):
+            child=self.en.encode(self.cases[key]['text']);before=json.dumps(child,sort_keys=True)
+            parent=parent_english_inputs(child)
+            self.assertEqual(json.dumps(child,sort_keys=True),before)
+            self.assertEqual(parent['pronunciations'],child['pronunciations'])
+            self.assertEqual(parent['normalized_words'],child['normalized_words'])
+            self.assertEqual(parent['phones'],[p for p,k in zip(child['phones'],child['boundary_types']) if not k])
+            self.assertFalse(any(parent['boundary_types']))
+            self.assertEqual(len(parent['sequence']),len(parent['phones']))
+            for span,pron in zip(parent['word_spans'],parent['pronunciations']):
+                self.assertEqual(parent['phones'][span['start']:span['end']],pron['phones'])
 
     def test_long_word_is_not_cut_at_neural_g2p_limit(self):
         encoded=self.en.encode(self.cases['E1']['text'])

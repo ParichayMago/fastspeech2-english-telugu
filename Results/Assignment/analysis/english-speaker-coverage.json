@@ -1,0 +1,2088 @@
+{
+  "unit": "Estimated conditioning label; not a verified person",
+  "coverage_measure": "Selected source WAV seconds, including edges. Not cropped feature duration or non-silent speech.",
+  "selected_training_source": {
+    "clips": 3039,
+    "labels": 254,
+    "source_hours": 4.999978784722224,
+    "labels_with_one_or_two_clips": 77,
+    "labels_with_one_or_two_clips_percent": 30.31496062992126,
+    "median_clips_per_label": 7.0,
+    "median_source_seconds_per_label": 38.33193750000001,
+    "final_label": {
+      "id": "en_est_0155",
+      "clips": 90,
+      "source_seconds": 450.00150000000014,
+      "source_minutes": 7.500025000000003,
+      "source_duration_rank": 3
+    },
+    "per_label": {
+      "en_est_0000": {
+        "clips": 2,
+        "source_seconds": 7.74725
+      },
+      "en_est_0001": {
+        "clips": 15,
+        "source_seconds": 84.7066875
+      },
+      "en_est_0002": {
+        "clips": 4,
+        "source_seconds": 30.3815625
+      },
+      "en_est_0003": {
+        "clips": 7,
+        "source_seconds": 38.05581250000001
+      },
+      "en_est_0004": {
+        "clips": 3,
+        "source_seconds": 6.8596875
+      },
+      "en_est_0005": {
+        "clips": 22,
+        "source_seconds": 214.08968749999994
+      },
+      "en_est_0006": {
+        "clips": 1,
+        "source_seconds": 15.7329375
+      },
+      "en_est_0007": {
+        "clips": 9,
+        "source_seconds": 51.961999999999996
+      },
+      "en_est_0008": {
+        "clips": 1,
+        "source_seconds": 3.25825
+      },
+      "en_est_0009": {
+        "clips": 68,
+        "source_seconds": 453.27118750000005
+      },
+      "en_est_0010": {
+        "clips": 30,
+        "source_seconds": 150.452375
+      },
+      "en_est_0011": {
+        "clips": 6,
+        "source_seconds": 58.4945625
+      },
+      "en_est_0012": {
+        "clips": 40,
+        "source_seconds": 198.10225
+      },
+      "en_est_0013": {
+        "clips": 16,
+        "source_seconds": 85.95168749999999
+      },
+      "en_est_0014": {
+        "clips": 2,
+        "source_seconds": 5.659875
+      },
+      "en_est_0015": {
+        "clips": 17,
+        "source_seconds": 54.9785625
+      },
+      "en_est_0016": {
+        "clips": 55,
+        "source_seconds": 320.75381250000015
+      },
+      "en_est_0017": {
+        "clips": 27,
+        "source_seconds": 148.39143750000002
+      },
+      "en_est_0018": {
+        "clips": 7,
+        "source_seconds": 35.125937500000006
+      },
+      "en_est_0019": {
+        "clips": 1,
+        "source_seconds": 3.7449375
+      },
+      "en_est_0020": {
+        "clips": 6,
+        "source_seconds": 42.5283125
+      },
+      "en_est_0021": {
+        "clips": 9,
+        "source_seconds": 117.67287499999999
+      },
+      "en_est_0022": {
+        "clips": 3,
+        "source_seconds": 11.0593125
+      },
+      "en_est_0023": {
+        "clips": 1,
+        "source_seconds": 3.63725
+      },
+      "en_est_0024": {
+        "clips": 3,
+        "source_seconds": 18.344
+      },
+      "en_est_0025": {
+        "clips": 17,
+        "source_seconds": 78.18187499999999
+      },
+      "en_est_0026": {
+        "clips": 26,
+        "source_seconds": 126.17975000000001
+      },
+      "en_est_0027": {
+        "clips": 8,
+        "source_seconds": 42.485812499999994
+      },
+      "en_est_0028": {
+        "clips": 52,
+        "source_seconds": 195.72518749999998
+      },
+      "en_est_0029": {
+        "clips": 8,
+        "source_seconds": 66.99549999999999
+      },
+      "en_est_0030": {
+        "clips": 1,
+        "source_seconds": 3.7405
+      },
+      "en_est_0031": {
+        "clips": 73,
+        "source_seconds": 469.7413749999999
+      },
+      "en_est_0032": {
+        "clips": 1,
+        "source_seconds": 5.974625
+      },
+      "en_est_0033": {
+        "clips": 3,
+        "source_seconds": 10.8895
+      },
+      "en_est_0034": {
+        "clips": 20,
+        "source_seconds": 149.4238125
+      },
+      "en_est_0035": {
+        "clips": 5,
+        "source_seconds": 37.91025
+      },
+      "en_est_0036": {
+        "clips": 19,
+        "source_seconds": 57.668625000000006
+      },
+      "en_est_0037": {
+        "clips": 7,
+        "source_seconds": 52.316125
+      },
+      "en_est_0038": {
+        "clips": 5,
+        "source_seconds": 14.452937500000003
+      },
+      "en_est_0039": {
+        "clips": 1,
+        "source_seconds": 3.39425
+      },
+      "en_est_0040": {
+        "clips": 80,
+        "source_seconds": 308.60612500000013
+      },
+      "en_est_0041": {
+        "clips": 18,
+        "source_seconds": 83.68925
+      },
+      "en_est_0042": {
+        "clips": 7,
+        "source_seconds": 61.973749999999995
+      },
+      "en_est_0043": {
+        "clips": 8,
+        "source_seconds": 50.873687499999996
+      },
+      "en_est_0044": {
+        "clips": 18,
+        "source_seconds": 91.60312500000002
+      },
+      "en_est_0045": {
+        "clips": 3,
+        "source_seconds": 15.809875
+      },
+      "en_est_0046": {
+        "clips": 3,
+        "source_seconds": 16.7115625
+      },
+      "en_est_0047": {
+        "clips": 30,
+        "source_seconds": 158.83106249999997
+      },
+      "en_est_0048": {
+        "clips": 1,
+        "source_seconds": 3.9583125
+      },
+      "en_est_0049": {
+        "clips": 4,
+        "source_seconds": 20.710187499999996
+      },
+      "en_est_0050": {
+        "clips": 2,
+        "source_seconds": 16.718
+      },
+      "en_est_0051": {
+        "clips": 1,
+        "source_seconds": 4.8084375
+      },
+      "en_est_0052": {
+        "clips": 1,
+        "source_seconds": 4.91775
+      },
+      "en_est_0053": {
+        "clips": 11,
+        "source_seconds": 80.96906249999998
+      },
+      "en_est_0054": {
+        "clips": 14,
+        "source_seconds": 120.34743749999998
+      },
+      "en_est_0055": {
+        "clips": 2,
+        "source_seconds": 5.6141875
+      },
+      "en_est_0056": {
+        "clips": 1,
+        "source_seconds": 3.392875
+      },
+      "en_est_0057": {
+        "clips": 12,
+        "source_seconds": 34.63562499999999
+      },
+      "en_est_0058": {
+        "clips": 20,
+        "source_seconds": 102.12287500000002
+      },
+      "en_est_0059": {
+        "clips": 8,
+        "source_seconds": 67.1269375
+      },
+      "en_est_0060": {
+        "clips": 2,
+        "source_seconds": 15.284875
+      },
+      "en_est_0061": {
+        "clips": 1,
+        "source_seconds": 3.2700625
+      },
+      "en_est_0062": {
+        "clips": 12,
+        "source_seconds": 71.2329375
+      },
+      "en_est_0063": {
+        "clips": 12,
+        "source_seconds": 80.39668749999998
+      },
+      "en_est_0064": {
+        "clips": 1,
+        "source_seconds": 4.616375
+      },
+      "en_est_0065": {
+        "clips": 1,
+        "source_seconds": 6.614125
+      },
+      "en_est_0066": {
+        "clips": 6,
+        "source_seconds": 38.9183125
+      },
+      "en_est_0067": {
+        "clips": 1,
+        "source_seconds": 6.2014375
+      },
+      "en_est_0068": {
+        "clips": 6,
+        "source_seconds": 25.9669375
+      },
+      "en_est_0069": {
+        "clips": 17,
+        "source_seconds": 95.20562499999998
+      },
+      "en_est_0070": {
+        "clips": 1,
+        "source_seconds": 3.7201875
+      },
+      "en_est_0071": {
+        "clips": 36,
+        "source_seconds": 304.6996875
+      },
+      "en_est_0072": {
+        "clips": 3,
+        "source_seconds": 16.491187500000002
+      },
+      "en_est_0073": {
+        "clips": 12,
+        "source_seconds": 71.1494375
+      },
+      "en_est_0074": {
+        "clips": 1,
+        "source_seconds": 5.36425
+      },
+      "en_est_0075": {
+        "clips": 32,
+        "source_seconds": 240.455
+      },
+      "en_est_0076": {
+        "clips": 17,
+        "source_seconds": 129.30243750000002
+      },
+      "en_est_0077": {
+        "clips": 3,
+        "source_seconds": 18.6075625
+      },
+      "en_est_0078": {
+        "clips": 20,
+        "source_seconds": 108.429875
+      },
+      "en_est_0079": {
+        "clips": 1,
+        "source_seconds": 3.630375
+      },
+      "en_est_0080": {
+        "clips": 2,
+        "source_seconds": 9.2805625
+      },
+      "en_est_0081": {
+        "clips": 1,
+        "source_seconds": 6.752625
+      },
+      "en_est_0082": {
+        "clips": 2,
+        "source_seconds": 4.102125
+      },
+      "en_est_0083": {
+        "clips": 37,
+        "source_seconds": 171.35049999999995
+      },
+      "en_est_0084": {
+        "clips": 8,
+        "source_seconds": 77.0973125
+      },
+      "en_est_0085": {
+        "clips": 1,
+        "source_seconds": 7.8039375
+      },
+      "en_est_0086": {
+        "clips": 17,
+        "source_seconds": 110.8358125
+      },
+      "en_est_0087": {
+        "clips": 12,
+        "source_seconds": 52.0499375
+      },
+      "en_est_0088": {
+        "clips": 7,
+        "source_seconds": 37.25325
+      },
+      "en_est_0089": {
+        "clips": 37,
+        "source_seconds": 328.53706249999993
+      },
+      "en_est_0090": {
+        "clips": 4,
+        "source_seconds": 17.12225
+      },
+      "en_est_0091": {
+        "clips": 3,
+        "source_seconds": 7.65625
+      },
+      "en_est_0092": {
+        "clips": 19,
+        "source_seconds": 80.3230625
+      },
+      "en_est_0093": {
+        "clips": 33,
+        "source_seconds": 232.7015
+      },
+      "en_est_0094": {
+        "clips": 1,
+        "source_seconds": 3.3538125
+      },
+      "en_est_0095": {
+        "clips": 13,
+        "source_seconds": 132.857625
+      },
+      "en_est_0096": {
+        "clips": 11,
+        "source_seconds": 106.4160625
+      },
+      "en_est_0097": {
+        "clips": 40,
+        "source_seconds": 301.2963125
+      },
+      "en_est_0098": {
+        "clips": 14,
+        "source_seconds": 99.61275
+      },
+      "en_est_0099": {
+        "clips": 1,
+        "source_seconds": 6.5831875
+      },
+      "en_est_0100": {
+        "clips": 1,
+        "source_seconds": 5.72
+      },
+      "en_est_0101": {
+        "clips": 5,
+        "source_seconds": 28.4799375
+      },
+      "en_est_0102": {
+        "clips": 70,
+        "source_seconds": 339.3880625000001
+      },
+      "en_est_0103": {
+        "clips": 1,
+        "source_seconds": 6.8
+      },
+      "en_est_0104": {
+        "clips": 4,
+        "source_seconds": 25.8479375
+      },
+      "en_est_0105": {
+        "clips": 1,
+        "source_seconds": 5.9071875
+      },
+      "en_est_0106": {
+        "clips": 6,
+        "source_seconds": 20.178250000000002
+      },
+      "en_est_0107": {
+        "clips": 7,
+        "source_seconds": 66.5826875
+      },
+      "en_est_0108": {
+        "clips": 18,
+        "source_seconds": 82.80987499999999
+      },
+      "en_est_0109": {
+        "clips": 8,
+        "source_seconds": 37.7575625
+      },
+      "en_est_0110": {
+        "clips": 2,
+        "source_seconds": 4.3961875
+      },
+      "en_est_0111": {
+        "clips": 2,
+        "source_seconds": 8.2485625
+      },
+      "en_est_0112": {
+        "clips": 6,
+        "source_seconds": 49.48025
+      },
+      "en_est_0113": {
+        "clips": 10,
+        "source_seconds": 50.093937499999996
+      },
+      "en_est_0114": {
+        "clips": 16,
+        "source_seconds": 108.4933125
+      },
+      "en_est_0115": {
+        "clips": 16,
+        "source_seconds": 95.39212500000001
+      },
+      "en_est_0116": {
+        "clips": 24,
+        "source_seconds": 157.582
+      },
+      "en_est_0117": {
+        "clips": 1,
+        "source_seconds": 4.859
+      },
+      "en_est_0118": {
+        "clips": 31,
+        "source_seconds": 135.9524375
+      },
+      "en_est_0119": {
+        "clips": 1,
+        "source_seconds": 3.641
+      },
+      "en_est_0120": {
+        "clips": 1,
+        "source_seconds": 8.5765
+      },
+      "en_est_0121": {
+        "clips": 5,
+        "source_seconds": 48.312437499999994
+      },
+      "en_est_0122": {
+        "clips": 26,
+        "source_seconds": 123.437
+      },
+      "en_est_0123": {
+        "clips": 2,
+        "source_seconds": 4.498875
+      },
+      "en_est_0124": {
+        "clips": 6,
+        "source_seconds": 32.6726875
+      },
+      "en_est_0125": {
+        "clips": 4,
+        "source_seconds": 21.7725625
+      },
+      "en_est_0126": {
+        "clips": 1,
+        "source_seconds": 3.0741875
+      },
+      "en_est_0127": {
+        "clips": 1,
+        "source_seconds": 3.0673125
+      },
+      "en_est_0128": {
+        "clips": 5,
+        "source_seconds": 39.696374999999996
+      },
+      "en_est_0129": {
+        "clips": 6,
+        "source_seconds": 42.594687500000006
+      },
+      "en_est_0130": {
+        "clips": 3,
+        "source_seconds": 33.963750000000005
+      },
+      "en_est_0131": {
+        "clips": 14,
+        "source_seconds": 85.3583125
+      },
+      "en_est_0132": {
+        "clips": 19,
+        "source_seconds": 109.99718750000001
+      },
+      "en_est_0133": {
+        "clips": 4,
+        "source_seconds": 43.1874375
+      },
+      "en_est_0134": {
+        "clips": 8,
+        "source_seconds": 32.4828125
+      },
+      "en_est_0135": {
+        "clips": 15,
+        "source_seconds": 95.98381250000003
+      },
+      "en_est_0136": {
+        "clips": 38,
+        "source_seconds": 141.9849375
+      },
+      "en_est_0137": {
+        "clips": 63,
+        "source_seconds": 322.0190624999999
+      },
+      "en_est_0138": {
+        "clips": 1,
+        "source_seconds": 3.916875
+      },
+      "en_est_0139": {
+        "clips": 1,
+        "source_seconds": 8.5
+      },
+      "en_est_0140": {
+        "clips": 1,
+        "source_seconds": 8.958625
+      },
+      "en_est_0141": {
+        "clips": 7,
+        "source_seconds": 55.0775625
+      },
+      "en_est_0142": {
+        "clips": 3,
+        "source_seconds": 18.24875
+      },
+      "en_est_0143": {
+        "clips": 23,
+        "source_seconds": 157.84725
+      },
+      "en_est_0144": {
+        "clips": 8,
+        "source_seconds": 26.8169375
+      },
+      "en_est_0145": {
+        "clips": 16,
+        "source_seconds": 75.7721875
+      },
+      "en_est_0146": {
+        "clips": 50,
+        "source_seconds": 390.7044375
+      },
+      "en_est_0147": {
+        "clips": 2,
+        "source_seconds": 3.5181875
+      },
+      "en_est_0148": {
+        "clips": 34,
+        "source_seconds": 134.269375
+      },
+      "en_est_0149": {
+        "clips": 2,
+        "source_seconds": 6.03875
+      },
+      "en_est_0150": {
+        "clips": 2,
+        "source_seconds": 4.292
+      },
+      "en_est_0151": {
+        "clips": 3,
+        "source_seconds": 3.3092500000000005
+      },
+      "en_est_0152": {
+        "clips": 1,
+        "source_seconds": 5.3136875
+      },
+      "en_est_0153": {
+        "clips": 10,
+        "source_seconds": 49.5079375
+      },
+      "en_est_0154": {
+        "clips": 2,
+        "source_seconds": 21.5640625
+      },
+      "en_est_0155": {
+        "clips": 90,
+        "source_seconds": 450.00150000000014
+      },
+      "en_est_0156": {
+        "clips": 1,
+        "source_seconds": 5.36
+      },
+      "en_est_0157": {
+        "clips": 11,
+        "source_seconds": 42.585249999999995
+      },
+      "en_est_0158": {
+        "clips": 2,
+        "source_seconds": 32.795500000000004
+      },
+      "en_est_0159": {
+        "clips": 5,
+        "source_seconds": 46.7295625
+      },
+      "en_est_0160": {
+        "clips": 9,
+        "source_seconds": 67.3304375
+      },
+      "en_est_0161": {
+        "clips": 1,
+        "source_seconds": 4.9711875
+      },
+      "en_est_0162": {
+        "clips": 18,
+        "source_seconds": 171.6403125
+      },
+      "en_est_0163": {
+        "clips": 25,
+        "source_seconds": 253.69525000000002
+      },
+      "en_est_0164": {
+        "clips": 8,
+        "source_seconds": 48.7305625
+      },
+      "en_est_0165": {
+        "clips": 1,
+        "source_seconds": 4.5368125
+      },
+      "en_est_0166": {
+        "clips": 7,
+        "source_seconds": 66.700625
+      },
+      "en_est_0167": {
+        "clips": 1,
+        "source_seconds": 4.331
+      },
+      "en_est_0168": {
+        "clips": 1,
+        "source_seconds": 7.9524375
+      },
+      "en_est_0169": {
+        "clips": 12,
+        "source_seconds": 59.314875
+      },
+      "en_est_0170": {
+        "clips": 3,
+        "source_seconds": 13.575625
+      },
+      "en_est_0171": {
+        "clips": 2,
+        "source_seconds": 36.7420625
+      },
+      "en_est_0172": {
+        "clips": 5,
+        "source_seconds": 26.43825
+      },
+      "en_est_0173": {
+        "clips": 16,
+        "source_seconds": 61.13737500000001
+      },
+      "en_est_0174": {
+        "clips": 3,
+        "source_seconds": 21.3904375
+      },
+      "en_est_0175": {
+        "clips": 34,
+        "source_seconds": 225.31412500000002
+      },
+      "en_est_0176": {
+        "clips": 1,
+        "source_seconds": 9.345
+      },
+      "en_est_0177": {
+        "clips": 4,
+        "source_seconds": 23.889062499999998
+      },
+      "en_est_0178": {
+        "clips": 10,
+        "source_seconds": 65.4595
+      },
+      "en_est_0179": {
+        "clips": 1,
+        "source_seconds": 7.080125
+      },
+      "en_est_0180": {
+        "clips": 8,
+        "source_seconds": 63.134375
+      },
+      "en_est_0181": {
+        "clips": 4,
+        "source_seconds": 13.463625
+      },
+      "en_est_0182": {
+        "clips": 29,
+        "source_seconds": 265.4533125
+      },
+      "en_est_0183": {
+        "clips": 1,
+        "source_seconds": 8.483125
+      },
+      "en_est_0184": {
+        "clips": 13,
+        "source_seconds": 60.143125
+      },
+      "en_est_0185": {
+        "clips": 2,
+        "source_seconds": 6.805312499999999
+      },
+      "en_est_0186": {
+        "clips": 7,
+        "source_seconds": 38.6080625
+      },
+      "en_est_0187": {
+        "clips": 15,
+        "source_seconds": 99.2040625
+      },
+      "en_est_0188": {
+        "clips": 15,
+        "source_seconds": 64.2545625
+      },
+      "en_est_0189": {
+        "clips": 1,
+        "source_seconds": 4.52275
+      },
+      "en_est_0190": {
+        "clips": 18,
+        "source_seconds": 100.28237500000002
+      },
+      "en_est_0191": {
+        "clips": 1,
+        "source_seconds": 4.2028125
+      },
+      "en_est_0192": {
+        "clips": 3,
+        "source_seconds": 7.678062499999999
+      },
+      "en_est_0193": {
+        "clips": 27,
+        "source_seconds": 111.5829375
+      },
+      "en_est_0194": {
+        "clips": 15,
+        "source_seconds": 69.0770625
+      },
+      "en_est_0195": {
+        "clips": 48,
+        "source_seconds": 252.36387500000004
+      },
+      "en_est_0196": {
+        "clips": 5,
+        "source_seconds": 28.1085625
+      },
+      "en_est_0197": {
+        "clips": 16,
+        "source_seconds": 149.367625
+      },
+      "en_est_0198": {
+        "clips": 1,
+        "source_seconds": 3.661875
+      },
+      "en_est_0199": {
+        "clips": 37,
+        "source_seconds": 167.09775000000002
+      },
+      "en_est_0200": {
+        "clips": 4,
+        "source_seconds": 23.497375
+      },
+      "en_est_0201": {
+        "clips": 6,
+        "source_seconds": 30.0879375
+      },
+      "en_est_0202": {
+        "clips": 2,
+        "source_seconds": 6.37375
+      },
+      "en_est_0203": {
+        "clips": 1,
+        "source_seconds": 4.0
+      },
+      "en_est_0204": {
+        "clips": 10,
+        "source_seconds": 58.595625000000005
+      },
+      "en_est_0205": {
+        "clips": 2,
+        "source_seconds": 5.413937499999999
+      },
+      "en_est_0206": {
+        "clips": 1,
+        "source_seconds": 19.3819375
+      },
+      "en_est_0207": {
+        "clips": 26,
+        "source_seconds": 168.38318750000002
+      },
+      "en_est_0208": {
+        "clips": 3,
+        "source_seconds": 19.4475625
+      },
+      "en_est_0209": {
+        "clips": 29,
+        "source_seconds": 245.76968749999997
+      },
+      "en_est_0210": {
+        "clips": 8,
+        "source_seconds": 29.680562499999997
+      },
+      "en_est_0211": {
+        "clips": 20,
+        "source_seconds": 65.5385625
+      },
+      "en_est_0212": {
+        "clips": 11,
+        "source_seconds": 70.84487499999999
+      },
+      "en_est_0213": {
+        "clips": 19,
+        "source_seconds": 112.1401875
+      },
+      "en_est_0214": {
+        "clips": 2,
+        "source_seconds": 9.211187500000001
+      },
+      "en_est_0215": {
+        "clips": 7,
+        "source_seconds": 50.525062500000004
+      },
+      "en_est_0216": {
+        "clips": 8,
+        "source_seconds": 33.291125
+      },
+      "en_est_0217": {
+        "clips": 35,
+        "source_seconds": 259.3716875
+      },
+      "en_est_0218": {
+        "clips": 1,
+        "source_seconds": 3.9301875
+      },
+      "en_est_0219": {
+        "clips": 16,
+        "source_seconds": 96.23031249999998
+      },
+      "en_est_0220": {
+        "clips": 23,
+        "source_seconds": 157.136875
+      },
+      "en_est_0221": {
+        "clips": 22,
+        "source_seconds": 212.1631875
+      },
+      "en_est_0222": {
+        "clips": 1,
+        "source_seconds": 16.271125
+      },
+      "en_est_0223": {
+        "clips": 4,
+        "source_seconds": 22.1711875
+      },
+      "en_est_0224": {
+        "clips": 42,
+        "source_seconds": 246.20606249999994
+      },
+      "en_est_0225": {
+        "clips": 3,
+        "source_seconds": 20.488375
+      },
+      "en_est_0226": {
+        "clips": 10,
+        "source_seconds": 53.589437499999995
+      },
+      "en_est_0227": {
+        "clips": 45,
+        "source_seconds": 264.66687499999995
+      },
+      "en_est_0228": {
+        "clips": 12,
+        "source_seconds": 97.120875
+      },
+      "en_est_0229": {
+        "clips": 1,
+        "source_seconds": 3.6538125
+      },
+      "en_est_0230": {
+        "clips": 13,
+        "source_seconds": 86.6966875
+      },
+      "en_est_0231": {
+        "clips": 1,
+        "source_seconds": 3.081125
+      },
+      "en_est_0232": {
+        "clips": 1,
+        "source_seconds": 4.760875
+      },
+      "en_est_0233": {
+        "clips": 46,
+        "source_seconds": 176.05874999999992
+      },
+      "en_est_0234": {
+        "clips": 1,
+        "source_seconds": 6.2986875
+      },
+      "en_est_0235": {
+        "clips": 6,
+        "source_seconds": 41.622749999999996
+      },
+      "en_est_0236": {
+        "clips": 11,
+        "source_seconds": 51.151312499999996
+      },
+      "en_est_0237": {
+        "clips": 6,
+        "source_seconds": 22.378375
+      },
+      "en_est_0238": {
+        "clips": 23,
+        "source_seconds": 132.604375
+      },
+      "en_est_0239": {
+        "clips": 4,
+        "source_seconds": 6.5725625
+      },
+      "en_est_0240": {
+        "clips": 5,
+        "source_seconds": 24.6789375
+      },
+      "en_est_0241": {
+        "clips": 5,
+        "source_seconds": 27.2943125
+      },
+      "en_est_0242": {
+        "clips": 1,
+        "source_seconds": 4.92
+      },
+      "en_est_0243": {
+        "clips": 9,
+        "source_seconds": 49.411375
+      },
+      "en_est_0244": {
+        "clips": 1,
+        "source_seconds": 5.088375
+      },
+      "en_est_0245": {
+        "clips": 7,
+        "source_seconds": 55.04775
+      },
+      "en_est_0246": {
+        "clips": 14,
+        "source_seconds": 96.724375
+      },
+      "en_est_0247": {
+        "clips": 10,
+        "source_seconds": 31.800187500000003
+      },
+      "en_est_0248": {
+        "clips": 8,
+        "source_seconds": 33.429375
+      },
+      "en_est_0249": {
+        "clips": 24,
+        "source_seconds": 126.53575000000001
+      },
+      "en_est_0250": {
+        "clips": 11,
+        "source_seconds": 101.1208125
+      },
+      "en_est_0251": {
+        "clips": 1,
+        "source_seconds": 4.823125
+      },
+      "en_est_0252": {
+        "clips": 9,
+        "source_seconds": 46.147125
+      },
+      "en_est_0253": {
+        "clips": 1,
+        "source_seconds": 6.0
+      }
+    }
+  },
+  "accepted_training_source": {
+    "clips": 3037,
+    "labels": 254,
+    "source_hours": 4.999258020833336,
+    "labels_with_one_or_two_clips": 77,
+    "labels_with_one_or_two_clips_percent": 30.31496062992126,
+    "median_clips_per_label": 7.0,
+    "median_source_seconds_per_label": 38.33193750000001,
+    "final_label": {
+      "id": "en_est_0155",
+      "clips": 89,
+      "source_seconds": 448.9467500000001,
+      "source_minutes": 7.482445833333335,
+      "source_duration_rank": 3
+    },
+    "per_label": {
+      "en_est_0000": {
+        "clips": 2,
+        "source_seconds": 7.74725
+      },
+      "en_est_0001": {
+        "clips": 15,
+        "source_seconds": 84.7066875
+      },
+      "en_est_0002": {
+        "clips": 4,
+        "source_seconds": 30.3815625
+      },
+      "en_est_0003": {
+        "clips": 7,
+        "source_seconds": 38.05581250000001
+      },
+      "en_est_0004": {
+        "clips": 3,
+        "source_seconds": 6.8596875
+      },
+      "en_est_0005": {
+        "clips": 22,
+        "source_seconds": 214.08968749999994
+      },
+      "en_est_0006": {
+        "clips": 1,
+        "source_seconds": 15.7329375
+      },
+      "en_est_0007": {
+        "clips": 9,
+        "source_seconds": 51.961999999999996
+      },
+      "en_est_0008": {
+        "clips": 1,
+        "source_seconds": 3.25825
+      },
+      "en_est_0009": {
+        "clips": 68,
+        "source_seconds": 453.27118750000005
+      },
+      "en_est_0010": {
+        "clips": 30,
+        "source_seconds": 150.452375
+      },
+      "en_est_0011": {
+        "clips": 6,
+        "source_seconds": 58.4945625
+      },
+      "en_est_0012": {
+        "clips": 40,
+        "source_seconds": 198.10225
+      },
+      "en_est_0013": {
+        "clips": 16,
+        "source_seconds": 85.95168749999999
+      },
+      "en_est_0014": {
+        "clips": 2,
+        "source_seconds": 5.659875
+      },
+      "en_est_0015": {
+        "clips": 17,
+        "source_seconds": 54.9785625
+      },
+      "en_est_0016": {
+        "clips": 55,
+        "source_seconds": 320.75381250000015
+      },
+      "en_est_0017": {
+        "clips": 27,
+        "source_seconds": 148.39143750000002
+      },
+      "en_est_0018": {
+        "clips": 7,
+        "source_seconds": 35.125937500000006
+      },
+      "en_est_0019": {
+        "clips": 1,
+        "source_seconds": 3.7449375
+      },
+      "en_est_0020": {
+        "clips": 6,
+        "source_seconds": 42.5283125
+      },
+      "en_est_0021": {
+        "clips": 9,
+        "source_seconds": 117.67287499999999
+      },
+      "en_est_0022": {
+        "clips": 3,
+        "source_seconds": 11.0593125
+      },
+      "en_est_0023": {
+        "clips": 1,
+        "source_seconds": 3.63725
+      },
+      "en_est_0024": {
+        "clips": 3,
+        "source_seconds": 18.344
+      },
+      "en_est_0025": {
+        "clips": 17,
+        "source_seconds": 78.18187499999999
+      },
+      "en_est_0026": {
+        "clips": 26,
+        "source_seconds": 126.17975000000001
+      },
+      "en_est_0027": {
+        "clips": 8,
+        "source_seconds": 42.485812499999994
+      },
+      "en_est_0028": {
+        "clips": 52,
+        "source_seconds": 195.72518749999998
+      },
+      "en_est_0029": {
+        "clips": 8,
+        "source_seconds": 66.99549999999999
+      },
+      "en_est_0030": {
+        "clips": 1,
+        "source_seconds": 3.7405
+      },
+      "en_est_0031": {
+        "clips": 73,
+        "source_seconds": 469.7413749999999
+      },
+      "en_est_0032": {
+        "clips": 1,
+        "source_seconds": 5.974625
+      },
+      "en_est_0033": {
+        "clips": 3,
+        "source_seconds": 10.8895
+      },
+      "en_est_0034": {
+        "clips": 20,
+        "source_seconds": 149.4238125
+      },
+      "en_est_0035": {
+        "clips": 5,
+        "source_seconds": 37.91025
+      },
+      "en_est_0036": {
+        "clips": 19,
+        "source_seconds": 57.668625000000006
+      },
+      "en_est_0037": {
+        "clips": 7,
+        "source_seconds": 52.316125
+      },
+      "en_est_0038": {
+        "clips": 5,
+        "source_seconds": 14.452937500000003
+      },
+      "en_est_0039": {
+        "clips": 1,
+        "source_seconds": 3.39425
+      },
+      "en_est_0040": {
+        "clips": 80,
+        "source_seconds": 308.60612500000013
+      },
+      "en_est_0041": {
+        "clips": 18,
+        "source_seconds": 83.68925
+      },
+      "en_est_0042": {
+        "clips": 7,
+        "source_seconds": 61.973749999999995
+      },
+      "en_est_0043": {
+        "clips": 8,
+        "source_seconds": 50.873687499999996
+      },
+      "en_est_0044": {
+        "clips": 18,
+        "source_seconds": 91.60312500000002
+      },
+      "en_est_0045": {
+        "clips": 3,
+        "source_seconds": 15.809875
+      },
+      "en_est_0046": {
+        "clips": 3,
+        "source_seconds": 16.7115625
+      },
+      "en_est_0047": {
+        "clips": 30,
+        "source_seconds": 158.83106249999997
+      },
+      "en_est_0048": {
+        "clips": 1,
+        "source_seconds": 3.9583125
+      },
+      "en_est_0049": {
+        "clips": 4,
+        "source_seconds": 20.710187499999996
+      },
+      "en_est_0050": {
+        "clips": 2,
+        "source_seconds": 16.718
+      },
+      "en_est_0051": {
+        "clips": 1,
+        "source_seconds": 4.8084375
+      },
+      "en_est_0052": {
+        "clips": 1,
+        "source_seconds": 4.91775
+      },
+      "en_est_0053": {
+        "clips": 11,
+        "source_seconds": 80.96906249999998
+      },
+      "en_est_0054": {
+        "clips": 14,
+        "source_seconds": 120.34743749999998
+      },
+      "en_est_0055": {
+        "clips": 2,
+        "source_seconds": 5.6141875
+      },
+      "en_est_0056": {
+        "clips": 1,
+        "source_seconds": 3.392875
+      },
+      "en_est_0057": {
+        "clips": 12,
+        "source_seconds": 34.63562499999999
+      },
+      "en_est_0058": {
+        "clips": 20,
+        "source_seconds": 102.12287500000002
+      },
+      "en_est_0059": {
+        "clips": 8,
+        "source_seconds": 67.1269375
+      },
+      "en_est_0060": {
+        "clips": 2,
+        "source_seconds": 15.284875
+      },
+      "en_est_0061": {
+        "clips": 1,
+        "source_seconds": 3.2700625
+      },
+      "en_est_0062": {
+        "clips": 12,
+        "source_seconds": 71.2329375
+      },
+      "en_est_0063": {
+        "clips": 12,
+        "source_seconds": 80.39668749999998
+      },
+      "en_est_0064": {
+        "clips": 1,
+        "source_seconds": 4.616375
+      },
+      "en_est_0065": {
+        "clips": 1,
+        "source_seconds": 6.614125
+      },
+      "en_est_0066": {
+        "clips": 6,
+        "source_seconds": 38.9183125
+      },
+      "en_est_0067": {
+        "clips": 1,
+        "source_seconds": 6.2014375
+      },
+      "en_est_0068": {
+        "clips": 6,
+        "source_seconds": 25.9669375
+      },
+      "en_est_0069": {
+        "clips": 17,
+        "source_seconds": 95.20562499999998
+      },
+      "en_est_0070": {
+        "clips": 1,
+        "source_seconds": 3.7201875
+      },
+      "en_est_0071": {
+        "clips": 36,
+        "source_seconds": 304.6996875
+      },
+      "en_est_0072": {
+        "clips": 3,
+        "source_seconds": 16.491187500000002
+      },
+      "en_est_0073": {
+        "clips": 12,
+        "source_seconds": 71.1494375
+      },
+      "en_est_0074": {
+        "clips": 1,
+        "source_seconds": 5.36425
+      },
+      "en_est_0075": {
+        "clips": 32,
+        "source_seconds": 240.455
+      },
+      "en_est_0076": {
+        "clips": 17,
+        "source_seconds": 129.30243750000002
+      },
+      "en_est_0077": {
+        "clips": 3,
+        "source_seconds": 18.6075625
+      },
+      "en_est_0078": {
+        "clips": 20,
+        "source_seconds": 108.429875
+      },
+      "en_est_0079": {
+        "clips": 1,
+        "source_seconds": 3.630375
+      },
+      "en_est_0080": {
+        "clips": 2,
+        "source_seconds": 9.2805625
+      },
+      "en_est_0081": {
+        "clips": 1,
+        "source_seconds": 6.752625
+      },
+      "en_est_0082": {
+        "clips": 2,
+        "source_seconds": 4.102125
+      },
+      "en_est_0083": {
+        "clips": 37,
+        "source_seconds": 171.35049999999995
+      },
+      "en_est_0084": {
+        "clips": 8,
+        "source_seconds": 77.0973125
+      },
+      "en_est_0085": {
+        "clips": 1,
+        "source_seconds": 7.8039375
+      },
+      "en_est_0086": {
+        "clips": 17,
+        "source_seconds": 110.8358125
+      },
+      "en_est_0087": {
+        "clips": 12,
+        "source_seconds": 52.0499375
+      },
+      "en_est_0088": {
+        "clips": 7,
+        "source_seconds": 37.25325
+      },
+      "en_est_0089": {
+        "clips": 37,
+        "source_seconds": 328.53706249999993
+      },
+      "en_est_0090": {
+        "clips": 4,
+        "source_seconds": 17.12225
+      },
+      "en_est_0091": {
+        "clips": 3,
+        "source_seconds": 7.65625
+      },
+      "en_est_0092": {
+        "clips": 19,
+        "source_seconds": 80.3230625
+      },
+      "en_est_0093": {
+        "clips": 33,
+        "source_seconds": 232.7015
+      },
+      "en_est_0094": {
+        "clips": 1,
+        "source_seconds": 3.3538125
+      },
+      "en_est_0095": {
+        "clips": 13,
+        "source_seconds": 132.857625
+      },
+      "en_est_0096": {
+        "clips": 11,
+        "source_seconds": 106.4160625
+      },
+      "en_est_0097": {
+        "clips": 40,
+        "source_seconds": 301.2963125
+      },
+      "en_est_0098": {
+        "clips": 14,
+        "source_seconds": 99.61275
+      },
+      "en_est_0099": {
+        "clips": 1,
+        "source_seconds": 6.5831875
+      },
+      "en_est_0100": {
+        "clips": 1,
+        "source_seconds": 5.72
+      },
+      "en_est_0101": {
+        "clips": 5,
+        "source_seconds": 28.4799375
+      },
+      "en_est_0102": {
+        "clips": 70,
+        "source_seconds": 339.3880625000001
+      },
+      "en_est_0103": {
+        "clips": 1,
+        "source_seconds": 6.8
+      },
+      "en_est_0104": {
+        "clips": 4,
+        "source_seconds": 25.8479375
+      },
+      "en_est_0105": {
+        "clips": 1,
+        "source_seconds": 5.9071875
+      },
+      "en_est_0106": {
+        "clips": 6,
+        "source_seconds": 20.178250000000002
+      },
+      "en_est_0107": {
+        "clips": 7,
+        "source_seconds": 66.5826875
+      },
+      "en_est_0108": {
+        "clips": 18,
+        "source_seconds": 82.80987499999999
+      },
+      "en_est_0109": {
+        "clips": 8,
+        "source_seconds": 37.7575625
+      },
+      "en_est_0110": {
+        "clips": 2,
+        "source_seconds": 4.3961875
+      },
+      "en_est_0111": {
+        "clips": 2,
+        "source_seconds": 8.2485625
+      },
+      "en_est_0112": {
+        "clips": 6,
+        "source_seconds": 49.48025
+      },
+      "en_est_0113": {
+        "clips": 10,
+        "source_seconds": 50.093937499999996
+      },
+      "en_est_0114": {
+        "clips": 16,
+        "source_seconds": 108.4933125
+      },
+      "en_est_0115": {
+        "clips": 16,
+        "source_seconds": 95.39212500000001
+      },
+      "en_est_0116": {
+        "clips": 24,
+        "source_seconds": 157.582
+      },
+      "en_est_0117": {
+        "clips": 1,
+        "source_seconds": 4.859
+      },
+      "en_est_0118": {
+        "clips": 31,
+        "source_seconds": 135.9524375
+      },
+      "en_est_0119": {
+        "clips": 1,
+        "source_seconds": 3.641
+      },
+      "en_est_0120": {
+        "clips": 1,
+        "source_seconds": 8.5765
+      },
+      "en_est_0121": {
+        "clips": 5,
+        "source_seconds": 48.312437499999994
+      },
+      "en_est_0122": {
+        "clips": 26,
+        "source_seconds": 123.437
+      },
+      "en_est_0123": {
+        "clips": 2,
+        "source_seconds": 4.498875
+      },
+      "en_est_0124": {
+        "clips": 6,
+        "source_seconds": 32.6726875
+      },
+      "en_est_0125": {
+        "clips": 4,
+        "source_seconds": 21.7725625
+      },
+      "en_est_0126": {
+        "clips": 1,
+        "source_seconds": 3.0741875
+      },
+      "en_est_0127": {
+        "clips": 1,
+        "source_seconds": 3.0673125
+      },
+      "en_est_0128": {
+        "clips": 5,
+        "source_seconds": 39.696374999999996
+      },
+      "en_est_0129": {
+        "clips": 6,
+        "source_seconds": 42.594687500000006
+      },
+      "en_est_0130": {
+        "clips": 3,
+        "source_seconds": 33.963750000000005
+      },
+      "en_est_0131": {
+        "clips": 14,
+        "source_seconds": 85.3583125
+      },
+      "en_est_0132": {
+        "clips": 19,
+        "source_seconds": 109.99718750000001
+      },
+      "en_est_0133": {
+        "clips": 4,
+        "source_seconds": 43.1874375
+      },
+      "en_est_0134": {
+        "clips": 8,
+        "source_seconds": 32.4828125
+      },
+      "en_est_0135": {
+        "clips": 15,
+        "source_seconds": 95.98381250000003
+      },
+      "en_est_0136": {
+        "clips": 38,
+        "source_seconds": 141.9849375
+      },
+      "en_est_0137": {
+        "clips": 62,
+        "source_seconds": 320.4790624999999
+      },
+      "en_est_0138": {
+        "clips": 1,
+        "source_seconds": 3.916875
+      },
+      "en_est_0139": {
+        "clips": 1,
+        "source_seconds": 8.5
+      },
+      "en_est_0140": {
+        "clips": 1,
+        "source_seconds": 8.958625
+      },
+      "en_est_0141": {
+        "clips": 7,
+        "source_seconds": 55.0775625
+      },
+      "en_est_0142": {
+        "clips": 3,
+        "source_seconds": 18.24875
+      },
+      "en_est_0143": {
+        "clips": 23,
+        "source_seconds": 157.84725
+      },
+      "en_est_0144": {
+        "clips": 8,
+        "source_seconds": 26.8169375
+      },
+      "en_est_0145": {
+        "clips": 16,
+        "source_seconds": 75.7721875
+      },
+      "en_est_0146": {
+        "clips": 50,
+        "source_seconds": 390.7044375
+      },
+      "en_est_0147": {
+        "clips": 2,
+        "source_seconds": 3.5181875
+      },
+      "en_est_0148": {
+        "clips": 34,
+        "source_seconds": 134.269375
+      },
+      "en_est_0149": {
+        "clips": 2,
+        "source_seconds": 6.03875
+      },
+      "en_est_0150": {
+        "clips": 2,
+        "source_seconds": 4.292
+      },
+      "en_est_0151": {
+        "clips": 3,
+        "source_seconds": 3.3092500000000005
+      },
+      "en_est_0152": {
+        "clips": 1,
+        "source_seconds": 5.3136875
+      },
+      "en_est_0153": {
+        "clips": 10,
+        "source_seconds": 49.5079375
+      },
+      "en_est_0154": {
+        "clips": 2,
+        "source_seconds": 21.5640625
+      },
+      "en_est_0155": {
+        "clips": 89,
+        "source_seconds": 448.9467500000001
+      },
+      "en_est_0156": {
+        "clips": 1,
+        "source_seconds": 5.36
+      },
+      "en_est_0157": {
+        "clips": 11,
+        "source_seconds": 42.585249999999995
+      },
+      "en_est_0158": {
+        "clips": 2,
+        "source_seconds": 32.795500000000004
+      },
+      "en_est_0159": {
+        "clips": 5,
+        "source_seconds": 46.7295625
+      },
+      "en_est_0160": {
+        "clips": 9,
+        "source_seconds": 67.3304375
+      },
+      "en_est_0161": {
+        "clips": 1,
+        "source_seconds": 4.9711875
+      },
+      "en_est_0162": {
+        "clips": 18,
+        "source_seconds": 171.6403125
+      },
+      "en_est_0163": {
+        "clips": 25,
+        "source_seconds": 253.69525000000002
+      },
+      "en_est_0164": {
+        "clips": 8,
+        "source_seconds": 48.7305625
+      },
+      "en_est_0165": {
+        "clips": 1,
+        "source_seconds": 4.5368125
+      },
+      "en_est_0166": {
+        "clips": 7,
+        "source_seconds": 66.700625
+      },
+      "en_est_0167": {
+        "clips": 1,
+        "source_seconds": 4.331
+      },
+      "en_est_0168": {
+        "clips": 1,
+        "source_seconds": 7.9524375
+      },
+      "en_est_0169": {
+        "clips": 12,
+        "source_seconds": 59.314875
+      },
+      "en_est_0170": {
+        "clips": 3,
+        "source_seconds": 13.575625
+      },
+      "en_est_0171": {
+        "clips": 2,
+        "source_seconds": 36.7420625
+      },
+      "en_est_0172": {
+        "clips": 5,
+        "source_seconds": 26.43825
+      },
+      "en_est_0173": {
+        "clips": 16,
+        "source_seconds": 61.13737500000001
+      },
+      "en_est_0174": {
+        "clips": 3,
+        "source_seconds": 21.3904375
+      },
+      "en_est_0175": {
+        "clips": 34,
+        "source_seconds": 225.31412500000002
+      },
+      "en_est_0176": {
+        "clips": 1,
+        "source_seconds": 9.345
+      },
+      "en_est_0177": {
+        "clips": 4,
+        "source_seconds": 23.889062499999998
+      },
+      "en_est_0178": {
+        "clips": 10,
+        "source_seconds": 65.4595
+      },
+      "en_est_0179": {
+        "clips": 1,
+        "source_seconds": 7.080125
+      },
+      "en_est_0180": {
+        "clips": 8,
+        "source_seconds": 63.134375
+      },
+      "en_est_0181": {
+        "clips": 4,
+        "source_seconds": 13.463625
+      },
+      "en_est_0182": {
+        "clips": 29,
+        "source_seconds": 265.4533125
+      },
+      "en_est_0183": {
+        "clips": 1,
+        "source_seconds": 8.483125
+      },
+      "en_est_0184": {
+        "clips": 13,
+        "source_seconds": 60.143125
+      },
+      "en_est_0185": {
+        "clips": 2,
+        "source_seconds": 6.805312499999999
+      },
+      "en_est_0186": {
+        "clips": 7,
+        "source_seconds": 38.6080625
+      },
+      "en_est_0187": {
+        "clips": 15,
+        "source_seconds": 99.2040625
+      },
+      "en_est_0188": {
+        "clips": 15,
+        "source_seconds": 64.2545625
+      },
+      "en_est_0189": {
+        "clips": 1,
+        "source_seconds": 4.52275
+      },
+      "en_est_0190": {
+        "clips": 18,
+        "source_seconds": 100.28237500000002
+      },
+      "en_est_0191": {
+        "clips": 1,
+        "source_seconds": 4.2028125
+      },
+      "en_est_0192": {
+        "clips": 3,
+        "source_seconds": 7.678062499999999
+      },
+      "en_est_0193": {
+        "clips": 27,
+        "source_seconds": 111.5829375
+      },
+      "en_est_0194": {
+        "clips": 15,
+        "source_seconds": 69.0770625
+      },
+      "en_est_0195": {
+        "clips": 48,
+        "source_seconds": 252.36387500000004
+      },
+      "en_est_0196": {
+        "clips": 5,
+        "source_seconds": 28.1085625
+      },
+      "en_est_0197": {
+        "clips": 16,
+        "source_seconds": 149.367625
+      },
+      "en_est_0198": {
+        "clips": 1,
+        "source_seconds": 3.661875
+      },
+      "en_est_0199": {
+        "clips": 37,
+        "source_seconds": 167.09775000000002
+      },
+      "en_est_0200": {
+        "clips": 4,
+        "source_seconds": 23.497375
+      },
+      "en_est_0201": {
+        "clips": 6,
+        "source_seconds": 30.0879375
+      },
+      "en_est_0202": {
+        "clips": 2,
+        "source_seconds": 6.37375
+      },
+      "en_est_0203": {
+        "clips": 1,
+        "source_seconds": 4.0
+      },
+      "en_est_0204": {
+        "clips": 10,
+        "source_seconds": 58.595625000000005
+      },
+      "en_est_0205": {
+        "clips": 2,
+        "source_seconds": 5.413937499999999
+      },
+      "en_est_0206": {
+        "clips": 1,
+        "source_seconds": 19.3819375
+      },
+      "en_est_0207": {
+        "clips": 26,
+        "source_seconds": 168.38318750000002
+      },
+      "en_est_0208": {
+        "clips": 3,
+        "source_seconds": 19.4475625
+      },
+      "en_est_0209": {
+        "clips": 29,
+        "source_seconds": 245.76968749999997
+      },
+      "en_est_0210": {
+        "clips": 8,
+        "source_seconds": 29.680562499999997
+      },
+      "en_est_0211": {
+        "clips": 20,
+        "source_seconds": 65.5385625
+      },
+      "en_est_0212": {
+        "clips": 11,
+        "source_seconds": 70.84487499999999
+      },
+      "en_est_0213": {
+        "clips": 19,
+        "source_seconds": 112.1401875
+      },
+      "en_est_0214": {
+        "clips": 2,
+        "source_seconds": 9.211187500000001
+      },
+      "en_est_0215": {
+        "clips": 7,
+        "source_seconds": 50.525062500000004
+      },
+      "en_est_0216": {
+        "clips": 8,
+        "source_seconds": 33.291125
+      },
+      "en_est_0217": {
+        "clips": 35,
+        "source_seconds": 259.3716875
+      },
+      "en_est_0218": {
+        "clips": 1,
+        "source_seconds": 3.9301875
+      },
+      "en_est_0219": {
+        "clips": 16,
+        "source_seconds": 96.23031249999998
+      },
+      "en_est_0220": {
+        "clips": 23,
+        "source_seconds": 157.136875
+      },
+      "en_est_0221": {
+        "clips": 22,
+        "source_seconds": 212.1631875
+      },
+      "en_est_0222": {
+        "clips": 1,
+        "source_seconds": 16.271125
+      },
+      "en_est_0223": {
+        "clips": 4,
+        "source_seconds": 22.1711875
+      },
+      "en_est_0224": {
+        "clips": 42,
+        "source_seconds": 246.20606249999994
+      },
+      "en_est_0225": {
+        "clips": 3,
+        "source_seconds": 20.488375
+      },
+      "en_est_0226": {
+        "clips": 10,
+        "source_seconds": 53.589437499999995
+      },
+      "en_est_0227": {
+        "clips": 45,
+        "source_seconds": 264.66687499999995
+      },
+      "en_est_0228": {
+        "clips": 12,
+        "source_seconds": 97.120875
+      },
+      "en_est_0229": {
+        "clips": 1,
+        "source_seconds": 3.6538125
+      },
+      "en_est_0230": {
+        "clips": 13,
+        "source_seconds": 86.6966875
+      },
+      "en_est_0231": {
+        "clips": 1,
+        "source_seconds": 3.081125
+      },
+      "en_est_0232": {
+        "clips": 1,
+        "source_seconds": 4.760875
+      },
+      "en_est_0233": {
+        "clips": 46,
+        "source_seconds": 176.05874999999992
+      },
+      "en_est_0234": {
+        "clips": 1,
+        "source_seconds": 6.2986875
+      },
+      "en_est_0235": {
+        "clips": 6,
+        "source_seconds": 41.622749999999996
+      },
+      "en_est_0236": {
+        "clips": 11,
+        "source_seconds": 51.151312499999996
+      },
+      "en_est_0237": {
+        "clips": 6,
+        "source_seconds": 22.378375
+      },
+      "en_est_0238": {
+        "clips": 23,
+        "source_seconds": 132.604375
+      },
+      "en_est_0239": {
+        "clips": 4,
+        "source_seconds": 6.5725625
+      },
+      "en_est_0240": {
+        "clips": 5,
+        "source_seconds": 24.6789375
+      },
+      "en_est_0241": {
+        "clips": 5,
+        "source_seconds": 27.2943125
+      },
+      "en_est_0242": {
+        "clips": 1,
+        "source_seconds": 4.92
+      },
+      "en_est_0243": {
+        "clips": 9,
+        "source_seconds": 49.411375
+      },
+      "en_est_0244": {
+        "clips": 1,
+        "source_seconds": 5.088375
+      },
+      "en_est_0245": {
+        "clips": 7,
+        "source_seconds": 55.04775
+      },
+      "en_est_0246": {
+        "clips": 14,
+        "source_seconds": 96.724375
+      },
+      "en_est_0247": {
+        "clips": 10,
+        "source_seconds": 31.800187500000003
+      },
+      "en_est_0248": {
+        "clips": 8,
+        "source_seconds": 33.429375
+      },
+      "en_est_0249": {
+        "clips": 24,
+        "source_seconds": 126.53575000000001
+      },
+      "en_est_0250": {
+        "clips": 11,
+        "source_seconds": 101.1208125
+      },
+      "en_est_0251": {
+        "clips": 1,
+        "source_seconds": 4.823125
+      },
+      "en_est_0252": {
+        "clips": 9,
+        "source_seconds": 46.147125
+      },
+      "en_est_0253": {
+        "clips": 1,
+        "source_seconds": 6.0
+      }
+    }
+  },
+  "publisher_reported_speakers": 117,
+  "estimated_cluster_count": 254,
+  "clustering": {
+    "method": "Average-linkage agglomerative cosine clustering of training recording embeddings with >=3 seconds speech. Short training and validation recordings assigned to frozen training centroids.",
+    "distance_threshold": 0.3,
+    "threshold_calibration": "Heuristic threshold; no ground-truth identity labels available for calibration.",
+    "validation_used_to_fit_clusters": false
+  },
+  "final_label_selection": "Retained from earlier preview/diagnostic workflow for continuity; not selected through a systematic held-out perceptual ranking of all labels.",
+  "interpretation": "Sparse, uncertain labels are a plausible modeling risk. The cluster count mismatch warrants an audit; it does not prove fragmentation counts or establish a cause of English speech defects.",
+  "input_sha256": {
+    "Results/DataSplits/selection-membership.jsonl": "7eacbfb4742c82e8cda592e4ad5ad7baf28ccae4b2371e33cc8b48e43366f29b",
+    "Results/Preprocessing/gap-fixed-v2/rebuild-summary.json": "b349b66d29715b1de66b71fb754be13c6bdc4c44ee0de320b5b7b78e08d44d3c",
+    "Results/Preprocessing/english-estimated-speakers.json": "c1becdc422ec8aec0f2c62472430ca4c1b751a633e4d1fce82c845cfa2e908e9",
+    "Results/DataSplits/english-speaker-recovery.json": "e0d392fe3a21fa9a3dbe3916674d6af8d1ff3bdbd9b2db8266e16393ff90f889"
+  }
+}

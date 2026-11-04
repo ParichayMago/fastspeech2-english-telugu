@@ -61,6 +61,8 @@ def main():
               'English/checkpoints/final.pth.tar','Telugu/checkpoints/final.pth.tar',
               'hifigan/generator_universal.pth.tar','Report/Technical_Report.pdf','README.md','requirements.txt',
               'setup/training_recovery.py','setup/learned_pause_config.py',
+              'setup/analyze_speaker_coverage.py','Results/Assignment/analysis/english-speaker-coverage.json',
+              'audio_review/server.py','audio_review/static/index.html','audio_review/static/app.js',
               'config/learned-pauses-v1/English/preprocess.yaml','config/learned-pauses-v1/English/model.yaml',
               'config/learned-pauses-v1/English/train.yaml']
     paths={p.relative_to(ROOT).as_posix() for p in files}

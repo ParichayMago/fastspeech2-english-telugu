@@ -13,7 +13,10 @@ rather than ordinary Git. The repository URL is intended for assignment evaluati
 
 - Separate models, optimizers, configurations, features and checkpoints for each language.
 - English uses 254 **estimated acoustic speaker labels**, not verified identities.
-  Final samples use `en_est_0155`. Telugu uses the source `te_male` label.
+  Final samples use `en_est_0155`. Of 254 labels, 77 have only 1–2 selected training clips;
+  median source coverage is 38.3 seconds. The final label has 90 selected / 89
+  accepted clips (7.500 / 7.482 source minutes). These are source WAV durations,
+  not cropped feature durations. Telugu uses the source `te_male` label.
 - `gap-fixed-v2` preserves internal alignment gaps and complete duration targets.
   Both models trained afresh on these corrected features to 30,000 updates each.
 - English base best: step 12,000, validation 2.6051. Telugu best: step 18,000,
@@ -51,9 +54,9 @@ learned-pause experiment uses `data/rebuild-config/learned-pauses-v1/English/`.
 
 ## Complete submission download
 
-Download [fastspeech2-assignment-v2.zip](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v2/fastspeech2-assignment-v2.zip)
-and [SHA256SUMS](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v2/SHA256SUMS)
-from the [assignment release](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/assignment-v2).
+Download [fastspeech2-assignment-v3.zip](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v3/fastspeech2-assignment-v3.zip)
+and [SHA256SUMS](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v3/SHA256SUMS)
+from the [assignment release](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/assignment-v3).
 The ZIP contains a `project/` folder matching the required layout, including all
 three model files, the report, code, 10 audios and 30 variance plots. Verify it
 with `shasum -a 256 -c SHA256SUMS` before extracting.
@@ -106,7 +109,7 @@ Required local files:
 
 Inference verifies weights, resources, symbol inventory and vocoder hashes.
 It does not require raw datasets or training feature directories. Run `python3 setup/download_checkpoints.py` to download the submission archive
-and restore only these three hash-verified files. Use `--archive /path/to/fastspeech2-assignment-v2.zip`
+and restore only these three hash-verified files. Use `--archive /path/to/fastspeech2-assignment-v3.zip`
 to reuse a download, or `--check-only` to verify existing weights without network
 access. `setup/prepare_final_inference.py --nltk-only` downloads text resources
 while leaving frozen weights/configs intact.
@@ -236,7 +239,11 @@ Both bounds apply: elapsed minutes or maximum steps, whichever is reached first.
 Checkpoints are saved every 100 steps and complete validation every 500. Run
 arguments, configurations, data/source fingerprints and metrics are saved under
 `output/runs/<run-id>/`. A saved `session/STOP` requests a graceful stop. The
-historical local supervisors supplied credit checks, verified backups and Pod
+runner rejects a retained marker before writing any session/checkpoint files,
+including on implicit resume. To continue a deliberately stopped run, first
+confirm the run ID and remove only its `output/runs/<run-id>/session/STOP` file,
+then rerun with `--resume`. The runner never removes a stop request automatically.
+The historical local supervisors supplied credit checks, verified backups and Pod
 shutdown; a trainer command alone is not a provider billing cap or shutdown guard.
 
 English fine-tuning accepts `--initialize-from` (a checkpoint under `output/`),
@@ -264,13 +271,17 @@ in Hz, and energy is linear spectral L2, not dB. These are not measured waveform
 pitch or subjective quality scores. English ASR is diagnostic; Telugu recognition
 was excluded after its natural-audio control failed. Native listening is pending.
 
-## Corrected release: assignment-v2
+## Corrected release: assignment-v3
 
 This release fixes best-checkpoint preservation, base/fine-tune/pause resume,
 pause-configuration reconstruction, tensor device allocation, energy-control
 wiring and review-UI metadata compatibility. Frozen weights are unchanged; all
 ten WAVs and every prediction array regenerate identically under unity controls.
-No retraining was performed or required for these fixes.
+This version also rejects retained STOP markers before session writes and
+discovers all ten final recordings in the annotation server. It documents speaker
+coverage and remaining speech-quality/punctuation limitations. The current local
+suites pass 36 setup and nine server tests; browser playback/save/export checks
+also pass. No retraining was performed or required for these software fixes.
 
 Install the full `requirements.txt` stack, including TensorBoard, before running
 the training-recovery tests below. The minimal inference profile is sufficient
@@ -294,6 +305,62 @@ Pause occurrence baselines are saved in
 F1 is 45.6%, versus 38.5% for every-boundary and 21.0% for punctuation-only
 prediction. This does not establish audible improvement. Per-sentence native
 listening observations are still required; no MOS ratings are invented.
+
+## Local listening review and optional English checkpoint comparison
+
+The review catalog includes all ten frozen recordings under
+`Results/{English,Telugu}/test_generated_audios/`, with original transcripts and
+current WAV hashes. Choose **Final assignment audio** to collect per-sentence
+pronunciation and quality observations. Telugu needs a Telugu-speaking reviewer.
+Existing dataset and historical sample reviews remain separate choices.
+
+```bash
+.venvs/inference/bin/python setup/prepare_listening_comparison.py
+.venvs/inference/bin/python audio_review/server.py --port 8770 --store data/audio-review/listening-review-v1.json
+```
+
+Open `http://127.0.0.1:8770/?view=comparison`. Six A/B pairs cover E1, E2a,
+E2b, E3, E4 and the user's MIT passage. Both systems use the same text, lexical
+pronunciations, voice `en_est_0155`, statistics and universal HiFi-GAN, with unity
+controls and no denoising, injected silence, sentence splitting or waveform edits.
+This optional comparison requires the retained local parent checkpoint; it is
+not required for final-recording review and that historical parent is not bundled.
+The retained plain parent is fine-tune step 2500 (initialized from corrected
+step 12000); the child is learned-pause step 1000. The parent uses lexical phones
+without the child's new boundary slots. This compares the two systems, not just
+the pause head in isolation. The five learned assignment WAVs are checked against
+the released WAV hashes; canonical outputs are never overwritten.
+
+Listen to both versions at normal speed, note exact errors separately for A and B,
+then record preferences for clarity, pacing, intonation and overall quality.
+“About the same”, “Neither is acceptable” and “Unsure” are valid responses.
+A/B ordering is balanced and fixed before listening; the UI hides system labels.
+The auditable key is in `Results/Listening/english-parent-vs-learned-pauses/comparison.json`;
+avoid opening that key until judgments are saved. This is a label-hidden review,
+not a secured clinical blind study. No listening judgments are pre-populated.
+
+Individual reviews persist in `data/audio-review/listening-review-v1.json`;
+paired judgments persist in `data/audio-review/listening-review-v1-pairs.json`.
+Only judgments matching both current audio hashes are shown/exported. The A/B
+page exports all saved comparisons as JSON; the individual review view offers
+**Export all observations** for every reviewed status, or good selections as CSV.
+Review data remain local and excluded from Git. Preparation
+uses CPU inference only; it does not resume training or start cloud resources.
+
+Speaker coverage can be recomputed without raw datasets:
+
+```bash
+python setup/analyze_speaker_coverage.py
+```
+
+The saved analysis distinguishes 3,039 selected from 3,037 accepted English
+training clips, and source WAV coverage from aligned feature hours. The clustering
+threshold is heuristic (cosine distance 0.30). A count of 254 estimated labels
+versus the publisher's 117 speakers warrants an audit, not an assertion of exact
+identity errors or a proven cause of noise. Final English pause benefits remain
+unproven by listening. Telugu punctuation is removed before acoustic inference,
+so the current model cannot respond specifically to T4's comma. Per-sentence
+pronunciation and quality observations for all ten final recordings remain pending.
 
 ## References and delivery status
 
