@@ -1,6 +1,6 @@
 {
-  "created_utc": "2026-11-04T15:02:35.971362+00:00",
-  "release_tag": "assignment-v4",
+  "created_utc": "2026-11-04T15:28:59.351401+00:00",
+  "release_tag": "assignment-v5",
   "archive_layout": "project/",
   "audios": 10,
   "variance_plots": 30,
@@ -62,8 +62,8 @@
       "sha256": "9102553bdab46360c8b4c488b765d9baeafa939cddc65546de2973be2dd6f909"
     },
     "README.md": {
-      "bytes": 22147,
-      "sha256": "76b0fc7400c5d605c6adb59dd8f3f8c257f4bdac968801eddd82647a01761274"
+      "bytes": 2243,
+      "sha256": "e4ba98755817390e88ef88908d1de0f397edb59fb4d66a7bbc6d3d7ae89975e3"
     },
     "Report/Alignment_Gap_Fix.txt": {
       "bytes": 5377,
@@ -106,8 +106,8 @@
       "sha256": "40f0d710a64d6f016671e48a132f6eb9365a5b6ea78635fda64833123b5ec3e2"
     },
     "Report/Technical_Report.pdf": {
-      "bytes": 2365606,
-      "sha256": "d2b5eb0d84b5998e3b7415a78a268ba8260e1a58f4b67b8c753e5e2a605fa1d1"
+      "bytes": 2365636,
+      "sha256": "e66a2af7959c2c6b15ae4a152964cf8eccb150e062c0a7cb21bf9b1560d52459"
     },
     "Report/Training_Methods.txt": {
       "bytes": 2468,
@@ -202,12 +202,12 @@
       "sha256": "6454a95a6632d3aa74f3a462391c3c0cbf890e93369dfa6ffd609fff75bbef5e"
     },
     "Report/report-text.txt": {
-      "bytes": 49737,
-      "sha256": "db0913fbda8084dc284e14ad1f92bf6e1bfcbcd699c82423c050ac255181e62e"
+      "bytes": 49772,
+      "sha256": "d74ca7e11655d902ebd31c9cd1f349a8b13dbe736ac784e01d23be584fb8da52"
     },
     "Report/report-verification.json": {
-      "bytes": 12050,
-      "sha256": "29fc23705d5e0b3deac38deda1bc493c9abf44c5633ea96b46acaab468e557c4"
+      "bytes": 12360,
+      "sha256": "4280bd77a9bffc3f6949a6406c658ce0c3e64fb4bcf86f94f4c4d9572aece860"
     },
     "Report/requirements-report.txt": {
       "bytes": 160,
@@ -230,8 +230,8 @@
       "sha256": "bd2978a11936c128b691bf8f008963f0b0a63ab984b20db0cc21cc0b6f6e6701"
     },
     "Results/Assignment/assignment_test_outputs.zip": {
-      "bytes": 8861075,
-      "sha256": "9b95cb41851b4b4e6931a9c57419f233b340f385fc88e96ea4e02d55c97fc1fa"
+      "bytes": 8861103,
+      "sha256": "c5c3999f1120b9111f2b6bb1567576fdd266d77906068f07b86cdfb86b337120"
     },
     "Results/Assignment/checkpoint-selection.json": {
       "bytes": 1444,
@@ -257,6 +257,10 @@
       "bytes": 1415,
       "sha256": "2889d89cafec57e672bffeb3430889630f0b5f47c98114ee6bb4f2dd3cc14a7f"
     },
+    "Results/Assignment/pre-submission-audit.json": {
+      "bytes": 2593,
+      "sha256": "5b1965492103323d75fec4f957b9949af037fbd087b5f926259953977af6d7b4"
+    },
     "Results/Assignment/review-fix-verification.json": {
       "bytes": 3641,
       "sha256": "54b43d406b208ef23245f12cabc906afdc71ac93954c3b6cf0d9dc9724ddffe8"
@@ -271,7 +275,7 @@
     },
     "Results/Assignment/verification.json": {
       "bytes": 15074,
-      "sha256": "dda1b46f9932d4d6995705b99601f86ffc6bd5a38abdcf2c8b8e9d86d8fa1e62"
+      "sha256": "e6ac3d952a9829349a52d66ada156d8f92f04368f4cc6317d33cb59325f38296"
     },
     "Results/DataSplits/english-speaker-recovery.json": {
       "bytes": 1543,
@@ -950,8 +954,8 @@
       "sha256": "2b430a1f7bb1a65c4cbc054198a29d80d8d46b76408342c7fbce24aab91bd9b4"
     },
     "src/audio_review/README.txt": {
-      "bytes": 2019,
-      "sha256": "d2c4c2693156b2ac328d53ba3b11aaf00085fd0aaf479f111cc00d5c26618197"
+      "bytes": 2144,
+      "sha256": "47fc880ce25a86c0f6c4cb5be2fd4da993e4db306e62fcd679de09c57da09903"
     },
     "src/audio_review/browser_smoke.py": {
       "bytes": 7381,
@@ -1076,6 +1080,10 @@
     "src/dataset.py": {
       "bytes": 7912,
       "sha256": "1cef0d77e4a094cef98247d553784f6dbc2ee3d5b77e05ebe3ac95aee8d6219d"
+    },
+    "src/docs/REPRODUCIBILITY.md": {
+      "bytes": 12292,
+      "sha256": "c2626ca6b022fb480b469c9aea587e6f88a509225564bd752105d71343e4d725"
     },
     "src/docs/UPSTREAM_README.md": {
       "bytes": 7305,
@@ -1234,8 +1242,8 @@
       "sha256": "dbc06eb479d2d7eb111fb1e2432f1b0b69a2b65a701698e26cdc3c68c90f8b40"
     },
     "src/setup/build_technical_report.py": {
-      "bytes": 57533,
-      "sha256": "8e866c7d90f59df8640f48d6ec5f9b3196c02c5f671f062f674a6c80116676d3"
+      "bytes": 57568,
+      "sha256": "c417a34ce7fb4c4542206d5585600e1f865f428f613ef9cf4c18a95bfa1e1e14"
     },
     "src/setup/check_environment.py": {
       "bytes": 4783,
@@ -1255,7 +1263,7 @@
     },
     "src/setup/checkpoint_manifest.json": {
       "bytes": 718,
-      "sha256": "071de37f618bcf4bf27353bd507d51ae4426990db07f2472e1aae6a8cac50884"
+      "sha256": "22be4b284b627c23e427c28b71d584a40975e9649a812c264b5210d43e410afe"
     },
     "src/setup/compare_corrected_speech.py": {
       "bytes": 3736,
@@ -1346,8 +1354,8 @@
       "sha256": "764ecee7eb639891ae58d181a05adb92ed4edf6306eba535d69ac1325f05ce7c"
     },
     "src/setup/package_submission.py": {
-      "bytes": 6987,
-      "sha256": "4a46689634b03aa102edb25428af7a7aae8fe470bf4959c4ff1de222a169559b"
+      "bytes": 7060,
+      "sha256": "f40671d309db53b6e8b3251bfef34baa3f53250e850992609e9f16c8bfbef69c"
     },
     "src/setup/plot_corrected_training_losses.py": {
       "bytes": 4898,

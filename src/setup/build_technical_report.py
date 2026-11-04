@@ -315,7 +315,7 @@ def main():
 
     # 21
     page('Appendix A. Reproducibility')
-    para('Run commands from the repository root. Use an isolated Python 3.10 environment. src/setup/requirements-inference.txt pins the local inference packages; root requirements.txt combines the preprocessing, training and inference dependencies. The recorded GPU training used PyTorch 2.8.0+cu128. The README gives the CUDA wheel installation command and separate MFA setup.')
+    para('Run commands from the repository root. Use an isolated Python 3.10 environment. src/setup/requirements-inference.txt pins inference packages; root requirements.txt combines preprocessing, training and inference dependencies. Recorded GPU training used PyTorch 2.8.0+cu128. The short README covers inference; src/docs/REPRODUCIBILITY.md gives CUDA wheels, MFA setup, preprocessing, training and verification commands.')
     for command in ['uv venv --python 3.10 .venvs/final-inference',
        'uv pip install --python .venvs/final-inference/bin/python -r src/setup/requirements-inference.txt',
        'python3 src/setup/download_checkpoints.py',
@@ -326,7 +326,7 @@ def main():
        '.venvs/final-inference/bin/python src/setup/verify_assignment_outputs.py']:
         code(command)
     sub('Preprocessing in a clean reconstruction')
-    para('The README lists pinned dataset-audit commands, src/setup/restore_assignment_splits.py and export_split_audio.py to restore the published source membership and frozen speaker labels after authorized dataset access. On Linux alignment expects MFA 3.3.9 at /workspace/.venvs/mfa and the saved english_us_arpa.zip under /workspace/.cache/mfa/pretrained_models/acoustic/. The following wrappers build corpora, alignments and corrected features, then check a real batch:')
+    para('The reproduction guide lists pinned dataset-audit commands, src/setup/restore_assignment_splits.py and export_split_audio.py to restore source membership and frozen speaker labels after authorized dataset access. Linux alignment expects MFA 3.3.9 at /workspace/.venvs/mfa and english_us_arpa.zip under /workspace/.cache/mfa/pretrained_models/acoustic/. These wrappers build corpora, alignments and corrected features, then check a real batch:')
     code('python English/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2')
     code('python Telugu/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2')
     code('python src/setup/build_learned_pause_features.py')
@@ -366,7 +366,7 @@ def main():
     para('Release '+release+' includes the prior recovery/portability fixes and corrects retained-STOP handling and final-recording discovery. Historical logs, weights, ten test WAVs and predicted arrays are preserved. These software fixes require no retraining and do not establish clearer speech.')
     table(['Correction','Verified behavior'],[
       ['Best-checkpoint preservation','Restore historical best loss/hash and stale-validation count; worse evaluations cannot replace best; missing/corrupt best files fail closed.'],
-      ['Base and fine-tune recovery','Restore saved src/model/configuration and Adam state, including fixed learning-rate groups and early stopping. Resume does not reread the original parent checkpoint.'],
+      ['Base and fine-tune recovery','Restore the saved model, configuration and Adam state, including fixed learning-rate groups and early stopping. Resume does not reread the original parent checkpoint.'],
       ['Pause configurations','Feature construction writes all three YAMLs from measured training statistics. --configs-only reconstructs them; original configs are also distributed.'],
       ['Tensor device allocation','Masks use lengths.device and length-regulator output uses x.device, independent of CUDA availability.'],
       ['Energy control','Both phoneme-level and frame-level energy paths receive e_control. Unity-control generation remains identical.'],
@@ -376,8 +376,8 @@ def main():
     para('The local setup suite passes 36 tests and the review server passes nine: 45 total. Synthetic CPU fixtures exercise base, fixed-rate and pause recovery, legacy checkpoints, Adam continuation, historical best/config restoration, retained-STOP rejection without writes and graceful in-run stopping. Real-data pause integration also passes locally. Browser checks cover audio playback, save/reload/export, draft retention and narrow-screen layout; synthetic ratings use temporary stores, not listener data.')
     para('All ten frozen sentences regenerate with identical WAV SHA256 values and exact equality of every exported array, including mels and pause-head outputs. No released model parameters were updated. No Runpod resource was started or modified. CUDA-host execution and a fresh dependency installation were not repeated; CPU device tests simulate CUDA availability and include meta-device allocation.')
     sub('Reproduce the correction checks')
-    code('python -m unittest discover -s setup -p test_review_fixes.py -v')
-    code('python -m unittest discover -s audio_review -p test_server.py -v')
+    code('python -m unittest discover -s src/setup -p test_review_fixes.py -v')
+    code('python -m unittest discover -s src/audio_review -p test_server.py -v')
     code('python src/setup/verify_frozen_regeneration.py')
     code('python src/setup/evaluate_pause_baselines.py')
     para('Recovery tests require the full requirements.txt stack, including TensorBoard. The baseline command needs local held-out pause targets; its saved result is distributed. Real-data integration explicitly skips when private fixtures are absent; skips are not passes. Per-sentence listening observations, especially Telugu pronunciation, remain outstanding. MOS scores and audible pause improvements are not asserted.','small')

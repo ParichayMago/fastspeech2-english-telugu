@@ -1,5 +1,6 @@
 {
-  "release": "assignment-v4",
+  "release": "assignment-v5",
+  "scope": "Documentation and artifact audit; model/inference/training code unchanged from verified assignment-v4",
   "commands": [
     {
       "command": [
@@ -17,62 +18,43 @@
     },
     {
       "command": [
-        "src/setup/prepare_final_inference.py",
-        "--nltk-only"
+        "English/inference.py",
+        "--help"
       ],
       "exit_code": 0
     },
     {
       "command": [
-        "-m",
-        "unittest",
-        "discover",
-        "-s",
-        "src/setup",
-        "-p",
-        "test_*.py",
-        "-v"
+        "Telugu/inference.py",
+        "--help"
       ],
       "exit_code": 0
     },
     {
       "command": [
-        "-m",
-        "unittest",
-        "discover",
-        "-s",
-        "src/audio_review",
-        "-p",
-        "test_server.py",
-        "-v"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "src/setup/analyze_speaker_coverage.py"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "src/setup/verify_frozen_regeneration.py"
+        "src/setup/verify_assignment_outputs.py"
       ],
       "exit_code": 0
     }
   ],
-  "full_local_tests": 45,
-  "public_package_setup_summary": "Ran 33 tests in 14.705s\n\nOK (skipped=1)",
-  "public_package_ui_tests_passed": 9,
-  "public_package_real_data_integration": "Explicitly skipped because private fixtures are absent",
+  "prior_runtime_validation": {
+    "release": "assignment-v4",
+    "full_local_tests": 45,
+    "exported_setup_tests": "33 tests, with one private-data integration class explicitly skipped",
+    "exported_server_tests": 9,
+    "all_ten_WAVs_and_prediction_arrays_exact": true
+  },
+  "readme_lines": 50,
+  "reproduction_guide_included": true,
+  "report_pages": 25,
   "strict_submission_layout_passed": true,
-  "clean_final_catalog_items": 10,
-  "all_ten_WAVs_and_arrays_exact": true,
-  "archive_sha256": "cfbf0c3d2861a1c0fa0be69875b409fa64d6c19efb9ed580fd52c40954f26502",
-  "speaker_coverage_reproduces": true,
-  "report_in_archive_matches": true,
+  "checkpoint_hashes_verified": true,
+  "audio_count": 10,
+  "variance_plot_count": 30,
+  "archive_sha256": "baade810984c60ccb13f133a0c5600c965d1277b48c9a07ee54853ac3496b477",
   "local_Runpod_state_excluded": true,
-  "cuda_host_tested": false,
+  "missing_report_content": "Per-sentence pronunciation/quality observations and listening-based language comparison",
+  "form_submission_performed": false,
   "cloud_resources_changed": false,
   "trained_models_retrained": false
 }

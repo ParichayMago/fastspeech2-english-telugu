@@ -725,9 +725,10 @@ PAGE 21
 IMPLEMENTATION AND EVALUATION
 Appendix A. Reproducibility
 Run commands from the repository root. Use an isolated Python 3.10 environment.
-src/setup/requirements-inference.txt pins the local inference packages; root requirements.txt combines
-the preprocessing, training and inference dependencies. The recorded GPU training used PyTorch
-2.8.0+cu128. The README gives the CUDA wheel installation command and separate MFA setup.
+src/setup/requirements-inference.txt pins inference packages; root requirements.txt combines
+preprocessing, training and inference dependencies. Recorded GPU training used PyTorch 2.8.0+cu128.
+The short README covers inference; src/docs/REPRODUCIBILITY.md gives CUDA wheels, MFA setup,
+preprocessing, training and verification commands.
 uv venv --python 3.10 .venvs/final-inference
 uv pip install --python .venvs/final-inference/bin/python -r src/setup/requirements-inference.txt
 python3 src/setup/download_checkpoints.py
@@ -737,11 +738,11 @@ python3 src/setup/download_checkpoints.py
 .venvs/final-inference/bin/python src/setup/generate_assignment_outputs.py
 .venvs/final-inference/bin/python src/setup/verify_assignment_outputs.py
 Preprocessing in a clean reconstruction
-The README lists pinned dataset-audit commands, src/setup/restore_assignment_splits.py and
-export_split_audio.py to restore the published source membership and frozen speaker labels after
-authorized dataset access. On Linux alignment expects MFA 3.3.9 at /workspace/.venvs/mfa and the
-saved english_us_arpa.zip under /workspace/.cache/mfa/pretrained_models/acoustic/. The following
-wrappers build corpora, alignments and corrected features, then check a real batch:
+The reproduction guide lists pinned dataset-audit commands, src/setup/restore_assignment_splits.py and
+export_split_audio.py to restore source membership and frozen speaker labels after authorized dataset
+access. Linux alignment expects MFA 3.3.9 at /workspace/.venvs/mfa and english_us_arpa.zip under
+/workspace/.cache/mfa/pretrained_models/acoustic/. These wrappers build corpora, alignments and
+corrected features, then check a real batch:
 python English/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2
 python Telugu/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2
 python src/setup/build_learned_pause_features.py
@@ -796,7 +797,7 @@ The assignment release contains a complete project/ archive with separate Englis
 frozen vocoder. SHA256SUMS verifies the archive; src/setup/download_checkpoints.py verifies each restored model.
 Per-language training wrappers, updated requirements and the README are included. The repository URL remains to be
 submitted through the assignment form.
-Corrected assignment-v4 release: complete project and checkpoint download
+Corrected assignment-v5 release: complete project and checkpoint download
 GitHub repository: ParichayMago/fastspeech2-english-telugu
 Recreate the report without cloud compute
 .venvs/inference/bin/python src/setup/analyze_assignment_outputs.py
@@ -813,7 +814,7 @@ FastSpeech 2 | English and Telugu | 4 November 2026
 PAGE 23
 IMPLEMENTATION AND EVALUATION
 Appendix C. Post-review corrections
-Release assignment-v4 includes the prior recovery/portability fixes and corrects retained-STOP handling
+Release assignment-v5 includes the prior recovery/portability fixes and corrects retained-STOP handling
 and final-recording discovery. Historical logs, weights, ten test WAVs and predicted arrays are preserved.
 These software fixes require no retraining and do not establish clearer speech.
 Correction
@@ -822,7 +823,7 @@ Best-checkpoint preservation
 Restore historical best loss/hash and stale-validation count; worse evaluations
 cannot replace best; missing/corrupt best files fail closed.
 Base and fine-tune recovery
-Restore saved src/model/configuration and Adam state, including fixed
+Restore the saved model, configuration and Adam state, including fixed
 learning-rate groups and early stopping. Resume does not reread the original
 parent checkpoint.
 Pause configurations
@@ -851,8 +852,8 @@ exported array, including mels and pause-head outputs. No released model paramet
 No Runpod resource was started or modified. CUDA-host execution and a fresh dependency installation
 were not repeated; CPU device tests simulate CUDA availability and include meta-device allocation.
 Reproduce the correction checks
-python -m unittest discover -s setup -p test_review_fixes.py -v
-python -m unittest discover -s audio_review -p test_server.py -v
+python -m unittest discover -s src/setup -p test_review_fixes.py -v
+python -m unittest discover -s src/audio_review -p test_server.py -v
 python src/setup/verify_frozen_regeneration.py
 python src/setup/evaluate_pause_baselines.py
 Recovery tests require the full requirements.txt stack, including TensorBoard. The baseline command needs local held-out

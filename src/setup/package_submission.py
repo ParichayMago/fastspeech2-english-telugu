@@ -36,7 +36,7 @@ def submission_files():
         for pattern in ('*loss.png','*loss.svg','loss_history.csv'):
             files.update((ROOT/'Results'/language).glob(pattern))
     files.update((ROOT/'Results/Assignment/analysis').glob('*.json'))
-    for name in ('index.html','verification.json','generation.json','checkpoint-selection.json','cli-verification.json','training-entrypoint-verification.json','variance_contact_sheet.png','assignment_test_outputs.zip','frozen-regeneration-verification.json','review-fix-verification.json','layout-verification.json'):
+    for name in ('index.html','verification.json','generation.json','checkpoint-selection.json','cli-verification.json','training-entrypoint-verification.json','variance_contact_sheet.png','assignment_test_outputs.zip','frozen-regeneration-verification.json','review-fix-verification.json','layout-verification.json','pre-submission-audit.json'):
         files.add(ROOT/'Results/Assignment'/name)
     for name in ('DataSplits','DatasetAudit','Preprocessing'):
         files.update((ROOT/'Results'/name).rglob('*.json'))
@@ -64,6 +64,7 @@ def main():
               'src/hifigan/generator_universal.pth.tar','Report/Technical_Report.pdf','README.md','requirements.txt',
               'src/setup/training_recovery.py','src/setup/learned_pause_config.py',
               'src/setup/analyze_speaker_coverage.py','Results/Assignment/analysis/english-speaker-coverage.json',
+              'src/docs/REPRODUCIBILITY.md',
               'src/audio_review/server.py','src/audio_review/static/index.html','src/audio_review/static/app.js',
               'src/config/learned-pauses-v1/English/preprocess.yaml','src/config/learned-pauses-v1/English/model.yaml',
               'src/config/learned-pauses-v1/English/train.yaml']

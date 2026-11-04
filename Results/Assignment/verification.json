@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "verified_utc": "2026-11-04T14:49:43.113069+00:00",
+  "verified_utc": "2026-11-04T15:27:39.654967+00:00",
   "scope": "File/shape/unit/provenance checks; not perceptual quality assessment",
   "samples": [
     {
@@ -410,9 +410,9 @@
     "src/text/assignment_phones.json": "2eb116c380cd93d8918ff93ae286a8eb988203d2561d8435c4e2f54ce52dc9c8",
     "src/model/modules.py": "eb3737bd9989755f561c96e4c34a98564f071f2d079b958de1d49a0d5f58fa83",
     "src/utils/tools.py": "038b05e53c3cdcad52dfef2282c3885496873cfb236dc6de64fbfa25b377426c",
-    "src/setup/training_recovery.py": "ecefcbc996d35f1b45779b2b7e86d1e10c02739520fcaef21fa9c3e6d7a30e1b",
+    "src/setup/training_recovery.py": "795f8f27be86e65c7b4cd85455f8265c5c1ab8463814b1d470694153904226a5",
     "src/setup/learned_pause_config.py": "72dcbd8e8997b7fc158786fca894bb2f30e6c1acf124ba4353f82d7421ca7749",
-    "src/setup/train_assignment.py": "988d9b5f6217f2685372e5e59a0d9753a79e1ff6df7d448fcbff3c8981d6f1cb"
+    "src/setup/train_assignment.py": "d7c6dbf42bf7f41b0c2de99a747bd0a47f120b4ac01a1e43ff698668de05b777"
   },
   "audio_count": 10,
   "variance_plot_count": 30,

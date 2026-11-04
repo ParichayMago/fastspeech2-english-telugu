@@ -1,10 +1,13 @@
 Listen — local dataset review
 
 From the assignment checkout:
-  python3 audio_review/server.py
+  python3 src/audio_review/server.py
 Open http://127.0.0.1:8766
 Stop with Ctrl+C. A different port can be selected with --port.
 No dependencies, GPU, cloud calls or external assets are required.
+
+Choose Final assignment audio to review the ten required recordings.
+Use Dataset recordings for source-data review.
 
 Use Language, Dataset split and Speaker to choose recordings. Search transcripts
 or sample IDs. Play, scrub the waveform, change playback speed, and mark Good,
@@ -34,4 +37,4 @@ not reused. The server binds only 127.0.0.1 and serves allowlisted audio IDs and
 three static UI files. It never serves the repository as a directory.
 
 Verification:
-  python3 -m unittest discover -s audio_review -p 'test_*.py' -v
+  python3 -m unittest discover -s src/audio_review -p 'test_*.py' -v
