@@ -1,0 +1,25 @@
+{
+  "language": "english",
+  "input_manifest_sha256": {
+    "train": "11c38177c6f3f0236dcf843170bf815bc85ba75136fdc3e97240af789393b1cc",
+    "validation": "b84b6cb43e686f3dadff9b1b8297602d2af296cdee381e6297e6cc0802f4d94a"
+  },
+  "normalization": "English upstream english_cleaners + word tokenization; Telugu NFC, num2words 0.5.14, Unicode letter/mark word tokenization.",
+  "pronunciations": "g2p-en 2.1.0 ARPAbet",
+  "vocabulary_size": 6470,
+  "lexicon_sha256": "f0e99a77d9f482b94381dc9fa598002c3cfcad897010e09cc582872d90961033",
+  "lexicon_validation_text_usage": "Deterministic G2P covers known validation words; no validation audio or learned statistics used to train a lexicon.",
+  "target_sampling_rate": 22050,
+  "corpus_written": true,
+  "limitations": [
+    "Automatic pronunciations and number expansions still need listening review.",
+    "Original transcripts are retained; normalization is applied to a separate field."
+  ],
+  "corpus_rows": 3656,
+  "resampling": "scipy.signal.resample_poly, no trimming; original WAV remains intact; scale only interpolation peaks exceeding .999.",
+  "interpolation_peak_scaled_rows": 171,
+  "split_hours": {
+    "train": 4.999995515243135,
+    "validation": 0.999937893675989
+  }
+}

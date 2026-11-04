@@ -1,0 +1,20 @@
+Initial speech preview review
+
+Method: Local CPU multilingual Whisper-small (openai-whisper 20250625), forced source language, temperature 0, no prompt or expected sentence supplied to ASR. Technical signal measurements use the saved PCM16 WAVs. No human listening or subjective naturalness/MOS evaluation was performed. No cloud compute was started.
+
+English
+Intended: The meeting will start on time.
+ASR: The reading makes that I am...
+Duration: 1.614 s; RMS: -20.52 dBFS; peak: 0.359; clipping fraction: 0.
+Normalized one-sentence WER: 83.3%. A separate natural English control had 14.3% WER (an extra word), so this result raises a specific intelligibility concern for the generated sample. It is not a dataset-level WER or a definitive human pronunciation judgment.
+
+Telugu
+Intended: అతని పట్టు చాలా బలంగా ఉంది.
+Duration: 1.730 s; RMS: -18.46 dBFS; peak: 0.694; clipping fraction: 0.
+The recognizer returned repetitive syllable-like text for both generated audio and a natural Telugu control. This recognizer therefore failed the control for this language; its WER/CER cannot be used to infer generated Telugu speech quality. Native-speaker listening is still required.
+
+Assessment
+Both WAVs contain usable digital audio with no full-scale clipping. English has an automated intelligibility concern; Telugu intelligibility remains unconfirmed. We cannot label either model submission-ready from these checks. The next useful diagnostic is natural audio versus ground-truth-mel HiFi-GAN reconstruction, followed by inspecting predicted durations/mels. These checks can separate frontend, acoustic-model, and vocoder problems before spending on further training. English still uses estimated acoustic speaker clusters.
+
+Detailed measurements, exact transcripts, natural-control provenance and WAV hashes: Results/InitialSpeechReview/review.json
+Recognizer documentation: https://github.com/openai/whisper

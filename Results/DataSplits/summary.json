@@ -1,0 +1,120 @@
+{
+  "seed": 20261102,
+  "train_target_hours": 5,
+  "validation_target_hours": 1,
+  "maximum_duration_error_seconds": 2,
+  "algorithm": "Seeded random ordering of atomic connected components; greedily approach each target without exceeding it, then add the closest remaining component only if it reduces duration error. Validation selected first, training second; remaining candidates unused.",
+  "grouping": "NFKC/casefold/letter-mark-number transcript keys, exact audio SHA-256, and English filename recording roots. No group crosses splits.",
+  "speaker_split_policy": "Utterance/recording held out; shared verified speakers across train/validation are allowed for TTS. This is not a speaker-disjoint evaluation.",
+  "telugu_gender_selection": "male",
+  "alignment_status": "not_yet_aligned",
+  "datasets": {
+    "english": {
+      "dataset": "ai4bharat/Svarah",
+      "revision": "ebbf7777fe771490696a3f7b007097606fa8c924",
+      "source_manifest_sha256": "c6c3c56754f889f0753a9de557d17def1d40a2e872da0fbcf903c91cdf0a9f31",
+      "candidate_rows": 5271,
+      "candidate_groups": 2060,
+      "candidate_hours": 8.627606163194452,
+      "overlap_checks": "passed",
+      "partitions": {
+        "train": {
+          "rows": 3039,
+          "seconds": 17999.92362500001,
+          "hours": 4.9999787847222255,
+          "manifest": "data/splits/v1/english/train.jsonl",
+          "sha256": "4d0694b8a36a55e0aff26c6caacce935e8bc8302f77fd3aeb805c864b3963b16",
+          "gender_rows": {
+            "Female": 1692,
+            "Male": 1347
+          },
+          "speakers": 254,
+          "unresolved_speaker_rows": 0,
+          "estimated_speaker_rows": 3039
+        },
+        "validation": {
+          "rows": 617,
+          "seconds": 3599.7638125000008,
+          "hours": 0.9999343923611114,
+          "manifest": "data/splits/v1/english/validation.jsonl",
+          "sha256": "fbd6013886b1d2034b9d01b6edb03733e22b05a07ce860631866055fc72cebbc",
+          "gender_rows": {
+            "Male": 282,
+            "Female": 335
+          },
+          "speakers": 128,
+          "unresolved_speaker_rows": 0,
+          "estimated_speaker_rows": 617
+        },
+        "unused": {
+          "rows": 1615,
+          "seconds": 9459.69475000001,
+          "hours": 2.627692986111114,
+          "manifest": "data/splits/v1/english/unused.jsonl",
+          "sha256": "85eb6baa43835a2022e1f442d50532d26565c8ee6e89a8bf9077317715bf3dd3",
+          "gender_rows": {
+            "Male": 755,
+            "Female": 860
+          },
+          "speakers": 0,
+          "unresolved_speaker_rows": 1615,
+          "estimated_speaker_rows": 0
+        }
+      },
+      "speaker_label_kind": "estimated_acoustic",
+      "speaker_mapping_file": "data/speaker-estimates/english-mapping.json",
+      "speaker_mapping_sha256": "fc90751b364f59bb352001d67d526f6f10cfcc6ddb3025d142b01b2907128b60"
+    },
+    "telugu": {
+      "dataset": "SPRINGLab/IndicTTS_Telugu",
+      "revision": "7ab3c18491bef3f5d4e820c2701b5f78f54031d6",
+      "source_manifest_sha256": "d89d9fd96405d81ca6fe4a99522e2fb453932832a4311864eca232f260e54ca3",
+      "candidate_rows": 4106,
+      "candidate_groups": 4092,
+      "candidate_hours": 9.544992528935179,
+      "overlap_checks": "passed",
+      "partitions": {
+        "train": {
+          "rows": 2153,
+          "seconds": 17999.708312500014,
+          "hours": 4.999918975694448,
+          "manifest": "data/splits/v1/telugu/train.jsonl",
+          "sha256": "d89fe6c0dc5ac3d1ceafe2e445b989994dc3b5407eb8ce5b6a642164657de608",
+          "gender_rows": {
+            "male": 2153
+          },
+          "speakers": 1,
+          "unresolved_speaker_rows": 0,
+          "estimated_speaker_rows": 0
+        },
+        "validation": {
+          "rows": 428,
+          "seconds": 3599.932395833336,
+          "hours": 0.9999812210648156,
+          "manifest": "data/splits/v1/telugu/validation.jsonl",
+          "sha256": "7b4fd8093e1a2857d0c7f8488e3f3fe2a04a1af4779d8429eb376ed7b65a7b16",
+          "gender_rows": {
+            "male": 428
+          },
+          "speakers": 1,
+          "unresolved_speaker_rows": 0,
+          "estimated_speaker_rows": 0
+        },
+        "unused": {
+          "rows": 1525,
+          "seconds": 12762.33239583332,
+          "hours": 3.5450923321759222,
+          "manifest": "data/splits/v1/telugu/unused.jsonl",
+          "sha256": "72ad1cde18bc2d3d3e31a48380da36e8f1a554b9f11ef751522071fc79282ab4",
+          "gender_rows": {
+            "male": 1525
+          },
+          "speakers": 1,
+          "unresolved_speaker_rows": 0,
+          "estimated_speaker_rows": 0
+        }
+      }
+    }
+  },
+  "script_sha256": "411423aeee99022e56b5314ef66ebfd386f9cfe47d32dc4ef3f60fc83d575455"
+}

@@ -1,0 +1,33 @@
+{
+  "language": "english",
+  "scope": "small_subset_check",
+  "status_counts": {
+    "passed": 24
+  },
+  "requested_rows": 24,
+  "successful_rows": 24,
+  "normalization_fit": "Training features only. Validation uses frozen training mean/std.",
+  "normalization_training_rows": 12,
+  "normalization_feature_samples": {
+    "pitch": 755,
+    "energy": 778
+  },
+  "split_rows": {
+    "train": 12,
+    "validation": 12
+  },
+  "feature_hours": {
+    "train": 0.024006853111615017,
+    "validation": 0.020494834971025448
+  },
+  "feature_version": "gap-fixed-v2",
+  "feature_path": "data/features/gap-fixed-v2/english-smoke",
+  "rows_with_preserved_gaps": 18,
+  "preserved_internal_gap_hours": 0.0061777786111111115,
+  "speaker_count": 12,
+  "english_speaker_labels_estimated": true,
+  "mel_bins": 80,
+  "sample_rate": 22050,
+  "hop_length": 256,
+  "failures": []
+}

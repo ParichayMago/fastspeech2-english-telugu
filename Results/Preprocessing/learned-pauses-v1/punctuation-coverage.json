@@ -1,0 +1,16 @@
+{
+  "train": {
+    "no_punctuation": 35243,
+    "comma": 1555,
+    "period": 1259,
+    "question": 220,
+    "exclamation": 7,
+    "clause": 2
+  },
+  "validation": {
+    "no_punctuation": 7428,
+    "question": 52,
+    "comma": 248,
+    "period": 237
+  }
+}

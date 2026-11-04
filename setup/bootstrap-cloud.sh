@@ -3,9 +3,16 @@ set -euo pipefail
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 WORKSPACE=${FS2_WORKSPACE:-/workspace}
 STORAGE_MODE=${FS2_STORAGE_MODE:-ephemeral}
+TORCH_VERSION=${FS2_TORCH_VERSION:-2.0.1}
+TORCHAUDIO_VERSION=${FS2_TORCHAUDIO_VERSION:-2.0.2}
+TORCH_CUDA_INDEX=${FS2_TORCH_CUDA_INDEX:-cu118}
+case "$TORCH_CUDA_INDEX" in
+  cu118|cu128) ;;
+  *) printf 'Supported PyTorch CUDA wheel indexes: cu118, cu128.\n' >&2; exit 1 ;;
+esac
 if [[ ${1:-} == --plan ]]; then
   printf 'Install isolated Python 3.10 environment under %s/.venvs/fastspeech2\n' "$WORKSPACE"
-  printf 'Install PyTorch 2.0.1 CUDA 11.8 and pinned speech dependencies.\n'
+  printf 'Install PyTorch %s, torchaudio %s (%s), and pinned speech dependencies.\n' "$TORCH_VERSION" "$TORCHAUDIO_VERSION" "$TORCH_CUDA_INDEX"
   printf 'Download English NLTK resources and run GPU/model/feature checks.\n'
   printf 'Does not provision machines, start training, or download model weights or datasets.\n'
   exit 0
@@ -55,7 +62,8 @@ PY="$VENV/bin/python"
 "$PY" -c 'import sys; assert sys.version_info[:2] == (3,10), "Expected Python 3.10"'
 "$PY" -m pip install pip==24.3.1 setuptools==69.5.1 wheel==0.44.0
 "$PY" -m pip install numpy==1.23.5 Cython==0.29.37
-"$PY" -m pip install torch==2.0.1 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118
+"$PY" -m pip install "torch==$TORCH_VERSION" "torchaudio==$TORCHAUDIO_VERSION" \
+  --index-url "https://download.pytorch.org/whl/$TORCH_CUDA_INDEX"
 "$PY" -m pip install --no-build-isolation -r "$ROOT/setup/requirements-cloud.txt"
 "$PY" -m pip check
 "$PY" -m nltk.downloader -d "$NLTK_DATA" cmudict averaged_perceptron_tagger averaged_perceptron_tagger_eng

@@ -1,0 +1,161 @@
+CORRECTION - 3 November 2026: Active features are gap-fixed-v2. Earlier feature-hour reductions below include an alignment-gap bug, not just legitimate silence trimming. See Alignment_Gap_Fix.txt for corrected methods, counts, hours and verification. Old checkpoints/plots remain historical.
+
+Preprocessing methods and limitations - FastSpeech 2 assignment
+
+English speaker labels are ESTIMATED acoustic clusters
+-----------------------------------------------------
+Original Svarah speaker IDs are absent from the official downloaded snapshot and
+its earliest metadata-only upload. The historical archive returns 403 and the
+publisher's issue tracker records missing speaker IDs. Demographic fields produce
+115 distinct profiles for 117 documented speakers; they are not used as identity.
+
+The user authorized estimated acoustic labels on 3 November 2026. Selected clips
+are grouped by filename recording roots, with whole recording groups kept within
+one split. Up to 12 seconds of selected speech from each recording are concatenated
+for a pretrained SpeechBrain ECAPA-TDNN speaker embedding. The public pretrained
+model is speechbrain/spkrec-ecapa-voxceleb, revision
+0f99f2d0ebe89ac095bcc5903c4dd8f72b367286, under Apache-2.0. SpeechBrain version 1.0.3
+runs inference on mono 16 kHz waveforms. No model was fitted to this assignment's
+validation audio during embedding extraction.
+
+Average-linkage cosine clustering uses only training recordings with at least
+3 seconds of usable speech and a heuristic distance threshold of 0.30. This
+produced 254 ESTIMATED clusters from 1,041 training recordings. These are NOT
+254 verified individuals, NOT the publisher's original IDs, and NOT proof that
+the corpus contains 254 speakers. A voice can be fragmented into multiple labels,
+and different voices can be merged. Cluster count is not forced to the reported
+117 speakers. Gender and demographics are not clustering inputs.
+
+Short training recordings and validation recordings are assigned to frozen
+training centroids. All 3,656 selected English clips receive labels en_est_XXXX.
+Original speaker IDs remain null. Manifests explicitly include
+speaker_id_estimated=true and speaker_id_provenance, plus review scores. Low
+cosine similarity (<0.50), low centroid margin (<0.05), or less than 3 seconds of
+speech triggers review. This flags 213/1,253 training recording groups and 94/302
+validation groups. Scores are heuristic review aids, not calibrated probabilities
+or identity-verification accuracy. No human listening validation is claimed.
+
+Frozen data selections
+----------------------
+The split seed is 20261102. English has 3,039 training clips (~5 hours) and 617
+validation clips (~1 hour). Telugu uses the source's male-labelled recording group:
+2,153 training clips (~5 hours), 428 validation clips (~1 hour), source label te_male.
+The Telugu choice is documented subsampling, consistent with the assignment's
+language/duration requirements; it is not an acoustic identity estimate.
+
+Speaker labeling did not change any split membership. Connected components of
+normalized repeated transcripts, exact audio hashes and same-recording English
+chunks do not cross splits. Original source WAV bytes and transcripts are backed
+up locally. Output exports were checked against source SHA-256 hashes and headers.
+These are utterance/recording-held-out TTS splits, not a speaker-disjoint benchmark.
+
+Text and pronunciations
+-----------------------
+Raw transcripts are retained. English uses the reference implementation's
+english_cleaners (including abbreviation and number expansion), followed by
+word tokenization and g2p-en 2.1.0 ARPAbet pronunciations. The resulting lexicon
+contains 6,470 words. Telugu uses NFC, num2words 0.5.14 Telugu expansions and
+Unicode letter/mark word tokenization. Phonemizer 3.3.0 with eSpeak-NG's Telugu
+backend generates pronunciations for 13,848 words. Stress markers are removed;
+IPA phones map deterministically to pure lowercase alphabetic telph* identifiers, recorded in
+ipa-to-phone.json and the source-controlled phone inventory. Existing English
+symbol IDs are preserved by appending Telugu symbols.
+An initial underscore-based encoding was shortened during MFA model export/use,
+which the validation feature smoke check rejected. The replacement uses only
+lowercase ASCII letters, including a bijective encoding of Unicode code points.
+The Telugu aligner is rebuilt with those safe labels. Language-specific phone
+inventories are checked in addition to global symbol lookup; unknown/collapsed
+phones are rejected, never silently added or dropped.
+
+Known validation text can be phonemized deterministically to cover vocabulary;
+no validation audio fits a pronunciation model. Both languages have zero shared
+normalized transcript strings across their selected splits after this processing.
+Automatic pronunciations, number normalization and semantic transcript/audio
+agreement still require listening review. Telugu test text may contain spelling,
+number, ordinal and code-mixing cases needing specific evaluation later.
+
+Waveforms and alignment
+-----------------------
+Native sources are 16 kHz mono English and 48 kHz mono for the selected Telugu
+male subset. Corpus copies use scipy.signal.resample_poly to 22,050 Hz, PCM-16.
+No waveform is trimmed to manufacture split durations. Interpolation overshoots
+above .999 are scaled to .999; this affected 171 English and 37 Telugu clips.
+Original audio stays unchanged. Resampled split durations remain approximately 5/1
+hours. Resampling adds at most rounding-scale duration differences per utterance.
+
+MFA 3.3.9 runs in a separate conda-forge environment, with SQLite and dedicated
+per-language scratch directories. English uses the pretrained english_us_arpa
+acoustic model and the generated ARPAbet lexicon. Speaker adaptation is disabled
+because English identity labels are estimated. Telugu uses its generated lexicon
+and trains an acoustic aligner on the Telugu TRAINING corpus only: monophone
+(1,000-utterance subset, 30 iterations, 1,000 Gaussians), then triphone (all training
+utterances, 25 iterations, 1,500 leaves, 5,000 Gaussians). Its frozen aligner is then
+used on the validation corpus. This acoustic aligner is not a trained FastSpeech 2
+TTS model. Actual completion, failures and durations belong in machine-readable
+reports; do not interpret this method description alone as proof of completion.
+
+FastSpeech 2 targets
+--------------------
+Phone TextGrid intervals provide duration supervision. Real mel spectrograms have
+80 bins, 1,024-sample FFT/window, 256-sample hop at 22,050 Hz, with 0-8,000 Hz mel
+limits. WORLD DIO plus StoneMask produces F0; pitch and energy are averaged at the
+phone level. Leading/trailing silence is trimmed using alignment intervals.
+Every accepted example must have finite arrays, known phone IDs, matching phone
+feature lengths, and sum(phone durations) equal to mel frame count. Failed
+alignment, unusable pitch and inconsistent arrays are logged and excluded, rather
+than receiving fabricated/equal durations or synthetic features.
+
+Pitch/energy mean and standard deviation fit training examples only (per-example
+IQR outlier filtering for fitting); validation uses frozen training statistics.
+Phone min/max bins also derive from training targets. Validation examples whose
+estimated label has no surviving training examples are excluded and logged. Actual
+accepted clip counts and feature hours can be smaller than source selections;
+reports must state both. Train/validation membership is never randomly reshuffled
+by the reference preprocessor.
+
+Status and evidence
+-------------------
+Results/Preprocessing/english-estimated-speakers.json records estimated-label QA.
+Results/Preprocessing/*-corpus.json records normalization and resampling checks.
+Results/Preprocessing/*-features.json records actual feature success/failure and
+hours after alignment trimming. A *-smoke.json file describes only a small test.
+Results/Preprocessing/*-real-batch-check.json, when present and passed, verifies
+model/data compatibility on real examples; it is not a converged trained model,
+quality evaluation, or final assignment checkpoint.
+
+Source references
+-----------------
+https://huggingface.co/speechbrain/spkrec-ecapa-voxceleb
+https://github.com/AI4Bharat/Svarah/issues/4
+https://github.com/AI4Bharat/Svarah
+https://montreal-forced-aligner.readthedocs.io/en/v3.3.9/
+https://github.com/espeak-ng/espeak-ng/blob/master/docs/languages.md
+https://bootphon.github.io/phonemizer/api_reference.html
+
+Measured completion, 3 November 2026
+-----------------------------------
+English: 3,037 training examples and 617 validation examples accepted. Two source
+training examples are excluded for unusable pitch/alignment. Effective aligned
+feature duration is 3.90162 / 0.79944 hours after boundary trimming, from source
+selections of approximately 5 / 1 hours. Model conditioning uses 254 estimated
+acoustic labels.
+
+Telugu: all 2,153 training and 428 validation examples accepted after the phone
+encoding correction. Effective aligned feature duration is 3.70511 / 0.74613 hours
+after boundary trimming, from source selections of approximately 5 / 1 hours.
+The model uses the single male-labelled source group.
+
+Both languages pass small real-data CUDA forward/backward/optimizer checks with
+finite training and validation loss and confirmed weight updates. These are
+software compatibility checks on randomly initialized FastSpeech 2 models, not
+converged training, final checkpoints, or a speech-quality evaluation. Both small
+feature smoke checks cover training and validation examples. Independent saved-
+array checks pass for both languages, including train-only normalization.
+
+Raw selection hours and effective aligned hours must both be reported. The current
+preprocessing does not replace trimmed boundary regions with artificial targets
+or reselect data to conceal the reduction in effective hours.
+
+Dataset sources explicitly linked by the assignment PDF:
+https://huggingface.co/datasets/ai4bharat/Svarah
+https://huggingface.co/datasets/SPRINGLab/IndicTTS_Telugu

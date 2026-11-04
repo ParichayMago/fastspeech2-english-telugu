@@ -1,0 +1,16 @@
+# Fit using Telugu training audio only; validation uses the frozen model.
+beam: 40
+retry_beam: 160
+num_jobs: 4
+blas_num_threads: 1
+use_postgres: false
+training:
+  - monophone:
+      subset: 1000
+      num_iterations: 30
+      max_gaussians: 1000
+  - triphone:
+      subset: 0
+      num_iterations: 25
+      num_leaves: 1500
+      max_gaussians: 5000

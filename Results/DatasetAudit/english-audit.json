@@ -1,0 +1,199 @@
+{
+  "dataset": "ai4bharat/Svarah",
+  "revision": "ebbf7777fe771490696a3f7b007097606fa8c924",
+  "split": "test",
+  "verified_utc": "2026-11-02T17:53:04.069358+00:00",
+  "gated": "auto",
+  "card_dataset_info": {
+    "features": [
+      {
+        "name": "audio_filepath",
+        "dtype": "audio"
+      },
+      {
+        "name": "duration",
+        "dtype": "float64"
+      },
+      {
+        "name": "text",
+        "dtype": "string"
+      },
+      {
+        "name": "gender",
+        "dtype": "string"
+      },
+      {
+        "name": "age-group",
+        "dtype": "string"
+      },
+      {
+        "name": "primary_language",
+        "dtype": "string"
+      },
+      {
+        "name": "native_place_state",
+        "dtype": "string"
+      },
+      {
+        "name": "native_place_district",
+        "dtype": "string"
+      },
+      {
+        "name": "highest_qualification",
+        "dtype": "string"
+      },
+      {
+        "name": "job_category",
+        "dtype": "string"
+      },
+      {
+        "name": "occupation_domain",
+        "dtype": "string"
+      }
+    ],
+    "splits": [
+      {
+        "name": "test",
+        "num_bytes": 1088823937.104,
+        "num_examples": 6656
+      }
+    ],
+    "download_size": 1094998590,
+    "dataset_size": 1088823937.104
+  },
+  "download_bytes_all_shards": 1094998590,
+  "parquet_shards": 3,
+  "selected_shards": 3,
+  "audio_checked": true,
+  "access": "verified_file_access",
+  "scope": "All selected embedded waveforms decoded fully with libsndfile; no listening, ASR, or forced-alignment validation.",
+  "audit_script_sha256": "afd6112555312a5f8ca4a3404bac44dd1886e2ac747a2b2e9f4e9f4f86f12136",
+  "complete": true,
+  "completed_utc": "2026-11-02T17:53:36.568250+00:00",
+  "columns": [
+    "audio_filepath",
+    "duration",
+    "text",
+    "gender",
+    "age-group",
+    "primary_language",
+    "native_place_state",
+    "native_place_district",
+    "highest_qualification",
+    "job_category",
+    "occupation_domain"
+  ],
+  "counters": {
+    "rows": 6656,
+    "decoded_rows": 6656,
+    "candidate_rows": 5271,
+    "empty_transcripts": 0,
+    "audio_decode_errors": 0,
+    "duplicate_audio_rows": 0,
+    "duplicate_audio_conflicting_text_rows": 0,
+    "near_silent_rows": 0,
+    "rows_with_full_scale_samples": 271,
+    "severe_clipping_rows": 2,
+    "no_expected_language_letters": 86,
+    "duration_metadata_mismatch_over_50ms": 0,
+    "flag_outside_1_to_20_seconds": 1325,
+    "flag_no_expected_language_letters": 86,
+    "flag_over_one_percent_clipped_samples": 2
+  },
+  "sample_rates": {
+    "16000": 6656
+  },
+  "channel_counts": {
+    "1": 6656
+  },
+  "audio_encodings": {
+    "WAV/PCM_16": 6656
+  },
+  "decoded_audio_hours": 9.61444380208335,
+  "candidate_audio_hours": 8.627606163194452,
+  "candidate_filter": "Nonempty expected-script transcript; fully decoded finite mono audio; RMS > 1e-5; at most 1% samples at absolute amplitude >= .999; 1 <= duration <= 20 seconds; first exact audio hash only. Provisional, not final alignment/TTS quality.",
+  "groups": {
+    "Female": {
+      "rows": 3579,
+      "seconds": 19078.125874999987,
+      "candidate_seconds": 17368.257249999988,
+      "candidate_rows": 2887,
+      "sample_rates": {
+        "16000": 3579
+      },
+      "audio_path_examples": [
+        "281474976884635_f3269_chunk_0.wav",
+        "281474976885801_f2235_chunk_24.wav",
+        "281474976925705_f2479_chunk_0.wav"
+      ],
+      "hours": 5.299479409722219,
+      "candidate_hours": 4.824515902777774
+    },
+    "Male": {
+      "rows": 3077,
+      "seconds": 15533.871812500007,
+      "candidate_seconds": 13691.124937499992,
+      "candidate_rows": 2384,
+      "sample_rates": {
+        "16000": 3077
+      },
+      "audio_path_examples": [
+        "281474976888137_f2862_chunk_0.wav",
+        "281474976897459_f2145_chunk_1.wav",
+        "281474976893913_f2002_chunk_19.wav"
+      ],
+      "hours": 4.314964392361113,
+      "candidate_hours": 3.8030902604166643
+    }
+  },
+  "duplicate_transcript_rows": 1071,
+  "audio_path_examples": [
+    "281474976884635_f3269_chunk_0.wav",
+    "281474976885801_f2235_chunk_24.wav",
+    "281474976925705_f2479_chunk_0.wav",
+    "281474976901104_f2909_chunk_0.wav",
+    "281474976888137_f2862_chunk_0.wav",
+    "281474976897257_f2902_chunk_0.wav",
+    "281474976897459_f2145_chunk_1.wav",
+    "281474976893913_f2002_chunk_19.wav"
+  ],
+  "files": [
+    {
+      "file": "data/test-00000-of-00003.parquet",
+      "rows": 2219,
+      "bytes": 365063447,
+      "sha256_verified": true
+    },
+    {
+      "file": "data/test-00001-of-00003.parquet",
+      "rows": 2219,
+      "bytes": 360392442,
+      "sha256_verified": true
+    },
+    {
+      "file": "data/test-00002-of-00003.parquet",
+      "rows": 2218,
+      "bytes": 369542701,
+      "sha256_verified": true
+    }
+  ],
+  "row_manifest": "data/dataset-audit/english-manifest.jsonl",
+  "duration_seconds_quantiles": {
+    "0": 0.098,
+    "0.01": 0.2810625,
+    "0.25": 1.815234375,
+    "0.5": 4.20834375,
+    "0.75": 7.2,
+    "0.95": 13.85771875,
+    "0.99": 22.791990624999997,
+    "1": 29.8710625
+  },
+  "transcript_length_quantiles": {
+    "0": 1.0,
+    "0.5": 51.0,
+    "0.95": 150.0,
+    "1": 392.0
+  },
+  "speaker_identity_note": "Gender labels alone do not prove unique speaker identity. Inspect source paths/card before mapping gender to speaker IDs.",
+  "feasible_5h_train_1h_validation_by_candidate_duration": true
+}

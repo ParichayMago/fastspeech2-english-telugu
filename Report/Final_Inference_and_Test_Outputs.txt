@@ -1,0 +1,164 @@
+Submission delivery update - 4 November 2026
+The assignment-v1 release packages the final checkpoints, frozen vocoder, report,
+code and outputs. The README documents restoration and SHA256 verification.
+References below to pending packaging describe the earlier local output freeze.
+
+Final inference, frozen checkpoints and assignment test outputs
+4 November 2026
+
+Completed scope
+Two frozen, SHA256-verified model checkpoints; separate language inference CLIs
+and configs; ten required test WAVs; thirty predicted duration/pitch/energy PNGs;
+source-text, pronunciation, prediction-array and variance-table sidecars.
+All generation runs locally on CPU. No Pod was started and cloud compute cost
+for this output generation is zero. Human listening and sentence-by-sentence
+interpretation remain separate from the software verification performed here.
+
+Checkpoint selection
+English: English/checkpoints/final.pth.tar
+  Model type: learned_pause_v1
+  Source run: english-learned-pauses-pilot-20261104
+  Best additional pilot step: 1000; complete validation total 3.0544298016
+  SHA256: 74ce8b28183ec37f98a001bfcd5b484cb660a2eea2d1a780ef6dc8ea7e6a38bc
+  Parent was English fine-tune best additional step2500, initialized in turn
+  from corrected-run step12000. The new eight-component objective differs from
+  the older six-component objective; these totals are not ranked across runs.
+  Selection uses the best complete validation within the learned-pause run,
+  preserving the user's preference for pauses predicted inside the model.
+  Earlier English checkpoints remain unchanged as comparison models.
+
+Telugu: Telugu/checkpoints/final.pth.tar
+  Model type: original FastSpeech2 with the trained Telugu phone inventory
+  Source run: gap-fixed-v2-20261103
+  Best step: 18000; complete validation total 2.1064703465
+  SHA256: 2268f94c05c0c90d9a4b85780971b40dd07297bc39a16271b375311d4b7fcfb8
+
+Both selections are model-only best checkpoints suitable for inference. Original
+latest checkpoints retain optimizer state in their original run directories.
+Frozen copies do not delete, overwrite or relabel those original artifacts.
+Checkpoint metadata: English/checkpoints/checkpoint.json and Telugu equivalent.
+These large weights remain excluded from ordinary Git; public checkpoint hosting
+or Git LFS delivery is a later submission step, not completed by this local freeze.
+
+Portable inference resources
+English/config.yaml and Telugu/config.yaml identify weights, speaker, model type,
+normalization resources, phoneme-symbol identity and vocoder by hash. Their
+resources/ directories contain frozen lexicons, training stats and speaker maps;
+Telugu also contains the original IPA-to-phone map. At runtime only the location
+of preprocessing resources is changed in an in-memory copy of checkpoint config.
+No normalization values, model weights or phone vocabularies are changed.
+Inference does not need raw datasets or the original training feature directories.
+English uses estimated acoustic speaker cluster en_est_0155, not a verified
+individual identity. Telugu uses the trained te_male speaker label.
+Both use the existing pretrained universal HiFi-GAN, 22050Hz, hop length256.
+
+Source text and test identities
+Source: data/assignment/FastSpeech2_Assignment.pdf
+SHA256: a88e379253c50a018ff6319c05a372a57a0d416cf7c4dc20807d7752e67e323f
+Manifest: setup/assignment_test_sentences.json
+English IDs: E1, E2a, E2b, E3, E4.
+Telugu IDs: T1, T2a, T2b, T3, T4.
+Both PDF test tables were rendered and visually checked. Each .txt and JSON
+source_text preserves the source transcription. PDF line wrapping is collapsed;
+combining-character text-extraction artifacts inside Telugu clusters are repaired
+to the visible spelling. The visible split words "rhyth m" and "అడ విలో" are
+retained rather than silently corrected or replaced with easier sentences.
+Spoken normalization is stored separately and never overwrites source text.
+
+English text frontend
+The assignment and bundled LibriSpeech pronunciations are frozen together.
+Sentence POS tagging selects the noun versus verb stress in "conduct".
+The long E1 word uses the complete 28-phone CMU dictionary entry, avoiding the
+20-step limit of the neural fallback. Unknown short words use g2p-en2.1.0 with
+strict phone-inventory checks. Literal "rhyth" uses the fallback and "m" is a
+separate token; this can produce an audible departure from the ordinary word
+"rhythm" and should be discussed when reviewing the supplied split-word test.
+The Latin code-mixed token "andaroo" is retained and uses a documented ARPAbet
+approximation of Telugu అందరూ: AH0 N D AH0 R UW1. This is frontend pronunciation
+support, not evidence that a bilingual pronunciation was learned acoustically.
+Clock10:45AM becomes "ten forty five a m"; day12 before November becomes
+"twelfth"; the existing generic year normalization renders2026 as twenty twenty
+six. Every normalization change and final phone sequence is saved with the audio.
+All word-boundary slots and punctuation categories go into the trained pause
+heads. The model predicts pause occurrence/duration; no fixed gap is appended.
+
+Telugu text frontend
+Known words use the frozen training lexicon. Unseen Telugu words use phonemizer
+3.3.0 and eSpeak-NG1.52.0 from the isolated espeakng-loader0.2.4 package, mapped
+strictly through the frozen trained IPA map. Unknown phones cause a failure,
+not token deletion or a new untrained embedding. Latin text is rejected rather
+than silently translated or routed through English phonemes.
+The requested date12వ is verbalized as పన్నెండవ; other numeric Telugu ordinals
+are rejected until explicitly supported. The num2words0.5.14 scale spelling
+వేయిల is corrected to వేల. The clock phrase10:45గంటలకు becomes
+పది గంటల నలభై అయిదు నిమిషాలకు; original text remains unchanged in sidecars.
+Ordinary Telugu phoneme durations, pitch and energy are predicted by its trained
+FastSpeech2 model. No manual pause waveform or duration scaling is introduced.
+
+Inference controls and variance plots
+All models use pitch, energy and duration controls1.0; no targets are supplied.
+No denoising, sentence concatenation, fades, inserted silence or rate changes.
+PCM16 is the output file encoding, not a post-processing quality enhancement.
+For every test sentence, saved raw predictions include complete mel arrays,
+integer phone durations, normalized pitch/energy and denormalized values.
+
+Duration: frame count times256/22050 gives seconds.
+Pitch/F0: normalized prediction times training standard deviation plus mean.
+  This is phoneme-level F0 conditioning, not a measured waveform F0 trace or a
+  voiced/unvoiced classifier. It must not be presented as an objective pitch
+  measurement of the synthesized waveform.
+Energy: same inverse normalization, in linear spectral-L2 units, not dB.
+Zero-duration tokens remain in NPZ/CSV exports; they have no pitch/energy curve
+point because no acoustic frames are generated for those positions.
+Telugu plotted phone labels are IPA decoded from the original trained ID map.
+Full-resolution originals are in Results/{English,Telugu}/variance_adaptor_plots/
+under duration/, pitch/ and energy/. All thirty figures were inspected via a
+contact sheet; long English/Telugu figures were also inspected individually.
+
+Verification
+Results/Assignment/verification.json records ten verified mono PCM16 WAVs,
+thirty valid nonblank PNGs, exact source-text agreement, selected weight hashes,
+finite predictions, complete mel lengths, duration-to-WAV length agreement,
+inverse-normalization checks, per-phone CSV lengths and code fingerprints.
+Four meaningful frontend tests pass: source identities/split words, contextual
+conduct stress, complete long-word pronunciation, and date/time normalization
+with strict Telugu vocabulary preservation. English E2b and Telugu T2a CLI
+smoke outputs are byte-identical to their canonical batch WAVs.
+The local review page contains ten audio controls, thirty plots, text and metadata
+links; every referenced file resolves. Archive integrity is checked separately.
+These checks do not establish intelligibility, naturalness or submission readiness.
+
+Reproduction from the project root
+Use an isolated Python3.10 environment, not another project's environment:
+  uv venv --python 3.10 .venvs/final-inference
+  uv pip install --python .venvs/final-inference/bin/python -r setup/requirements-inference.txt
+With original local run backups present, prepare or verify the freeze/resources:
+  .venvs/final-inference/bin/python setup/prepare_final_inference.py
+For an already packaged checkout, keep its frozen configs/resources/checkpoints;
+only project-scoped NLTK resources need downloading if absent:
+  .venvs/final-inference/bin/python setup/prepare_final_inference.py --nltk-only
+NLTK data location
+is data/inference/nltk_data; required resources are averaged_perceptron_tagger,
+averaged_perceptron_tagger_eng and cmudict.
+
+Generate a single required sample and its variance plots:
+  .venvs/inference/bin/python English/inference.py --test-id E1
+  .venvs/inference/bin/python Telugu/inference.py --test-id T1
+Generate all ten and all thirty plots:
+  .venvs/inference/bin/python setup/generate_assignment_outputs.py
+Verify outputs and regenerate the review page, contact sheet and output archive:
+  .venvs/inference/bin/python setup/verify_assignment_outputs.py
+Run the frontend contracts:
+  .venvs/inference/bin/python -m unittest discover -s setup -p test_final_inference.py -v
+
+Review: Results/Assignment/index.html
+Bundle: Results/Assignment/assignment_test_outputs.zip
+The bundle contains the audios, plots and sidecars; it is not the complete code
+repository or a public model download. Final report, native-speaker observations,
+final loss-plot packaging, remaining training wrappers/docs and publication/form
+submission remain separate tasks.
+
+Dependency references
+https://pypi.org/project/espeakng-loader/
+https://github.com/Kyubyong/g2p/blob/master/g2p_en/g2p.py
+https://github.com/ming024/FastSpeech2

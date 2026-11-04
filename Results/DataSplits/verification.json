@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "datasets": {
+    "english": {
+      "no_sample_overlap": true,
+      "no_exact_audio_overlap": true,
+      "no_normalized_transcript_overlap": true,
+      "no_leakage_component_overlap": true,
+      "prepared_membership_matches_selection": true,
+      "duration_targets_within_2_seconds": true,
+      "english_labels_explicitly_estimated": true
+    },
+    "telugu": {
+      "no_sample_overlap": true,
+      "no_exact_audio_overlap": true,
+      "no_normalized_transcript_overlap": true,
+      "no_leakage_component_overlap": true,
+      "prepared_membership_matches_selection": true,
+      "duration_targets_within_2_seconds": true,
+      "english_labels_explicitly_estimated": false
+    }
+  },
+  "manifest_sha256": {
+    "data/splits/v1/english/train.jsonl": "4d0694b8a36a55e0aff26c6caacce935e8bc8302f77fd3aeb805c864b3963b16",
+    "data/splits/v1/english/validation.jsonl": "fbd6013886b1d2034b9d01b6edb03733e22b05a07ce860631866055fc72cebbc",
+    "data/splits/v1/english/unused.jsonl": "85eb6baa43835a2022e1f442d50532d26565c8ee6e89a8bf9077317715bf3dd3",
+    "data/splits/v1/telugu/train.jsonl": "d89fe6c0dc5ac3d1ceafe2e445b989994dc3b5407eb8ce5b6a642164657de608",
+    "data/splits/v1/telugu/validation.jsonl": "7b4fd8093e1a2857d0c7f8488e3f3fe2a04a1af4779d8429eb376ed7b65a7b16",
+    "data/splits/v1/telugu/unused.jsonl": "72ad1cde18bc2d3d3e31a48380da36e8f1a554b9f11ef751522071fc79282ab4"
+  }
+}

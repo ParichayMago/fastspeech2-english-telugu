@@ -1,0 +1,18 @@
+Vocoder isolation comparison
+
+All work ran locally; no cloud Pod was started. Universal HiFi-GAN is the same checkpoint used for the initial previews. No FastSpeech2 predictions enter the reconstructions.
+
+For one held-out recording per language, compare (1) natural aligned audio, (2) reconstruction from saved training mel, and (3) reconstruction from a freshly extracted full-length natural mel. Fresh extraction matches the saved prefix (mean absolute log-mel difference 0.00559 English; 0.000000412 Telugu), confirming compatible analysis settings. ASR uses local Whisper-small, fixed source language, temperature 0 and no expected-text prompt. No direct human listening was performed.
+
+English
+Sentence: And my second visit was to Nagpur
+Natural duration 3.280 s; saved-mel reconstruction 3.262 s; fresh-full-mel reconstruction 3.286 s. All three transcribe the sentence correctly after punctuation/case normalization. This supports the vocoder functioning for this control and points toward upstream predictions as the cause of the initial English preview problem. It does not establish all voices or sentences work.
+
+Telugu
+Sentence: నేను పట్టుకు నడిపిస్తాలే రా, అన్నది నక్క.
+Natural duration 2.540 s; saved-mel reconstruction 2.101 s; fresh-full-mel reconstruction 2.543 s. Fresh-full-mel reconstruction yields ASR phonetic content similar to natural audio, while both are rendered in Devanagari; these results cannot provide reliable Telugu WER or pronunciation ratings. The shortened saved-mel reconstruction causes worse recognition. Listen to the provided matched natural/full reconstruction pair.
+
+Preprocessing issue
+The Telugu phone alignment contains a blank interval from 1.71 to 2.14 seconds. Default tgt.io.read_textgrid excludes blank intervals; the duration sum therefore omits 0.43 seconds. The reference preprocessor truncates the mel to that sum, removing the end of the utterance instead of preserving the internal silence. Saved mel has 181 frames; fresh full-length mel has 219. The English control has a smaller 0.03-second blank interval. This finding needs a broader audit and repair before more training. Existing dataset features/checkpoints have not been changed in this comparison. A repair must rebuild consistent duration, mel, pitch and energy targets plus training-only statistics, rather than adjusting durations alone.
+
+Artifacts: Results/VocoderComparison/comparison.json and language-specific natural.wav, reconstructed.wav (saved mel), full_mel_reconstructed.wav and spectrogram_comparison.png.

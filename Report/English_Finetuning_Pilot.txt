@@ -1,0 +1,78 @@
+English-only fine-tuning pilot
+
+Run: english-finetune-pilot-20261104
+User-selected Pod: edbn94fr0zj69o (bold_ivory_tiger), NVIDIA A40, 46,068 MiB.
+Image: runpod/pytorch:1.5.0-cu1281-torch280-ubuntu2404; isolated Python 3.10.22,
+PyTorch 2.8.0+cu128. Direct SSH uses project-pinned host verification and the
+existing Mac public key installed on this Pod only. No account-wide keys changed.
+
+The formerly approved Pod rudt73oe2cq0f1 could not restart because its host had
+no free GPU. That attempt produced no training. Its guard exited after verifying
+it remained stopped. The user then selected bold_ivory_tiger. Neither older
+assignment Pod nor any emg resource is used by this pilot.
+
+Initialization: corrected-run English best checkpoint at parent step 12,000,
+SHA256 dd8193a7d69fd89b1a9209f028ef22bba6eca22477298d8e90b9120cdc2b6f2b.
+Strict model-state loading and identical preprocessing/model configs are required.
+Adam starts with NEW state; fixed learning rate 0.00002, betas 0.9/0.98,
+batch size 8, gradient norm clipping 1.0. No scheduler warmup reset is used.
+Pilot steps count additional updates from zero; parent step remains recorded
+in initialization metadata and all checkpoints. Fine-tuning updates all model
+parameters; Telugu is never instantiated or trained by this run.
+
+Data and features are unchanged: 3,037 English training examples, 617 validation,
+gap-fixed-v2 train-only normalization, fixed held-out split, full mel targets,
+max_seq_len 2048. Aligned train/validation hours remain 4.65362 / 0.93465.
+User listening feedback does not justify automatically relabeling or excluding
+recordings. Four good reviews do not select a new four-example training dataset.
+All 14,621 uploaded English feature files (563,271,532 bytes) passed SHA256 checks.
+All four original English/Telugu latest/best checkpoints remain SHA256 unchanged.
+
+Started 2026-11-03 18:56:56 UTC (4 November 2026 00:26:56 IST).
+Before any update, full validation measured total loss 2.6050799102, reproducing
+the parent's 2.6050814964 within hardware numerical differences. The baseline
+is retained as this run's initial best; later best weights replace it only after
+a complete validation improvement. No convergence or audible-quality improvement
+is claimed from successful initialization or optimizer updates.
+
+Bounds: at most 45 minutes from trainer start or 12,000 additional updates; stop
+early after five complete validation evaluations without a new best. Validation
+every 500 updates, latest checkpoint (including Adam) every 100 updates and at
+normal exit; independent model-only best checkpoint. Initial step zero and step
+one are saved. The source checkpoint and previous outputs are never overwritten.
+
+Budget: user cap US$1 for this pilot and US$20 cumulative assignment spending.
+Live credit before adoption was US$17.6941883662; the earlier pre-attempt check
+was US$17.743908006. GPU US$0.59/hour plus estimated 50 GB temporary-container
+disk US$0.0069444444/hour, total US$0.5969444444/hour. No volume/network volume.
+All elapsed time since this Pod's creation (2026-11-03 18:43:03.816 UTC), including
+user-created idle, setup, transfer, training, backups and shutdown, is included.
+Prior assignment spending is conservatively reserved at US$5.00.
+
+Dedicated local guard: setup/supervise_english_pilot.py, kept awake by caffeinate.
+It checks every 10 seconds independently of asynchronous checkpoint transfer.
+It uses the larger of elapsed-rate pilot cost and account credit decrease since
+the earlier credit check (the latter conservatively includes unrelated charges).
+Graceful stop at US$0.70 or 55 elapsed minutes; hard Pod stop at US$0.85 credit/
+estimated cost or 65 elapsed minutes. At the verified rate, 65 minutes is about
+US$0.647 before unrelated account charges. Setup may take at most 25 minutes,
+within the unchanged overall hard limit. Credit reserve is US$1 and total-budget
+safety threshold is US$19. This is a monitored guard, not a provider-enforced cap.
+
+Stable remote snapshots are rsynced to this Mac and verified by SHA256. Normal
+completion stops exactly this Pod after the final verified backup. Hard budget
+or safety stops take priority if a new backup cannot complete; the parent and
+previous model checkpoints are already local. No top-ups or billing changes.
+The local Mac must remain awake and connected for monitoring and shutdown.
+
+Runtime: ignored .git/assignment-runtime-english-finetune-pilot-20261104.json.
+Launch/status/backup proofs: Results/Training/english-finetune-pilot-20261104/.
+Outputs: output/runs/english-finetune-pilot-20261104/english/.
+Progress heartbeat: english-fine-tuning-pilot-updates (two-minute updates; delete
+on verified stop). The GPU-stock checker remains paused.
+
+Relevant code: setup/train_assignment.py, setup/start_english_pilot.py,
+setup/snapshot_training_run.py, setup/supervise_english_pilot.py.
+Local tests: setup/test_english_pilot.py checks fixed-rate fresh Adam updates
+and hard spending/time limits even when credit reads fail. Remote startup
+verified actual finite CUDA training updates and the full held-out baseline.

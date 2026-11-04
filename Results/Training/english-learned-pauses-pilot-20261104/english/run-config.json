@@ -1,0 +1,212 @@
+{
+  "configs": [
+    {
+      "dataset": "SvarahEnglish",
+      "path": {
+        "corpus_path": "/home/ming/Data/LJSpeech-1.1",
+        "lexicon_path": "lexicon/librispeech-lexicon.txt",
+        "raw_path": "data/preprocessing/english/corpus/train",
+        "preprocessed_path": "data/features/learned-pauses-v1/english"
+      },
+      "preprocessing": {
+        "val_size": 512,
+        "text": {
+          "text_cleaners": [],
+          "language": "en"
+        },
+        "audio": {
+          "sampling_rate": 22050,
+          "max_wav_value": 32768.0
+        },
+        "stft": {
+          "filter_length": 1024,
+          "hop_length": 256,
+          "win_length": 1024
+        },
+        "mel": {
+          "n_mel_channels": 80,
+          "mel_fmin": 0,
+          "mel_fmax": 8000
+        },
+        "pitch": {
+          "feature": "phoneme_level",
+          "normalization": true
+        },
+        "energy": {
+          "feature": "phoneme_level",
+          "normalization": true
+        }
+      },
+      "estimated_acoustic_speaker_labels": true,
+      "feature_version": "learned-pauses-v1",
+      "checkpoint_compatibility": "Explicit learned-pause transfer only; preserve original checkpoints"
+    },
+    {
+      "transformer": {
+        "encoder_layer": 4,
+        "encoder_head": 2,
+        "encoder_hidden": 256,
+        "decoder_layer": 6,
+        "decoder_head": 2,
+        "decoder_hidden": 256,
+        "conv_filter_size": 1024,
+        "conv_kernel_size": [
+          9,
+          1
+        ],
+        "encoder_dropout": 0.2,
+        "decoder_dropout": 0.2
+      },
+      "variance_predictor": {
+        "filter_size": 256,
+        "kernel_size": 3,
+        "dropout": 0.5
+      },
+      "variance_embedding": {
+        "pitch_quantization": "linear",
+        "energy_quantization": "linear",
+        "n_bins": 256
+      },
+      "multi_speaker": true,
+      "max_seq_len": 2048,
+      "vocoder": {
+        "model": "HiFi-GAN",
+        "speaker": "LJSpeech"
+      },
+      "learned_pause": {
+        "version": "learned-pauses-v1",
+        "boundary_types": {
+          "none": 1,
+          "comma": 2,
+          "period": 3,
+          "question": 4,
+          "exclamation": 5,
+          "clause": 6
+        },
+        "target_units": "integer mel frames measured from original word/phone alignments",
+        "train_pause_prior": 0.2551561746432523,
+        "train_pause_pos_weight": 2.9191683344451858,
+        "train_mean_positive_log_duration": 2.7825553409837633,
+        "train_max_pause_frames": 354,
+        "terminal_boundary": "conditioning feature only; no trailing-silence target or pause loss",
+        "fixed_pause_lengths": false,
+        "statistics_fit": "training only; existing pitch/energy normalization frozen"
+      }
+    },
+    {
+      "path": {
+        "ckpt_path": "output/english/ckpt",
+        "log_path": "output/english/log",
+        "result_path": "output/english/result"
+      },
+      "optimizer": {
+        "batch_size": 8,
+        "betas": [
+          0.9,
+          0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 1,
+        "warm_up_step": 4000,
+        "anneal_steps": [
+          300000,
+          400000,
+          500000
+        ],
+        "anneal_rate": 0.3
+      },
+      "step": {
+        "total_step": 20000,
+        "log_step": 20,
+        "synth_step": 1000,
+        "val_step": 500,
+        "save_step": 100
+      }
+    }
+  ],
+  "session": {
+    "minutes": 90.0,
+    "max_steps": 20000,
+    "batch_size": 8,
+    "checkpoint_every": 100,
+    "validation_every": 500,
+    "run_id": "english-learned-pauses-pilot-20261104",
+    "fresh": true,
+    "language": "english",
+    "initialize_from": "output/initialization/english-learned-pause-parent.pth.tar",
+    "initialize_sha256": "b4955131de0b8915ede03eb2232fe4da9702136c1086d67bb31f5c0943f24aad",
+    "learning_rate": 2e-05,
+    "early_stop_patience": 8,
+    "learned_pauses": true,
+    "config_root": "data/rebuild-config/learned-pauses-v1",
+    "new_head_learning_rate": 0.0002
+  },
+  "initialization": {
+    "path": "output/initialization/english-learned-pause-parent.pth.tar",
+    "sha256": "b4955131de0b8915ede03eb2232fe4da9702136c1086d67bb31f5c0943f24aad",
+    "parent_step": 2500,
+    "new_optimizer": true,
+    "learning_rate": 2e-05,
+    "new_parameters": [
+      "boundary_embedding.weight",
+      "pause_presence.conv_layer.conv1d_1.conv.weight",
+      "pause_presence.conv_layer.conv1d_1.conv.bias",
+      "pause_presence.conv_layer.layer_norm_1.weight",
+      "pause_presence.conv_layer.layer_norm_1.bias",
+      "pause_presence.conv_layer.conv1d_2.conv.weight",
+      "pause_presence.conv_layer.conv1d_2.conv.bias",
+      "pause_presence.conv_layer.layer_norm_2.weight",
+      "pause_presence.conv_layer.layer_norm_2.bias",
+      "pause_presence.linear_layer.weight",
+      "pause_presence.linear_layer.bias",
+      "pause_duration.conv_layer.conv1d_1.conv.weight",
+      "pause_duration.conv_layer.conv1d_1.conv.bias",
+      "pause_duration.conv_layer.layer_norm_1.weight",
+      "pause_duration.conv_layer.layer_norm_1.bias",
+      "pause_duration.conv_layer.conv1d_2.conv.weight",
+      "pause_duration.conv_layer.conv1d_2.conv.bias",
+      "pause_duration.conv_layer.layer_norm_2.weight",
+      "pause_duration.conv_layer.layer_norm_2.bias",
+      "pause_duration.linear_layer.weight",
+      "pause_duration.linear_layer.bias"
+    ],
+    "model_type": "learned_pause_v1"
+  },
+  "data_sha256": {
+    "data/features/learned-pauses-v1/english/train.txt": "4bedfd556c742b7a619177b1c7c4704285b56cd15b76fad564034b3b13c41335",
+    "data/features/learned-pauses-v1/english/val.txt": "dce5b28b31b33c788cb5f61b304a6143b48ed8496ee8bafc27bf40ca9eee59a6",
+    "data/features/learned-pauses-v1/english/stats.json": "74d17a865ffe413d2acf163c5c530670969dbfd2ef7eaa14654d527c7dfc7fd7",
+    "data/features/learned-pauses-v1/english/speakers.json": "eb9501f64bea70f3835c2789b73b2c52e57232e85e26415197371033e1d78533",
+    "data/features/learned-pauses-v1/english/boundary-schema.json": "e5b8eafd466f6f72f030f34628d0f4235f5e9f4b5457a3f322e98fd6356ad184"
+  },
+  "source_sha256": {
+    "model/__init__.py": "5a70f0b3383e2774d40acb67396b314c480fa6d69013ae4910cf2e2a7e3d6334",
+    "model/fastspeech2.py": "bf7b8c5e38167bacdf98371eb255ec5e0a5d252b5159f590b36c810336b0bb6b",
+    "model/learned_pause.py": "e76b659469246a08f4e8ff53e389cf701e9576e28ecbfd4248394c5ad9b079de",
+    "model/loss.py": "313dfaa9291a2b2313beeab2483f4b35369a22a973daa00fb3ae60ab5c716099",
+    "model/modules.py": "78dc8aab0cc5841aa00b62f74f56887d4d4305c56706dcf401bcc585615a3700",
+    "model/optimizer.py": "63af9cd318a884e29c9f05494f97ddf64896794a0b98dc7ba2085b19f678b788",
+    "transformer/Constants.py": "873d3731edfa37a25884a04178a0d5fd92ec7c185e12def33e4f2011969f00c3",
+    "transformer/Layers.py": "6640e2f2c100d476bb5e19c0bbde6e86565c7361905117c0aeb3887e1f7689e5",
+    "transformer/Models.py": "3067ade94c06d4f685c691100ba71b5af01790341226d452d6264f7342a4402e",
+    "transformer/Modules.py": "f6b4d686d3e726fbc07f094fd95adc82d3f5251d3370aac148cb39311534aa50",
+    "transformer/SubLayers.py": "c31120e18f95e292dd144e945f5022b62252c577555d9d9dcf1673257003d5bb",
+    "transformer/__init__.py": "0953287aac0a281bf3187af4bc05e7393917fbb2828872689ebce3c508d3e049",
+    "text/__init__.py": "c15a895e2b214a31e69a0b7cf19a340849a00cb4760cd7a4bf9b3b04320df0fd",
+    "text/cleaners.py": "4fd8de8d523300f0cbe9f52a6f68b86ddb58da10af3be1fb3bc5cb92a5a73282",
+    "text/cmudict.py": "e2c6a1c7246aaed2508b75da3ec1471ca5810f8bfe76534af5c228d0963e85fe",
+    "text/numbers.py": "1a2913110231d9afff58cb7b9c5583844d4a32f483e7aa361935874b911d37ef",
+    "text/pinyin.py": "dbd50dee0bc04ce6cbc0a03b009a4e59767f1a726232448334ec1a01c323c003",
+    "text/symbols.py": "5b22e6925ae2825c7c1993dc415d33db1d6103291e47c7667a2bc74774ad1326",
+    "utils/model.py": "4c884a09f84598898a01a44b7bd0c234593b799b42fca21a9459fd992848ce8d",
+    "utils/tools.py": "43b57b1b27836a7e35587a1a1d70cf4e426ba9f646b7d06df2e0c3f51f012a49",
+    "dataset.py": "1cef0d77e4a094cef98247d553784f6dbc2ee3d5b77e05ebe3ac95aee8d6219d",
+    "setup/train_assignment.py": "efd579aa6ce2155a6cc4279f61ad85e6657f5ca0207d398faaff2e743b1caee7",
+    "setup/learned_pause_data.py": "9c4eb0b3b94c5f9d0fe106e23b4c992b04f068ba45ebd34d435c5f5e11660214",
+    "setup/learned_pause_frontend.py": "764ecee7eb639891ae58d181a05adb92ed4edf6306eba535d69ac1325f05ce7c"
+  },
+  "resume_semantics": "weights, Adam state, scheduler step; reshuffle on resume, not bit-exact mid-epoch",
+  "source_hours_note": "source selections approximately 5h/1h; aligned feature hours are smaller; see Preprocessing_Methods.txt"
+}

@@ -1,0 +1,434 @@
+{
+  "status": "passed",
+  "verified_utc": "2026-11-04T05:38:48.891800+00:00",
+  "scope": "File/shape/unit/provenance checks; not perceptual quality assessment",
+  "samples": [
+    {
+      "id": "E1",
+      "language": "english",
+      "seconds": 5.6656689342403626,
+      "audio_sha256": "f09a6dab10b10b4a6ac888bfa38cb2308a21a7eeca243a00b5f2d308c8d45866",
+      "phonemes": 97,
+      "duration_frames": 488,
+      "zero_duration_phones": 10,
+      "plots": {
+        "duration": {
+          "path": "Results/English/variance_adaptor_plots/duration/E1.png",
+          "sha256": "876fd7762514b5fcdd5f88e7abab3b031a1953c90f004f7fda933545fabd7c73",
+          "pixels": [
+            4015,
+            864
+          ]
+        },
+        "pitch": {
+          "path": "Results/English/variance_adaptor_plots/pitch/E1.png",
+          "sha256": "cfd3c215ddae698a7db7769e4b36a6f44c1de7c93929b046cb94384dcfceeb50",
+          "pixels": [
+            4015,
+            864
+          ]
+        },
+        "energy": {
+          "path": "Results/English/variance_adaptor_plots/energy/E1.png",
+          "sha256": "338782ef3bee3c1317eb5af6a5142c064452006de4ee9c3f2555208063f70f0b",
+          "pixels": [
+            4015,
+            864
+          ]
+        }
+      },
+      "decoded_peak": 0.40118408203125,
+      "decoded_rms": 0.09906744728834699
+    },
+    {
+      "id": "E2a",
+      "language": "english",
+      "seconds": 3.5874829931972787,
+      "audio_sha256": "7d412172a0cbd6e9b359365a96015d0bc7da9ec6f3348442cb6500721b2f6251",
+      "phonemes": 62,
+      "duration_frames": 309,
+      "zero_duration_phones": 11,
+      "plots": {
+        "duration": {
+          "path": "Results/English/variance_adaptor_plots/duration/E2a.png",
+          "sha256": "dadf7070041f2c55674c21b0975e42a2c5269c65527f08a270c2c2e8620c8a0b",
+          "pixels": [
+            2566,
+            864
+          ]
+        },
+        "pitch": {
+          "path": "Results/English/variance_adaptor_plots/pitch/E2a.png",
+          "sha256": "845e1e0f6b073c3c1b14f9fe44924a90307c2ff4a72ff746bb3be1c59f77e12d",
+          "pixels": [
+            2566,
+            864
+          ]
+        },
+        "energy": {
+          "path": "Results/English/variance_adaptor_plots/energy/E2a.png",
+          "sha256": "e374b7e18a555435d30f2730af44287d351ec33d4f8aa03e282bfc97517acaf9",
+          "pixels": [
+            2566,
+            864
+          ]
+        }
+      },
+      "decoded_peak": 0.3861083984375,
+      "decoded_rms": 0.0799029800717722
+    },
+    {
+      "id": "E2b",
+      "language": "english",
+      "seconds": 3.889342403628118,
+      "audio_sha256": "78d7827a7c470bfcab6d1a701e6a660d718a6d9d55cb7d5ec91e8dbe1c4a9314",
+      "phonemes": 67,
+      "duration_frames": 335,
+      "zero_duration_phones": 10,
+      "plots": {
+        "duration": {
+          "path": "Results/English/variance_adaptor_plots/duration/E2b.png",
+          "sha256": "33ae5ab8185a5687e9620b0960f745291ee5b6a369d053e8529f9a4634504ffd",
+          "pixels": [
+            2773,
+            864
+          ]
+        },
+        "pitch": {
+          "path": "Results/English/variance_adaptor_plots/pitch/E2b.png",
+          "sha256": "bf9a8218f74f4bfb74a4e20b04765757c1b30b8786336273cea7d60f8b51d8b1",
+          "pixels": [
+            2773,
+            864
+          ]
+        },
+        "energy": {
+          "path": "Results/English/variance_adaptor_plots/energy/E2b.png",
+          "sha256": "ea5db8b1fdfae5c449490ecb3797c954ca9e6fc0caa5f9571581c8b90644ba9e",
+          "pixels": [
+            2773,
+            864
+          ]
+        }
+      },
+      "decoded_peak": 0.464935302734375,
+      "decoded_rms": 0.0858416134472307
+    },
+    {
+      "id": "E3",
+      "language": "english",
+      "seconds": 2.693514739229025,
+      "audio_sha256": "722622609011cc19694c98de2b4065602669a115267da6ac0e170e6aa5b4a6ae",
+      "phonemes": 45,
+      "duration_frames": 232,
+      "zero_duration_phones": 8,
+      "plots": {
+        "duration": {
+          "path": "Results/English/variance_adaptor_plots/duration/E3.png",
+          "sha256": "3bfb3da5aacbb0cea01babff826ab100fc5124d9757b211bfb803b2138af15bd",
+          "pixels": [
+            2160,
+            864
+          ]
+        },
+        "pitch": {
+          "path": "Results/English/variance_adaptor_plots/pitch/E3.png",
+          "sha256": "8067e674b428b17712f122f8db33f80aa1df5cdbfbdd605e899bf75769783cfb",
+          "pixels": [
+            2160,
+            864
+          ]
+        },
+        "energy": {
+          "path": "Results/English/variance_adaptor_plots/energy/E3.png",
+          "sha256": "d85042a6b9f759378d38339629249a0e246f86fa7f5204eb9474ff051143ac59",
+          "pixels": [
+            2160,
+            864
+          ]
+        }
+      },
+      "decoded_peak": 0.421539306640625,
+      "decoded_rms": 0.07983769055546343
+    },
+    {
+      "id": "E4",
+      "language": "english",
+      "seconds": 6.013968253968254,
+      "audio_sha256": "fb4abbcf37f63bedc99b9f47dda039e4ea9d59af5f845262b6dd517953f8e9a1",
+      "phonemes": 103,
+      "duration_frames": 518,
+      "zero_duration_phones": 20,
+      "plots": {
+        "duration": {
+          "path": "Results/English/variance_adaptor_plots/duration/E4.png",
+          "sha256": "c2a20fc0c92afcfd69d61450d5436df599f034fba7877298f25bb2f89f826608",
+          "pixels": [
+            4264,
+            864
+          ]
+        },
+        "pitch": {
+          "path": "Results/English/variance_adaptor_plots/pitch/E4.png",
+          "sha256": "9e65c385f2665b67b41cd21ccfc1091a37e1eafbde32a4a61400305d49a9ebeb",
+          "pixels": [
+            4264,
+            864
+          ]
+        },
+        "energy": {
+          "path": "Results/English/variance_adaptor_plots/energy/E4.png",
+          "sha256": "da91775772ed830c0c1f38bf908b8296c4c51dfa7cbbc80af454d34fbd2428da",
+          "pixels": [
+            4264,
+            864
+          ]
+        }
+      },
+      "decoded_peak": 0.433502197265625,
+      "decoded_rms": 0.08639704888464253
+    },
+    {
+      "id": "T1",
+      "language": "telugu",
+      "seconds": 4.539501133786848,
+      "audio_sha256": "d4ad04db81da0b39181011f62d531d4769a426b9d0c15787c9cccc5db0eb8113",
+      "phonemes": 66,
+      "duration_frames": 391,
+      "zero_duration_phones": 0,
+      "plots": {
+        "duration": {
+          "path": "Results/Telugu/variance_adaptor_plots/duration/T1.png",
+          "sha256": "e67c2d9b41f4580a8cac2deafe9152e1cda8f5134bfaae305c4edeb84f09b92d",
+          "pixels": [
+            2732,
+            864
+          ]
+        },
+        "pitch": {
+          "path": "Results/Telugu/variance_adaptor_plots/pitch/T1.png",
+          "sha256": "f0853505eb0ba2467c9a5d1efeb2822ae7abea31cad1862a7b82856361bf478b",
+          "pixels": [
+            2732,
+            864
+          ]
+        },
+        "energy": {
+          "path": "Results/Telugu/variance_adaptor_plots/energy/T1.png",
+          "sha256": "514b70c3c55497845a1e9da8a8ed9bfd4d6a7834fe192586d1c1bffb690da844",
+          "pixels": [
+            2732,
+            864
+          ]
+        }
+      },
+      "decoded_peak": 0.63214111328125,
+      "decoded_rms": 0.09987747702359599
+    },
+    {
+      "id": "T2a",
+      "language": "telugu",
+      "seconds": 2.066575963718821,
+      "audio_sha256": "646f268dbe612993172486ee3ba20587f513d2d9522967b3d14230b1b89fb407",
+      "phonemes": 31,
+      "duration_frames": 178,
+      "zero_duration_phones": 0,
+      "plots": {
+        "duration": {
+          "path": "Results/Telugu/variance_adaptor_plots/duration/T2a.png",
+          "sha256": "344639f36632c9b0f764979eac08d0c9953bc0c0768ad9b439473a3808a5146b",
+          "pixels": [
+            2160,
+            864
+          ]
+        },
+        "pitch": {
+          "path": "Results/Telugu/variance_adaptor_plots/pitch/T2a.png",
+          "sha256": "98b133d49d5900789537324380a61b9dc24ea677acf75bb435e3a7de143a6810",
+          "pixels": [
+            2160,
+            864
+          ]
+        },
+        "energy": {
+          "path": "Results/Telugu/variance_adaptor_plots/energy/T2a.png",
+          "sha256": "86aa0258a13b4fd619c3fad69c9a181bbfcf8ee70892d1a4c499fa4b80ca152a",
+          "pixels": [
+            2160,
+            864
+          ]
+        }
+      },
+      "decoded_peak": 0.63232421875,
+      "decoded_rms": 0.10462361720785175
+    },
+    {
+      "id": "T2b",
+      "language": "telugu",
+      "seconds": 2.2291156462585033,
+      "audio_sha256": "48cc29165de4f958a9d39b0d7d9cf284badb411d5ea1a107952ff83d2b98dfe8",
+      "phonemes": 37,
+      "duration_frames": 192,
+      "zero_duration_phones": 0,
+      "plots": {
+        "duration": {
+          "path": "Results/Telugu/variance_adaptor_plots/duration/T2b.png",
+          "sha256": "2d545e9ae9af07412df25ca5b159b0138448c91ee999f969751ff444c25d1120",
+          "pixels": [
+            2160,
+            864
+          ]
+        },
+        "pitch": {
+          "path": "Results/Telugu/variance_adaptor_plots/pitch/T2b.png",
+          "sha256": "40ce962deb6fa7cdfef3ff7b398a3b9d9ec7b5fe3b945463b253923b5d976911",
+          "pixels": [
+            2160,
+            864
+          ]
+        },
+        "energy": {
+          "path": "Results/Telugu/variance_adaptor_plots/energy/T2b.png",
+          "sha256": "bc30da589c3b321ea856c73bfaa076d0c1cd0360a88367cf9e31873b4cf701ca",
+          "pixels": [
+            2160,
+            864
+          ]
+        }
+      },
+      "decoded_peak": 0.56524658203125,
+      "decoded_rms": 0.07996433586158236
+    },
+    {
+      "id": "T3",
+      "language": "telugu",
+      "seconds": 1.7531065759637188,
+      "audio_sha256": "f9d707a88647d0b0aaa4934252674a35a935ab7601202dfb8558a9eb5466abb8",
+      "phonemes": 31,
+      "duration_frames": 151,
+      "zero_duration_phones": 0,
+      "plots": {
+        "duration": {
+          "path": "Results/Telugu/variance_adaptor_plots/duration/T3.png",
+          "sha256": "aa650d9703891f74a0bd8ff86db68101964c384fcc7f8f8ffbc1475ec7df5171",
+          "pixels": [
+            2160,
+            864
+          ]
+        },
+        "pitch": {
+          "path": "Results/Telugu/variance_adaptor_plots/pitch/T3.png",
+          "sha256": "d2c6c6a4588e7b6b88b9fb1d4e26dd580778b5bbdab0e9f6862d026657a99022",
+          "pixels": [
+            2160,
+            864
+          ]
+        },
+        "energy": {
+          "path": "Results/Telugu/variance_adaptor_plots/energy/T3.png",
+          "sha256": "3c3f420d993927fa3f0db69b1cfcf17b59917ada361cab6a30f73e9070172492",
+          "pixels": [
+            2160,
+            864
+          ]
+        }
+      },
+      "decoded_peak": 0.552154541015625,
+      "decoded_rms": 0.09728521446463852
+    },
+    {
+      "id": "T4",
+      "language": "telugu",
+      "seconds": 7.233015873015873,
+      "audio_sha256": "56180fdfea1966535556cd223dbdb0df92f2205579ef0f6bd69cbe248a29ef0a",
+      "phonemes": 129,
+      "duration_frames": 623,
+      "zero_duration_phones": 0,
+      "plots": {
+        "duration": {
+          "path": "Results/Telugu/variance_adaptor_plots/duration/T4.png",
+          "sha256": "7fef8d32b05159192e55b5c97a7680297e395c6bb936f8fe77b3b718ae3a4275",
+          "pixels": [
+            5340,
+            864
+          ]
+        },
+        "pitch": {
+          "path": "Results/Telugu/variance_adaptor_plots/pitch/T4.png",
+          "sha256": "19887558e0ded1a32ea6bb84e985a003f19c63cc1a46e7d1ba5ac685766329bf",
+          "pixels": [
+            5340,
+            864
+          ]
+        },
+        "energy": {
+          "path": "Results/Telugu/variance_adaptor_plots/energy/T4.png",
+          "sha256": "1beec98cba1cb7acb06bd9684887c182094678bdd1aa10952ca7a4cd5372f652",
+          "pixels": [
+            5340,
+            864
+          ]
+        }
+      },
+      "decoded_peak": 0.499969482421875,
+      "decoded_rms": 0.08494519647849623
+    }
+  ],
+  "checkpoints": {
+    "english": {
+      "path": "English/checkpoints/final.pth.tar",
+      "sha256": "74ce8b28183ec37f98a001bfcd5b484cb660a2eea2d1a780ef6dc8ea7e6a38bc",
+      "bytes": 146379717,
+      "step": 1000,
+      "model_type": "learned_pause_v1",
+      "source_run": "english-learned-pauses-pilot-20261104",
+      "validation_total_loss": 3.0544298015885065
+    },
+    "telugu": {
+      "path": "Telugu/checkpoints/final.pth.tar",
+      "sha256": "2268f94c05c0c90d9a4b85780971b40dd07297bc39a16271b375311d4b7fcfb8",
+      "bytes": 142942235,
+      "step": 18000,
+      "model_type": "fastspeech2",
+      "source_run": "gap-fixed-v2-20261103",
+      "validation_total_loss": 2.1064703464508057
+    }
+  },
+  "source_sha256": {
+    "setup/final_text_frontend.py": "2fac11244b4758b3b97ffb973b77d9db6d8807d3560a5ca928f1a9abcade0282",
+    "setup/final_inference.py": "a342e3e786dcf11963689a0d278c132b076de2488b72cf25a8a73af82bbeb912",
+    "setup/generate_assignment_outputs.py": "127f17393c3ebd1dd3f27cc655d40c5a13a0071a4c3fff0a8746d8db84cbfd05",
+    "setup/prepare_final_inference.py": "726ef313b42ecdc2fc7e7ed3ae1077d8412add6e2faf1cf81be48494b1121adf",
+    "setup/verify_assignment_outputs.py": "7dcca8dd8f22522cad4916c4bd1e5c98b8cf0129e14a7d615720b7cfe65c61cf",
+    "English/inference.py": "52a28d9ab36f4dc39f2e11700190ffb72c77fb7d2aa64d29f4a7b48243343f4a",
+    "Telugu/inference.py": "d57d152cf8089833f3cf2023eaad2f56130a990e5750f475d7a89142ec22de11",
+    "setup/assignment_test_sentences.json": "93a7155c1b7b1e67d6d1cf3629f5fe3a5568d038de8d5713e424a426657f54e1",
+    "model/learned_pause.py": "e76b659469246a08f4e8ff53e389cf701e9576e28ecbfd4248394c5ad9b079de",
+    "model/fastspeech2.py": "bf7b8c5e38167bacdf98371eb255ec5e0a5d252b5159f590b36c810336b0bb6b",
+    "transformer/Models.py": "3067ade94c06d4f685c691100ba71b5af01790341226d452d6264f7342a4402e",
+    "text/symbols.py": "5b22e6925ae2825c7c1993dc415d33db1d6103291e47c7667a2bc74774ad1326",
+    "text/assignment_phones.json": "2eb116c380cd93d8918ff93ae286a8eb988203d2561d8435c4e2f54ce52dc9c8"
+  },
+  "audio_count": 10,
+  "variance_plot_count": 30,
+  "cli_smoke": {
+    "status": "passed",
+    "frontend_unit_tests_passed": 4,
+    "cli_checks": [
+      {
+        "language": "English",
+        "test_id": "E2b",
+        "wrapper": "English/inference.py",
+        "wav_sha256": "78d7827a7c470bfcab6d1a701e6a660d718a6d9d55cb7d5ec91e8dbe1c4a9314",
+        "identical_to_batch_output": true
+      },
+      {
+        "language": "Telugu",
+        "test_id": "T2a",
+        "wrapper": "Telugu/inference.py",
+        "wav_sha256": "646f268dbe612993172486ee3ba20587f513d2d9522967b3d14230b1b89fb407",
+        "identical_to_batch_output": true
+      }
+    ]
+  }
+}

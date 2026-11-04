@@ -1,0 +1,272 @@
+{
+  "source_text": "తాడుపై అతని పట్టు చాలా బలంగా ఉంది.",
+  "spoken_form_before_generic_normalization": "తాడుపై అతని పట్టు చాలా బలంగా ఉంది.",
+  "normalized_words": [
+    "తాడుపై",
+    "అతని",
+    "పట్టు",
+    "చాలా",
+    "బలంగా",
+    "ఉంది"
+  ],
+  "phones": [
+    "telphhe",
+    "telphgbqcna",
+    "telphcfg",
+    "telphhf",
+    "telphha",
+    "telphgbqcgk",
+    "telphgb",
+    "telphhe",
+    "telphgb",
+    "telphgo",
+    "telphgj",
+    "telphha",
+    "telphgb",
+    "telphcii",
+    "telphcii",
+    "telphhf",
+    "telphgd",
+    "telphgbqcna",
+    "telphgm",
+    "telphgbqcna",
+    "telphgc",
+    "telphgb",
+    "telphgm",
+    "telphgb",
+    "telphgo",
+    "telphcgb",
+    "telphgbqcna",
+    "telphhf",
+    "telphgo",
+    "telphge",
+    "telphgj"
+  ],
+  "boundary_types": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "word_spans": [
+    {
+      "word": "తాడుపై",
+      "start": 0,
+      "end": 6
+    },
+    {
+      "word": "అతని",
+      "start": 6,
+      "end": 11
+    },
+    {
+      "word": "పట్టు",
+      "start": 11,
+      "end": 16
+    },
+    {
+      "word": "చాలా",
+      "start": 16,
+      "end": 20
+    },
+    {
+      "word": "బలంగా",
+      "start": 20,
+      "end": 27
+    },
+    {
+      "word": "ఉంది",
+      "start": 27,
+      "end": 31
+    }
+  ],
+  "normalization_changes": [],
+  "pronunciations": [
+    {
+      "word": "తాడుపై",
+      "phones": [
+        "telphhe",
+        "telphgbqcna",
+        "telphcfg",
+        "telphhf",
+        "telphha",
+        "telphgbqcgk"
+      ],
+      "source": "espeak_Telugu_OOV",
+      "IPA": [
+        "t",
+        "aː",
+        "ɖ",
+        "u",
+        "p",
+        "aɪ"
+      ]
+    },
+    {
+      "word": "అతని",
+      "phones": [
+        "telphgb",
+        "telphhe",
+        "telphgb",
+        "telphgo",
+        "telphgj"
+      ],
+      "source": "frozen_training_lexicon"
+    },
+    {
+      "word": "పట్టు",
+      "phones": [
+        "telphha",
+        "telphgb",
+        "telphcii",
+        "telphcii",
+        "telphhf"
+      ],
+      "source": "frozen_training_lexicon"
+    },
+    {
+      "word": "చాలా",
+      "phones": [
+        "telphgd",
+        "telphgbqcna",
+        "telphgm",
+        "telphgbqcna"
+      ],
+      "source": "frozen_training_lexicon"
+    },
+    {
+      "word": "బలంగా",
+      "phones": [
+        "telphgc",
+        "telphgb",
+        "telphgm",
+        "telphgb",
+        "telphgo",
+        "telphcgb",
+        "telphgbqcna"
+      ],
+      "source": "frozen_training_lexicon"
+    },
+    {
+      "word": "ఉంది",
+      "phones": [
+        "telphhf",
+        "telphgo",
+        "telphge",
+        "telphgj"
+      ],
+      "source": "frozen_training_lexicon"
+    }
+  ],
+  "espeak_version_for_OOV": "1.52.0",
+  "normalization_note": "Visible split words retained; no spelling correction or waveform pacing",
+  "sequence": [
+    401,
+    377,
+    361,
+    403,
+    397,
+    375,
+    374,
+    401,
+    374,
+    394,
+    387,
+    397,
+    374,
+    370,
+    370,
+    403,
+    380,
+    377,
+    392,
+    377,
+    378,
+    374,
+    392,
+    374,
+    394,
+    365,
+    377,
+    403,
+    394,
+    382,
+    387
+  ],
+  "id": "T2a",
+  "language": "telugu",
+  "generated_utc": "2026-11-04T03:24:04.682260+00:00",
+  "required_assignment_sample": true,
+  "checkpoint_step": 18000,
+  "checkpoint_sha256": "2268f94c05c0c90d9a4b85780971b40dd07297bc39a16271b375311d4b7fcfb8",
+  "checkpoint_path": "Telugu/checkpoints/final.pth.tar",
+  "model_type": "fastspeech2",
+  "source_run": "gap-fixed-v2-20261103",
+  "speaker": "te_male",
+  "speaker_labels_estimated": false,
+  "vocoder_sha256": "771eaf4876485a35e25577563d390c262e23c2421e4a8c929eacfde34a5b7a60",
+  "sampling_rate": 22050,
+  "hop_length": 256,
+  "frames": 178,
+  "seconds": 2.066575963718821,
+  "audio_path": "Results/Telugu/test_generated_audios/T2a.wav",
+  "audio_sha256": "646f268dbe612993172486ee3ba20587f513d2d9522967b3d14230b1b89fb407",
+  "predictions_path": "Results/Telugu/test_generated_audios/T2a_predictions.npz",
+  "variance_csv": "Results/Telugu/test_generated_audios/T2a_variance.csv",
+  "plots": {
+    "duration": "Results/Telugu/variance_adaptor_plots/duration/T2a.png",
+    "pitch": "Results/Telugu/variance_adaptor_plots/pitch/T2a.png",
+    "energy": "Results/Telugu/variance_adaptor_plots/energy/T2a.png"
+  },
+  "duration_control": 1.0,
+  "pitch_control": 1.0,
+  "energy_control": 1.0,
+  "denoising": false,
+  "external_silence_samples": 0,
+  "waveform_edits": [],
+  "sentence_splitting": false,
+  "device": "cpu",
+  "cloud_resources_started": false,
+  "additional_cloud_compute_cost_usd": 0,
+  "prediction_summary": {
+    "zero_duration_phones": 0,
+    "negative_predicted_f0_values": 0,
+    "negative_predicted_energy_values": 0,
+    "peak_waveform": 0.632334291934967,
+    "clipping_fraction": 0.0
+  },
+  "quality_assessment": "Software checks only; native listening and per-sentence analysis pending",
+  "variance_units": {
+    "duration": "integer mel frames and seconds",
+    "pitch": "denormalized phoneme-level F0 conditioning in Hz; no voiced/unvoiced classifier",
+    "energy": "denormalized spectral L2 energy, linear units; not dB"
+  },
+  "plot_note": "Zero-duration tokens remain in raw exports but are omitted from pitch/energy curves because they generate no frames"
+}

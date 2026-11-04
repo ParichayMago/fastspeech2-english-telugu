@@ -1,0 +1,37 @@
+Corrected versus previous speech previews
+
+Compared the exact previously shared samples, using identical sentence text,
+phone sequences and speaker labels per language. Synthesis uses the same
+pretrained universal HiFi-GAN vocoder. Analysis ran locally on CPU; active
+training and cloud resources were not changed.
+
+English: previous step 8,324 versus corrected best step 12,000.
+Expected: The meeting will start on time.
+Unprompted local Whisper-small transcription:
+  Previous: The reading makes that I am...
+  Corrected: The meeting will start on time.
+Normalized word errors fell from 5/6 (83.3%) to 0/6 (0%). This is clear
+automated evidence of better intelligibility on this one preview, not an
+overall model WER or a human naturalness judgment. Prior natural English
+control recognition was mostly correct. Durations: 1.614 versus 1.405 seconds.
+
+Telugu: previous step 8,323 versus corrected best step 13,000.
+Expected: అతని పట్టు చాలా బలంగా ఉంది.
+Durations: 1.730 versus 1.579 seconds. Both signals are finite, contain no
+full-scale clipping, and assign positive durations to all input phones.
+This does not establish correct pronunciation or improved naturalness.
+No Telugu WER judgment is made: the local recognizer previously failed on
+natural Telugu control recordings, so it is not a reliable evaluator here.
+Human Telugu listening remains necessary to judge improvement.
+
+Neither language's samples clip; neither has zero-duration input phones.
+Shorter duration alone is not evidence of improvement. Different training
+step counts, corrected features and fresh initialization prevent attributing
+the English gain solely to the alignment fix. No direct listening was
+performed by the assistant. The two short previews cannot establish general
+speech quality; final evaluation needs more sentences and human listening.
+
+Reproduce:
+.venvs/inference/bin/python setup/compare_corrected_speech.py
+Machine-readable evidence:
+Results/Training/gap-fixed-v2-20261103/speech_comparison/comparison.json

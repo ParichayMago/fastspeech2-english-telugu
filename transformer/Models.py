@@ -70,7 +70,7 @@ class Encoder(nn.Module):
             ]
         )
 
-    def forward(self, src_seq, mask, return_attns=False):
+    def forward(self, src_seq, mask, return_attns=False, extra_embeddings=None):
 
         enc_slf_attn_list = []
         batch_size, max_len = src_seq.shape[0], src_seq.shape[1]
@@ -89,6 +89,11 @@ class Encoder(nn.Module):
             enc_output = self.src_word_emb(src_seq) + self.position_enc[
                 :, :max_len, :
             ].expand(batch_size, -1, -1)
+
+        if extra_embeddings is not None:
+            if extra_embeddings.shape != enc_output.shape:
+                raise ValueError('Boundary conditioning shape differs from encoder input')
+            enc_output = enc_output + extra_embeddings
 
         for enc_layer in self.layer_stack:
             enc_output, enc_slf_attn = enc_layer(

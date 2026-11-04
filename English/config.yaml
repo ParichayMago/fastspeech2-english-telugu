@@ -1,0 +1,31 @@
+language: english
+checkpoint:
+  path: English/checkpoints/final.pth.tar
+  sha256: 74ce8b28183ec37f98a001bfcd5b484cb660a2eea2d1a780ef6dc8ea7e6a38bc
+  bytes: 146379717
+  step: 1000
+  model_type: learned_pause_v1
+  source_run: english-learned-pauses-pilot-20261104
+  validation_total_loss: 3.0544298015885065
+speaker: en_est_0155
+speaker_labels_estimated: true
+resources: English/resources
+resource_sha256:
+  lexicon.tsv: 3ca6f28792c40ed6e1931661be032cf0b01222429e225a40c3c449c15ca4568d
+  speakers.json: eb9501f64bea70f3835c2789b73b2c52e57232e85e26415197371033e1d78533
+  stats.json: 74d17a865ffe413d2acf163c5c530670969dbfd2ef7eaa14654d527c7dfc7fd7
+trained_symbols_sha256: bade77762c8c9c6dc654b28263d9d6b6c6dcb24eaffd480ed74cf93ea32f6dc9
+vocoder:
+  weights: hifigan/generator_universal.pth.tar
+  sha256: 771eaf4876485a35e25577563d390c262e23c2421e4a8c929eacfde34a5b7a60
+  config: hifigan/config.json
+  config_sha256: c1bd98e99062ddbced38729a5252dc2aa772328d16d70097ac139dab2f269dc9
+sampling_rate: 22050
+hop_length: 256
+device: cpu
+duration_control: 1.0
+pitch_control: 1.0
+energy_control: 1.0
+manual_silence_samples: 0
+denoising: false
+test_manifest: setup/assignment_test_sentences.json

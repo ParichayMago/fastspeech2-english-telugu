@@ -1,0 +1,20 @@
+{
+  "archive_sha256": "ef256c5b00f4db91a3571a932376ca9aa780ca149ce9294c036bc552884532f7",
+  "packaged_inference": {
+    "English": {
+      "sample": "E2b",
+      "sha256": "78d7827a7c470bfcab6d1a701e6a660d718a6d9d55cb7d5ec91e8dbe1c4a9314",
+      "byte_identical_to_canonical": true
+    },
+    "Telugu": {
+      "sample": "T2a",
+      "sha256": "646f268dbe612993172486ee3ba20587f513d2d9522967b3d14230b1b89fb407",
+      "byte_identical_to_canonical": true
+    }
+  },
+  "packaged_frontend_tests": 4,
+  "checkpoint_restoration_verified": true,
+  "source_pdf_not_required": true,
+  "raw_training_data_not_required_for_inference": true,
+  "cloud_compute_used": false
+}

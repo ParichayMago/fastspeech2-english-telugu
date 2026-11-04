@@ -1,0 +1,28 @@
+{
+  "planned_pages": [
+    "Abstract and implementation overview",
+    "1. Introduction and dataset preparation",
+    "2. Method: architecture and language support",
+    "2.1 Preprocessing and alignment repair",
+    "3. Experimental setup and loss functions",
+    "4. Results: baseline model training",
+    "4.1 English fine-tuning experiments",
+    "4.2 Learned pause evaluation",
+    "4.3 Generated speech evaluation",
+    "5. Test-sentence analysis",
+    "5.2 E2a | Conduct as a noun",
+    "5.3 E2b | Conduct as a verb",
+    "5.4 E3 | Visible split word",
+    "5.5 E4 | Date, clock and code-mixing",
+    "5.6 T1 | Long Telugu technical term",
+    "5.7 T2a | Pattu in the grip context",
+    "5.8 T2b | Pattu in the silk context",
+    "5.9 T3 | Visible split Telugu word",
+    "5.10 T4 | Telugu date and clock",
+    "6. Discussion and conclusions",
+    "Appendix A. Reproducibility",
+    "Appendix B. Checkpoints and artifacts",
+    "References"
+  ],
+  "planned_page_count": 23
+}

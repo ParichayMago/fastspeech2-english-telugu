@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "frontend_unit_tests_passed": 4,
+  "cli_checks": [
+    {
+      "language": "English",
+      "test_id": "E2b",
+      "wrapper": "English/inference.py",
+      "wav_sha256": "78d7827a7c470bfcab6d1a701e6a660d718a6d9d55cb7d5ec91e8dbe1c4a9314",
+      "identical_to_batch_output": true
+    },
+    {
+      "language": "Telugu",
+      "test_id": "T2a",
+      "wrapper": "Telugu/inference.py",
+      "wav_sha256": "646f268dbe612993172486ee3ba20587f513d2d9522967b3d14230b1b89fb407",
+      "identical_to_batch_output": true
+    }
+  ]
+}

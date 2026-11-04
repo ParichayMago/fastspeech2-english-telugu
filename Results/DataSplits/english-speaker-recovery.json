@@ -1,0 +1,27 @@
+{
+  "status": "estimated_acoustic_labels_generated_user_authorized",
+  "actual_original_mapping_recovered": false,
+  "estimated_labels_created": true,
+  "user_preference_for_estimated_labels": "explicitly_authorized_2026-11-03",
+  "current_hf_revision": "ebbf7777fe771490696a3f7b007097606fa8c924",
+  "historical_metadata_revision": "a5dd7f76843ec4e8a3561cc0856c1c10c2167ecb",
+  "historical_metadata_bytes": 476212,
+  "historical_metadata_has_speaker_id": false,
+  "historical_paths_contain_only_flat_audio_filenames": true,
+  "reported_speakers": 117,
+  "distinct_demographic_profiles": 115,
+  "demographics_are_not_used_as_speaker_identity": true,
+  "upstream_issue": "https://github.com/AI4Bharat/Svarah/issues/4",
+  "historical_archive_source": "https://github.com/AI4Bharat/Svarah/blob/074065ee3addaadfe07739a2bb150f61eb763a28/README.md",
+  "archive_url": "https://indic-asr-public.objectstore.e2enetworks.net/svarah.tar",
+  "archive_head_and_get_status": 403,
+  "no_messages_sent_to_dataset_maintainers": true,
+  "next_options": [
+    "Recover an authorized original clip-to-speaker metadata file",
+    "With user preference confirmed, derive acoustic speaker clusters and label them as estimated; never claim they are publisher ground truth"
+  ],
+  "estimated_cluster_count": 254,
+  "mapping_file": "data/speaker-estimates/english-mapping.json",
+  "label_report": "Results/Preprocessing/english-estimated-speakers.json",
+  "scope": "Training cluster labels, not publisher identities. Validation assigned to frozen training centroids."
+}

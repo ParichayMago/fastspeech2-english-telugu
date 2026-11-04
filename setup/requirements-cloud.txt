@@ -1,5 +1,5 @@
-# Proposed direct dependency pins for Python 3.10, upstream commit d4e79eb.
-# Torch is installed separately from the official CUDA 11.8 wheel index.
+# Shared preprocessing/training dependency pins for Python 3.10.
+# The corrected runs used Torch 2.8.0 from the official CUDA 12.8 wheel index.
 # Keep librosa 0.8.x / numpy 1.23.x for the upstream positional APIs / aliases.
 numpy==1.23.5
 scipy==1.10.1

@@ -1,0 +1,182 @@
+{
+  "verified_utc": "2026-11-03T00:23:06.787545+00:00",
+  "status": "passed",
+  "datasets": {
+    "english": {
+      "dataset": "ai4bharat/Svarah",
+      "revision": "ebbf7777fe771490696a3f7b007097606fa8c924",
+      "access": "verified_file_access",
+      "rows": 6656,
+      "decoded_rows": 6656,
+      "candidate_rows": 5271,
+      "decoded_hours": 9.61444380208335,
+      "candidate_hours": 8.627606163194452,
+      "sample_rates": {
+        "16000": 6656
+      },
+      "groups": {
+        "Female": {
+          "rows": 3579,
+          "seconds": 19078.125874999987,
+          "candidate_seconds": 17368.257249999988,
+          "candidate_rows": 2887,
+          "sample_rates": {
+            "16000": 3579
+          },
+          "audio_path_examples": [
+            "281474976884635_f3269_chunk_0.wav",
+            "281474976885801_f2235_chunk_24.wav",
+            "281474976925705_f2479_chunk_0.wav"
+          ],
+          "hours": 5.299479409722219,
+          "candidate_hours": 4.824515902777774
+        },
+        "Male": {
+          "rows": 3077,
+          "seconds": 15533.871812500007,
+          "candidate_seconds": 13691.124937499992,
+          "candidate_rows": 2384,
+          "sample_rates": {
+            "16000": 3077
+          },
+          "audio_path_examples": [
+            "281474976888137_f2862_chunk_0.wav",
+            "281474976897459_f2145_chunk_1.wav",
+            "281474976893913_f2002_chunk_19.wav"
+          ],
+          "hours": 4.314964392361113,
+          "candidate_hours": 3.8030902604166643
+        }
+      },
+      "counters": {
+        "rows": 6656,
+        "decoded_rows": 6656,
+        "candidate_rows": 5271,
+        "empty_transcripts": 0,
+        "audio_decode_errors": 0,
+        "duplicate_audio_rows": 0,
+        "duplicate_audio_conflicting_text_rows": 0,
+        "near_silent_rows": 0,
+        "rows_with_full_scale_samples": 271,
+        "severe_clipping_rows": 2,
+        "no_expected_language_letters": 86,
+        "duration_metadata_mismatch_over_50ms": 0,
+        "flag_outside_1_to_20_seconds": 1325,
+        "flag_no_expected_language_letters": 86,
+        "flag_over_one_percent_clipped_samples": 2
+      },
+      "duplicate_transcript_rows": 1071,
+      "explicit_speaker_ids_found": 0,
+      "speaker_identity_verified": false,
+      "manifest_consistency": "passed",
+      "audit_source_hash": "afd6112555312a5f8ca4a3404bac44dd1886e2ac747a2b2e9f4e9f4f86f12136",
+      "all_parquet_sha256_verified": true,
+      "sufficient_candidate_hours_for_5h_plus_1h": true,
+      "not_validated": [
+        "Transcript/audio semantic agreement",
+        "Listening quality",
+        "Forced alignment",
+        "Final training/validation split duration"
+      ],
+      "provider_reported_speakers": 117,
+      "recording_groups": 3232,
+      "maximum_clips_per_recording_group": 63,
+      "unparsed_recording_filenames": 0,
+      "filename_component_unique_values": [
+        2938,
+        3232
+      ],
+      "speaker_mapping_status": "unresolved",
+      "speaker_note": "No speaker_id column. Filename components have far more than 117 values and must not be used as speaker IDs without source verification. Do not use demographics as identity.",
+      "split_grouping_note": "Keep matching normalized transcripts and chunks from the same original recording together when constructing splits. Speaker IDs need separate recovery.",
+      "normalization_note": "Numeric-only transcripts fail the conservative letter filter; they may be recoverable after verified number normalization.",
+      "estimated_training_labels": {
+        "available": true,
+        "estimated": true,
+        "original_ids_recovered": false,
+        "estimated_clusters": 254,
+        "report": "Results/Preprocessing/english-estimated-speakers.json"
+      }
+    },
+    "telugu": {
+      "dataset": "SPRINGLab/IndicTTS_Telugu",
+      "revision": "7ab3c18491bef3f5d4e820c2701b5f78f54031d6",
+      "access": "verified_file_access",
+      "rows": 8576,
+      "decoded_rows": 8576,
+      "candidate_rows": 6328,
+      "decoded_hours": 36.712271359953824,
+      "candidate_hours": 16.636113605324077,
+      "sample_rates": {
+        "16000": 4043,
+        "48000": 4533
+      },
+      "groups": {
+        "female": {
+          "rows": 4043,
+          "seconds": 86115.47400000018,
+          "candidate_seconds": 25528.035875000052,
+          "candidate_rows": 2222,
+          "sample_rates": {
+            "16000": 4043
+          },
+          "audio_path_examples": [
+            "train_telugufemale_00001.wav",
+            "train_telugufemale_00002.wav",
+            "train_telugufemale_00003.wav"
+          ],
+          "hours": 23.92096500000005,
+          "candidate_hours": 7.091121076388903
+        },
+        "male": {
+          "rows": 4533,
+          "seconds": 46048.702895833296,
+          "candidate_seconds": 34361.973104166645,
+          "candidate_rows": 4106,
+          "sample_rates": {
+            "48000": 4533
+          },
+          "audio_path_examples": [
+            "train_telugumale_00001.wav",
+            "train_telugumale_00002.wav",
+            "train_telugumale_00003.wav"
+          ],
+          "hours": 12.791306359953694,
+          "candidate_hours": 9.544992528935179
+        }
+      },
+      "counters": {
+        "rows": 8576,
+        "decoded_rows": 8576,
+        "candidate_rows": 6328,
+        "empty_transcripts": 0,
+        "audio_decode_errors": 0,
+        "duplicate_audio_rows": 0,
+        "duplicate_audio_conflicting_text_rows": 0,
+        "near_silent_rows": 0,
+        "rows_with_full_scale_samples": 81,
+        "severe_clipping_rows": 0,
+        "no_expected_language_letters": 0,
+        "flag_outside_1_to_20_seconds": 2248
+      },
+      "duplicate_transcript_rows": 113,
+      "explicit_speaker_ids_found": 0,
+      "speaker_identity_verified": false,
+      "manifest_consistency": "passed",
+      "audit_source_hash": "afd6112555312a5f8ca4a3404bac44dd1886e2ac747a2b2e9f4e9f4f86f12136",
+      "all_parquet_sha256_verified": true,
+      "sufficient_candidate_hours_for_5h_plus_1h": true,
+      "not_validated": [
+        "Transcript/audio semantic agreement",
+        "Listening quality",
+        "Forced alignment",
+        "Final training/validation split duration"
+      ],
+      "provider_reported_speakers": 2,
+      "filename_gender_mismatches": 0,
+      "speaker_mapping_status": "two_card_documented_gender_groups_with_consistent_filenames",
+      "speaker_note": "Gender and filenames support two provisional source IDs, consistent with the card. They do not independently verify voice identity.",
+      "split_grouping_note": "Keep matching normalized transcripts together across splits."
+    }
+  }
+}

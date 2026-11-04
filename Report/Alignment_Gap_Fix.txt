@@ -1,0 +1,43 @@
+Alignment-gap correction and feature rebuild - 3 November 2026
+
+Status: complete; rebuilt targets are selected in config/English/preprocess.yaml and config/Telugu/preprocess.yaml.
+Feature version: gap-fixed-v2. All extraction, verification and model smoke checks ran on the local Mac CPU. No cloud resource was started or modified.
+
+Cause and repair
+tgt omitted empty TextGrid intervals. Duration sums excluded internal gaps; upstream mel clipping to those sums removed speech tails and shifted per-phone targets. Reading empty intervals and filling any timestamp-only gaps now preserves them as sp silence tokens. Leading/trailing silence still trims normally. Rounded relative interval endpoints cover the full cropped timeline, preserve all non-silence phone identities and reject overlaps. No aligner retraining or split reselection was needed.
+
+All selected examples were re-extracted (rather than patching durations alone): mel, WORLD DIO/StoneMask pitch, energy and durations; phone metadata and training-only normalization statistics were regenerated. The prior two English unusable-pitch examples remain rejected. No new data or speaker identity claims were added.
+
+Native torch.stft replaces CUDA-only Fourier convolution so extraction works locally. Centered reflect padding, periodic Hann window, 1024 FFT/window, hop 256, 22.05 kHz, 80 mel bins, 0-8000 Hz and log floor 1e-5 are preserved. Regression magnitude max absolute error versus the original convolution is 1.67e-6 on a deterministic signal.
+
+Results
+English: 3037 train / 617 validation; 4.653624 / 0.934645 feature hours.
+2965 accepted rows preserve internal gaps, totaling 0.887022 hours across both splits.
+Train restoration 0.752007 hours; validation restoration 0.135201 hours. Accepted sample IDs and speaker labels are unchanged.
+Telugu: 2153 train / 428 validation; 4.312678 / 0.861612 feature hours.
+2451 accepted rows preserve internal gaps, totaling 0.722811 hours across both splits.
+Train restoration 0.607563 hours; validation restoration 0.115477 hours. Accepted sample IDs and speaker labels are unchanged.
+
+Verification
+For every accepted example: finite arrays, valid phones, duration/phone/energy/pitch lengths, duration sum equals mel frames, full crop-span frame count, every internal gap covered by silence, all speech phones preserved, and no train/validation sample/text/audio leakage. Training-normalized distributions independently verified; validation uses frozen training statistics. Both datasets passed a real two-example CPU forward/backward/Adam update and held-out validation check with finite values. These are software checks, not new trained checkpoints.
+The Telugu regression fixture now has 219 frames (previously 181) and reconstructs to 2.5426 seconds, matching the 2.54-second natural crop. English now has 283 frames (previously 281). Saved targets match fresh full-length mel extraction in both fixtures. Pronunciation/naturalness has not been re-rated.
+
+Preservation and next training
+31187 legacy feature files and both original trained checkpoints verified unchanged against their recorded SHA256 hashes.
+31198 new artifact/source/config files hashed and reread for verification. Manifest: data/features/gap-fixed-v2/artifact-sha256.json.
+Legacy feature paths data/features/english and data/features/telugu remain intact. Old configs are archived in data/rebuild-config/legacy-before-gap-fixed-v2. Active targets are data/features/gap-fixed-v2/{english,telugu}. Old loss plots and speech samples reflect legacy targets. The bounded runner now rejects resuming a legacy checkpoint against a different feature version. Prepare separate fresh training outputs and credit safeguards before further training; no training was launched here.
+
+Reproduction
+.venvs/inference/bin/python setup/test_alignment_gaps.py
+.venvs/inference/bin/python setup/extract_assignment_features.py --language english --workers 2 --feature-version NEW_VERSION
+.venvs/inference/bin/python setup/extract_assignment_features.py --language telugu --workers 2 --feature-version NEW_VERSION
+Use a fresh version directory: completed feature versions are protected from overwrite.
+.venvs/inference/bin/python setup/verify_preprocessed_features.py --language english --feature-version gap-fixed-v2
+.venvs/inference/bin/python setup/verify_preprocessed_features.py --language telugu --feature-version gap-fixed-v2
+.venvs/inference/bin/python setup/check_real_preprocessed_batch.py --language english --device cpu --config-root data/rebuild-config/gap-fixed-v2 --report-version gap-fixed-v2
+.venvs/inference/bin/python setup/check_real_preprocessed_batch.py --language telugu --device cpu --config-root data/rebuild-config/gap-fixed-v2 --report-version gap-fixed-v2
+Exact local dependencies: Results/Preprocessing/gap-fixed-v2/requirements-local-rebuild.txt.
+Per-example audit and source/config fingerprints accompany the reports in Results/Preprocessing/gap-fixed-v2.
+
+Long-sequence training guard
+The restored English targets reach 1,674 mel frames (252 clips exceed 1,000); Telugu reaches 1,698 (344 exceed 1,000). The upstream decoder truncates training sequences at max_seq_len. Both active model configurations now use 2,048, and actual longest training/validation examples passed CPU forward/backward checks with full mel output coverage. No decoder code or checkpoint weights were altered.

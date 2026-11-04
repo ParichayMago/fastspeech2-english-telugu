@@ -1,0 +1,16 @@
+Fresh corrected-feature training
+
+Run: gap-fixed-v2-20261103
+Pod: rudt73oe2cq0f1 (constitutional_crimson_earthworm), explicitly authorized by the user. RTX PRO 4500 Blackwell, 32 GB VRAM, PyTorch 2.8.0+cu128 / CUDA 12.8, isolated Python 3.10.22 environment. GPU $0.72/hour plus estimated 50 GB container disk $0.006944/hour. No volume or emg resource is mounted or modified. Previous assignment Pod remains stopped.
+
+Training began 3 November 2026, 22:03:24 IST. Both models initialize from random weights; no legacy checkpoint is loaded. Active feature version gap-fixed-v2, max_seq_len 2048. Both languages passed longest-example CUDA forward/backward checks and all 24,950 uploaded feature files passed source SHA256 verification before launch.
+
+Bounded session: 120 minutes or 30,000 updates per language; batch size 8; independent models/Adam optimizers alternating on one GPU; upstream 4,000-step learning-rate warmup; gradient norm clipped to 1.0. Atomic latest checkpoints (with Adam state) every 100 updates and model-only best checkpoint after complete validation improvement. Full held-out validation every 500 updates and normal session end. Original English speaker labels remain estimated clusters.
+
+Command: python -u setup/train_assignment.py --run-id gap-fixed-v2-20261103 --fresh --minutes 120 --max-steps 30000 --batch-size 8
+
+Local supervisor: setup/supervise_training_run.py. Its runtime config lives under ignored .git/assignment-runtime-gap-fixed-v2-20261103.json. It checks account credit every 30 seconds while copying stable checkpoints asynchronously. Prior assignment cost is conservatively reserved at $3.00; all new-Pod time since creation 15:50:13 UTC is included at its full running rate. It requests graceful stop at $18.50 conservative assignment spend, $1.00 account credit reserve, or 180 minutes since Pod creation. It verifies final latest/best backups by SHA256 before stopping this exact Pod. It does not fund the account. The Mac must remain awake/connected; caffeinate runs with this one-off supervisor.
+
+Progress automation: corrected-training-updates-every-2-minutes. Results: Results/Training/gap-fixed-v2-20261103. Model outputs: output/runs/gap-fixed-v2-20261103/{english,telugu}.
+
+Training convergence and generated-speech quality remain to be assessed. Old loss plots refer to the prior legacy-target run.

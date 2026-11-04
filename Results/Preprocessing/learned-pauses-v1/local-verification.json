@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "verified_utc": "2026-11-04T01:53:47.453211+00:00",
+  "tests_passed": 4,
+  "real_cpu_forward_backward": "finite, full targets and nonzero gradients in pause heads and punctuation conditioning",
+  "measured_targets": "all 3654 clips retained; all pause frames match word alignment; zero targets for absent pauses",
+  "files": 18278,
+  "bytes": 563540500,
+  "manifest_sha256": "d95c1ba323619838b9e4358729647db317e06fadee1644e01e1fab07961e98d0"
+}

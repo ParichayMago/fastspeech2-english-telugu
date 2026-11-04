@@ -1,0 +1,29 @@
+{
+  "language": "telugu",
+  "scope": "full_selected_splits",
+  "status_counts": {
+    "passed": 2581
+  },
+  "requested_rows": 2581,
+  "successful_rows": 2581,
+  "normalization_fit": "Training features only. Validation uses frozen training mean/std.",
+  "normalization_training_rows": 2153,
+  "normalization_feature_samples": {
+    "pitch": 206892,
+    "energy": 207878
+  },
+  "split_rows": {
+    "train": 2153,
+    "validation": 428
+  },
+  "feature_hours": {
+    "train": 3.705114638447972,
+    "validation": 0.7461345427059713
+  },
+  "speaker_count": 1,
+  "english_speaker_labels_estimated": false,
+  "mel_bins": 80,
+  "sample_rate": 22050,
+  "hop_length": 256,
+  "failures": []
+}

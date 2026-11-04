@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "scope": "real_audio_preprocessed_software_smoke_only",
+  "language": "telugu",
+  "train_dataset_rows": 2153,
+  "validation_dataset_rows": 428,
+  "batch_size": 2,
+  "optimizer_steps": 1,
+  "weights_updated": true,
+  "train_loss": 20.40907859802246,
+  "validation_loss": 17.249971389770508,
+  "estimated_english_speakers": false,
+  "multi_speaker": false,
+  "device": "cpu",
+  "feature_version": "gap-fixed-v2",
+  "longest_examples_checked": true,
+  "training_mel_frames": [
+    1698,
+    1686
+  ],
+  "validation_mel_frames": [
+    1685,
+    1671
+  ],
+  "full_training_mel_targets_covered": true,
+  "peak_allocated_gpu_gib": null,
+  "not_validated": [
+    "Full training convergence",
+    "Generated speech quality",
+    "Human-verified speaker identities"
+  ]
+}

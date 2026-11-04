@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "verified_utc": "2026-11-03T00:23:06.787545+00:00",
+  "audit_script_sha256": "afd6112555312a5f8ca4a3404bac44dd1886e2ac747a2b2e9f4e9f4f86f12136",
+  "datasets": {
+    "english": {
+      "rows": 6656,
+      "candidate_rows": 5271,
+      "manifest_consistency": "passed",
+      "all_parquet_sha256_verified": true
+    },
+    "telugu": {
+      "rows": 8576,
+      "candidate_rows": 6328,
+      "manifest_consistency": "passed",
+      "all_parquet_sha256_verified": true
+    }
+  }
+}

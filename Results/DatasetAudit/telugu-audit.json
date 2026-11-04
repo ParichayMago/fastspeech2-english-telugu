@@ -1,0 +1,170 @@
+{
+  "dataset": "SPRINGLab/IndicTTS_Telugu",
+  "revision": "7ab3c18491bef3f5d4e820c2701b5f78f54031d6",
+  "split": "train",
+  "verified_utc": "2026-11-02T17:34:39.074491+00:00",
+  "gated": false,
+  "card_dataset_info": {
+    "features": [
+      {
+        "name": "audio",
+        "dtype": "audio"
+      },
+      {
+        "name": "text",
+        "dtype": "string"
+      },
+      {
+        "name": "gender",
+        "dtype": {
+          "class_label": {
+            "names": {
+              "0": "female",
+              "1": "male"
+            }
+          }
+        }
+      }
+    ],
+    "splits": [
+      {
+        "name": "train",
+        "num_bytes": 6035657923.792,
+        "num_examples": 8576
+      }
+    ],
+    "download_size": 6441352243,
+    "dataset_size": 6035657923.792
+  },
+  "download_bytes_all_shards": 6441352243,
+  "parquet_shards": 4,
+  "selected_shards": 4,
+  "audio_checked": true,
+  "access": "verified_file_access",
+  "scope": "All selected embedded waveforms decoded fully with libsndfile; no listening, ASR, or forced-alignment validation.",
+  "audit_script_sha256": "afd6112555312a5f8ca4a3404bac44dd1886e2ac747a2b2e9f4e9f4f86f12136",
+  "complete": true,
+  "completed_utc": "2026-11-02T17:34:55.017583+00:00",
+  "columns": [
+    "audio",
+    "text",
+    "gender"
+  ],
+  "counters": {
+    "rows": 8576,
+    "decoded_rows": 8576,
+    "candidate_rows": 6328,
+    "empty_transcripts": 0,
+    "audio_decode_errors": 0,
+    "duplicate_audio_rows": 0,
+    "duplicate_audio_conflicting_text_rows": 0,
+    "near_silent_rows": 0,
+    "rows_with_full_scale_samples": 81,
+    "severe_clipping_rows": 0,
+    "no_expected_language_letters": 0,
+    "flag_outside_1_to_20_seconds": 2248
+  },
+  "sample_rates": {
+    "16000": 4043,
+    "48000": 4533
+  },
+  "channel_counts": {
+    "1": 8576
+  },
+  "audio_encodings": {
+    "WAV/PCM_16": 8576
+  },
+  "decoded_audio_hours": 36.712271359953824,
+  "candidate_audio_hours": 16.636113605324077,
+  "candidate_filter": "Nonempty expected-script transcript; fully decoded finite mono audio; RMS > 1e-5; at most 1% samples at absolute amplitude >= .999; 1 <= duration <= 20 seconds; first exact audio hash only. Provisional, not final alignment/TTS quality.",
+  "groups": {
+    "female": {
+      "rows": 4043,
+      "seconds": 86115.47400000018,
+      "candidate_seconds": 25528.035875000052,
+      "candidate_rows": 2222,
+      "sample_rates": {
+        "16000": 4043
+      },
+      "audio_path_examples": [
+        "train_telugufemale_00001.wav",
+        "train_telugufemale_00002.wav",
+        "train_telugufemale_00003.wav"
+      ],
+      "hours": 23.92096500000005,
+      "candidate_hours": 7.091121076388903
+    },
+    "male": {
+      "rows": 4533,
+      "seconds": 46048.702895833296,
+      "candidate_seconds": 34361.973104166645,
+      "candidate_rows": 4106,
+      "sample_rates": {
+        "48000": 4533
+      },
+      "audio_path_examples": [
+        "train_telugumale_00001.wav",
+        "train_telugumale_00002.wav",
+        "train_telugumale_00003.wav"
+      ],
+      "hours": 12.791306359953694,
+      "candidate_hours": 9.544992528935179
+    }
+  },
+  "duplicate_transcript_rows": 113,
+  "audio_path_examples": [
+    "train_telugufemale_00001.wav",
+    "train_telugufemale_00002.wav",
+    "train_telugufemale_00003.wav",
+    "train_telugufemale_00004.wav",
+    "train_telugufemale_00005.wav",
+    "train_telugufemale_00006.wav",
+    "train_telugufemale_00007.wav",
+    "train_telugufemale_00008.wav"
+  ],
+  "files": [
+    {
+      "file": "data/train-00000-of-00004.parquet",
+      "rows": 2144,
+      "bytes": 1200192373,
+      "sha256_verified": true
+    },
+    {
+      "file": "data/train-00001-of-00004.parquet",
+      "rows": 2144,
+      "bytes": 1363647665,
+      "sha256_verified": true
+    },
+    {
+      "file": "data/train-00002-of-00004.parquet",
+      "rows": 2144,
+      "bytes": 2149814979,
+      "sha256_verified": true
+    },
+    {
+      "file": "data/train-00003-of-00004.parquet",
+      "rows": 2144,
+      "bytes": 1727697226,
+      "sha256_verified": true
+    }
+  ],
+  "row_manifest": "data/dataset-audit/telugu-manifest.jsonl",
+  "duration_seconds_quantiles": {
+    "0": 0.6591875,
+    "0.01": 1.6744375,
+    "0.25": 7.026010416666667,
+    "0.5": 10.966583333333332,
+    "0.75": 20.553979166666668,
+    "0.95": 39.9873125,
+    "0.99": 60.39765625,
+    "1": 151.628875
+  },
+  "transcript_length_quantiles": {
+    "0": 6.0,
+    "0.5": 126.0,
+    "0.95": 400.25,
+    "1": 1473.0
+  },
+  "speaker_identity_note": "Gender labels alone do not prove unique speaker identity. Inspect source paths/card before mapping gender to speaker IDs.",
+  "feasible_5h_train_1h_validation_by_candidate_duration": true
+}

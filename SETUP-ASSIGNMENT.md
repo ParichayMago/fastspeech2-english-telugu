@@ -1,3 +1,7 @@
+> Historical setup notes from 1 November. For current preprocessing status and
+> explicitly estimated English speaker labels, read `ASSIGNMENT-WORKSPACE.md`,
+> `Report/Preprocessing_Methods.txt`, and `Results/Preprocessing/`.
+
 # FastSpeech 2 assignment: private repository and cloud setup
 
 Updated 1 November 2026. The private repository has been created and pushed:

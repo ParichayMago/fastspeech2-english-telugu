@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "language": "english",
+  "array_checks": "finite, matched phone lengths, 80-bin mels, duration sum equals mel frames, no silently dropped phones",
+  "feature_rows": {
+    "train": 3037,
+    "validation": 617
+  },
+  "source_selection_rows": {
+    "train": 3039,
+    "validation": 617
+  },
+  "feature_hours": {
+    "train": 4.653623985890653,
+    "validation": 0.93464509952129
+  },
+  "no_train_validation_sample_overlap": true,
+  "all_validation_speakers_seen_in_training": true,
+  "no_normalized_transcript_overlap": true,
+  "no_exact_audio_overlap": true,
+  "no_english_recording_chunk_overlap": true,
+  "english_speaker_ids_estimated": true,
+  "normalization": {
+    "pitch": {
+      "filtered_training_normalized_mean": 3.978453851065676e-11,
+      "filtered_training_normalized_variance": 1.00000000030225,
+      "training_phone_values": 156432
+    },
+    "energy": {
+      "filtered_training_normalized_mean": 1.0474215748965184e-08,
+      "filtered_training_normalized_variance": 1.0000000598768242,
+      "training_phone_values": 162624
+    }
+  },
+  "stats_sha256": "74d17a865ffe413d2acf163c5c530670969dbfd2ef7eaa14654d527c7dfc7fd7",
+  "train_metadata_sha256": "a5bb8afe151e8ab980349ea0d20a52d09f3772eae5c82d126db2b1e14f727c63",
+  "validation_metadata_sha256": "0e85cb3ca392955cb995b97c7cfde7c3db308d567dfb36b515349fcd4bfe6a44",
+  "feature_version": "gap-fixed-v2",
+  "full_cropped_alignment_timeline_verified": true,
+  "all_internal_gaps_covered_by_silence_tokens": true,
+  "all_speech_phone_identities_preserved": true
+}

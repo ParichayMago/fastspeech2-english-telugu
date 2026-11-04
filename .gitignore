@@ -139,3 +139,10 @@ logs/
 *.onnx
 *.safetensors
 # Store checkpoints through LFS or documented external downloads at submission.
+/English/checkpoints/*.pth.tar
+/Telugu/checkpoints/*.pth.tar
+/tmp/
+# Local account/workspace instructions are not submission artifacts.
+/AGENTS.md
+/ASSIGNMENT-WORKSPACE.md
+/Results/Submission/*.zip

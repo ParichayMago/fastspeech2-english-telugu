@@ -1,0 +1,80 @@
+{
+  "status": "gap_fixed_v2_rebuilt_verified_selected",
+  "date_local": "2026-11-03",
+  "timezone": "Asia/Kolkata",
+  "english_speaker_labeling": {
+    "estimated": true,
+    "original_ids_recovered": false,
+    "estimated_cluster_count": 254,
+    "training_only_fit": true,
+    "validation_uses_frozen_training_centroids": true,
+    "not_a_verified_person_count": true
+  },
+  "datasets": {
+    "english": {
+      "source_split_hours": {
+        "train": 5,
+        "validation": 1
+      },
+      "accepted_rows": {
+        "train": 3037,
+        "validation": 617
+      },
+      "aligned_feature_hours": {
+        "train": 3.9016167296548248,
+        "validation": 0.7994436885865457
+      },
+      "status_counts": {
+        "passed": 3654,
+        "unusable_pitch_or_alignment": 2
+      },
+      "independent_local_feature_check": "passed",
+      "real_data_gpu_check": "passed",
+      "speaker_labels_estimated": true,
+      "feature_smoke_covers_train_and_validation": true,
+      "source_config_directory": "config/English"
+    },
+    "telugu": {
+      "source_split_hours": {
+        "train": 5,
+        "validation": 1
+      },
+      "accepted_rows": {
+        "train": 2153,
+        "validation": 428
+      },
+      "aligned_feature_hours": {
+        "train": 3.705114638447972,
+        "validation": 0.7461345427059713
+      },
+      "status_counts": {
+        "passed": 2581
+      },
+      "independent_local_feature_check": "passed",
+      "real_data_gpu_check": "passed",
+      "speaker_labels_estimated": false,
+      "feature_smoke_covers_train_and_validation": true,
+      "source_config_directory": "config/Telugu"
+    }
+  },
+  "backup": {
+    "status": "passed",
+    "files": 49920,
+    "bytes": 2977172466,
+    "algorithm": "SHA-256",
+    "artifact_manifest_sha256": "0f774f22c5ab9bbb41b4d608c0f2094e6051a51e2aa1ea4d6a33df1895bf5b71",
+    "scope": "Local files verified against the manifest generated on the assignment GPU."
+  },
+  "full_tts_training_started": false,
+  "telugu_alignment_model_trained": true,
+  "limitations": [
+    "Original speaker identities are unavailable; English labels can merge or fragment voices.",
+    "Human listening, pronunciation correctness and speech quality remain unverified.",
+    "5h/1h source selections yield fewer aligned feature hours after boundary trimming."
+  ],
+  "methods": "Report/Preprocessing_Methods.txt",
+  "active_feature_version": "gap-fixed-v2",
+  "rebuild_report": "Results/Preprocessing/gap-fixed-v2/rebuild-summary.json",
+  "legacy_feature_reports_are_historical": true,
+  "corrected_feature_training_started": false
+}

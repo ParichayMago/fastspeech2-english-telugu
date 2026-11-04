@@ -1,0 +1,197 @@
+{
+  "configs": [
+    {
+      "dataset": "IndicTTSTelugu",
+      "path": {
+        "corpus_path": "/home/ming/Data/LJSpeech-1.1",
+        "lexicon_path": "lexicon/librispeech-lexicon.txt",
+        "raw_path": "data/preprocessing/telugu/corpus/train",
+        "preprocessed_path": "data/features/gap-fixed-v2/telugu"
+      },
+      "preprocessing": {
+        "val_size": 512,
+        "text": {
+          "text_cleaners": [],
+          "language": "en"
+        },
+        "audio": {
+          "sampling_rate": 22050,
+          "max_wav_value": 32768.0
+        },
+        "stft": {
+          "filter_length": 1024,
+          "hop_length": 256,
+          "win_length": 1024
+        },
+        "mel": {
+          "n_mel_channels": 80,
+          "mel_fmin": 0,
+          "mel_fmax": 8000
+        },
+        "pitch": {
+          "feature": "phoneme_level",
+          "normalization": true
+        },
+        "energy": {
+          "feature": "phoneme_level",
+          "normalization": true
+        }
+      },
+      "assignment_allowed_phones": [
+        "telphcff",
+        "telphcfg",
+        "telphcfgqcla",
+        "telphcfp",
+        "telphcfpqcla",
+        "telphcgb",
+        "telphcgbqcla",
+        "telphcgn",
+        "telphchd",
+        "telphcic",
+        "telphcii",
+        "telphciiqcla",
+        "telphcil",
+        "telphclc",
+        "telphgb",
+        "telphgbqcgk",
+        "telphgbqcik",
+        "telphgbqcna",
+        "telphgc",
+        "telphgcqcla",
+        "telphgd",
+        "telphgdqcla",
+        "telphge",
+        "telphgeqcla",
+        "telphgf",
+        "telphgfqcna",
+        "telphgi",
+        "telphgj",
+        "telphgjqcna",
+        "telphgk",
+        "telphgl",
+        "telphglqcla",
+        "telphgm",
+        "telphgn",
+        "telphgo",
+        "telphgp",
+        "telphgpqcna",
+        "telphha",
+        "telphhaqcla",
+        "telphhc",
+        "telphhd",
+        "telphhe",
+        "telphheqcla",
+        "telphhf",
+        "telphhfqcna"
+      ],
+      "estimated_acoustic_speaker_labels": false,
+      "feature_version": "gap-fixed-v2",
+      "checkpoint_compatibility": "Legacy checkpoints were trained with truncated targets; prepare separate fresh training."
+    },
+    {
+      "transformer": {
+        "encoder_layer": 4,
+        "encoder_head": 2,
+        "encoder_hidden": 256,
+        "decoder_layer": 6,
+        "decoder_head": 2,
+        "decoder_hidden": 256,
+        "conv_filter_size": 1024,
+        "conv_kernel_size": [
+          9,
+          1
+        ],
+        "encoder_dropout": 0.2,
+        "decoder_dropout": 0.2
+      },
+      "variance_predictor": {
+        "filter_size": 256,
+        "kernel_size": 3,
+        "dropout": 0.5
+      },
+      "variance_embedding": {
+        "pitch_quantization": "linear",
+        "energy_quantization": "linear",
+        "n_bins": 256
+      },
+      "multi_speaker": false,
+      "max_seq_len": 2048,
+      "vocoder": {
+        "model": "HiFi-GAN",
+        "speaker": "LJSpeech"
+      }
+    },
+    {
+      "path": {
+        "ckpt_path": "output/telugu/ckpt",
+        "log_path": "output/telugu/log",
+        "result_path": "output/telugu/result"
+      },
+      "optimizer": {
+        "batch_size": 8,
+        "betas": [
+          0.9,
+          0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 1,
+        "warm_up_step": 4000,
+        "anneal_steps": [
+          300000,
+          400000,
+          500000
+        ],
+        "anneal_rate": 0.3
+      },
+      "step": {
+        "total_step": 30000,
+        "log_step": 20,
+        "synth_step": 1000,
+        "val_step": 500,
+        "save_step": 100
+      }
+    }
+  ],
+  "session": {
+    "minutes": 120.0,
+    "max_steps": 30000,
+    "batch_size": 8,
+    "checkpoint_every": 100,
+    "validation_every": 500,
+    "run_id": "gap-fixed-v2-20261103",
+    "fresh": true
+  },
+  "data_sha256": {
+    "data/features/gap-fixed-v2/telugu/train.txt": "faca4152a0bb279960bc8f7610326cac7e361795e3b4669a467530f600c2e5dd",
+    "data/features/gap-fixed-v2/telugu/val.txt": "d0eb52aab781018a57d51c7b05c088922c7cebf784b5428ded3eb6c5f5c5cba7",
+    "data/features/gap-fixed-v2/telugu/stats.json": "43a87ff5e62fcace489a13abf8b0b6175935546f9e6d8a8a71eeb849d150fea6",
+    "data/features/gap-fixed-v2/telugu/speakers.json": "23b3a0747639f67c41c335854989f6f598c7a76c7a0b97f1fd6133f9e3be2e2a"
+  },
+  "source_sha256": {
+    "model/__init__.py": "5a70f0b3383e2774d40acb67396b314c480fa6d69013ae4910cf2e2a7e3d6334",
+    "model/fastspeech2.py": "bf7b8c5e38167bacdf98371eb255ec5e0a5d252b5159f590b36c810336b0bb6b",
+    "model/loss.py": "313dfaa9291a2b2313beeab2483f4b35369a22a973daa00fb3ae60ab5c716099",
+    "model/modules.py": "78dc8aab0cc5841aa00b62f74f56887d4d4305c56706dcf401bcc585615a3700",
+    "model/optimizer.py": "63af9cd318a884e29c9f05494f97ddf64896794a0b98dc7ba2085b19f678b788",
+    "transformer/Constants.py": "873d3731edfa37a25884a04178a0d5fd92ec7c185e12def33e4f2011969f00c3",
+    "transformer/Layers.py": "6640e2f2c100d476bb5e19c0bbde6e86565c7361905117c0aeb3887e1f7689e5",
+    "transformer/Models.py": "c0bbccd07bec29050bfdd930718a363f7cc0e851247e4c6232e19490d42073b0",
+    "transformer/Modules.py": "f6b4d686d3e726fbc07f094fd95adc82d3f5251d3370aac148cb39311534aa50",
+    "transformer/SubLayers.py": "c31120e18f95e292dd144e945f5022b62252c577555d9d9dcf1673257003d5bb",
+    "transformer/__init__.py": "0953287aac0a281bf3187af4bc05e7393917fbb2828872689ebce3c508d3e049",
+    "text/__init__.py": "c15a895e2b214a31e69a0b7cf19a340849a00cb4760cd7a4bf9b3b04320df0fd",
+    "text/cleaners.py": "4fd8de8d523300f0cbe9f52a6f68b86ddb58da10af3be1fb3bc5cb92a5a73282",
+    "text/cmudict.py": "e2c6a1c7246aaed2508b75da3ec1471ca5810f8bfe76534af5c228d0963e85fe",
+    "text/numbers.py": "1a2913110231d9afff58cb7b9c5583844d4a32f483e7aa361935874b911d37ef",
+    "text/pinyin.py": "dbd50dee0bc04ce6cbc0a03b009a4e59767f1a726232448334ec1a01c323c003",
+    "text/symbols.py": "5b22e6925ae2825c7c1993dc415d33db1d6103291e47c7667a2bc74774ad1326",
+    "utils/model.py": "4c884a09f84598898a01a44b7bd0c234593b799b42fca21a9459fd992848ce8d",
+    "utils/tools.py": "43b57b1b27836a7e35587a1a1d70cf4e426ba9f646b7d06df2e0c3f51f012a49",
+    "dataset.py": "1cef0d77e4a094cef98247d553784f6dbc2ee3d5b77e05ebe3ac95aee8d6219d",
+    "setup/train_assignment.py": "4d58811fea9950eab44bfade6e5d1c7b0de5737a3b1e7e532195b366c67334be"
+  },
+  "resume_semantics": "weights, Adam state, scheduler step; reshuffle on resume, not bit-exact mid-epoch",
+  "source_hours_note": "source selections approximately 5h/1h; aligned feature hours are smaller; see Preprocessing_Methods.txt"
+}

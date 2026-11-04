@@ -1,0 +1,41 @@
+{
+  "language": "english",
+  "scope": "full_selected_splits",
+  "status_counts": {
+    "passed": 3654,
+    "unusable_pitch_or_alignment": 2
+  },
+  "requested_rows": 3656,
+  "successful_rows": 3654,
+  "normalization_fit": "Training features only. Validation uses frozen training mean/std.",
+  "normalization_training_rows": 3037,
+  "normalization_feature_samples": {
+    "pitch": 147468,
+    "energy": 153387
+  },
+  "split_rows": {
+    "train": 3037,
+    "validation": 617
+  },
+  "feature_hours": {
+    "train": 3.9016167296548248,
+    "validation": 0.7994436885865457
+  },
+  "speaker_count": 254,
+  "english_speaker_labels_estimated": true,
+  "mel_bins": 80,
+  "sample_rate": 22050,
+  "hop_length": 256,
+  "failures": [
+    {
+      "sample_id": "en_77600a90a26460e24fb1",
+      "split": "train",
+      "status": "unusable_pitch_or_alignment"
+    },
+    {
+      "sample_id": "en_932bd9e379842552fb91",
+      "split": "train",
+      "status": "unusable_pitch_or_alignment"
+    }
+  ]
+}

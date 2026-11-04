@@ -1,0 +1,25 @@
+{
+  "language": "telugu",
+  "input_manifest_sha256": {
+    "train": "44abb88854d222c40ddc99a3de2199fd13a09d4babbff6040a6c6a5175b51172",
+    "validation": "8692ea931ad8fc5fead94026180f7615978121e3752003bea5e95aa44de5b481"
+  },
+  "normalization": "English upstream english_cleaners + word tokenization; Telugu NFC, num2words 0.5.14, Unicode letter/mark word tokenization.",
+  "pronunciations": "phonemizer 3.3.0 / eSpeak-NG Telugu; stress removed; safe ASCII phone IDs map back to IPA.",
+  "vocabulary_size": 13848,
+  "lexicon_sha256": "5c93b86cd256cfefcc05186daf43cb9d759bb21728fe76f7cf5bec937b6a6b4f",
+  "lexicon_validation_text_usage": "Deterministic G2P covers known validation words; no validation audio or learned statistics used to train a lexicon.",
+  "target_sampling_rate": 22050,
+  "corpus_written": true,
+  "limitations": [
+    "Automatic pronunciations and number expansions still need listening review.",
+    "Original transcripts are retained; normalization is applied to a separate field."
+  ],
+  "corpus_rows": 2581,
+  "resampling": "scipy.signal.resample_poly, no trimming; original WAV remains intact; scale only interpolation peaks exceeding .999.",
+  "interpolation_peak_scaled_rows": 37,
+  "split_hours": {
+    "train": 4.999930587049635,
+    "validation": 0.9999834341143865
+  }
+}

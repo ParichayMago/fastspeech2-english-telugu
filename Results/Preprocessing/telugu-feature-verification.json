@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "language": "telugu",
+  "array_checks": "finite, matched phone lengths, 80-bin mels, duration sum equals mel frames, no silently dropped phones",
+  "feature_rows": {
+    "train": 2153,
+    "validation": 428
+  },
+  "source_selection_rows": {
+    "train": 2153,
+    "validation": 428
+  },
+  "feature_hours": {
+    "train": 3.705114638447972,
+    "validation": 0.7461345427059713
+  },
+  "no_train_validation_sample_overlap": true,
+  "all_validation_speakers_seen_in_training": true,
+  "no_normalized_transcript_overlap": true,
+  "no_exact_audio_overlap": true,
+  "no_english_recording_chunk_overlap": null,
+  "english_speaker_ids_estimated": false,
+  "normalization": {
+    "pitch": {
+      "filtered_training_normalized_mean": 8.403249783067398e-06,
+      "filtered_training_normalized_variance": 0.9999903699118011,
+      "training_phone_values": 206895
+    },
+    "energy": {
+      "filtered_training_normalized_mean": -1.0808751340764463e-08,
+      "filtered_training_normalized_variance": 0.9999999944752637,
+      "training_phone_values": 207878
+    }
+  },
+  "stats_sha256": "24650c7a25056e62d581a97637bb4ef3bae41dc0578f5d27fbf91af82a7b2cdb",
+  "train_metadata_sha256": "1655868c02c3b502f60a932bd784f391f090e5157f931fcb5179696bbd4b5d08",
+  "validation_metadata_sha256": "7615856880bf421d46b9e95150b386b29b4620842f9aea2114ab1fad4ab79a60"
+}

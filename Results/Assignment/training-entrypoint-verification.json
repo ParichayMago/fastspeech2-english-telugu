@@ -1,0 +1,70 @@
+{
+  "checks": [
+    {
+      "entrypoint": "English/train.py",
+      "arguments": [
+        "--help"
+      ],
+      "exit_code": 0
+    },
+    {
+      "entrypoint": "English/train.py",
+      "arguments": [],
+      "exit_code": 2
+    },
+    {
+      "entrypoint": "English/train.py",
+      "arguments": [
+        "--run-id",
+        "cli-check",
+        "--language",
+        "both"
+      ],
+      "exit_code": 2
+    },
+    {
+      "entrypoint": "English/train.py",
+      "arguments": [
+        "--run-id",
+        "cli-check",
+        "--minutes",
+        "0"
+      ],
+      "exit_code": 2
+    },
+    {
+      "entrypoint": "Telugu/train.py",
+      "arguments": [
+        "--help"
+      ],
+      "exit_code": 0
+    },
+    {
+      "entrypoint": "Telugu/train.py",
+      "arguments": [],
+      "exit_code": 2
+    },
+    {
+      "entrypoint": "Telugu/train.py",
+      "arguments": [
+        "--run-id",
+        "cli-check",
+        "--language",
+        "both"
+      ],
+      "exit_code": 2
+    },
+    {
+      "entrypoint": "Telugu/train.py",
+      "arguments": [
+        "--run-id",
+        "cli-check",
+        "--minutes",
+        "0"
+      ],
+      "exit_code": 2
+    }
+  ],
+  "training_started": false,
+  "cloud_resources_changed": false
+}

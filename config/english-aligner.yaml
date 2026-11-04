@@ -1,0 +1,7 @@
+beam: 40
+retry_beam: 160
+num_jobs: 4
+blas_num_threads: 1
+use_postgres: false
+# Avoid speaker adaptation using unverified estimated speaker identities.
+uses_speaker_adaptation: false

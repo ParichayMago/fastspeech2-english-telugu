@@ -1,0 +1,41 @@
+{
+  "waveforms": "Original bytes, no resampling or trimming",
+  "datasets": {
+    "english": {
+      "train": {
+        "rows": 3039,
+        "hours": 4.9999787847222255,
+        "all_audio_sha256_verified": true,
+        "all_waveform_headers_verified": true,
+        "manifest": "data/splits/v1/english/train-prepared.jsonl",
+        "manifest_sha256": "11c38177c6f3f0236dcf843170bf815bc85ba75136fdc3e97240af789393b1cc"
+      },
+      "validation": {
+        "rows": 617,
+        "hours": 0.9999343923611114,
+        "all_audio_sha256_verified": true,
+        "all_waveform_headers_verified": true,
+        "manifest": "data/splits/v1/english/validation-prepared.jsonl",
+        "manifest_sha256": "b84b6cb43e686f3dadff9b1b8297602d2af296cdee381e6297e6cc0802f4d94a"
+      }
+    },
+    "telugu": {
+      "train": {
+        "rows": 2153,
+        "hours": 4.999918975694448,
+        "all_audio_sha256_verified": true,
+        "all_waveform_headers_verified": true,
+        "manifest": "data/splits/v1/telugu/train-prepared.jsonl",
+        "manifest_sha256": "44abb88854d222c40ddc99a3de2199fd13a09d4babbff6040a6c6a5175b51172"
+      },
+      "validation": {
+        "rows": 428,
+        "hours": 0.9999812210648156,
+        "all_audio_sha256_verified": true,
+        "all_waveform_headers_verified": true,
+        "manifest": "data/splits/v1/telugu/validation-prepared.jsonl",
+        "manifest_sha256": "8692ea931ad8fc5fead94026180f7615978121e3752003bea5e95aa44de5b481"
+      }
+    }
+  }
+}

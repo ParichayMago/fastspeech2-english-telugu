@@ -1,0 +1,30 @@
+{
+  "english": {
+    "frozen_utc": "2026-11-04T03:20:39.365807+00:00",
+    "path": "English/checkpoints/final.pth.tar",
+    "sha256": "74ce8b28183ec37f98a001bfcd5b484cb660a2eea2d1a780ef6dc8ea7e6a38bc",
+    "bytes": 146379717,
+    "step": 1000,
+    "model_type": "learned_pause_v1",
+    "source_run": "english-learned-pauses-pilot-20261104",
+    "validation_total_loss": 3.0544298015885065,
+    "source_checkpoint": "output/runs/english-learned-pauses-pilot-20261104/english/best.pth.tar",
+    "selection_basis": "Lowest complete validation loss within the selected run; no cross-objective loss ranking",
+    "quality_status": "Human evaluation on the exact assignment test set still required",
+    "original_checkpoints_preserved": true
+  },
+  "telugu": {
+    "frozen_utc": "2026-11-04T03:20:39.633878+00:00",
+    "path": "Telugu/checkpoints/final.pth.tar",
+    "sha256": "2268f94c05c0c90d9a4b85780971b40dd07297bc39a16271b375311d4b7fcfb8",
+    "bytes": 142942235,
+    "step": 18000,
+    "model_type": "fastspeech2",
+    "source_run": "gap-fixed-v2-20261103",
+    "validation_total_loss": 2.1064703464508057,
+    "source_checkpoint": "output/runs/gap-fixed-v2-20261103/telugu/best.pth.tar",
+    "selection_basis": "Lowest complete validation loss within the selected run; no cross-objective loss ranking",
+    "quality_status": "Human evaluation on the exact assignment test set still required",
+    "original_checkpoints_preserved": true
+  }
+}

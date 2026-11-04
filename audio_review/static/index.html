@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Listen — Assignment audio review</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+<header><a class="brand" href="/">◖ <span>listen<span class="dot">.</span></span></a><span class="project">FASTSPEECH 2 <span>/</span> AUDIO REVIEW</span><span class="local"><i></i> Local on your Mac</span></header>
+<div class="shell">
+<aside>
+ <div class="eyebrow">LIBRARY</div>
+ <nav aria-label="Audio source"><button class="source active" data-kind="dataset">◉ <span>Dataset recordings</span></button></nav>
+ <label>Language<select id="language"><option value="english">English</option><option value="telugu">Telugu</option><option value="all">Both languages</option></select></label>
+ <label id="splitLabel">Dataset split<select id="split"><option value="train">Training</option><option value="validation">Validation</option><option value="all">Both splits</option></select></label>
+ <label>Speaker<select id="speaker"><option value="all">All speakers</option></select></label>
+ <label>Review status<select id="status"><option value="all">All recordings</option><option value="unreviewed">Not reviewed</option><option value="good">Good audio</option><option value="needs_work">Needs review</option><option value="reject">Rejected</option></select></label>
+ <label class="check"><input id="flagged" type="checkbox"> Flagged recordings only</label>
+ <div class="progressBox"><div class="eyebrow">YOUR SELECTION</div><strong id="goodCount">0</strong><span> good recordings</span><p id="goodDuration">0 min selected</p><div class="progressTrack"><div id="progress"></div></div><small id="reviewedCount">0 reviewed</small><button id="export" class="export">↓ Export good audio list</button><small>Exports a CSV for this source, language, split and speaker.</small></div>
+ <p class="sidebarNote">Reviews are saved separately. Selecting audio does not change training or move recordings between splits.</p>
+</aside>
+<main>
+ <div class="heading"><div><div class="eyebrow" id="sectionLabel">DATASET RECORDINGS</div><h1>A good voice starts<br>with a good listen.</h1><p id="intro">Listen to the original recordings and choose what is worth keeping.</p></div><div class="headerActions"><div class="savePill" id="saved" role="status">Ready</div><button id="topExport">↓ Export good selections</button></div></div>
+ <div class="toolbar"><input id="search" type="search" placeholder="Search transcript, speaker or sample…" aria-label="Search recordings"><span id="matchCount"></span></div><p id="scopeSummary" class="scopeSummary"></p>
+ <div class="workbench">
+  <section class="queue" aria-label="Recordings"><div class="queueHeader">RECORDINGS <span id="position"></span></div><div id="list"></div><div class="pagination"><button id="pagePrev" aria-label="Previous page">←</button><span id="pageLabel"></span><button id="pageNext" aria-label="Next page">→</button></div></section>
+  <section class="detail" id="detail"><p class="empty">Loading your audio library…</p></section>
+ </div>
+ <section id="compare" class="compare" hidden><div class="compareHeader"><h2>A/B listening desk</h2><button id="clearCompare">Clear</button></div><p>Compare the same sentence when possible. Play one version at a time.</p><div id="compareSlots"></div></section>
+ <footer><span><kbd>Space</kbd> Play / pause &nbsp; <kbd>←</kbd> <kbd>→</kbd> Previous / next</span><span><kbd>1</kbd> Good &nbsp; <kbd>2</kbd> Needs review &nbsp; <kbd>3</kbd> Reject</span></footer>
+</main></div>
+<div id="toast" role="alert" hidden></div><script src="/app.js"></script>
+</body></html>

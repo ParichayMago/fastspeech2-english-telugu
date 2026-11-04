@@ -1,0 +1,54 @@
+{
+  "feature_version": "learned-pauses-v1",
+  "source_version": "gap-fixed-v2",
+  "splits": {
+    "train": {
+      "accepted": 3037,
+      "source_rows": 3039,
+      "feature_hours": 4.653623985890653,
+      "boundary_slots": 35249,
+      "positive_pause_slots": 8994,
+      "zero_pause_slots": 26255
+    },
+    "validation": {
+      "accepted": 617,
+      "source_rows": 617,
+      "feature_hours": 0.93464509952129,
+      "boundary_slots": 7348,
+      "positive_pause_slots": 1751,
+      "zero_pause_slots": 5597
+    }
+  },
+  "status_counts": {
+    "passed": 3654
+  },
+  "rejection_reasons": {},
+  "checks": [
+    "word/phone/transcript identity",
+    "exact measured boundary frames",
+    "zero targets for absent pauses",
+    "full mel frame coverage",
+    "unchanged speech phone targets",
+    "byte-identical source mel arrays",
+    "frozen normalization and speaker maps"
+  ],
+  "boundary_schema": {
+    "version": "learned-pauses-v1",
+    "boundary_types": {
+      "none": 1,
+      "comma": 2,
+      "period": 3,
+      "question": 4,
+      "exclamation": 5,
+      "clause": 6
+    },
+    "target_units": "integer mel frames measured from original word/phone alignments",
+    "train_pause_prior": 0.2551561746432523,
+    "train_pause_pos_weight": 2.9191683344451858,
+    "train_mean_positive_log_duration": 2.7825553409837633,
+    "train_max_pause_frames": 354,
+    "terminal_boundary": "conditioning feature only; no trailing-silence target or pause loss",
+    "fixed_pause_lengths": false,
+    "statistics_fit": "training only; existing pitch/energy normalization frozen"
+  }
+}

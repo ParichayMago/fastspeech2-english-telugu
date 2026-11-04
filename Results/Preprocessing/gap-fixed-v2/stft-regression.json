@@ -1,0 +1,5 @@
+{
+  "status": "passed",
+  "scope": "Native CPU FFT versus original Fourier-convolution magnitude on deterministic signal",
+  "max_magnitude_absolute_error": 1.6689300537109375e-06
+}

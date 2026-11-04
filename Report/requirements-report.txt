@@ -1,0 +1,7 @@
+# Python 3.12; CPU-only PDF authoring dependencies.
+reportlab==4.4.9
+pypdf==6.10.0
+uharfbuzz==0.57.0
+fonttools==4.68.0
+Pillow==12.3.0
+charset-normalizer==3.5.2

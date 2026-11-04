@@ -1,0 +1,37 @@
+{
+  "english": {
+    "sha256": "d35ce271ded357d833d2f4b8d1041dc3748b9538567ba13f2c697f4e4126711b",
+    "bytes": 91928208,
+    "local_model": "/workspace/.cache/mfa/pretrained_models/acoustic/english_us_arpa.zip",
+    "validation_audio_used_for_fitting": false,
+    "archive_files": [
+      "english_us_arpa/",
+      "english_us_arpa/final.alimdl",
+      "english_us_arpa/final.mdl",
+      "english_us_arpa/graphemes.txt",
+      "english_us_arpa/lda.mat",
+      "english_us_arpa/meta.json",
+      "english_us_arpa/phones.txt",
+      "english_us_arpa/phone_lm.fst",
+      "english_us_arpa/phone_pdf.counts",
+      "english_us_arpa/rules.yaml",
+      "english_us_arpa/tree"
+    ]
+  },
+  "telugu": {
+    "sha256": "cb8f921ce4af35ac310213f4bbc2096798a06cff8fd524f267255d459911e842",
+    "bytes": 1713929,
+    "local_model": "data/preprocessing/telugu/mfa-model.zip",
+    "validation_audio_used_for_fitting": false,
+    "archive_files": [
+      "mfa-model/",
+      "mfa-model/meta.json",
+      "mfa-model/final.mdl",
+      "mfa-model/phone_pdf.counts",
+      "mfa-model/phone_lm.fst",
+      "mfa-model/tree",
+      "mfa-model/phones.txt",
+      "mfa-model/graphemes.txt"
+    ]
+  }
+}

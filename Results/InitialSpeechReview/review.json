@@ -1,0 +1,114 @@
+{
+  "method": "signal measurements and local multilingual Whisper-small without text prompts",
+  "human_listening_performed": false,
+  "cloud_compute_used": false,
+  "limitations": [
+    "ASR errors are not direct pronunciation or naturalness scores",
+    "Two short generated sentences do not represent all test cases",
+    "Natural reference controls test the recognizer on these languages"
+  ],
+  "samples": {
+    "english_generated": {
+      "language": "english",
+      "kind": "generated",
+      "path": "Results/English/initial_generated_audios/preview.wav",
+      "sha256": "bcf6dd8e17579eb27c19c2c4fccd93b7e959f68f7ccae219c263eb45557ed48f",
+      "expected_text": "The meeting will start on time.",
+      "asr_text": " The reading makes that I am...",
+      "duration_seconds": 1.6137868480725623,
+      "sampling_rate": 22050,
+      "peak": 0.3585205078125,
+      "rms_dbfs": -20.51582919435502,
+      "full_scale_sample_fraction": 0.0,
+      "normalized_word_error_rate": 0.8333333333333334,
+      "normalized_character_error_rate": 0.56,
+      "segments": [
+        {
+          "start": 0.0,
+          "end": 1.6,
+          "text": " The reading makes that I am...",
+          "avg_logprob": -0.7771554946899414,
+          "no_speech_prob": 0.0736735388636589
+        }
+      ]
+    },
+    "english_natural_control": {
+      "language": "english",
+      "kind": "natural_control",
+      "path": "data/splits/v1/english/wav/en_0fa07a0a662d1934de3f.wav",
+      "sha256": "ea2c3dc91f169018eaa4052882181a75024e56ecce581a1e2d6a8a10af43ca8d",
+      "expected_text": "And my second visit was to Nagpur",
+      "asr_text": " and my second visit was to a Nagpur.",
+      "duration_seconds": 3.499125,
+      "sampling_rate": 16000,
+      "peak": 0.26324462890625,
+      "rms_dbfs": -28.13696744842852,
+      "full_scale_sample_fraction": 0.0,
+      "normalized_word_error_rate": 0.14285714285714285,
+      "normalized_character_error_rate": 0.037037037037037035,
+      "segments": [
+        {
+          "start": 0.0,
+          "end": 4.0,
+          "text": " and my second visit was to a Nagpur.",
+          "avg_logprob": -0.5460588381840632,
+          "no_speech_prob": 0.007988553494215012
+        }
+      ]
+    },
+    "telugu_generated": {
+      "language": "telugu",
+      "kind": "generated",
+      "path": "Results/Telugu/initial_generated_audios/preview.wav",
+      "sha256": "762429fd316e0d197a474f384f556d10e8be7ffbcac21eb35f463129e55d32af",
+      "expected_text": "అతని పట్టు చాలా బలంగా ఉంది.",
+      "asr_text": " వారినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినిన",
+      "duration_seconds": 1.7298866213151927,
+      "sampling_rate": 22050,
+      "peak": 0.693695068359375,
+      "rms_dbfs": -18.460511703825475,
+      "full_scale_sample_fraction": 0.0,
+      "normalized_word_error_rate": 1.0,
+      "normalized_character_error_rate": 4.909090909090909,
+      "segments": [
+        {
+          "start": 0.0,
+          "end": 1.72,
+          "text": " వారినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినిన",
+          "avg_logprob": -0.33071007622612847,
+          "no_speech_prob": 0.23450978100299835
+        }
+      ]
+    },
+    "telugu_natural_control": {
+      "language": "telugu",
+      "kind": "natural_control",
+      "path": "data/splits/v1/telugu/wav/te_17147ecb0760601672fc.wav",
+      "sha256": "6d26b6c8c6fa73e2f18533dd454faf898ae0cfee753a7c2e939d85d75eab9e60",
+      "expected_text": "నేను పట్టుకు నడిపిస్తాలే రా, అన్నది నక్క.",
+      "asr_text": " నినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినిన",
+      "duration_seconds": 3.498666666666667,
+      "sampling_rate": 48000,
+      "peak": 0.208526611328125,
+      "rms_dbfs": -31.82034751584123,
+      "full_scale_sample_fraction": 0.0,
+      "normalized_word_error_rate": 1.0,
+      "normalized_character_error_rate": 3.0,
+      "segments": [
+        {
+          "start": 0.0,
+          "end": 3.49,
+          "text": " నినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినినిన",
+          "avg_logprob": -0.32492411295572915,
+          "no_speech_prob": 0.012858354486525059
+        }
+      ]
+    }
+  },
+  "assessment": {
+    "english": "Intelligibility concern: independent recognizer strongly mismatches the intended text, while a natural English control is mostly recovered. One short sentence does not establish overall accuracy.",
+    "telugu": "Automated intelligibility assessment inconclusive: the recognizer produces repetitive text on both synthetic and natural Telugu. Do not interpret its error rate as evidence of TTS failure.",
+    "signal": "Both generated waveforms have finite audio and no full-scale clipping. This does not establish naturalness or correct pronunciation.",
+    "next_diagnostic": "Compare natural audio and its ground-truth-mel vocoder reconstruction, then inspect predicted durations and mel outputs before deciding on further training."
+  }
+}

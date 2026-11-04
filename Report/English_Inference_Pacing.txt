@@ -1,0 +1,51 @@
+English inference pacing and pauses
+
+Updated the local English inference frontend without changing model weights,
+training data, feature arrays, speaker labels, vocoder weights or any cloud
+resource. Best checkpoint: english-finetune-pilot-20261104, 2,500 additional
+updates from parent step 12,000. Speaker en_est_0155, universal HiFi-GAN.
+
+The former custom-text path normalized an entire passage to a single phoneme
+sequence, discarding punctuation boundaries. The new custom-text default plans
+clauses before normalizing them. Word order is checked against whole-text
+normalization, and every phone must survive vocabulary encoding. Word-internal
+hyphens and contractions do not introduce pauses. Numeric punctuation and common
+abbreviations do not create false boundaries. Unpunctuated clauses are capped
+at 30 normalized words per model call.
+
+Each clause is synthesized separately. Predicted continuous phoneme durations
+are multiplied by 1.2 BEFORE rounding, with at least one frame per spoken phone.
+The decoder is rerun with those adjusted durations; pitch and energy still come
+from the model. This is resynthesis, not stretching the finished waveform.
+It does not train question intonation or create a punctuation-conditioned model.
+
+Explicit inter-clause waveform silence: comma 0.14 s, colon/semicolon 0.24 s,
+period 0.40 s, question/exclamation 0.45 s. No trailing pause. Overflow clauses
+use 0.16 s. Five-millisecond boundary fades reduce join clicks. No denoising,
+noise gating, spectral filtering or loudness normalization is used. Per-clause
+predictions are saved individually; inserted silence samples are separately
+recorded and are not misreported as acoustic model mel frames.
+
+MIT passage comparison
+The exact user-supplied passage was reused. Original: 10.240 seconds. Paced:
+13.864444 seconds, including 0.780 seconds of explicit inter-clause silence.
+The original WAV remains SHA256 unchanged. Comparison checks confirm identical
+original text, normalized words, lexical phoneme sequence, speaker label and
+checkpoint SHA256. There are four synthesis clauses. Audible improvement is
+for the user to assess; the remaining model/vocoder quality limitations persist.
+
+Audio and comparison metadata:
+Results/Training/english-finetune-pilot-20261104/paced_english_samples/best-2500/custom-4cd6e06bd9f3/
+The old custom_english_samples output is preserved for A/B comparison.
+
+Usage from the assignment checkout:
+.venvs/inference/bin/python English/inference.py --text "Your English text."
+Use --duration-control to override 1.2. Use --pacing legacy to reproduce the
+previous whole-text frontend at default duration control 1.0. Custom text also
+defaults to punctuation pacing in setup/generate_reviewed_english_samples.py;
+reviewed-training-sentence generation retains the legacy default for reproducibility.
+
+Verification: five tests passed for passage word/punctuation preservation,
+numeric/abbreviation handling, long-text chunking, duration rounding, and exact
+waveform silence lengths without mutating input audio arrays. The real MIT
+passage synthesis passed SHA256 and content identity checks.

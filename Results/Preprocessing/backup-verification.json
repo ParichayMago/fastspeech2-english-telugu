@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "files": 49920,
+  "bytes": 2977172466,
+  "algorithm": "SHA-256",
+  "artifact_manifest_sha256": "0f774f22c5ab9bbb41b4d608c0f2094e6051a51e2aa1ea4d6a33df1895bf5b71",
+  "scope": "Local files verified against the manifest generated on the assignment GPU."
+}

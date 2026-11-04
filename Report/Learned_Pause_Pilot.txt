@@ -1,0 +1,84 @@
+Learned English pause pilot — 4 November 2026
+
+Run: english-learned-pauses-pilot-20261104
+Authorized Pod: wise_black_skink / lyht2en7fs40hz
+Parent: English fine-tuning best checkpoint, additional step 2500 on the original
+step-12000 model. SHA256 b4955131de0b8915ede03eb2232fe4da9702136c1086d67bb31f5c0943f24aad.
+
+Purpose
+The previous punctuation frontend inserted silence and scaled durations after
+splitting text. This pilot instead trains pause presence/duration inside the
+model. A shared frontend places a boundary slot after EVERY word, including
+words with no recorded pause. Punctuation category embeddings provide context to
+the encoder, duration heads, and existing pitch/energy predictors.
+
+Measured supervision and local gates
+New isolated features: data/features/learned-pauses-v1/english.
+All 3654 usable source clips passed target verification; there are no new rejects.
+Train: 3037 clips, 4.653624 aligned hours, 35249 internal boundaries, 8994 positive
+measured pauses and 26255 zero-duration examples.
+Validation: 617 clips, 0.934645 aligned hours, 7348 internal boundaries, 1751
+positive and 5597 zero-duration examples. The original approximately 5h/1h source
+selection and split membership are preserved; alignment reduces usable duration.
+
+The old mel arrays, lexical phone duration/pitch/energy targets, normalization,
+and estimated speaker map are preserved. Measured gap frames agree exactly with
+word alignment boundaries; all duration sums equal complete source mel lengths.
+Raw transcript punctuation is retained; whitespace is folded for metadata rows.
+Terminal punctuation conditions sentence type but has no trailing-silence target.
+The training-only maximum observed pause is 354 mel frames, used as an inference
+safety cap. No punctuation type is assigned a hand-written pause length.
+
+Four local tests passed: all saved feature targets, text-derived inference slots,
+real full-target forward/backward gradients through new heads and boundary
+embeddings, and model-driven zero versus positive pause durations. CUDA readiness
+must also pass on the longest eight training and validation examples before launch.
+Local proof: Results/Preprocessing/learned-pauses-v1/local-verification.json.
+
+Training and inference
+All parent weights are loaded unchanged before training. New boundary embeddings
+and two variance predictors are added. Pause-presence weighted BCE and positive
+pause log-duration MSE are each weighted 0.25; the other losses retain full mel,
+postnet mel, active-token pitch/energy, and lexical-phone duration supervision.
+The optimizer is new Adam: parent parameters 2e-5, new pause parameters 2e-4.
+Additional pilot steps start at zero. Full 617-example validation establishes a
+new step-zero baseline; the eight-component total cannot be directly compared
+with the parent's old six-component validation loss 2.5788.
+A 90-minute / 20000-step bound and eight non-improving validations constrain the
+experiment. Save latest every100 steps and validate every500; best uses complete
+validation only. The disposable GPU readiness update is never used for training.
+
+Learned inference uses one full utterance through the model and one vocoder call.
+Pause durations come from the new heads and the length regulator. It inserts no
+external silence, does not split sentences, applies no duration multiplier or
+waveform fades, and uses no denoising. English/inference.py detects this checkpoint
+format and selects the learned inference path. Local synthesis (from the assignment workspace):
+.venvs/inference/bin/python English/inference.py --run-id english-learned-pauses-pilot-20261104 --text "Hello, how are you?"
+
+Budget and backups
+The dedicated local supervisor owns credit checks, SHA256-verified local copies
+of latest/best checkpoints, and stopping exactly lyht2en7fs40hz. Container disk is
+temporary, 50GB, with no network volume. GPU rate is $0.50/h; conservative disk
+allowance brings the running estimate to $0.506944/h. Elapsed costs count from Pod
+creation, including setup. Prior assignment costs are conservatively reserved at
+$6, not represented as an exact billing audit. This pilot stays under $2 and total
+assignment spend under $20. Soft stop at $1.50 or150min; hard stop at $1.75 or180min,
+with extra safety thresholds for low account credit, setup timeout, or abort.
+Hard budget shutdown takes priority if a backup fails.
+
+Limits of the result
+The data are conversational ASR recordings with estimated acoustic speaker labels,
+not verified single-speaker narration. Punctuation, especially colons/exclamations,
+is sparse. This pilot tests learned pause supervision and punctuation conditioning;
+it does not establish natural intonation, clarity, or convergence. Existing
+phoneme-level pitch/energy targets remain in use. Model quality must be judged
+using the same untreated text/speaker/vocoder before and after, especially the MIT
+passage. Preserve earlier models as comparisons and do not claim improvement from
+loss alone. Actual launch, GPU proof, progress, budgets, and backup hashes are in
+Results/Training/english-learned-pauses-pilot-20261104/.
+
+Punctuation coverage (all boundaries, including terminal conditioning)
+Training: no punctuation35243, comma1555, period1259, question220, exclamation7,
+clause2. Validation: no punctuation7428, comma248, period237, question52. No
+held-out clause/exclamation boundaries exist, so those cannot be validated by
+the pilot metrics. Sparse punctuation limits learned expressive intonation.

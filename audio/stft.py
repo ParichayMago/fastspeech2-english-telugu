@@ -50,35 +50,16 @@ class STFT(torch.nn.Module):
         self.register_buffer("inverse_basis", inverse_basis.float())
 
     def transform(self, input_data):
-        num_batches = input_data.size(0)
-        num_samples = input_data.size(1)
-
-        self.num_samples = num_samples
-
-        # similar to librosa, reflect-pad the input
-        input_data = input_data.view(num_batches, 1, num_samples)
-        input_data = F.pad(
-            input_data.unsqueeze(1),
-            (int(self.filter_length / 2), int(self.filter_length / 2), 0, 0),
-            mode="reflect",
-        )
-        input_data = input_data.squeeze(1)
-
-        forward_transform = F.conv1d(
-            input_data.cuda(),
-            torch.autograd.Variable(self.forward_basis, requires_grad=False).cuda(),
-            stride=self.hop_length,
-            padding=0,
-        ).cpu()
-
-        cutoff = int((self.filter_length / 2) + 1)
-        real_part = forward_transform[:, :cutoff, :]
-        imag_part = forward_transform[:, cutoff:, :]
-
-        magnitude = torch.sqrt(real_part ** 2 + imag_part ** 2)
-        phase = torch.autograd.Variable(torch.atan2(imag_part.data, real_part.data))
-
-        return magnitude, phase
+        self.num_samples = input_data.size(1)
+        # Equivalent centered reflection padding and periodic window, on the
+        # input device. Native FFT avoids CUDA-only Fourier-convolution calls.
+        window = torch.as_tensor(get_window(self.window, self.win_length, fftbins=True),
+                                 dtype=input_data.dtype, device=input_data.device)
+        spectrum = torch.stft(input_data, n_fft=self.filter_length,
+                              hop_length=self.hop_length, win_length=self.win_length,
+                              window=window, center=True, pad_mode="reflect",
+                              normalized=False, onesided=True, return_complex=True)
+        return spectrum.abs(), spectrum.angle()
 
     def inverse(self, magnitude, phase):
         recombine_magnitude_phase = torch.cat(

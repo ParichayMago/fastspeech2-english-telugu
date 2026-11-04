@@ -1,0 +1,14 @@
+{
+  "frozen_utc": "2026-11-04T03:20:39.633878+00:00",
+  "path": "Telugu/checkpoints/final.pth.tar",
+  "sha256": "2268f94c05c0c90d9a4b85780971b40dd07297bc39a16271b375311d4b7fcfb8",
+  "bytes": 142942235,
+  "step": 18000,
+  "model_type": "fastspeech2",
+  "source_run": "gap-fixed-v2-20261103",
+  "validation_total_loss": 2.1064703464508057,
+  "source_checkpoint": "output/runs/gap-fixed-v2-20261103/telugu/best.pth.tar",
+  "selection_basis": "Lowest complete validation loss within the selected run; no cross-objective loss ranking",
+  "quality_status": "Human evaluation on the exact assignment test set still required",
+  "original_checkpoints_preserved": true
+}

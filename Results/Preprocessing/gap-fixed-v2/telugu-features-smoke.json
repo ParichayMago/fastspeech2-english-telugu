@@ -1,0 +1,33 @@
+{
+  "language": "telugu",
+  "scope": "small_subset_check",
+  "status_counts": {
+    "passed": 24
+  },
+  "requested_rows": 24,
+  "successful_rows": 24,
+  "normalization_fit": "Training features only. Validation uses frozen training mean/std.",
+  "normalization_training_rows": 12,
+  "normalization_feature_samples": {
+    "pitch": 1316,
+    "energy": 1318
+  },
+  "split_rows": {
+    "train": 12,
+    "validation": 12
+  },
+  "feature_hours": {
+    "train": 0.02663522297808012,
+    "validation": 0.0169376669186193
+  },
+  "feature_version": "gap-fixed-v2",
+  "feature_path": "data/features/gap-fixed-v2/telugu-smoke",
+  "rows_with_preserved_gaps": 22,
+  "preserved_internal_gap_hours": 0.005572222222222221,
+  "speaker_count": 1,
+  "english_speaker_labels_estimated": false,
+  "mel_bins": 80,
+  "sample_rate": 22050,
+  "hop_length": 256,
+  "failures": []
+}

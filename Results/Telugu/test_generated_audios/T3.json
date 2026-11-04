@@ -1,0 +1,293 @@
+{
+  "source_text": "పులి అడ విలో నిశ్శబ్దంగా నడిచింది.",
+  "spoken_form_before_generic_normalization": "పులి అడ విలో నిశ్శబ్దంగా నడిచింది.",
+  "normalized_words": [
+    "పులి",
+    "అడ",
+    "విలో",
+    "నిశ్శబ్దంగా",
+    "నడిచింది"
+  ],
+  "phones": [
+    "telphha",
+    "telphhf",
+    "telphgm",
+    "telphgj",
+    "telphgb",
+    "telphcfg",
+    "telphgb",
+    "telphcil",
+    "telphgj",
+    "telphgm",
+    "telphgpqcna",
+    "telphgo",
+    "telphgj",
+    "telphcff",
+    "telphcff",
+    "telphgb",
+    "telphgc",
+    "telphge",
+    "telphgb",
+    "telphgo",
+    "telphcgb",
+    "telphgbqcna",
+    "telphgo",
+    "telphgb",
+    "telphcfg",
+    "telphgj",
+    "telphgd",
+    "telphgj",
+    "telphgo",
+    "telphge",
+    "telphgj"
+  ],
+  "boundary_types": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "word_spans": [
+    {
+      "word": "పులి",
+      "start": 0,
+      "end": 4
+    },
+    {
+      "word": "అడ",
+      "start": 4,
+      "end": 7
+    },
+    {
+      "word": "విలో",
+      "start": 7,
+      "end": 11
+    },
+    {
+      "word": "నిశ్శబ్దంగా",
+      "start": 11,
+      "end": 22
+    },
+    {
+      "word": "నడిచింది",
+      "start": 22,
+      "end": 31
+    }
+  ],
+  "normalization_changes": [],
+  "pronunciations": [
+    {
+      "word": "పులి",
+      "phones": [
+        "telphha",
+        "telphhf",
+        "telphgm",
+        "telphgj"
+      ],
+      "source": "espeak_Telugu_OOV",
+      "IPA": [
+        "p",
+        "u",
+        "l",
+        "i"
+      ]
+    },
+    {
+      "word": "అడ",
+      "phones": [
+        "telphgb",
+        "telphcfg",
+        "telphgb"
+      ],
+      "source": "espeak_Telugu_OOV",
+      "IPA": [
+        "a",
+        "ɖ",
+        "a"
+      ]
+    },
+    {
+      "word": "విలో",
+      "phones": [
+        "telphcil",
+        "telphgj",
+        "telphgm",
+        "telphgpqcna"
+      ],
+      "source": "espeak_Telugu_OOV",
+      "IPA": [
+        "ʋ",
+        "i",
+        "l",
+        "oː"
+      ]
+    },
+    {
+      "word": "నిశ్శబ్దంగా",
+      "phones": [
+        "telphgo",
+        "telphgj",
+        "telphcff",
+        "telphcff",
+        "telphgb",
+        "telphgc",
+        "telphge",
+        "telphgb",
+        "telphgo",
+        "telphcgb",
+        "telphgbqcna"
+      ],
+      "source": "espeak_Telugu_OOV",
+      "IPA": [
+        "n",
+        "i",
+        "ɕ",
+        "ɕ",
+        "a",
+        "b",
+        "d",
+        "a",
+        "n",
+        "ɡ",
+        "aː"
+      ]
+    },
+    {
+      "word": "నడిచింది",
+      "phones": [
+        "telphgo",
+        "telphgb",
+        "telphcfg",
+        "telphgj",
+        "telphgd",
+        "telphgj",
+        "telphgo",
+        "telphge",
+        "telphgj"
+      ],
+      "source": "espeak_Telugu_OOV",
+      "IPA": [
+        "n",
+        "a",
+        "ɖ",
+        "i",
+        "c",
+        "i",
+        "n",
+        "d",
+        "i"
+      ]
+    }
+  ],
+  "espeak_version_for_OOV": "1.52.0",
+  "normalization_note": "Visible split words retained; no spelling correction or waveform pacing",
+  "sequence": [
+    397,
+    403,
+    392,
+    387,
+    374,
+    361,
+    374,
+    372,
+    387,
+    392,
+    396,
+    394,
+    387,
+    360,
+    360,
+    374,
+    378,
+    382,
+    374,
+    394,
+    365,
+    377,
+    394,
+    374,
+    361,
+    387,
+    380,
+    387,
+    394,
+    382,
+    387
+  ],
+  "id": "T3",
+  "language": "telugu",
+  "generated_utc": "2026-11-04T03:24:06.173133+00:00",
+  "required_assignment_sample": true,
+  "checkpoint_step": 18000,
+  "checkpoint_sha256": "2268f94c05c0c90d9a4b85780971b40dd07297bc39a16271b375311d4b7fcfb8",
+  "checkpoint_path": "Telugu/checkpoints/final.pth.tar",
+  "model_type": "fastspeech2",
+  "source_run": "gap-fixed-v2-20261103",
+  "speaker": "te_male",
+  "speaker_labels_estimated": false,
+  "vocoder_sha256": "771eaf4876485a35e25577563d390c262e23c2421e4a8c929eacfde34a5b7a60",
+  "sampling_rate": 22050,
+  "hop_length": 256,
+  "frames": 151,
+  "seconds": 1.7531065759637188,
+  "audio_path": "Results/Telugu/test_generated_audios/T3.wav",
+  "audio_sha256": "f9d707a88647d0b0aaa4934252674a35a935ab7601202dfb8558a9eb5466abb8",
+  "predictions_path": "Results/Telugu/test_generated_audios/T3_predictions.npz",
+  "variance_csv": "Results/Telugu/test_generated_audios/T3_variance.csv",
+  "plots": {
+    "duration": "Results/Telugu/variance_adaptor_plots/duration/T3.png",
+    "pitch": "Results/Telugu/variance_adaptor_plots/pitch/T3.png",
+    "energy": "Results/Telugu/variance_adaptor_plots/energy/T3.png"
+  },
+  "duration_control": 1.0,
+  "pitch_control": 1.0,
+  "energy_control": 1.0,
+  "denoising": false,
+  "external_silence_samples": 0,
+  "waveform_edits": [],
+  "sentence_splitting": false,
+  "device": "cpu",
+  "cloud_resources_started": false,
+  "additional_cloud_compute_cost_usd": 0,
+  "prediction_summary": {
+    "zero_duration_phones": 0,
+    "negative_predicted_f0_values": 0,
+    "negative_predicted_energy_values": 0,
+    "peak_waveform": 0.5521352887153625,
+    "clipping_fraction": 0.0
+  },
+  "quality_assessment": "Software checks only; native listening and per-sentence analysis pending",
+  "variance_units": {
+    "duration": "integer mel frames and seconds",
+    "pitch": "denormalized phoneme-level F0 conditioning in Hz; no voiced/unvoiced classifier",
+    "energy": "denormalized spectral L2 energy, linear units; not dB"
+  },
+  "plot_note": "Zero-duration tokens remain in raw exports but are omitted from pitch/energy curves because they generate no frames"
+}

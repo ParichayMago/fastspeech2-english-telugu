@@ -6,6 +6,8 @@ Defines the set of symbols used in text input to the model.
 The default is a set of ASCII characters that works well for English or text that has been run through Unidecode. For other data, you can modify _characters. See TRAINING_DATA.md for details. """
 
 from text import cmudict, pinyin
+import json
+from pathlib import Path
 
 _pad = "_"
 _punctuation = "!'(),.:;? "
@@ -27,3 +29,8 @@ symbols = (
     + _pinyin
     + _silences
 )
+
+# Append generated Telugu phone IDs without changing existing symbol indices.
+_assignment_inventory = Path(__file__).with_name("assignment_phones.json")
+if _assignment_inventory.is_file():
+    symbols += ["@" + p for p in json.loads(_assignment_inventory.read_text())]

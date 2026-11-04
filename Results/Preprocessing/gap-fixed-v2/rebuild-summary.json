@@ -1,0 +1,164 @@
+{
+  "feature_version": "gap-fixed-v2",
+  "created_utc": "2026-11-03T15:14:35.016199+00:00",
+  "execution_device": "local_cpu",
+  "cloud_training_started": false,
+  "languages": {
+    "english": {
+      "rebuild": {
+        "language": "english",
+        "scope": "full_selected_splits",
+        "status_counts": {
+          "passed": 3654,
+          "unusable_pitch_or_alignment": 2
+        },
+        "requested_rows": 3656,
+        "successful_rows": 3654,
+        "normalization_fit": "Training features only. Validation uses frozen training mean/std.",
+        "normalization_training_rows": 3037,
+        "normalization_feature_samples": {
+          "pitch": 156432,
+          "energy": 162624
+        },
+        "split_rows": {
+          "train": 3037,
+          "validation": 617
+        },
+        "feature_hours": {
+          "train": 4.653623985890653,
+          "validation": 0.93464509952129
+        },
+        "feature_version": "gap-fixed-v2",
+        "feature_path": "data/features/gap-fixed-v2/english",
+        "rows_with_preserved_gaps": 2965,
+        "preserved_internal_gap_hours": 0.8870222255555568,
+        "speaker_count": 254,
+        "english_speaker_labels_estimated": true,
+        "mel_bins": 80,
+        "sample_rate": 22050,
+        "hop_length": 256,
+        "failures": [
+          {
+            "sample_id": "en_77600a90a26460e24fb1",
+            "split": "train",
+            "status": "unusable_pitch_or_alignment"
+          },
+          {
+            "sample_id": "en_932bd9e379842552fb91",
+            "split": "train",
+            "status": "unusable_pitch_or_alignment"
+          }
+        ]
+      },
+      "comparison_with_legacy": {
+        "train": {
+          "rows": 3037,
+          "phone_sequences_changed": 2484,
+          "rows_with_longer_acoustic_targets": 2534,
+          "net_restored_frames": 233181,
+          "net_restored_hours": 0.7520072562358276,
+          "same_sample_and_speaker_membership": true
+        },
+        "validation": {
+          "rows": 617,
+          "phone_sequences_changed": 481,
+          "rows_with_longer_acoustic_targets": 499,
+          "net_restored_frames": 41923,
+          "net_restored_hours": 0.13520141093474428,
+          "same_sample_and_speaker_membership": true
+        }
+      },
+      "feature_validation": "passed",
+      "real_batch_check": "longest_examples_passed_on_cpu",
+      "max_mel_frames": 1674,
+      "model_frame_limit": 2048
+    },
+    "telugu": {
+      "rebuild": {
+        "language": "telugu",
+        "scope": "full_selected_splits",
+        "status_counts": {
+          "passed": 2581
+        },
+        "requested_rows": 2581,
+        "successful_rows": 2581,
+        "normalization_fit": "Training features only. Validation uses frozen training mean/std.",
+        "normalization_training_rows": 2153,
+        "normalization_feature_samples": {
+          "pitch": 215619,
+          "energy": 214793
+        },
+        "split_rows": {
+          "train": 2153,
+          "validation": 428
+        },
+        "feature_hours": {
+          "train": 4.312677651801462,
+          "validation": 0.8616118921642731
+        },
+        "feature_version": "gap-fixed-v2",
+        "feature_path": "data/features/gap-fixed-v2/telugu",
+        "rows_with_preserved_gaps": 2451,
+        "preserved_internal_gap_hours": 0.7228111130555563,
+        "speaker_count": 1,
+        "english_speaker_labels_estimated": false,
+        "mel_bins": 80,
+        "sample_rate": 22050,
+        "hop_length": 256,
+        "failures": []
+      },
+      "comparison_with_legacy": {
+        "train": {
+          "rows": 2153,
+          "phone_sequences_changed": 2038,
+          "rows_with_longer_acoustic_targets": 2054,
+          "net_restored_frames": 188392,
+          "net_restored_hours": 0.6075630133534896,
+          "same_sample_and_speaker_membership": true
+        },
+        "validation": {
+          "rows": 428,
+          "phone_sequences_changed": 413,
+          "rows_with_longer_acoustic_targets": 414,
+          "net_restored_frames": 35807,
+          "net_restored_hours": 0.11547734945830185,
+          "same_sample_and_speaker_membership": true
+        }
+      },
+      "feature_validation": "passed",
+      "real_batch_check": "longest_examples_passed_on_cpu",
+      "max_mel_frames": 1698,
+      "model_frame_limit": 2048
+    }
+  },
+  "legacy_checkpoint_hashes": {
+    "english": "b41d30f24e777ab504ccf8848bacc9af8ecb10d3d2151ffb73a44f7977d1f85b",
+    "telugu": "43267adf0da6897fb8b80e8733d3eed7da26076680057e6bac81a37cbb56b768"
+  },
+  "legacy_feature_files_hash_verified": 31187,
+  "new_artifacts": {
+    "status": "passed",
+    "files": 31198,
+    "bytes": 1152107741,
+    "manifest_path": "data/features/gap-fixed-v2/artifact-sha256.json",
+    "manifest_sha256": "f89298001d49ae317216e84b22adcea61ec06f0665f5521980f428a552a4d2ca"
+  },
+  "status": "rebuilt_verified_and_selected_in_production_configs",
+  "vocoder_regression": {
+    "english": {
+      "saved_mel_frames": 283,
+      "fresh_full_mel_frames": 283,
+      "missing_tail_seconds": 0,
+      "reconstructed_seconds": 3.2856235827664397
+    },
+    "telugu": {
+      "saved_mel_frames": 219,
+      "fresh_full_mel_frames": 219,
+      "missing_tail_seconds": 0,
+      "reconstructed_seconds": 2.5425850340136056
+    }
+  },
+  "legacy_features_preserved": true,
+  "legacy_checkpoints_preserved": true,
+  "legacy_checkpoints_compatible_with_new_training": false
+}
