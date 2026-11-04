@@ -1,0 +1,63 @@
+{
+  "scope": "Language-local implementation migration; no training run or model update",
+  "top_level_src_absent": true,
+  "setup_regression_tests": {
+    "English": 36,
+    "Telugu": 36
+  },
+  "review_server_tests": 9,
+  "total_regression_checks": 81,
+  "all_ten_frozen_regenerations_exact_with_each_code_copy": true,
+  "real_data_cpu_batch_checks": {
+    "English": "passed",
+    "Telugu": "passed"
+  },
+  "isolated_language_checks": [
+    {
+      "language": "English",
+      "other_language_directory_absent": true,
+      "commands": [
+        [
+          "English/preprocess.py",
+          "--help"
+        ],
+        [
+          "English/train.py",
+          "--help"
+        ],
+        [
+          "English/inference.py",
+          "--test-id",
+          "E2b"
+        ]
+      ],
+      "sample": "E2b",
+      "wav_sha256": "78d7827a7c470bfcab6d1a701e6a660d718a6d9d55cb7d5ec91e8dbe1c4a9314",
+      "wav_and_arrays_exact": true
+    },
+    {
+      "language": "Telugu",
+      "other_language_directory_absent": true,
+      "commands": [
+        [
+          "Telugu/preprocess.py",
+          "--help"
+        ],
+        [
+          "Telugu/train.py",
+          "--help"
+        ],
+        [
+          "Telugu/inference.py",
+          "--test-id",
+          "T2b"
+        ]
+      ],
+      "sample": "T2b",
+      "wav_sha256": "48cc29165de4f958a9d39b0d7d9cf284badb411d5ea1a107952ff83d2b98dfe8",
+      "wav_and_arrays_exact": true
+    }
+  ],
+  "cloud_resources_used": false,
+  "weights_modified": false
+}

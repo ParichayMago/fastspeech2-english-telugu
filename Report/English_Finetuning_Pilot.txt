@@ -66,7 +66,7 @@ previous model checkpoints are already local. No top-ups or billing changes.
 The local Mac must remain awake and connected for monitoring and shutdown.
 
 Runtime: ignored .git/assignment-runtime-english-finetune-pilot-20261104.json.
-Launch/status/backup proofs: src/artifacts/Training/english-finetune-pilot-20261104/.
+Launch/status/backup proofs: English/artifacts/Training/english-finetune-pilot-20261104/.
 Outputs: output/runs/english-finetune-pilot-20261104/english/.
 Progress heartbeat: english-fine-tuning-pilot-updates (two-minute updates; delete
 on verified stop). The GPU-stock checker remains paused.

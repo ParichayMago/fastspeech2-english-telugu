@@ -16,5 +16,5 @@ The recognizer returned repetitive syllable-like text for both generated audio a
 Assessment
 Both WAVs contain usable digital audio with no full-scale clipping. English has an automated intelligibility concern; Telugu intelligibility remains unconfirmed. We cannot label either model submission-ready from these checks. The next useful diagnostic is natural audio versus ground-truth-mel HiFi-GAN reconstruction, followed by inspecting predicted durations/mels. These checks can separate frontend, acoustic-model, and vocoder problems before spending on further training. English still uses estimated acoustic speaker clusters.
 
-Detailed measurements, exact transcripts, natural-control provenance and WAV hashes: src/artifacts/InitialSpeechReview/review.json
+Detailed measurements, exact transcripts, natural-control provenance and WAV hashes: English/artifacts/InitialSpeechReview/review.json
 Recognizer documentation: https://github.com/openai/whisper

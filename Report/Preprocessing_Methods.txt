@@ -115,11 +115,11 @@ by the reference preprocessor.
 
 Status and evidence
 -------------------
-src/artifacts/Preprocessing/english-estimated-speakers.json records estimated-label QA.
-src/artifacts/Preprocessing/*-corpus.json records normalization and resampling checks.
-src/artifacts/Preprocessing/*-features.json records actual feature success/failure and
+English/artifacts/Preprocessing/english-estimated-speakers.json records estimated-label QA.
+English/artifacts/Preprocessing/*-corpus.json records normalization and resampling checks.
+English/artifacts/Preprocessing/*-features.json records actual feature success/failure and
 hours after alignment trimming. A *-smoke.json file describes only a small test.
-src/artifacts/Preprocessing/*-real-batch-check.json, when present and passed, verifies
+English/artifacts/Preprocessing/*-real-batch-check.json, when present and passed, verifies
 model/data compatibility on real examples; it is not a converged trained model,
 quality evaluation, or final assignment checkpoint.
 

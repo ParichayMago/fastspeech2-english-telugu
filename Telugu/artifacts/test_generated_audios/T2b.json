@@ -1,0 +1,306 @@
+{
+  "source_text": "ఆమె పట్టు చీరను ధరించి వేడుకకు వచ్చింది.",
+  "spoken_form_before_generic_normalization": "ఆమె పట్టు చీరను ధరించి వేడుకకు వచ్చింది.",
+  "normalized_words": [
+    "ఆమె",
+    "పట్టు",
+    "చీరను",
+    "ధరించి",
+    "వేడుకకు",
+    "వచ్చింది"
+  ],
+  "phones": [
+    "telphgbqcna",
+    "telphgn",
+    "telphgf",
+    "telphha",
+    "telphgb",
+    "telphcii",
+    "telphcii",
+    "telphhf",
+    "telphgd",
+    "telphgjqcna",
+    "telphhc",
+    "telphgb",
+    "telphgo",
+    "telphhf",
+    "telphgeqcla",
+    "telphgb",
+    "telphhc",
+    "telphgj",
+    "telphgo",
+    "telphgd",
+    "telphgj",
+    "telphcil",
+    "telphgfqcna",
+    "telphcfg",
+    "telphhf",
+    "telphgl",
+    "telphgb",
+    "telphgl",
+    "telphhf",
+    "telphcil",
+    "telphgb",
+    "telphgd",
+    "telphgd",
+    "telphgj",
+    "telphgo",
+    "telphge",
+    "telphgj"
+  ],
+  "boundary_types": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "word_spans": [
+    {
+      "word": "ఆమె",
+      "start": 0,
+      "end": 3
+    },
+    {
+      "word": "పట్టు",
+      "start": 3,
+      "end": 8
+    },
+    {
+      "word": "చీరను",
+      "start": 8,
+      "end": 14
+    },
+    {
+      "word": "ధరించి",
+      "start": 14,
+      "end": 21
+    },
+    {
+      "word": "వేడుకకు",
+      "start": 21,
+      "end": 29
+    },
+    {
+      "word": "వచ్చింది",
+      "start": 29,
+      "end": 37
+    }
+  ],
+  "normalization_changes": [],
+  "pronunciations": [
+    {
+      "word": "ఆమె",
+      "phones": [
+        "telphgbqcna",
+        "telphgn",
+        "telphgf"
+      ],
+      "source": "frozen_training_lexicon"
+    },
+    {
+      "word": "పట్టు",
+      "phones": [
+        "telphha",
+        "telphgb",
+        "telphcii",
+        "telphcii",
+        "telphhf"
+      ],
+      "source": "frozen_training_lexicon"
+    },
+    {
+      "word": "చీరను",
+      "phones": [
+        "telphgd",
+        "telphgjqcna",
+        "telphhc",
+        "telphgb",
+        "telphgo",
+        "telphhf"
+      ],
+      "source": "espeak_Telugu_OOV",
+      "IPA": [
+        "c",
+        "iː",
+        "r",
+        "a",
+        "n",
+        "u"
+      ]
+    },
+    {
+      "word": "ధరించి",
+      "phones": [
+        "telphgeqcla",
+        "telphgb",
+        "telphhc",
+        "telphgj",
+        "telphgo",
+        "telphgd",
+        "telphgj"
+      ],
+      "source": "frozen_training_lexicon"
+    },
+    {
+      "word": "వేడుకకు",
+      "phones": [
+        "telphcil",
+        "telphgfqcna",
+        "telphcfg",
+        "telphhf",
+        "telphgl",
+        "telphgb",
+        "telphgl",
+        "telphhf"
+      ],
+      "source": "espeak_Telugu_OOV",
+      "IPA": [
+        "ʋ",
+        "eː",
+        "ɖ",
+        "u",
+        "k",
+        "a",
+        "k",
+        "u"
+      ]
+    },
+    {
+      "word": "వచ్చింది",
+      "phones": [
+        "telphcil",
+        "telphgb",
+        "telphgd",
+        "telphgd",
+        "telphgj",
+        "telphgo",
+        "telphge",
+        "telphgj"
+      ],
+      "source": "frozen_training_lexicon"
+    }
+  ],
+  "espeak_version_for_OOV": "1.52.0",
+  "normalization_note": "Visible split words retained; no spelling correction or waveform pacing",
+  "sequence": [
+    377,
+    393,
+    384,
+    397,
+    374,
+    370,
+    370,
+    403,
+    380,
+    388,
+    399,
+    374,
+    394,
+    403,
+    383,
+    374,
+    399,
+    387,
+    394,
+    380,
+    387,
+    372,
+    385,
+    361,
+    403,
+    390,
+    374,
+    390,
+    403,
+    372,
+    374,
+    380,
+    380,
+    387,
+    394,
+    382,
+    387
+  ],
+  "id": "T2b",
+  "language": "telugu",
+  "generated_utc": "2026-11-04T03:24:05.487923+00:00",
+  "required_assignment_sample": true,
+  "checkpoint_step": 18000,
+  "checkpoint_sha256": "2268f94c05c0c90d9a4b85780971b40dd07297bc39a16271b375311d4b7fcfb8",
+  "checkpoint_path": "Telugu/checkpoints/final.pth.tar",
+  "model_type": "fastspeech2",
+  "source_run": "gap-fixed-v2-20261103",
+  "speaker": "te_male",
+  "speaker_labels_estimated": false,
+  "vocoder_sha256": "771eaf4876485a35e25577563d390c262e23c2421e4a8c929eacfde34a5b7a60",
+  "sampling_rate": 22050,
+  "hop_length": 256,
+  "frames": 192,
+  "seconds": 2.2291156462585033,
+  "audio_path": "Results/Telugu/test_generated_audios/T2b.wav",
+  "audio_sha256": "48cc29165de4f958a9d39b0d7d9cf284badb411d5ea1a107952ff83d2b98dfe8",
+  "predictions_path": "Telugu/artifacts/test_generated_audios/T2b_predictions.npz",
+  "variance_csv": "Telugu/artifacts/test_generated_audios/T2b_variance.csv",
+  "plots": {
+    "duration": "Results/Telugu/variance_adaptor_plots/duration/T2b.png",
+    "pitch": "Results/Telugu/variance_adaptor_plots/pitch/T2b.png",
+    "energy": "Results/Telugu/variance_adaptor_plots/energy/T2b.png"
+  },
+  "duration_control": 1.0,
+  "pitch_control": 1.0,
+  "energy_control": 1.0,
+  "denoising": false,
+  "external_silence_samples": 0,
+  "waveform_edits": [],
+  "sentence_splitting": false,
+  "device": "cpu",
+  "cloud_resources_started": false,
+  "additional_cloud_compute_cost_usd": 0,
+  "prediction_summary": {
+    "zero_duration_phones": 0,
+    "negative_predicted_f0_values": 0,
+    "negative_predicted_energy_values": 0,
+    "peak_waveform": 0.5652484893798828,
+    "clipping_fraction": 0.0
+  },
+  "quality_assessment": "Software checks only; native listening and per-sentence analysis pending",
+  "variance_units": {
+    "duration": "integer mel frames and seconds",
+    "pitch": "denormalized phoneme-level F0 conditioning in Hz; no voiced/unvoiced classifier",
+    "energy": "denormalized spectral L2 energy, linear units; not dB"
+  },
+  "plot_note": "Zero-duration tokens remain in raw exports but are omitted from pitch/energy curves because they generate no frames"
+}

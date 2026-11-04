@@ -1,0 +1,117 @@
+{
+  "release": "assignment-v8",
+  "verified_utc": "2026-11-04T17:27:08.957659+00:00",
+  "scope": "Implementation resides inside each language folder; no top-level src and no model/Results changes.",
+  "clean_export_commands": [
+    {
+      "command": [
+        "English/setup/verify_submission_layout.py",
+        "--strict"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "English/setup/download_checkpoints.py",
+        "--check-only"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "Telugu/setup/download_checkpoints.py",
+        "--check-only"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "English/preprocess.py",
+        "--help"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "Telugu/preprocess.py",
+        "--help"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "English/train.py",
+        "--help"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "Telugu/train.py",
+        "--help"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "English/setup/prepare_final_inference.py",
+        "--nltk-only"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "Telugu/setup/prepare_final_inference.py",
+        "--nltk-only"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "English/inference.py",
+        "--test-id",
+        "E2b"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "Telugu/inference.py",
+        "--test-id",
+        "T2b"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "English/setup/verify_assignment_outputs.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "English/setup/verify_submission_layout.py"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "current_local_setup_regression_checks": {
+    "English": 36,
+    "Telugu": 36
+  },
+  "current_local_server_tests": 9,
+  "total_local_regression_checks": 81,
+  "local_language_isolation_inference": "Both languages passed real CPU inference with the counterpart folder absent; see language-layout-verification.json.",
+  "local_real_data_cpu_batch_checks": "Both languages passed using throwaway models.",
+  "all_ten_frozen_WAVs_and_arrays_exact_with_each_code_copy": true,
+  "all_44_required_results_files_unchanged_before_export_inference": true,
+  "clean_export_final_WAVs_unchanged": true,
+  "top_level_src_rejected": true,
+  "model_files": 4,
+  "vocoder_copies": "Identical frozen weights, one copy per language.",
+  "archive_sha256": "3a3f4061938352c8773870b5544597ad373606bfde1b9c1b8bb754a881c1b843",
+  "archive_crc_and_manifest_SHA256": "Verified for every member by package_submission.py",
+  "cloud_resources_used": false,
+  "CUDA_host_retest": false,
+  "full_dependency_reinstall": false
+}

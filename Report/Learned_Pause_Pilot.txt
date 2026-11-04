@@ -33,7 +33,7 @@ Four local tests passed: all saved feature targets, text-derived inference slots
 real full-target forward/backward gradients through new heads and boundary
 embeddings, and model-driven zero versus positive pause durations. CUDA readiness
 must also pass on the longest eight training and validation examples before launch.
-Local proof: src/artifacts/Preprocessing/learned-pauses-v1/local-verification.json.
+Local proof: English/artifacts/Preprocessing/learned-pauses-v1/local-verification.json.
 
 Training and inference
 All parent weights are loaded unchanged before training. New boundary embeddings
@@ -75,7 +75,7 @@ phoneme-level pitch/energy targets remain in use. Model quality must be judged
 using the same untreated text/speaker/vocoder before and after, especially the MIT
 passage. Preserve earlier models as comparisons and do not claim improvement from
 loss alone. Actual launch, GPU proof, progress, budgets, and backup hashes are in
-src/artifacts/Training/english-learned-pauses-pilot-20261104/.
+English/artifacts/Training/english-learned-pauses-pilot-20261104/.
 
 Punctuation coverage (all boundaries, including terminal conditioning)
 Training: no punctuation35243, comma1555, period1259, question220, exclamation7,

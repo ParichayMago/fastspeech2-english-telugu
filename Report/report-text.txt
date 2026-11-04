@@ -86,9 +86,9 @@ ai4bharat/Svarah
 ebbf7777fe771490696a3f7b007097606fa8c924
 SPRINGLab/IndicTTS_Telugu
 7ab3c18491bef3f5d4e820c2701b5f78f54031d6
-Evidence: src/artifacts/DataSplits/summary.json, verification.json; src/artifacts/DatasetAudit/*-audit.json;
-src/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json. Earlier preprocessing notes contain superseded feature hours
-and are not used for the final table.
+Evidence: English/artifacts/DataSplits/summary.json, verification.json; English/artifacts/DatasetAudit/*-audit.json;
+English/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json. Earlier preprocessing notes contain superseded feature
+hours and are not used for the final table.
 FastSpeech 2 | English and Telugu | 4 November 2026
 2 / 26
 
@@ -138,7 +138,7 @@ frames, and the length regulator generates the acoustic span. Terminal boundary 
 design; it supplies sentence context, not trailing silence. The safety cap 354 frames is the
 training-observed maximum, not a hand-set punctuation pause. Lexical durations have a one-frame floor.
 Telugu adaptation
-The Telugu path preserves a bijective IPA-to-ASCII phone map, its own src/lexicon/alignment model,
+The Telugu path preserves a bijective IPA-to-ASCII phone map, its own English/lexicon/alignment model,
 statistics and checkpoint. Unknown phones are rejected. Telugu uses the base variance adaptor; no
 learned word-boundary/pause heads were added. The models share a frozen vocoder, not acoustic
 parameters or optimizers.
@@ -189,9 +189,9 @@ For the English pause pilot, all 3,654 corrected usable clips are retained. Ever
 frame target; absent gaps have zero. Lexical phone durations/pitch/energy, source mel bytes, split
 membership, speaker mapping and normalization statistics are unchanged. This prevents fabricated
 pauses from becoming supervision.
-Evidence: Report/Alignment_Gap_Fix.txt; src/artifacts/Preprocessing/gap-fixed-v2/;
-src/artifacts/Preprocessing/learned-pauses-v1/. No validation audio fits a normalization statistic, speaker centroid or Telugu
-alignment model.
+Evidence: Report/Alignment_Gap_Fix.txt; English/artifacts/Preprocessing/gap-fixed-v2/;
+English/artifacts/Preprocessing/learned-pauses-v1/. No validation audio fits a normalization statistic, speaker centroid or
+Telugu alignment model.
 FastSpeech 2 | English and Telugu | 4 November 2026
 4 / 26
 
@@ -524,9 +524,10 @@ flagged by the local recognizer even though the author accepted the recordings. 
 does not prove natural stress or freedom from noise. Telugu has no usable recognition score because its
 natural-audio control failed. These differences in measurement coverage cannot establish that either
 language sounds better.
-Evidence: src/artifacts/Assignment/analysis/final-listening-review.json contains only the ten final-recording ratings, their audio
-hashes, saved times and review limitations. It excludes unrelated private listening history. The author follow-up supplies the
-qualitative language comparison. Detailed phonetic review and an independent listening panel remain future evaluation work.
+Evidence: English/artifacts/Assignment/analysis/final-listening-review.json contains only the ten final-recording ratings, their
+audio hashes, saved times and review limitations. It excludes unrelated private listening history. The author follow-up
+supplies the qualitative language comparison. Detailed phonetic review and an independent listening panel remain future
+evaluation work.
 FastSpeech 2 | English and Telugu | 4 November 2026
 10 / 26
 
@@ -553,7 +554,7 @@ proceedings.
 Author listening observation: Good. No specific pronunciation issue was reported in the author's follow-up covering both
 language sets; no word-level notes were supplied.
 WAV: Results/English/test_generated_audios/E1.wav. Text, metadata, predictions and CSV:
-src/artifacts/English/test_generated_audios/.
+English/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 4 November 2026
 11 / 26
 
@@ -575,7 +576,7 @@ ASR diagnostic: The orchestras conduct during the ceremony was praised by the au
 Author listening observation: Good. No specific pronunciation issue was reported in the author's follow-up covering both
 language sets; no word-level notes were supplied.
 WAV: Results/English/test_generated_audios/E2a.wav. Text, metadata, predictions and CSV:
-src/artifacts/English/test_generated_audios/.
+English/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 4 November 2026
 12 / 26
 
@@ -599,7 +600,7 @@ ASR diagnostic: The researchers will conduct an experiment to evaluate the propo
 Author listening observation: Good. No specific pronunciation issue was reported in the author's follow-up covering both
 language sets; no word-level notes were supplied.
 WAV: Results/English/test_generated_audios/E2b.wav. Text, metadata, predictions and CSV:
-src/artifacts/English/test_generated_audios/.
+English/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 4 November 2026
 13 / 26
 
@@ -622,7 +623,7 @@ ASR diagnostic: The right end of the orchestra changed unexpectedly.
 Author listening observation: Good. No specific pronunciation issue was reported in the author's follow-up covering both
 language sets; no word-level notes were supplied.
 WAV: Results/English/test_generated_audios/E3.wav. Text, metadata, predictions and CSV:
-src/artifacts/English/test_generated_audios/.
+English/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 4 November 2026
 14 / 26
 
@@ -647,7 +648,7 @@ ASR diagnostic: The meeting will start at 10.45.11.12.22.26. Soot and the rule s
 Author listening observation: Good. No specific pronunciation issue was reported in the author's follow-up covering both
 language sets; no word-level notes were supplied.
 WAV: Results/English/test_generated_audios/E4.wav. Text, metadata, predictions and CSV:
-src/artifacts/English/test_generated_audios/.
+English/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 4 November 2026
 15 / 26
 
@@ -670,7 +671,7 @@ Telugu recognition score is used; signal validity alone cannot establish correct
 Author listening observation: Good. No specific pronunciation issue was reported in the author's follow-up covering both
 language sets; no word-level notes were supplied.
 WAV: Results/Telugu/test_generated_audios/T1.wav. Text, metadata, predictions and CSV:
-src/artifacts/Telugu/test_generated_audios/.
+Telugu/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 4 November 2026
 16 / 26
 
@@ -692,7 +693,7 @@ checked by a Telugu listener; none is inferred from the phoneme trace alone.
 Author listening observation: Good. No specific pronunciation issue was reported in the author's follow-up covering both
 language sets; no word-level notes were supplied.
 WAV: Results/Telugu/test_generated_audios/T2a.wav. Text, metadata, predictions and CSV:
-src/artifacts/Telugu/test_generated_audios/.
+Telugu/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 4 November 2026
 17 / 26
 
@@ -714,7 +715,7 @@ and inflection; the report does not assign an unsupported Telugu pronunciation o
 Author listening observation: Good. No specific pronunciation issue was reported in the author's follow-up covering both
 language sets; no word-level notes were supplied.
 WAV: Results/Telugu/test_generated_audios/T2b.wav. Text, metadata, predictions and CSV:
-src/artifacts/Telugu/test_generated_audios/.
+Telugu/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 4 November 2026
 18 / 26
 
@@ -737,7 +738,7 @@ recognition-based Telugu quality claim is made.
 Author listening observation: Good. No specific pronunciation issue was reported in the author's follow-up covering both
 language sets; no word-level notes were supplied.
 WAV: Results/Telugu/test_generated_audios/T3.wav. Text, metadata, predictions and CSV:
-src/artifacts/Telugu/test_generated_audios/.
+Telugu/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 4 November 2026
 19 / 26
 
@@ -761,7 +762,7 @@ natural phrasing still require native review. No word-accuracy percentage is fab
 Author listening observation: Good. No specific pronunciation issue was reported in the author's follow-up covering both
 language sets; no word-level notes were supplied.
 WAV: Results/Telugu/test_generated_audios/T4.wav. Text, metadata, predictions and CSV:
-src/artifacts/Telugu/test_generated_audios/.
+Telugu/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 4 November 2026
 20 / 26
 
@@ -837,30 +838,30 @@ PAGE 22
 IMPLEMENTATION AND EVALUATION
 Appendix A. Reproducibility
 Run commands from the repository root. Use an isolated Python 3.10 environment.
-src/setup/requirements-inference.txt pins inference packages; root requirements.txt combines
+English/setup/requirements-inference.txt pins inference packages; root requirements.txt combines
 preprocessing, training and inference dependencies. Recorded GPU training used PyTorch 2.8.0+cu128.
-The short README covers inference; src/docs/REPRODUCIBILITY.md gives CUDA wheels, MFA setup,
+The short README covers inference; English/docs/REPRODUCIBILITY.md gives CUDA wheels, MFA setup,
 preprocessing, training and verification commands.
 uv venv --python 3.10 .venvs/final-inference
-uv pip install --python .venvs/final-inference/bin/python -r src/setup/requirements-inference.txt
-python3 src/setup/download_checkpoints.py
-.venvs/final-inference/bin/python src/setup/prepare_final_inference.py --nltk-only
+uv pip install --python .venvs/final-inference/bin/python -r English/setup/requirements-inference.txt
+python3 English/setup/download_checkpoints.py
+.venvs/final-inference/bin/python English/setup/prepare_final_inference.py --nltk-only
 .venvs/final-inference/bin/python English/inference.py --test-id E1
 .venvs/final-inference/bin/python Telugu/inference.py --test-id T1
-.venvs/final-inference/bin/python src/setup/generate_assignment_outputs.py
-.venvs/final-inference/bin/python src/setup/verify_assignment_outputs.py
+.venvs/final-inference/bin/python English/setup/generate_assignment_outputs.py
+.venvs/final-inference/bin/python English/setup/verify_assignment_outputs.py
 Preprocessing in a clean reconstruction
-The reproduction guide lists pinned dataset-audit commands, src/setup/restore_assignment_splits.py and
-export_split_audio.py to restore source membership and frozen speaker labels after authorized dataset
-access. Linux alignment expects MFA 3.3.9 at /workspace/.venvs/mfa and english_us_arpa.zip under
-/workspace/.cache/mfa/pretrained_models/acoustic/. These wrappers build corpora, alignments and
-corrected features, then check a real batch:
+The reproduction guide lists pinned dataset-audit commands, English/setup/restore_assignment_splits.py
+and export_split_audio.py to restore source membership and frozen speaker labels after authorized
+dataset access. Linux alignment expects MFA 3.3.9 at /workspace/.venvs/mfa and english_us_arpa.zip
+under /workspace/.cache/mfa/pretrained_models/acoustic/. These wrappers build corpora, alignments
+and corrected features, then check a real batch:
 python English/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2
 python Telugu/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2
-python src/setup/build_learned_pause_features.py
+python English/setup/build_learned_pause_features.py
 The last command builds measured pause features and the three training YAMLs. For existing features, add --configs-only to
-reconstruct the YAMLs without rewriting targets. The committed src/config/learned-pauses-v1/English/ snapshot records the
-original experiment. Dataset access follows source license/gate conditions.
+reconstruct the YAMLs without rewriting targets. The committed English/config/learned-pauses-v1/English/ snapshot records
+the original experiment. Dataset access follows source license/gate conditions.
 Training reconstruction
 python English/train.py --run-id english-new --fresh --minutes 120 --max-steps 30000 --batch-size 8
 python Telugu/train.py --run-id telugu-new --fresh --minutes 120 --max-steps 30000 --batch-size 8
@@ -893,32 +894,36 @@ English/config.yaml, Telugu/config.yaml; resources/ in each
 Audios
 Results/{English,Telugu}/test_generated_audios/
 Text, metadata and predictions
-src/artifacts/{English,Telugu}/test_generated_audios/
+{English,Telugu}/artifacts/test_generated_audios/
 Thirty full-label variance figures
 Results/{English,Telugu}/variance_adaptor_plots/
 Final selected-run loss plots
 Results/{English,Telugu}/{training,validation}_loss.png
 Interactive local review / output ZIP
-src/artifacts/Assignment/index.html; assignment_test_outputs.zip
+English/artifacts/Assignment/index.html; assignment_test_outputs.zip
 Measured analyses / recognition
-src/artifacts/Assignment/analysis/
+English/artifacts/Assignment/analysis/
 Report source and figure scripts
-src/setup/build_technical_report.py; create_report_figures.py
+English/setup/build_technical_report.py; create_report_figures.py
 The repository root is the assignment's project/ directory: English/, Telugu/, Results/, Report/, README.md and
-requirements.txt. Shared modules and tools are grouped under src/; original upstream demos are isolated in src/reference/.
-Results/ contains only required loss PNGs, WAVs and variance PNGs. Supporting records are in src/artifacts/;
-src/artifact-layout.json maps their historical paths. Historical run records retain recorded paths and hashes. Current
+requirements.txt. Each language folder contains its own model, preprocessing, training and inference implementation and
+frozen vocoder. Reproduction tools and combined experiment records live under English/. Original upstream demos are
+isolated in English/reference/. Results/ contains only required loss PNGs, WAVs and variance PNGs. Combined supporting
+records are in English/artifacts/; language-specific inference metadata is under each language folder.
+English/layout-migration-v8.json maps the previous paths. Historical run records retain recorded paths and hashes. Current
 commands above use the reorganized source paths.
+The universal vocoder is copied into each language/hifigan/ folder. Both files retain the same frozen SHA256; the layout
+change does not retrain the vocoder or alter waveform synthesis.
 The assignment release contains a complete project/ archive with separate English/Telugu model-only checkpoints and the
-frozen vocoder. SHA256SUMS verifies the archive; src/setup/download_checkpoints.py verifies each restored model.
+frozen vocoder. SHA256SUMS verifies the archive; English/setup/download_checkpoints.py verifies each restored model.
 Per-language training wrappers, updated requirements and the README are included. The repository URL remains to be
 submitted through the assignment form.
-Corrected assignment-v7 release: complete project and checkpoint download
+Corrected assignment-v8 release: complete project and checkpoint download
 GitHub repository: ParichayMago/fastspeech2-english-telugu
 Recreate the report without cloud compute
-.venvs/inference/bin/python src/setup/analyze_assignment_outputs.py
-.venvs/inference/bin/python src/setup/create_report_figures.py
-.venvs/report/bin/python src/setup/build_technical_report.py
+.venvs/inference/bin/python English/setup/analyze_assignment_outputs.py
+.venvs/inference/bin/python English/setup/create_report_figures.py
+.venvs/report/bin/python English/setup/build_technical_report.py
 The report builder consumes the saved English recognition cache. Optional analysis flag --asr computes missing or changed
 Whisper-small results and requires openai-whisper==20250625. Report dependencies are pinned in
 Report/requirements-report.txt. The included Noto Sans Telugu font is shaped with HarfBuzz and distributed under the
@@ -930,7 +935,7 @@ FastSpeech 2 | English and Telugu | 4 November 2026
 PAGE 24
 IMPLEMENTATION AND EVALUATION
 Appendix C. Post-review corrections
-Release assignment-v7 includes the prior recovery/portability fixes and corrects retained-STOP handling
+Release assignment-v8 includes the prior recovery/portability fixes and corrects retained-STOP handling
 and final-recording discovery. Historical logs, weights, ten test WAVs and predicted arrays are preserved.
 These software fixes require no retraining and do not establish clearer speech.
 Correction
@@ -958,20 +963,27 @@ Retained stop request
 Reject explicit/implicit resume before writes when session/STOP remains; never
 clear it automatically. New in-run stop requests still save gracefully.
 Local validation and its scope
-The local setup suite passes 36 tests and the review server passes nine: 45 total. Synthetic CPU fixtures
-exercise base, fixed-rate and pause recovery, legacy checkpoints, Adam continuation, historical
-best/config restoration, retained-STOP rejection without writes and graceful in-run stopping. Real-data
-pause integration also passes locally. Browser checks cover audio playback, save/reload/export, draft
-retention and narrow-screen layout; synthetic ratings use temporary stores, not listener data.
+Each language-local setup suite passes 36 regression checks; the review server passes nine, giving 81
+checks across the two implementations and the server. Synthetic CPU fixtures exercise base, fixed-rate
+and pause recovery, legacy checkpoints, Adam continuation, historical best/config restoration,
+retained-STOP rejection without writes and graceful in-run stopping. Real-data pause integration also
+passes locally. Earlier browser checks covered audio playback, save/reload/export, draft retention and
+narrow-screen layout; they were not repeated for this folder move. Synthetic ratings use temporary
+stores, not listener data.
 All ten frozen sentences regenerate with identical WAV SHA256 values and exact equality of every
 exported array, including mels and pause-head outputs. No released model parameters were updated.
 No Runpod resource was started or modified. CUDA-host execution and a fresh dependency installation
 were not repeated; CPU device tests simulate CUDA availability and include meta-device allocation.
+For the language-local layout, preprocessing/training help and real CPU inference also pass with the other language directory
+absent. A real-data CPU update and validation pass for each language using throwaway models; released weights are
+unchanged. Evidence: English/artifacts/Assignment/language-layout-verification.json and
+English/artifacts/Preprocessing/language-layout-v8/.
 Reproduce the correction checks
-python -m unittest discover -s src/setup -p test_review_fixes.py -v
-python -m unittest discover -s src/audio_review -p test_server.py -v
-python src/setup/verify_frozen_regeneration.py
-python src/setup/evaluate_pause_baselines.py
+python -m unittest discover -s English/setup -p test_*.py -v
+python -m unittest discover -s Telugu/setup -p test_*.py -v
+python -m unittest discover -s English/audio_review -p test_server.py -v
+python English/setup/verify_frozen_regeneration.py
+python English/setup/evaluate_pause_baselines.py
 Recovery tests require the full requirements.txt stack, including TensorBoard. The baseline command needs local held-out
 pause targets; its saved result is distributed. Real-data integration explicitly skips when private fixtures are absent; skips are
 not passes. All ten final recordings have an informal author Good rating, followed by a report of no specific pronunciation
@@ -1030,9 +1042,9 @@ positives; duration MAE worsens and the E4 comma has zero frames. Telugu removes
 supplies no pause slots despite internal silence in training; T4 inputs are unchanged when its comma is
 removed. The review-server and STOP fixes address software behavior, not these acoustic-model
 limitations.
-python src/setup/analyze_speaker_coverage.py
+python English/setup/analyze_speaker_coverage.py
 Recomputes coverage from distributed selection-membership.jsonl, rejected feature IDs and saved clustering metadata. Full
-per-label counts, durations and input SHA256 values: src/artifacts/Assignment/analysis/english-speaker-coverage.json. No
+per-label counts, durations and input SHA256 values: English/artifacts/Assignment/analysis/english-speaker-coverage.json. No
 raw audio, new training or cloud compute is required.
 FastSpeech 2 | English and Telugu | 4 November 2026
 25 / 26
@@ -1066,19 +1078,19 @@ https://arxiv.org/abs/2212.04356
 organization.
 https://arxiv.org/abs/2406.02430
 Project records, 4 November 2026
-Dataset revisions, split integrity and hours: src/artifacts/DatasetAudit/; src/artifacts/DataSplits/summary.json and
+Dataset revisions, split integrity and hours: English/artifacts/DatasetAudit/; English/artifacts/DataSplits/summary.json and
 verification.json.
-Corrected feature integrity and restored gaps: src/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json.
-Optimizer logs: src/artifacts/Training/{gap-fixed-v2-20261103,english-finetune-pilot-20261104,english-learned-pauses-pilot-2
-0261104}/<language>/metrics.jsonl; copied unchanged from local output/runs/ backups.
-Exact source strings: src/setup/assignment_test_sentences.json; source PDF SHA256
+Corrected feature integrity and restored gaps: English/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json.
+Optimizer logs: English/artifacts/Training/{gap-fixed-v2-20261103,english-finetune-pilot-20261104,english-learned-pauses-pil
+ot-20261104}/<language>/metrics.jsonl; copied unchanged from local output/runs/ backups.
+Exact source strings: English/setup/assignment_test_sentences.json; source PDF SHA256
 a88e379253c50a018ff6319c05a372a57a0d416cf7c4dc20807d7752e67e323f.
-Final output hashes and software checks: src/artifacts/Assignment/verification.json; checkpoint-selection.json; CLI smoke
+Final output hashes and software checks: English/artifacts/Assignment/verification.json; checkpoint-selection.json; CLI smoke
 verification.
-Computed analysis and ASR hypotheses: src/artifacts/Assignment/analysis/measured-analysis.json and english-asr.json. All
-numerical tables and report plots derive from these saved records.
-Telugu-recognizer exclusion evidence: src/artifacts/InitialSpeechReview/review.json, including natural-Telugu control.
-Final-recording author ratings: src/artifacts/Assignment/analysis/final-listening-review.json. Native-speaker status and panel
-MOS were not established.
+Computed analysis and ASR hypotheses: English/artifacts/Assignment/analysis/measured-analysis.json and english-asr.json.
+All numerical tables and report plots derive from these saved records.
+Telugu-recognizer exclusion evidence: English/artifacts/InitialSpeechReview/review.json, including natural-Telugu control.
+Final-recording author ratings: English/artifacts/Assignment/analysis/final-listening-review.json. Native-speaker status and
+panel MOS were not established.
 FastSpeech 2 | English and Telugu | 4 November 2026
 26 / 26

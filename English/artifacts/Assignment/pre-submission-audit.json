@@ -1,0 +1,82 @@
+{
+  "audited_utc": "2026-11-04T17:24:17.126410+00:00",
+  "instructions": "FastSpeech2_Assignment.pdf, pages 1-3",
+  "documentation_release": "assignment-v8",
+  "present": {
+    "public_repository": true,
+    "required_code_configs_and_layout": true,
+    "separate_model_checkpoints_accessible": true,
+    "training_and_validation_loss_plots_both_languages": true,
+    "exact_test_texts": 10,
+    "generated_audios": 10,
+    "variance_adaptor_plots": 30,
+    "report_pages": 26,
+    "architecture_language_changes_data_loss_and_variance_analysis": true,
+    "reproducibility_details": true,
+    "informal_author_overall_ratings": 10,
+    "author_pronunciation_followup_and_language_comparison": true,
+    "language_local_implementations": true,
+    "top_level_src_absent": true
+  },
+  "source_selection_and_separation": {
+    "english": {
+      "train_source_hours": 4.9999787847222255,
+      "validation_source_hours": 0.9999343923611114,
+      "no_overlap": {
+        "sample_id": true,
+        "audio_sha256": true,
+        "leakage_group_id": true
+      }
+    },
+    "telugu": {
+      "train_source_hours": 4.999918975694448,
+      "validation_source_hours": 0.9999812210648156,
+      "no_overlap": {
+        "sample_id": true,
+        "audio_sha256": true,
+        "leakage_group_id": true
+      }
+    }
+  },
+  "baseline_public_delivery": {
+    "release_checked": "assignment-v4",
+    "required_public_files_verified": 57,
+    "archive_anonymously_accessible": true
+  },
+  "documentation_fixes": {
+    "main_readme_lines": 45,
+    "detailed_reproduction_guide": "src/docs/REPRODUCIBILITY.md",
+    "stale_test_discovery_paths_corrected_in_readme_guide_report": true,
+    "final_recording_author_review_added": true,
+    "results_contains_required_files_only": true,
+    "top_level_src_removed": true,
+    "language_local_implementations": true,
+    "language_isolation_verified": true
+  },
+  "missing_report_content": [],
+  "final_recording_reviews_saved": {
+    "listening-review-v1.json": 10,
+    "ratings.json": 0
+  },
+  "remaining_actions": [
+    "Submit the public repository URL through the assignment form."
+  ],
+  "form": {
+    "url": "https://forms.gle/7tgHgKJLjpBXwcBj6",
+    "submission_performed_by_assistant": false,
+    "additional_fields_not_verified": "Form access returned HTTP 401"
+  },
+  "not_explicitly_required": [
+    "A/B testing",
+    "Formal MOS panel",
+    "Additional retraining"
+  ],
+  "current_readiness": "Requested code, artifacts, per-test author overall ratings and set-level pronunciation/language comparison are documented; informal evaluation limitations disclosed.",
+  "cloud_resources_used": false,
+  "remaining_evaluation_limits": [
+    "Author reported no specific pronunciation issues across both language sets; no detailed word-level notes or separate clarity/noise/prosody ratings were supplied.",
+    "Single informal author review; no independent panel, MOS or established audible pause-training gain."
+  ],
+  "supporting_evidence_location": "English/artifacts/ (combined records); each language/artifacts/ for inference sidecars",
+  "previous_release_commit": "a65c223e02d141df4a459b834562945c569eefc5"
+}

@@ -17,9 +17,9 @@ resource_sha256:
   stats.json: 43a87ff5e62fcace489a13abf8b0b6175935546f9e6d8a8a71eeb849d150fea6
 trained_symbols_sha256: bade77762c8c9c6dc654b28263d9d6b6c6dcb24eaffd480ed74cf93ea32f6dc9
 vocoder:
-  weights: src/hifigan/generator_universal.pth.tar
+  weights: Telugu/hifigan/generator_universal.pth.tar
   sha256: 771eaf4876485a35e25577563d390c262e23c2421e4a8c929eacfde34a5b7a60
-  config: src/hifigan/config.json
+  config: Telugu/hifigan/config.json
   config_sha256: c1bd98e99062ddbced38729a5252dc2aa772328d16d70097ac139dab2f269dc9
 sampling_rate: 22050
 hop_length: 256
@@ -29,4 +29,4 @@ pitch_control: 1.0
 energy_control: 1.0
 manual_silence_samples: 0
 denoising: false
-test_manifest: src/setup/assignment_test_sentences.json
+test_manifest: Telugu/setup/assignment_test_sentences.json

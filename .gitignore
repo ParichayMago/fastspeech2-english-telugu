@@ -157,3 +157,10 @@ logs/
 
 # Local release archives; only the checksum and manifests are versioned.
 /src/artifacts/Submission/*.zip
+
+# Language-local frozen vocoders and release archives.
+/English/hifigan/*.pth.tar
+/Telugu/hifigan/*.pth.tar
+/English/artifacts/Submission/*.zip
+/English/setup/runpod-assignment.json
+/Telugu/setup/runpod-assignment.json

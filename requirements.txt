@@ -1,9 +1,9 @@
 # Full assignment Python stack; Python 3.10.
-# Minimal CPU inference: install src/setup/requirements-inference.txt instead.
+# Minimal CPU inference: install English/setup/requirements-inference.txt instead.
 # CUDA training: install torch/torchaudio 2.8.0 from the cu128 index first
 # (see README), then install this file into the same isolated environment.
--r src/setup/requirements-inference.txt
--r src/setup/requirements-cloud.txt
+-r English/setup/requirements-inference.txt
+-r English/setup/requirements-cloud.txt
 torchaudio==2.8.0
 speechbrain==1.0.3
 protobuf==4.25.8

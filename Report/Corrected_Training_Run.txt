@@ -11,6 +11,6 @@ Command: python -u setup/train_assignment.py --run-id gap-fixed-v2-20261103 --fr
 
 Local supervisor: setup/supervise_training_run.py. Its runtime config lives under ignored .git/assignment-runtime-gap-fixed-v2-20261103.json. It checks account credit every 30 seconds while copying stable checkpoints asynchronously. Prior assignment cost is conservatively reserved at $3.00; all new-Pod time since creation 15:50:13 UTC is included at its full running rate. It requests graceful stop at $18.50 conservative assignment spend, $1.00 account credit reserve, or 180 minutes since Pod creation. It verifies final latest/best backups by SHA256 before stopping this exact Pod. It does not fund the account. The Mac must remain awake/connected; caffeinate runs with this one-off supervisor.
 
-Progress automation: corrected-training-updates-every-2-minutes. Results: src/artifacts/Training/gap-fixed-v2-20261103. Model outputs: output/runs/gap-fixed-v2-20261103/{english,telugu}.
+Progress automation: corrected-training-updates-every-2-minutes. Results: English/artifacts/Training/gap-fixed-v2-20261103. Model outputs: output/runs/gap-fixed-v2-20261103/{english,telugu}.
 
 Training convergence and generated-speech quality remain to be assessed. Old loss plots refer to the prior legacy-target run.
