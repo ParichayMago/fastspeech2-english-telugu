@@ -20,7 +20,7 @@ def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def main():
     import numpy as np,soundfile as sf,yaml
     from PIL import Image,ImageOps,ImageDraw
-    out=ROOT/'Results/Assignment';out.mkdir(exist_ok=True)
+    out=ROOT/'src/artifacts/Assignment';out.mkdir(exist_ok=True)
     cases=json.loads((ROOT/'src/setup/assignment_test_sentences.json').read_text())['samples']
     expected={s['id']:s for s in cases};assert len(expected)==10
     verification={'status':'passed','verified_utc':datetime.now(timezone.utc).isoformat(),
@@ -40,10 +40,11 @@ def main():
         cp=config['checkpoint'];assert sha(ROOT/cp['path'])==cp['sha256']
         verification['checkpoints'][lang]=cp
         directory=ROOT/'Results'/lang.title()/'test_generated_audios'
+        metadata=ROOT/'src/artifacts'/lang.title()/'test_generated_audios'
         assert {p.stem for p in directory.glob('*.wav')}=={k for k,v in expected.items() if v['language']==lang}
         for case in [s for s in cases if s['language']==lang]:
-            sid=case['id'];info=json.loads((directory/(sid+'.json')).read_text());infos.append(info)
-            assert info['source_text']==case['text']==(directory/(sid+'.txt')).read_text().removesuffix('\n')
+            sid=case['id'];info=json.loads((metadata/(sid+'.json')).read_text());infos.append(info)
+            assert info['source_text']==case['text']==(metadata/(sid+'.txt')).read_text().removesuffix('\n')
             assert info['checkpoint_sha256']==cp['sha256'] and info['checkpoint_step']==cp['step']
             assert info['external_silence_samples']==0 and not info['denoising'] and not info['sentence_splitting']
             assert info['duration_control']==info['pitch_control']==info['energy_control']==1.
@@ -94,7 +95,7 @@ def main():
     files={out/'index.html',out/'verification.json',out/'generation.json',out/'variance_contact_sheet.png'}
     if (ROOT/'Report/Technical_Report.pdf').exists():files.add(ROOT/'Report/Technical_Report.pdf')
     for info in infos:
-        wav=ROOT/info['audio_path'];files.update([wav,wav.with_suffix('.txt'),wav.with_suffix('.json'),ROOT/info['predictions_path'],ROOT/info['variance_csv']]);files.update(ROOT/p for p in info['plots'].values())
+        wav=ROOT/info['audio_path'];metadata=ROOT/'src/artifacts'/info['language'].title()/'test_generated_audios';files.update([wav,metadata/(info['id']+'.txt'),metadata/(info['id']+'.json'),ROOT/info['predictions_path'],ROOT/info['variance_csv']]);files.update(ROOT/p for p in info['plots'].values())
     files.update([ROOT/'src/setup/assignment_test_sentences.json',ROOT/'src/setup/requirements-inference.txt'])
     for path in (out/'checkpoint-selection.json',out/'cli-verification.json',
                  ROOT/'English/config.yaml',ROOT/'Telugu/config.yaml',

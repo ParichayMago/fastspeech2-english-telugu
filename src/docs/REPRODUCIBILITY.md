@@ -52,7 +52,7 @@ Required local files:
 
 Inference verifies weights, resources, symbol inventory and vocoder hashes.
 It does not require raw datasets or training feature directories. Run `python3 src/setup/download_checkpoints.py` to download the submission archive
-and restore only these three hash-verified files. Use `--archive /path/to/fastspeech2-assignment-v6.zip`
+and restore only these three hash-verified files. Use `--archive /path/to/fastspeech2-assignment-v7.zip`
 to reuse a download, or `--check-only` to verify existing weights without network
 access. `src/setup/prepare_final_inference.py --nltk-only` downloads text resources
 while leaving frozen weights/configs intact.
@@ -73,7 +73,7 @@ The supplied split words `rhyth m` and `అడ విలో` are preserved. Spok
 normalization is stored separately from source text. Unsupported Telugu phones
 or numeric ordinals fail explicitly rather than being silently removed.
 
-Open `Results/Assignment/index.html` to review all audios and plots together.
+Open `src/artifacts/Assignment/index.html` to review all audios and plots together.
 The output ZIP there contains test results, not the full source or model weights.
 
 ## Data preparation
@@ -82,7 +82,7 @@ Source selections target approximately 5 hours training and 1 hour validation pe
 language. Seed 20261102 selects atomic groups of repeated transcript/audio and
 same-recording English chunks; no group crosses splits. This is an utterance-held-
 out split, not a speaker-disjoint evaluation. Exact dataset revisions, raw hours
-and split hashes are recorded in `Results/DataSplits/summary.json`.
+and split hashes are recorded in `src/artifacts/DataSplits/summary.json`.
 
 | Language | Usable train / validation clips | Aligned train / validation hours |
 | --- | --- | --- |
@@ -98,7 +98,7 @@ TextGrids and features are excluded from Git. Audit/download, split selection,
 raw export and speaker estimation are implemented in `src/setup/audit_datasets.py`,
 `src/setup/prepare_splits.py`, `src/setup/export_split_audio.py` and
 `src/setup/estimate_english_speakers.py`. Source membership, partitions and frozen conditioning labels are distributed in
-`Results/DataSplits/selection-membership.jsonl`, without raw text or audio.
+`src/artifacts/DataSplits/selection-membership.jsonl`, without raw text or audio.
 After obtaining gated Svarah access, the following commands reconstruct the same
 source selections from the pinned datasets in a clean checkout:
 
@@ -206,8 +206,8 @@ Exact historical arguments are in each run's language-specific `run-config.json`
 
 Training curves in `Results/English/` describe the selected learned-pause run;
 Telugu curves describe its corrected 30k run. Earlier stages remain under
-`Results/Training/`. The technical report compares all stages separately. Portable raw metrics and
-run configurations are included under `Results/Training/<run-id>/<language>/`;
+`src/artifacts/Training/`. The technical report compares all stages separately. Portable raw metrics and
+run configurations are included under `src/artifacts/Training/<run-id>/<language>/`;
 analysis falls back to those copies when local `output/runs/` backups are absent.
 Duration plots are in seconds, F0 plots are denormalized **model conditioning**
 in Hz, and energy is linear spectral L2, not dB. These are not measured waveform

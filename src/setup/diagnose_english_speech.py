@@ -29,7 +29,7 @@ def main():
     torch.manual_seed(20261103)
     run = 'gap-fixed-v2-20261103'
     source = ROOT / 'output/runs' / run / 'english'
-    out = ROOT / 'Results/Training' / run / 'english_diagnostics'
+    out = ROOT / 'src/artifacts/Training' / run / 'english_diagnostics'
     out.mkdir(parents=True, exist_ok=True)
     preview_dir = out.parent / 'speech_samples/english/12000'
     preview = json.loads((preview_dir / 'preview.json').read_text())

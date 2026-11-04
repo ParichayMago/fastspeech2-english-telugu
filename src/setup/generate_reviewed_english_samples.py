@@ -109,7 +109,7 @@ def main(argv=None):
     category = 'custom_english_samples' if args.text is not None else 'reviewed_english_samples'
     if pacing == 'punctuation':
         category = 'paced_english_samples'
-    out = ROOT / 'Results/Training' / run / category / f"best-{metadata['step']}"
+    out = ROOT / 'src/artifacts/Training' / run / category / f"best-{metadata['step']}"
     out.mkdir(parents=True, exist_ok=True)
     report = {'checkpoint': metadata, 'run_id': run, 'initialization': initialization,
               'reference_generation': args.reference_generation,

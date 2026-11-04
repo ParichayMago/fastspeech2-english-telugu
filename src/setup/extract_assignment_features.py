@@ -197,7 +197,7 @@ def main():
         'speaker_count':len(speakers),'english_speaker_labels_estimated':language=='english',
         'mel_bins':80,'sample_rate':22050,'hop_length':256,
         'failures':[{k:v for k,v in r.items() if k!='metadata'} for r in results if r['status']!='passed']}
-    dest=root/'Results/Preprocessing'/args.feature_version;dest.mkdir(parents=True,exist_ok=True)
+    dest=root/'src/artifacts/Preprocessing'/args.feature_version;dest.mkdir(parents=True,exist_ok=True)
     suffix='-smoke' if args.limit else ''
     (dest/(language+'-features'+suffix+'.json')).write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps({k:v for k,v in report.items() if k!='failures'},indent=2),flush=True)

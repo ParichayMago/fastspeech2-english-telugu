@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "verified_utc": "2026-11-04T16:05:02.501443+00:00",
+  "verified_utc": "2026-11-04T16:48:50.322761+00:00",
   "scope": "File/shape/unit/provenance checks; not perceptual quality assessment",
   "samples": [
     {
@@ -396,10 +396,10 @@
   },
   "source_sha256": {
     "src/setup/final_text_frontend.py": "870b15273c31226f4a807254253210ad9b50cad3ce1e61e7915c2a6a38cc6a87",
-    "src/setup/final_inference.py": "38dd795636a4739d6ec5027decf91ea922311391177e3d4fff87b6d3f691369b",
-    "src/setup/generate_assignment_outputs.py": "675c9f8df3fb6b8590777f9331e3a3fe540eb3ab9bd2c035cb106c250f4579a5",
-    "src/setup/prepare_final_inference.py": "b29aa5fd8562275064f5891f6051a7b5c0da3ff6053a4d20cc56bb61a8b90be3",
-    "src/setup/verify_assignment_outputs.py": "d3c15e89e4ceebbf5210eda6abdecd21d314d3a2a8ebe6d4bd58098a40dcfba4",
+    "src/setup/final_inference.py": "b354990105a0fb9fc2839e5315c31a98a47de55083f6e56b319b3a683c563aa2",
+    "src/setup/generate_assignment_outputs.py": "8de6df678b9c12150393a5beb043882202583d277617a32c448130fddd0f193a",
+    "src/setup/prepare_final_inference.py": "09c4af833a4206b00a20a87ea321a6b6e53b599c6f2aee864c5f2834638be9c3",
+    "src/setup/verify_assignment_outputs.py": "932293cdcfd79d44da8f7fee045393df1258733bfd71aee2ac68cefe5b805790",
     "English/inference.py": "bf41c234973523700d86b06ff205922cd291fdb631265c403a9cefa12834a23e",
     "Telugu/inference.py": "8e3c0348cf8bc883aa76f8e4643436f20b79ddca6ebcc1980fc63a2ea7ed4d31",
     "src/setup/assignment_test_sentences.json": "93a7155c1b7b1e67d6d1cf3629f5fe3a5568d038de8d5713e424a426657f54e1",

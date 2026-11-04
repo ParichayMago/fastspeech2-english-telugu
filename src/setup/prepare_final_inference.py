@@ -93,7 +93,7 @@ def main():
         summary[language]=proof
         print(json.dumps({'language':language,'frozen_checkpoint':str(destination.relative_to(ROOT)),
                           'step':selection['step'],'sha256':selection['sha256']}),flush=True)
-    out=ROOT/'Results/Assignment';out.mkdir(exist_ok=True)
+    out=ROOT/'src/artifacts/Assignment';out.mkdir(exist_ok=True)
     (out/'checkpoint-selection.json').write_text(json.dumps(summary,indent=2)+'\n')
 
 

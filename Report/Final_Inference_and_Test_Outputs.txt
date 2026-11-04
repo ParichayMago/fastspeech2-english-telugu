@@ -116,7 +116,7 @@ under duration/, pitch/ and energy/. All thirty figures were inspected via a
 contact sheet; long English/Telugu figures were also inspected individually.
 
 Verification
-Results/Assignment/verification.json records ten verified mono PCM16 WAVs,
+src/artifacts/Assignment/verification.json records ten verified mono PCM16 WAVs,
 thirty valid nonblank PNGs, exact source-text agreement, selected weight hashes,
 finite predictions, complete mel lengths, duration-to-WAV length agreement,
 inverse-normalization checks, per-phone CSV lengths and code fingerprints.
@@ -151,8 +151,8 @@ Verify outputs and regenerate the review page, contact sheet and output archive:
 Run the frontend contracts:
   .venvs/inference/bin/python -m unittest discover -s setup -p test_final_inference.py -v
 
-Review: Results/Assignment/index.html
-Bundle: Results/Assignment/assignment_test_outputs.zip
+Review: src/artifacts/Assignment/index.html
+Bundle: src/artifacts/Assignment/assignment_test_outputs.zip
 The bundle contains the audios, plots and sidecars; it is not the complete code
 repository or a public model download. Final report, native-speaker observations,
 final loss-plot packaging, remaining training wrappers/docs and publication/form

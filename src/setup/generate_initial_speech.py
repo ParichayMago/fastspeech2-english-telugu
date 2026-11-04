@@ -104,7 +104,7 @@ def main():
             waveform = vocoder(mel[:, :frames].transpose(1,2)).squeeze().cpu().numpy()
         if not np.isfinite(waveform).all():
             raise ValueError('Non-finite audio samples')
-        directory = (ROOT/'Results/Training'/args.run_id/'speech_samples'/language/str(checkpoint['step'])
+        directory = (ROOT/'src/artifacts/Training'/args.run_id/'speech_samples'/language/str(checkpoint['step'])
                      if args.run_id else ROOT/'Results'/language.title()/'initial_generated_audios')
         directory.mkdir(parents=True, exist_ok=True)
         path = directory/'preview.wav'
@@ -124,8 +124,8 @@ def main():
                 'quality_assessment':'not_performed_user_will_listen'}
         (directory/'preview.json').write_text(json.dumps(info, ensure_ascii=False, indent=2)+'\n')
         report['samples'][language] = info
-        report_path = (ROOT/'Results/Training'/args.run_id/'speech_samples/generation.json'
-                       if args.run_id else ROOT/'Results/Training/initial-speech-generation.json')
+        report_path = (ROOT/'src/artifacts/Training'/args.run_id/'speech_samples/generation.json'
+                       if args.run_id else ROOT/'src/artifacts/Training/initial-speech-generation.json')
         report_path.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
         print(json.dumps(info,ensure_ascii=False), flush=True)
 

@@ -309,8 +309,8 @@
   "seconds": 2.693514739229025,
   "audio_path": "Results/English/test_generated_audios/E3.wav",
   "audio_sha256": "722622609011cc19694c98de2b4065602669a115267da6ac0e170e6aa5b4a6ae",
-  "predictions_path": "Results/English/test_generated_audios/E3_predictions.npz",
-  "variance_csv": "Results/English/test_generated_audios/E3_variance.csv",
+  "predictions_path": "src/artifacts/English/test_generated_audios/E3_predictions.npz",
+  "variance_csv": "src/artifacts/English/test_generated_audios/E3_variance.csv",
   "plots": {
     "duration": "Results/English/variance_adaptor_plots/duration/E3.png",
     "pitch": "Results/English/variance_adaptor_plots/pitch/E3.png",

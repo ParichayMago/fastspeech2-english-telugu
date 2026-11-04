@@ -36,8 +36,8 @@ Use a fresh version directory: completed feature versions are protected from ove
 .venvs/inference/bin/python setup/verify_preprocessed_features.py --language telugu --feature-version gap-fixed-v2
 .venvs/inference/bin/python setup/check_real_preprocessed_batch.py --language english --device cpu --config-root data/rebuild-config/gap-fixed-v2 --report-version gap-fixed-v2
 .venvs/inference/bin/python setup/check_real_preprocessed_batch.py --language telugu --device cpu --config-root data/rebuild-config/gap-fixed-v2 --report-version gap-fixed-v2
-Exact local dependencies: Results/Preprocessing/gap-fixed-v2/requirements-local-rebuild.txt.
-Per-example audit and source/config fingerprints accompany the reports in Results/Preprocessing/gap-fixed-v2.
+Exact local dependencies: src/artifacts/Preprocessing/gap-fixed-v2/requirements-local-rebuild.txt.
+Per-example audit and source/config fingerprints accompany the reports in src/artifacts/Preprocessing/gap-fixed-v2.
 
 Long-sequence training guard
 The restored English targets reach 1,674 mel frames (252 clips exceed 1,000); Telugu reaches 1,698 (344 exceed 1,000). The upstream decoder truncates training sequences at max_seq_len. Both active model configurations now use 2,048, and actual longest training/validation examples passed CPU forward/backward checks with full mel output coverage. No decoder code or checkpoint weights were altered.

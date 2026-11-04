@@ -23,6 +23,8 @@ def submission_files():
         files.update((ROOT/name).rglob('*'))
     for path in (ROOT/'src').rglob('*'):
         relative=path.relative_to(ROOT/'src')
+        if relative.parts[:2]==('artifacts','Submission'):
+            continue
         if relative.parts[:1]==('setup',) and path.suffix=='.json' and path.name not in ('assignment_test_sentences.json','checkpoint_manifest.json'):
             continue
         if relative.parts[:2] in (('reference','demo'),('reference','preprocessed_data')):
@@ -33,37 +35,37 @@ def submission_files():
     for language in ('English','Telugu'):
         files.update((ROOT/'Results'/language/'test_generated_audios').rglob('*'))
         files.update((ROOT/'Results'/language/'variance_adaptor_plots').rglob('*'))
-        for pattern in ('*loss.png','*loss.svg','loss_history.csv'):
+        for pattern in ('*loss.png',):
             files.update((ROOT/'Results'/language).glob(pattern))
-    files.update((ROOT/'Results/Assignment/analysis').glob('*.json'))
+    files.update((ROOT/'src/artifacts/Assignment/analysis').glob('*.json'))
     for name in ('index.html','verification.json','generation.json','checkpoint-selection.json','cli-verification.json','training-entrypoint-verification.json','variance_contact_sheet.png','assignment_test_outputs.zip','frozen-regeneration-verification.json','review-fix-verification.json','layout-verification.json','pre-submission-audit.json'):
-        files.add(ROOT/'Results/Assignment'/name)
+        files.add(ROOT/'src/artifacts/Assignment'/name)
     for name in ('DataSplits','DatasetAudit','Preprocessing'):
         files.update((ROOT/'Results'/name).rglob('*.json'))
         files.update((ROOT/'Results'/name).rglob('requirements*.txt'))
-    files.add(ROOT/'Results/DataSplits/selection-membership.jsonl')
-    files.add(ROOT/'Results/InitialSpeechReview/review.json')
+    files.add(ROOT/'src/artifacts/DataSplits/selection-membership.jsonl')
+    files.add(ROOT/'src/artifacts/InitialSpeechReview/review.json')
     for run,language in [('gap-fixed-v2-20261103','english'),('gap-fixed-v2-20261103','telugu'),('english-finetune-pilot-20261104','english'),('english-learned-pauses-pilot-20261104','english')]:
         for name in ('metrics.jsonl','run-config.json'):
-            files.add(ROOT/'Results/Training'/run/language/name)
-    for p in (ROOT/'Results/Training').rglob('*'):
+            files.add(ROOT/'src/artifacts/Training'/run/language/name)
+    for p in (ROOT/'src/artifacts/Training').rglob('*'):
         if 'plots' in p.parts and p.suffix in ('.png','.svg','.csv'):
             files.add(p)
     files.add(ROOT/'src/hifigan/generator_universal.pth.tar')
     return sorted(p for p in files if p.is_file() and '__pycache__' not in p.parts
                   and p.name not in ('.DS_Store','.gitkeep') and p.suffix not in ('.pyc','.pyo','.log')
-                  and (p.suffix!='.zip' or p==ROOT/'Results/Assignment/assignment_test_outputs.zip'))
+                  and (p.suffix!='.zip' or p==ROOT/'src/artifacts/Assignment/assignment_test_outputs.zip'))
 
 
 def main():
-    destination=ROOT/'Results/Submission';destination.mkdir(exist_ok=True)
+    destination=ROOT/'src/artifacts/Submission';destination.mkdir(exist_ok=True)
     files=submission_files()
     required=['English/train.py','Telugu/train.py','English/preprocess.py','Telugu/preprocess.py',
               'English/inference.py','Telugu/inference.py','English/config.yaml','Telugu/config.yaml',
               'English/checkpoints/final.pth.tar','Telugu/checkpoints/final.pth.tar',
               'src/hifigan/generator_universal.pth.tar','Report/Technical_Report.pdf','README.md','requirements.txt',
               'src/setup/training_recovery.py','src/setup/learned_pause_config.py',
-              'src/setup/analyze_speaker_coverage.py','Results/Assignment/analysis/english-speaker-coverage.json',
+              'src/setup/analyze_speaker_coverage.py','src/artifacts/Assignment/analysis/english-speaker-coverage.json',
               'src/docs/REPRODUCIBILITY.md',
               'src/audio_review/server.py','src/audio_review/static/index.html','src/audio_review/static/app.js',
               'src/config/learned-pauses-v1/English/preprocess.yaml','src/config/learned-pauses-v1/English/model.yaml',

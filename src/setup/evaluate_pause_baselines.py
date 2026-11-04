@@ -26,7 +26,7 @@ def main():
         for name,predicted in [('every_internal_boundary',valid),('punctuation_only',boundary>=2)]:
             values=[int((predicted&actual&valid).sum()),int((predicted&~actual&valid).sum()),int((~predicted&actual&valid).sum())]
             count[name]=[a+b for a,b in zip(count[name],values)]
-    analysis=json.loads((ROOT/'Results/Assignment/analysis/measured-analysis.json').read_text())
+    analysis=json.loads((ROOT/'src/artifacts/Assignment/analysis/measured-analysis.json').read_text())
     selected=analysis['training_runs']['english-learned-pauses-pilot-20261104/english']['best']
     p=selected['pause_metrics']
     result={'validation_utterances':rows,'boundary_targets_sha256':digest.hexdigest(),
@@ -36,7 +36,7 @@ def main():
             'model_measurement_source':'Saved complete validation, not a new GPU evaluation',
             'interpretation':'Occurrence classifiers only; no pause lengths, waveform edits or auditory quality claims'}
     result['F1_gain_over_every_boundary_percentage_points']=100*(result['selected_model']['f1']-result['baselines']['every_internal_boundary']['f1'])
-    path=ROOT/'Results/Assignment/analysis/pause-baselines.json'
+    path=ROOT/'src/artifacts/Assignment/analysis/pause-baselines.json'
     path.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result,indent=2))
 

@@ -20,7 +20,7 @@ def checked_write(path, content):
 
 def main():
     root = Path(__file__).resolve().parents[2]
-    report = json.loads((root / 'Results/DataSplits/summary.json').read_text())
+    report = json.loads((root / 'src/artifacts/DataSplits/summary.json').read_text())
     result = {'waveforms': 'Original bytes, no resampling or trimming', 'datasets': {}}
     for language, dataset in report['datasets'].items():
         selected = defaultdict(dict)
@@ -77,7 +77,7 @@ def main():
                 'manifest': str(output.relative_to(root)),
                 'manifest_sha256': hashlib.sha256(output.read_bytes()).hexdigest()}
         print(json.dumps({language: result['datasets'][language]}), flush=True)
-    (root / 'Results/DataSplits/export.json').write_text(json.dumps(result, indent=2) + '\n')
+    (root / 'src/artifacts/DataSplits/export.json').write_text(json.dumps(result, indent=2) + '\n')
 
 
 if __name__ == '__main__':

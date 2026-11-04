@@ -11,7 +11,7 @@ ROOT=Path(__file__).resolve().parents[2]
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--manifest',default='data/features/gap-fixed-v2/training-transfer-sha256.json')
-    parser.add_argument('--report',default='Results/Training/gap-fixed-v2-20261103/transfer-verification.json')
+    parser.add_argument('--report',default='src/artifacts/Training/gap-fixed-v2-20261103/transfer-verification.json')
     args=parser.parse_args()
     manifest=(ROOT/args.manifest).resolve()
     assert manifest.is_relative_to(ROOT/'data/features')
@@ -27,7 +27,7 @@ def main():
     result={'status':'passed','feature_version':obj['feature_version'],
             'files':len(obj['files']),'bytes':sum(x['bytes'] for x in obj['files'].values()),
             'manifest_sha256':hashlib.sha256(manifest.read_bytes()).hexdigest()}
-    path=(ROOT/args.report).resolve();assert path.is_relative_to(ROOT/'Results/Training')
+    path=(ROOT/args.report).resolve();assert path.is_relative_to(ROOT/'src/artifacts/Training')
     path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result),flush=True)
 

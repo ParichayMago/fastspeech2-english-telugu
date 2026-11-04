@@ -20,9 +20,9 @@ for language in English Telugu; do
   rsync -az --no-owner --no-group -e "$transport" \
     "$DEST:$REMOTE/config/$language/" "$ROOT/src/config/$language/"
 done
-mkdir -p "$ROOT/Results/Preprocessing" "$ROOT/data/preprocessing/logs"
+mkdir -p "$ROOT/src/artifacts/Preprocessing" "$ROOT/data/preprocessing/logs"
 rsync -az --no-owner --no-group -e "$transport" \
-  "$DEST:$REMOTE/Results/Preprocessing/" "$ROOT/Results/Preprocessing/"
+  "$DEST:$REMOTE/src/artifacts/Preprocessing/" "$ROOT/src/artifacts/Preprocessing/"
 rsync -az --no-owner --no-group -e "$transport" \
   "$DEST:$REMOTE/text/assignment_phones.json" "$ROOT/src/text/"
 rsync -az --no-owner --no-group -e "$transport" \

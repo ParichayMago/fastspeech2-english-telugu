@@ -34,7 +34,7 @@ def edit_counts(ref,hyp):
 def analyze():
     import numpy as np,soundfile as sf
     from scipy.signal import welch
-    out=ROOT/'Results/Assignment/analysis';out.mkdir(exist_ok=True)
+    out=ROOT/'src/artifacts/Assignment/analysis';out.mkdir(exist_ok=True)
     data={'created_utc':datetime.now(timezone.utc).isoformat(),'human_listening_performed':False,
           'cloud_compute_used':False,'training_runs':{},'samples':{},'source_files':{}}
     runs=[('gap-fixed-v2-20261103','english'),('gap-fixed-v2-20261103','telugu'),
@@ -42,7 +42,7 @@ def analyze():
     for run,language in runs:
         path=ROOT/'output/runs'/run/language/'metrics.jsonl'
         if not path.exists():
-            path=ROOT/'Results/Training'/run/language/'metrics.jsonl'
+            path=ROOT/'src/artifacts/Training'/run/language/'metrics.jsonl'
         rows=[json.loads(x) for x in path.read_text().splitlines()]
         train={r['step']:r for r in rows if r['phase']=='train'}
         valid={r['step']:r for r in rows if r['phase']=='validation' and r.get('complete')}
@@ -62,7 +62,8 @@ def analyze():
                   'T3':['అడ','విలో'],'T4':['పన్నెండవ']}
     for case in manifest['samples']:
         sid=case['id'];directory=ROOT/'Results'/case['language'].title()/'test_generated_audios'
-        info=json.loads((directory/(sid+'.json')).read_text());a=np.load(ROOT/info['predictions_path'])
+        metadata=ROOT/'src/artifacts'/case['language'].title()/'test_generated_audios'
+        info=json.loads((metadata/(sid+'.json')).read_text());a=np.load(ROOT/info['predictions_path'])
         wave,sr=sf.read(ROOT/info['audio_path']);d=a['duration_frames'];f0=a['predicted_f0_hz'];energy=a['predicted_spectral_energy']
         assert info['source_text']==case['text'] and sha(ROOT/info['audio_path'])==info['audio_sha256']
         active=d>0;lex=active & (np.array(info['boundary_types'])==0)
@@ -110,13 +111,13 @@ def analyze():
               'High-frequency power can include legitimate consonants and is not a noise/SNR rating',
               'Spoken-token rate depends on normalization and is not comparable across languages']}
         data['samples'][sid]=result
-        data['source_files'][str((directory/(sid+'.json')).relative_to(ROOT))]=sha(directory/(sid+'.json'))
+        data['source_files'][str((metadata/(sid+'.json')).relative_to(ROOT))]=sha(metadata/(sid+'.json'))
         print(json.dumps({'id':sid,'seconds':round(result['duration_seconds'],3),'rms_dbfs':round(result['rms_dbfs'],2),
                           'F0_range':result['lexical_F0_hz_min_max'],'pause_seconds':result['total_predicted_pause_seconds']}),flush=True)
-    data['data_splits']=json.loads((ROOT/'Results/DataSplits/summary.json').read_text())
-    data['feature_rebuild']=json.loads((ROOT/'Results/Preprocessing/gap-fixed-v2/rebuild-summary.json').read_text())
+    data['data_splits']=json.loads((ROOT/'src/artifacts/DataSplits/summary.json').read_text())
+    data['feature_rebuild']=json.loads((ROOT/'src/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json').read_text())
     for name in ('english','telugu'):
-        p=ROOT/'Results/DatasetAudit'/(name+'-audit.json');x=json.loads(p.read_text())
+        p=ROOT/'src/artifacts/DatasetAudit'/(name+'-audit.json');x=json.loads(p.read_text())
         data.setdefault('dataset_audits',{})[name]={k:x.get(k) for k in ('dataset','revision','decoded_audio_hours','candidate_audio_hours','sample_rates','counters','speaker_identity_note')}
     (out/'measured-analysis.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
     return data
@@ -127,7 +128,7 @@ def asr(data):
     from setup.final_text_frontend import english_spoken_form
     from setup.prepare_assignment_corpus import normalize_text
     torch.set_num_threads(4)
-    out=ROOT/'Results/Assignment/analysis';path=out/'english-asr.json'
+    out=ROOT/'src/artifacts/Assignment/analysis';path=out/'english-asr.json'
     report={'recognizer':'Whisper-small multilingual (local)','language':'en','prompt':None,
       'condition_on_previous_text':False,'temperature':0,'human_listening_performed':False,
       'limitations':['ASR disagreement is not a phonetic correctness or MOS score',

@@ -154,3 +154,6 @@ logs/
 # Keep the existing local listening server running during source relocation.
 /audio_review/
 /src/setup/runpod-assignment.json
+
+# Local release archives; only the checksum and manifests are versioned.
+/src/artifacts/Submission/*.zip

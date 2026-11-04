@@ -720,8 +720,8 @@
   "seconds": 6.013968253968254,
   "audio_path": "Results/English/test_generated_audios/E4.wav",
   "audio_sha256": "fb4abbcf37f63bedc99b9f47dda039e4ea9d59af5f845262b6dd517953f8e9a1",
-  "predictions_path": "Results/English/test_generated_audios/E4_predictions.npz",
-  "variance_csv": "Results/English/test_generated_audios/E4_variance.csv",
+  "predictions_path": "src/artifacts/English/test_generated_audios/E4_predictions.npz",
+  "variance_csv": "src/artifacts/English/test_generated_audios/E4_variance.csv",
   "plots": {
     "duration": "Results/English/variance_adaptor_plots/duration/E4.png",
     "pitch": "Results/English/variance_adaptor_plots/pitch/E4.png",

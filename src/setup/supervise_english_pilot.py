@@ -56,7 +56,7 @@ def main():
     run, pod = cfg['run_id'], cfg['pod_id']
     assert run.replace('-', '').replace('_', '').isalnum()
     activated = datetime.fromisoformat(cfg['activated_utc'])
-    report = ROOT / 'Results/Training' / run / 'supervisor.json'
+    report = ROOT / 'src/artifacts/Training' / run / 'supervisor.json'
     report.parent.mkdir(parents=True, exist_ok=True)
     state = {'status': 'guarding_setup', 'pod_id': pod, 'run_id': run,
              'pid': __import__('os').getpid(), 'runtime': cfg, 'started_utc': cfg['activated_utc']}

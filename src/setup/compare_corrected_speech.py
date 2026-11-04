@@ -17,7 +17,7 @@ RUN = 'gap-fixed-v2-20261103'
 
 def main():
     torch.set_num_threads(4)
-    output = ROOT / 'Results/Training' / RUN / 'speech_comparison'
+    output = ROOT / 'src/artifacts/Training' / RUN / 'speech_comparison'
     output.mkdir(parents=True, exist_ok=True)
     generated = json.loads((output.parent / 'speech_samples/generation.json').read_text())
     model = whisper.load_model('small', device='cpu', download_root=str(ROOT / 'data/evaluation/whisper'))

@@ -25,7 +25,7 @@ def main():
     from scipy import signal, ndimage
     from setup.review_initial_speech import normalized, distance
     torch.set_num_threads(4)
-    root = ROOT / 'Results/Training/gap-fixed-v2-20261103'
+    root = ROOT / 'src/artifacts/Training/gap-fixed-v2-20261103'
     source = root / 'english_diagnostics/preview_best_duration_1.3.wav'
     mel_path = root / 'english_diagnostics/preview_best_duration_1.3-mel.npy'
     out = root / 'english_hiss_comparison'

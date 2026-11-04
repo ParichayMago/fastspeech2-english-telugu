@@ -26,10 +26,10 @@ def summarize(rows,label):
 
 
 def main():
-    membership=ROOT/'Results/DataSplits/selection-membership.jsonl'
-    feature=ROOT/'Results/Preprocessing/gap-fixed-v2/rebuild-summary.json'
-    estimate=ROOT/'Results/Preprocessing/english-estimated-speakers.json'
-    recovery=ROOT/'Results/DataSplits/english-speaker-recovery.json'
+    membership=ROOT/'src/artifacts/DataSplits/selection-membership.jsonl'
+    feature=ROOT/'src/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json'
+    estimate=ROOT/'src/artifacts/Preprocessing/english-estimated-speakers.json'
+    recovery=ROOT/'src/artifacts/DataSplits/english-speaker-recovery.json'
     rows=[json.loads(s) for s in membership.read_text().splitlines()]
     rows=[r for r in rows if r['language']=='english' and r['partition']=='train']
     rebuild=json.loads(feature.read_text())['languages']['english']['rebuild']
@@ -46,7 +46,7 @@ def main():
         final_label_selection='Retained from earlier preview/diagnostic workflow for continuity; not selected through a systematic held-out perceptual ranking of all labels.',
         interpretation='Sparse, uncertain labels are a plausible modeling risk. The cluster count mismatch warrants an audit; it does not prove fragmentation counts or establish a cause of English speech defects.',
         input_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (membership,feature,estimate,recovery)})
-    out=ROOT/'Results/Assignment/analysis/english-speaker-coverage.json'
+    out=ROOT/'src/artifacts/Assignment/analysis/english-speaker-coverage.json'
     out.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps({key:{k:v for k,v in result[key].items() if k!='per_label'}
                       for key in ('selected_training_source','accepted_training_source')},indent=2))

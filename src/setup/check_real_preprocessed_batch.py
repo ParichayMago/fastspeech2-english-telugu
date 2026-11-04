@@ -73,7 +73,7 @@ def main():
         'full_training_mel_targets_covered':True,
         'peak_allocated_gpu_gib':torch.cuda.max_memory_allocated()/1024**3 if args.device=='cuda' else None,
         'not_validated':['Full training convergence','Generated speech quality','Human-verified speaker identities']}
-    out=root/'Results/Preprocessing'
+    out=root/'src/artifacts/Preprocessing'
     if args.report_version:out=out/args.report_version
     out.mkdir(parents=True,exist_ok=True)
     (out/(args.language+'-real-batch-check.json')).write_text(json.dumps(report,indent=2)+'\n')

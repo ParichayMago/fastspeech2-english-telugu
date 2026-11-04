@@ -2,6 +2,7 @@
 """Check the assignment's required tree and a clean exported project root."""
 import argparse
 import json
+import re
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[2]
@@ -25,6 +26,12 @@ def main():
             assert len(figures)==5,(language,kind,'expected five plots')
     missing=[p for p in required if not (root/p).is_file()]
     if missing:raise ValueError('Missing required files: '+repr(missing))
+    results_files=[p.relative_to(root).as_posix() for p in (root/'Results').rglob('*') if p.is_file()]
+    pattern=r'Results/(English|Telugu)/(?:(?:training|validation)_loss\.png|test_generated_audios/[^/]+\.wav|variance_adaptor_plots/(?:duration|pitch|energy)/[^/]+\.png)'
+    extras=[p for p in results_files if not re.fullmatch(pattern,p)]
+    extra_dirs={p.name for p in (root/'Results').iterdir()}-{'English','Telugu'}
+    if extras or extra_dirs:raise ValueError('Unexpected Results entries: '+repr(extras+sorted(extra_dirs)))
+    if len(results_files)!=44:raise ValueError('Results must contain the 44 required files')
     if args.strict:
         extras={p.name for p in root.iterdir()}-ALLOWED
         if extras:raise ValueError('Unexpected top-level entries: '+repr(extras))
@@ -32,7 +39,7 @@ def main():
             raise ValueError('Local Runpod state must not be in a submission export')
     print(json.dumps(dict(status='passed',repository_root_is_project=True,
         shared_implementation='src/',required_audios=10,required_variance_plots=30,
-        strict_export_check=args.strict)))
+        required_results_files=44,strict_export_check=args.strict)))
 
 
 if __name__=='__main__':main()

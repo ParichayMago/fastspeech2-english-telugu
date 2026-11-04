@@ -34,4 +34,4 @@ speech quality; final evaluation needs more sentences and human listening.
 Reproduce:
 .venvs/inference/bin/python setup/compare_corrected_speech.py
 Machine-readable evidence:
-Results/Training/gap-fixed-v2-20261103/speech_comparison/comparison.json
+src/artifacts/Training/gap-fixed-v2-20261103/speech_comparison/comparison.json

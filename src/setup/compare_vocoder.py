@@ -29,7 +29,7 @@ def main():
     output=ROOT/'Results/VocoderComparison'
     if args.feature_version:output=output/args.feature_version
     output.mkdir(parents=True,exist_ok=True)
-    controls=json.loads((ROOT/'Results/InitialSpeechReview/review.json').read_text())['samples']
+    controls=json.loads((ROOT/'src/artifacts/InitialSpeechReview/review.json').read_text())['samples']
     config=json.loads((ROOT/'src/hifigan/config.json').read_text())
     vocoder=hifigan.Generator(hifigan.AttrDict(config))
     weights=ROOT/'src/hifigan/generator_universal.pth.tar'

@@ -54,7 +54,7 @@ def main():
         for case in cases:
             info=engine.synthesize(case['text'],sample_id=case['id'],output_dir=str((OUT/'source'/system).relative_to(ROOT)),plots=False)
             if system=='learned' and case['id']!='MIT':
-                original=json.loads((ROOT/'Results/English/test_generated_audios'/(case['id']+'.json')).read_text())
+                original=json.loads((ROOT/'src/artifacts/English/test_generated_audios'/(case['id']+'.json')).read_text())
                 if info['audio_sha256']!=original['audio_sha256']:
                     raise ValueError('Learned comparison differs from released WAV: '+case['id'])
             outputs[system][case['id']]=info

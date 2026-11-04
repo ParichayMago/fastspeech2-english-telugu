@@ -20,7 +20,7 @@ def sha(path):
 def main():
     import numpy as np
     import yaml
-    out=ROOT/'Results/Preprocessing'/VERSION
+    out=ROOT/'src/artifacts/Preprocessing'/VERSION
     report={'feature_version':VERSION,'created_utc':datetime.now(timezone.utc).isoformat(),
             'execution_device':'local_cpu','cloud_training_started':False,
             'languages':{},'legacy_checkpoint_hashes':{}}
@@ -32,7 +32,7 @@ def main():
             assert sha(ROOT/name)==entry['sha256'], 'Legacy feature changed: '+name
             old_count+=1
     report['legacy_feature_files_hash_verified']=old_count
-    supervisor=json.loads((ROOT/'Results/Training/supervisor.json').read_text())
+    supervisor=json.loads((ROOT/'src/artifacts/Training/supervisor.json').read_text())
     for lang,entry in supervisor['verified_local_checkpoints'].items():
         assert sha(ROOT/entry['path'])==entry['sha256'],'Legacy checkpoint changed'
         report['legacy_checkpoint_hashes'][lang]=entry['sha256']

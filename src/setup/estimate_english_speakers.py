@@ -156,7 +156,7 @@ def main():
         'limitations':['Clusters can merge different speakers or fragment one speaker.',
             'Short clips and negative/small centroid margins need listening review.',
             'Do not report these labels as original dataset speaker identities or a verified count.']}
-    dest=root/'Results/Preprocessing'; dest.mkdir(parents=True,exist_ok=True)
+    dest=root/'src/artifacts/Preprocessing'; dest.mkdir(parents=True,exist_ok=True)
     (dest/'english-estimated-speakers.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(report,indent=2),flush=True)
 

@@ -259,8 +259,8 @@
   "seconds": 1.7531065759637188,
   "audio_path": "Results/Telugu/test_generated_audios/T3.wav",
   "audio_sha256": "f9d707a88647d0b0aaa4934252674a35a935ab7601202dfb8558a9eb5466abb8",
-  "predictions_path": "Results/Telugu/test_generated_audios/T3_predictions.npz",
-  "variance_csv": "Results/Telugu/test_generated_audios/T3_variance.csv",
+  "predictions_path": "src/artifacts/Telugu/test_generated_audios/T3_predictions.npz",
+  "variance_csv": "src/artifacts/Telugu/test_generated_audios/T3_variance.csv",
   "plots": {
     "duration": "Results/Telugu/variance_adaptor_plots/duration/T3.png",
     "pitch": "Results/Telugu/variance_adaptor_plots/pitch/T3.png",

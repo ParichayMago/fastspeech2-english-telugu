@@ -16,7 +16,7 @@ def main():
     import torch
     parent = ROOT/'output/initialization/english-learned-pause-parent.pth.tar'
     assert hashlib.sha256(parent.read_bytes()).hexdigest() == PARENT_SHA
-    evidence = ROOT/'Results/Training'/RUN
+    evidence = ROOT/'src/artifacts/Training'/RUN
     transfer = json.loads((evidence/'transfer-verification.json').read_text())
     local = json.loads((evidence/'checks/local-verification.json').read_text())
     gpu = json.loads((evidence/'checks/gpu-readiness.json').read_text())

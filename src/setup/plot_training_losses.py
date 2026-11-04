@@ -91,7 +91,7 @@ def main():
         datasets[language]=rows
         directory=ROOT/'Results'/language.title()
         directory.mkdir(parents=True, exist_ok=True)
-        with (directory/'loss_history.csv').open('w',newline='') as f:
+        with (ROOT/'src/artifacts'/language.title()/'loss_history.csv').open('w',newline='') as f:
             writer=csv.writer(f)
             writer.writerow(['utc','phase','step',*NAMES,'examples','complete'])
             writer.writerows([r['utc'],r['phase'],r['step'],*r['losses'],
@@ -115,7 +115,7 @@ def main():
             fig.tight_layout(rect=(0,.045,1,1))
             name='training_loss' if phase=='train' else 'validation_loss'
             fig.savefig(directory/(name+'.png'),dpi=200)
-            fig.savefig(directory/(name+'.svg'))
+            fig.savefig(ROOT/'src/artifacts'/language.title()/(name+'.svg'))
             plt.close(fig)
     fig,axes=plt.subplots(2,2,figsize=(13,8.5))
     for row,language in enumerate(('english','telugu')):
@@ -130,7 +130,7 @@ def main():
     fig.text(.06,.006,'English speaker labels are estimated acoustic clusters. Loss curves do not establish generated speech quality.',
              color='#5B6875',fontsize=9)
     fig.tight_layout(rect=(.025,.05,1,.92),h_pad=2.5,w_pad=2.2)
-    out=ROOT/'Results/Training'
+    out=ROOT/'src/artifacts/Training'
     out.mkdir(parents=True,exist_ok=True)
     fig.savefig(out/'loss_overview.png',dpi=200)
     fig.savefig(out/'loss_overview.svg')

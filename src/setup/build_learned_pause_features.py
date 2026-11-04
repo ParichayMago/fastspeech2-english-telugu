@@ -92,7 +92,7 @@ def main():
         return
     old = ROOT/'data/features/gap-fixed-v2/english'
     out = ROOT/'data/features'/VERSION/'english'
-    report_dir = ROOT/'Results/Preprocessing'/VERSION; report_dir.mkdir(parents=True, exist_ok=True)
+    report_dir = ROOT/'src/artifacts/Preprocessing'/VERSION; report_dir.mkdir(parents=True, exist_ok=True)
     if (out/'stats.json').exists():
         raise ValueError('Completed features already exist; refuse overwrite')
     out.mkdir(parents=True, exist_ok=True)

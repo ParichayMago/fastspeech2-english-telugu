@@ -119,7 +119,7 @@ def main():
         report['full_cropped_alignment_timeline_verified']=True
         report['all_internal_gaps_covered_by_silence_tokens']=True
         report['all_speech_phone_identities_preserved']=True
-    out=root/'Results/Preprocessing'
+    out=root/'src/artifacts/Preprocessing'
     if args.feature_version:out=out/args.feature_version
     out.mkdir(parents=True,exist_ok=True)
     (out/(language+'-feature-verification.json')).write_text(json.dumps(report,indent=2)+'\n')

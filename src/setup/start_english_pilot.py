@@ -16,7 +16,7 @@ def main():
     import torch
     parent = ROOT / 'output/initialization/english-best-12000.pth.tar'
     assert hashlib.sha256(parent.read_bytes()).hexdigest() == PARENT_SHA256
-    report = json.loads((ROOT/'Results/Training'/RUN/'transfer-verification.json').read_text())
+    report = json.loads((ROOT/'src/artifacts/Training'/RUN/'transfer-verification.json').read_text())
     assert report['status'] == 'passed' and report['files'] == 14621
     assert torch.cuda.is_available()
     session = ROOT / 'output/runs' / RUN / 'session'

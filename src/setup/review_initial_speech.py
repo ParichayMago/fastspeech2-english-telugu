@@ -30,7 +30,7 @@ def main():
     import torch
     import whisper
     torch.set_num_threads(4)
-    out=ROOT/'Results/InitialSpeechReview';out.mkdir(parents=True,exist_ok=True)
+    out=ROOT/'src/artifacts/InitialSpeechReview';out.mkdir(parents=True,exist_ok=True)
     report={'method':'signal measurements and local multilingual Whisper-small without text prompts',
             'human_listening_performed':False,'cloud_compute_used':False,
             'limitations':['ASR errors are not direct pronunciation or naturalness scores',

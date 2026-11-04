@@ -125,7 +125,7 @@ def main():
         'telugu_gender_selection': args.telugu_gender,
         'alignment_status': 'not_yet_aligned', 'datasets': {}}
     for language in ['english', 'telugu']:
-        audit_path = root / 'Results/DatasetAudit' / (language + '-audit.json')
+        audit_path = root / 'src/artifacts/DatasetAudit' / (language + '-audit.json')
         audit = json.loads(audit_path.read_text())
         if not (audit['complete'] and audit['audio_checked']):
             raise ValueError('Completed audio audit required: ' + language)
@@ -196,7 +196,7 @@ def main():
         assert sum(len(x) for x in partitions.values()) == len(rows)
         summary['datasets'][language] = record
     summary['script_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
-    report = root / 'Results/DataSplits/summary.json'
+    report = root / 'src/artifacts/DataSplits/summary.json'
     report.parent.mkdir(parents=True, exist_ok=True)
     report.write_text(json.dumps(summary, indent=2) + '\n')
     print(json.dumps({language: {p: {'rows': x['rows'], 'hours': x['hours'],

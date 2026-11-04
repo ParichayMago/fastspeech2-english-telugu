@@ -20,7 +20,7 @@ def main():
         for language in ('english','telugu'):
             engine=InferenceEngine(language)
             for case in [s for s in samples if s['language']==language]:
-                directory=ROOT/'Results'/language.title()/'test_generated_audios'
+                directory=ROOT/'src/artifacts'/language.title()/'test_generated_audios'
                 original=json.loads((directory/(case['id']+'.json')).read_text())
                 actual=engine.synthesize(case['text'],case['id'],required=True,plots=False,
                                          output_dir=Path(temporary)/language)
@@ -35,7 +35,7 @@ def main():
     result={'samples':checks,'same_audio_count':len(checks),'all_arrays_identical':True,
             'device':'cpu','trained_weights_changed':False,'cloud_resources_used':False,
             'software_scope':'Numerical regression, not a new listening assessment'}
-    (ROOT/'Results/Assignment/frozen-regeneration-verification.json').write_text(json.dumps(result,indent=2)+'\n')
+    (ROOT/'src/artifacts/Assignment/frozen-regeneration-verification.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result,indent=2))
 
 

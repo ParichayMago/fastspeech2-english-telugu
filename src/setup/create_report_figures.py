@@ -18,7 +18,7 @@ def main():
     plt.rcParams.update({'font.family':'DejaVu Sans','font.size':8.5,'axes.titlesize':10,
         'axes.labelsize':8.5,'xtick.labelsize':7.5,'ytick.labelsize':7.5,'axes.spines.top':False,
         'axes.spines.right':False,'savefig.facecolor':'white'})
-    d=json.loads((ROOT/'Results/Assignment/analysis/measured-analysis.json').read_text())
+    d=json.loads((ROOT/'src/artifacts/Assignment/analysis/measured-analysis.json').read_text())
     out=ROOT/'Report/figures';out.mkdir(exist_ok=True)
     def smooth(y):return [np.mean(y[max(0,i-24):i+1]) for i in range(len(y))]
     def losses(ax,run,validation_only=False):
@@ -62,7 +62,7 @@ def main():
     # figures and raw values remain unchanged in Results/.
     targets={s: [(w['start'],w['end']) for w in v['target_word_stats']] for s,v in d['samples'].items()}
     for sid,sample in d['samples'].items():
-        lang=sample['language'];directory=ROOT/'Results'/lang.title()/'test_generated_audios'
+        lang=sample['language'];directory=ROOT/'src/artifacts'/lang.title()/'test_generated_audios'
         info=json.loads((directory/(sid+'.json')).read_text());a=np.load(ROOT/info['predictions_path']);dur=a['duration_frames'];n=len(dur);x=np.arange(1,n+1)
         fig,axs=plt.subplots(3,1,figsize=(7.1,4.6),sharex=True,layout='constrained')
         vals=[dur*256/22050,a['predicted_f0_hz'],a['predicted_spectral_energy']]
@@ -80,7 +80,7 @@ def main():
     # Canonical requested loss files now describe the selected runs. Preserve
     # prior root-level bounded-run plots and CSV before replacement.
     for language,runid in [('english','english-learned-pauses-pilot-20261104'),('telugu','gap-fixed-v2-20261103')]:
-        root=ROOT/'Results'/language.title();archive=ROOT/'Results/Training/legacy-initial-bounded-loss-plots'/language.title();archive.mkdir(parents=True,exist_ok=True)
+        root=ROOT/'Results'/language.title();archive=ROOT/'src/artifacts/Training/legacy-initial-bounded-loss-plots'/language.title();archive.mkdir(parents=True,exist_ok=True)
         for file in ('training_loss.png','validation_loss.png','training_loss.svg','validation_loss.svg','loss_history.csv'):
             p=root/file
             if p.exists() and not (archive/file).exists():shutil.copyfile(p,archive/file)
@@ -94,9 +94,12 @@ def main():
             else:losses(ax,run,True)
             ax.set(title=f'{language.title()} {kind} loss | {runid}',xlabel='Additional pilot updates' if language=='english' else 'Optimizer updates',ylabel='Logged total loss')
             ax.grid(alpha=.2);ax.legend(fontsize=8)
-            for ext in ('png','svg'):fig.savefig(root/(kind+'_loss.'+ext),dpi=180)
+            for ext in ('png','svg'):
+                destination=root if ext=='png' else ROOT/'src/artifacts'/language.title()
+                destination.mkdir(parents=True,exist_ok=True)
+                fig.savefig(destination/(kind+'_loss.'+ext),dpi=180)
             plt.close(fig)
-        with (root/'loss_history.csv').open('w',newline='') as f:
+        with (ROOT/'src/artifacts'/language.title()/'loss_history.csv').open('w',newline='') as f:
             w=csv.writer(f);w.writerow(['run_id','phase','step','total','mel','mel_postnet','pitch','energy','duration','pause_presence','pause_duration','complete'])
             for phase in ('train','validation'):
                 for row in run[phase]:w.writerow([runid,phase,row['step'],*row['losses'],*(['']*(8-len(row['losses']))),row.get('complete','')])

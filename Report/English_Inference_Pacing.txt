@@ -35,7 +35,7 @@ checkpoint SHA256. There are four synthesis clauses. Audible improvement is
 for the user to assess; the remaining model/vocoder quality limitations persist.
 
 Audio and comparison metadata:
-Results/Training/english-finetune-pilot-20261104/paced_english_samples/best-2500/custom-4cd6e06bd9f3/
+src/artifacts/Training/english-finetune-pilot-20261104/paced_english_samples/best-2500/custom-4cd6e06bd9f3/
 The old custom_english_samples output is preserved for A/B comparison.
 
 Usage from the assignment checkout:

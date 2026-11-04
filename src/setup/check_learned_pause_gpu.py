@@ -86,7 +86,7 @@ def main():
               'optimizer_updates':1, 'smoke_weights_discarded':True,
               'parent_normalization_and_speakers_identical':True,
               'longest_eight_per_split':True, 'quality_validated':False}
-    out = ROOT/'Results/Training'/RUN/'checks/gpu-readiness.json'
+    out = ROOT/'src/artifacts/Training'/RUN/'checks/gpu-readiness.json'
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, indent=2)+'\n')
     print(json.dumps(report), flush=True)

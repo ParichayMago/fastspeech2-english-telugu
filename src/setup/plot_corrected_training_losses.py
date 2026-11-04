@@ -17,7 +17,7 @@ def main():
     args = parser.parse_args()
     if args.run_id != Path(args.run_id).name:
         parser.error('run-id must be a directory name')
-    out = ROOT / 'Results/Training' / args.run_id / 'plots'
+    out = ROOT / 'src/artifacts/Training' / args.run_id / 'plots'
     out.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 10,
                          'figure.facecolor': 'white', 'savefig.facecolor': 'white',

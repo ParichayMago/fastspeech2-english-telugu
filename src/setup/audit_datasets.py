@@ -41,7 +41,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--dataset', choices=DATASETS, required=True)
     parser.add_argument('--cache-dir', type=Path, default=Path('data/dataset-audit'))
-    parser.add_argument('--output-dir', type=Path, default=Path('Results/DatasetAudit'))
+    parser.add_argument('--output-dir', type=Path, default=Path('src/artifacts/DatasetAudit'))
     parser.add_argument('--download', action='store_true')
     parser.add_argument('--max-shards', type=int)
     parser.add_argument('--revision', help='Pinned dataset commit to audit/download')

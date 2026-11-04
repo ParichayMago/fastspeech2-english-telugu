@@ -50,7 +50,7 @@ def main(argv=None):
         mel=pred[1];wave=vocoder(mel.transpose(1,2)).squeeze().numpy()
     assert np.isfinite(wave).all() and len(wave)==int(pred[5].sum())*256
     sid='custom-'+hashlib.sha256((args.text+'|'+args.speaker).encode()).hexdigest()[:12]
-    out=ROOT/'Results/Training'/args.run_id/'learned_english_samples'/(args.checkpoint+'-'+str(metadata['step']))/sid;out.mkdir(parents=True,exist_ok=True)
+    out=ROOT/'src/artifacts/Training'/args.run_id/'learned_english_samples'/(args.checkpoint+'-'+str(metadata['step']))/sid;out.mkdir(parents=True,exist_ok=True)
     path=out/'preview.wav';sf.write(path,wave,22050,subtype='PCM_16')
     np.savez(out/'predictions.npz',mel=mel[0].numpy(),duration=pred[5][0].numpy(),
              boundary_types=np.array(boundaries),pause_probability=torch.sigmoid(aux['pause_logits'])[0].numpy(),

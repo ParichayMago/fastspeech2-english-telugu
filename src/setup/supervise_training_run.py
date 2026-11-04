@@ -58,7 +58,7 @@ def main():
          '-o','IdentitiesOnly=yes','-o','BatchMode=yes','-o','ConnectTimeout=15',
          '-o','StrictHostKeyChecking=yes','-o','UserKnownHostsFile='+str(ROOT/'.git/runpod_known_hosts')]
     dest='root@'+cfg['ssh_host']
-    report=ROOT/'Results/Training'/run/'supervisor.json';report.parent.mkdir(parents=True,exist_ok=True)
+    report=ROOT/'src/artifacts/Training'/run/'supervisor.json';report.parent.mkdir(parents=True,exist_ok=True)
     remote_session=REMOTE+'/output/runs/'+run+'/session'
     activated=datetime.fromisoformat(cfg['activated_utc'])
     state={'status':'monitoring_setup','pod_id':pod,'run_id':run,'pid':__import__('os').getpid(),
@@ -114,7 +114,7 @@ def main():
                     backup['checkpoints'].get(lang,{}).get('checkpoint',{}).get('step')==details['checkpoint']['step']
                     for lang,details in training.get('languages',{}).items() if 'checkpoint' in details)
                 if final_verified:
-                    rebuild=json.loads((ROOT/'Results/Preprocessing/gap-fixed-v2/rebuild-summary.json').read_text())
+                    rebuild=json.loads((ROOT/'src/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json').read_text())
                     assert rebuild['new_artifacts']['status']=='passed'
                     result=json.loads(call([CLI,'pod','stop',pod]))
                     # Pod responses contain environment secrets; persist a whitelist only.

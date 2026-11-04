@@ -44,7 +44,7 @@ def main():
         report={'status':'passed','files':len(files),'bytes':sum(x['bytes'] for x in files.values()),
                 'algorithm':'SHA-256','artifact_manifest_sha256':digest(manifest),
                 'scope':'Local files verified against the manifest generated on the assignment GPU.'}
-        out=root/'Results/Preprocessing/backup-verification.json'
+        out=root/'src/artifacts/Preprocessing/backup-verification.json'
         out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2)+'\n')
         print(json.dumps(report,indent=2),flush=True)
 

@@ -22,7 +22,7 @@ SSH = ['ssh', '-p', '22117', '-i', str(Path.home()/'.ssh/id_ed25519'),
        '-o', 'StrictHostKeyChecking=yes', '-o', 'UserKnownHostsFile='+str(ROOT/'.git/runpod_known_hosts')]
 DEST = 'root@157.157.221.29'
 REMOTE = '/workspace/fastspeech2-english-telugu'
-REPORT = ROOT / 'Results/Training/supervisor.json'
+REPORT = ROOT / 'src/artifacts/Training/supervisor.json'
 
 
 def call(argv, timeout=90):
@@ -108,7 +108,7 @@ def main():
                 continue
             if terminal:
                 # Final immutable files now verified; preprocessing was independently backed up.
-                preprocessing = json.loads((ROOT/'Results/Preprocessing/backup-verification.json').read_text())
+                preprocessing = json.loads((ROOT/'src/artifacts/Preprocessing/backup-verification.json').read_text())
                 assert preprocessing['status'] == 'passed'
                 state['training_final_backup_verified'] = True
                 state['stop_result'] = json.loads(call([CLI, 'pod', 'stop', POD]))

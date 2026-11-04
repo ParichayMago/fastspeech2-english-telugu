@@ -27,7 +27,7 @@ class ReviewTests(unittest.TestCase):
         row=dict(prepared_audio_path=str(wav.relative_to(cls.root)),sample_id='synthetic-english',
                  speaker_id='fixture',text='Synthetic HTTP fixture',flags=[],audio_sha256=hashlib.sha256(wav.read_bytes()).hexdigest())
         (directory/'train-prepared.jsonl').write_text(json.dumps(row)+'\n')
-        generated=cls.root/'Results/Training/english/fixture';generated.mkdir(parents=True)
+        generated=cls.root/'src/artifacts/Training/english/fixture';generated.mkdir(parents=True)
         (generated/'preview.wav').write_bytes(wav.read_bytes())
         (generated/'preview.json').write_text(json.dumps(dict(source_text='Source-text metadata fixture',speaker_label='en_fixture',checkpoint_step=1)))
         comparison=cls.root/'Results/Listening/english-parent-vs-learned-pauses';comparison.mkdir(parents=True)

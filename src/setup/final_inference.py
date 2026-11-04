@@ -87,7 +87,11 @@ class InferenceEngine:
              ('test_generated_audios' if required else 'custom_generated_audios')).resolve()
         if not out.is_relative_to(ROOT/'Results'):raise ValueError('Output must stay within assignment Results/')
         out.mkdir(parents=True,exist_ok=True)
-        info_path=out/(sample_id+'.json')
+        canonical=ROOT/'Results'/self.language.title()/'test_generated_audios'
+        auxiliary=(ROOT/'src/artifacts'/self.language.title()/'test_generated_audios'
+                   if out==canonical else out)
+        auxiliary.mkdir(parents=True,exist_ok=True)
+        info_path=auxiliary/(sample_id+'.json')
         if info_path.exists():
             old=json.loads(info_path.read_text())
             if old['source_text']!=text or old['checkpoint_sha256']!=c['checkpoint']['sha256']:
@@ -111,8 +115,8 @@ class InferenceEngine:
         physical_energy=energy*self.stats['energy'][3]+self.stats['energy'][2]
         assert np.isfinite(f0).all() and np.isfinite(physical_energy).all()
         audio_path=out/(sample_id+'.wav');sf.write(audio_path,wave,c['sampling_rate'],subtype='PCM_16')
-        (out/(sample_id+'.txt')).write_text(text+'\n')
-        arrays_path=out/(sample_id+'_predictions.npz')
+        (auxiliary/(sample_id+'.txt')).write_text(text+'\n')
+        arrays_path=auxiliary/(sample_id+'_predictions.npz')
         arrays=dict(mel=mel[0].numpy(),duration_frames=dur,duration_seconds=dur*c['hop_length']/c['sampling_rate'],
                     normalized_pitch=pitch,predicted_f0_hz=f0,normalized_energy=energy,
                     predicted_spectral_energy=physical_energy,boundary_types=np.array(encoded['boundary_types']))
@@ -123,7 +127,7 @@ class InferenceEngine:
         word_for_phone=['']*n
         for span in encoded['word_spans']:
             for i in range(span['start'],span['end']):word_for_phone[i]=span['word']
-        csv_path=out/(sample_id+'_variance.csv')
+        csv_path=auxiliary/(sample_id+'_variance.csv')
         with csv_path.open('w',newline='') as f:
             writer=csv.writer(f);writer.writerow(['phone_index','phone','display_phone','word','boundary_type','used_in_audio','duration_frames','duration_seconds','predicted_f0_hz','predicted_spectral_energy','normalized_pitch','normalized_energy'])
             for i,phone in enumerate(encoded['phones']):

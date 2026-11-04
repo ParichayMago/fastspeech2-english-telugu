@@ -541,8 +541,8 @@
   "seconds": 5.6656689342403626,
   "audio_path": "Results/English/test_generated_audios/E1.wav",
   "audio_sha256": "f09a6dab10b10b4a6ac888bfa38cb2308a21a7eeca243a00b5f2d308c8d45866",
-  "predictions_path": "Results/English/test_generated_audios/E1_predictions.npz",
-  "variance_csv": "Results/English/test_generated_audios/E1_variance.csv",
+  "predictions_path": "src/artifacts/English/test_generated_audios/E1_predictions.npz",
+  "variance_csv": "src/artifacts/English/test_generated_audios/E1_variance.csv",
   "plots": {
     "duration": "Results/English/variance_adaptor_plots/duration/E1.png",
     "pitch": "Results/English/variance_adaptor_plots/pitch/E1.png",

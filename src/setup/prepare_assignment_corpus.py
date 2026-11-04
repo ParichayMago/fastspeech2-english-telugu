@@ -129,7 +129,7 @@ def main():
             resampling='scipy.signal.resample_poly, no trimming; original WAV remains intact; scale only interpolation peaks exceeding .999.',
             interpolation_peak_scaled_rows=sum(row['peak_scaled'] for row in exported),
             split_hours={split:sum(row['samples'] for row in exported if row['split']==split)/22050/3600 for split in manifests})
-    dest=root/'Results/Preprocessing';dest.mkdir(parents=True,exist_ok=True)
+    dest=root/'src/artifacts/Preprocessing';dest.mkdir(parents=True,exist_ok=True)
     (dest/(language+'-corpus.json')).write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(report,indent=2),flush=True)
 

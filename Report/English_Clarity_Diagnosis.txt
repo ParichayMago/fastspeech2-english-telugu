@@ -60,6 +60,6 @@ training, label change or model selection is authorized by this diagnosis alone.
 
 Evidence and reproduction
 setup/diagnose_english_speech.py
-Results/Training/gap-fixed-v2-20261103/english_diagnostics/diagnosis.json
-Results/Training/gap-fixed-v2-20261103/english_diagnostics/heldout_mel_diagnostics.png
+src/artifacts/Training/gap-fixed-v2-20261103/english_diagnostics/diagnosis.json
+src/artifacts/Training/gap-fixed-v2-20261103/english_diagnostics/heldout_mel_diagnostics.png
 Run: .venvs/inference/bin/python setup/diagnose_english_speech.py

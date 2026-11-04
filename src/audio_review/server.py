@@ -26,7 +26,7 @@ def utc():
 
 def allowed_path(path, root=ROOT):
     path = path.resolve()
-    if not any(path.is_relative_to((root / folder).resolve()) for folder in ('Results', 'data/splits/v1')):
+    if not any(path.is_relative_to((root / folder).resolve()) for folder in ('Results', 'src/artifacts', 'data/splits/v1')):
         raise ValueError('Audio path is outside review directories')
     if not path.is_file() or path.suffix.lower() != '.wav':
         raise ValueError('Audio unavailable')
@@ -65,7 +65,8 @@ def build_catalog(root=ROOT):
                     version='Source recording', sha256=row.get('audio_sha256'),
                     flags=row.get('flags', []))
     # Read only explicit sample metadata; never expose supervisor/runtime files.
-    for metadata_path in sorted((root / 'Results').rglob('preview.json')):
+    previews=[*(root/'Results').rglob('preview.json'),*(root/'src/artifacts').rglob('preview.json')]
+    for metadata_path in sorted(previews):
         info = json.loads(metadata_path.read_text())
         path = metadata_path.parent / 'preview.wav'
         lang = 'english' if info.get('speaker_label', '').startswith('en_') or '/english/' in str(path).lower() else 'telugu'
@@ -76,9 +77,11 @@ def build_catalog(root=ROOT):
             text=info.get('text') or info.get('source_text') or info.get('raw_text',''),
             version='Corrected / untreated' if corrected else 'Previous run / untreated', flags=[])
     for language in ('English','Telugu'):
-        directory=root/'Results'/language/'test_generated_audios'
+        directory=root/'src/artifacts'/language/'test_generated_audios'
+        if not directory.exists():directory=root/'Results'/language/'test_generated_audios'
         for metadata_path in sorted(directory.glob('*.json')):
-            info=json.loads(metadata_path.read_text());path=metadata_path.with_suffix('.wav')
+            info=json.loads(metadata_path.read_text())
+            path=root/info['audio_path'] if info.get('audio_path') else metadata_path.with_suffix('.wav')
             if not path.is_file():continue
             sha=hashlib.sha256(path.read_bytes()).hexdigest()
             mismatch=bool(info.get('audio_sha256') and info['audio_sha256']!=sha)
@@ -101,7 +104,7 @@ def build_catalog(root=ROOT):
                     estimated=True,flagged=False,sample_id=pair['id']+'-'+variant,
                     title=pair['id']+' · version '+variant,text=pair['text'],version='Untreated comparison',
                     pair_id=pair['id'],variant=variant,flags=[],sha256=actual)
-    run = root / 'Results/Training/gap-fixed-v2-20261103'
+    run = root / 'src/artifacts/Training/gap-fixed-v2-20261103'
     diagnosis_path = run / 'english_diagnostics/diagnosis.json'
     if diagnosis_path.exists():
         diagnosis = json.loads(diagnosis_path.read_text())

@@ -20,19 +20,19 @@ def main():
     from reportlab.pdfbase.ttfonts import TTFont
     from reportlab.platypus import SimpleDocTemplate,Paragraph,Spacer,Table,TableStyle,Image,PageBreak,Flowable,KeepTogether
     from reportlab.pdfgen.canvas import Canvas
-    r=ROOT;d=json.loads((r/'Results/Assignment/analysis/measured-analysis.json').read_text())
-    asr=json.loads((r/'Results/Assignment/analysis/english-asr.json').read_text())
-    baselines=json.loads((r/'Results/Assignment/analysis/pause-baselines.json').read_text())
-    coverage=json.loads((r/'Results/Assignment/analysis/english-speaker-coverage.json').read_text())
-    listening=json.loads((r/'Results/Assignment/analysis/final-listening-review.json').read_text())
+    r=ROOT;d=json.loads((r/'src/artifacts/Assignment/analysis/measured-analysis.json').read_text())
+    asr=json.loads((r/'src/artifacts/Assignment/analysis/english-asr.json').read_text())
+    baselines=json.loads((r/'src/artifacts/Assignment/analysis/pause-baselines.json').read_text())
+    coverage=json.loads((r/'src/artifacts/Assignment/analysis/english-speaker-coverage.json').read_text())
+    listening=json.loads((r/'src/artifacts/Assignment/analysis/final-listening-review.json').read_text())
     listening_map={x['id']:x for x in listening['samples']}
     release=json.loads((r/'src/setup/checkpoint_manifest.json').read_text())['release_tag']
-    gen=json.loads((r/'Results/Assignment/generation.json').read_text());info={s['id']:s for s in gen['samples']}
+    gen=json.loads((r/'src/artifacts/Assignment/generation.json').read_text());info={s['id']:s for s in gen['samples']}
     audits=d['dataset_audits'];runs=d['training_runs'];samples=d['samples']
     assert set(listening_map)==set(samples)
     for sid,sample in samples.items():
         assert listening_map[sid]['audio_sha256']==sample['audio_sha256']
-    selected=json.loads((r/'Results/Assignment/checkpoint-selection.json').read_text())
+    selected=json.loads((r/'src/artifacts/Assignment/checkpoint-selection.json').read_text())
     fonts=r/'Report/fonts'
     for name,file in [('Body','DejaVuSans.ttf'),('Bold','DejaVuSans-Bold.ttf'),('Mono','DejaVuSansMono.ttf')]:
         pdfmetrics.registerFont(TTFont(name,str(fonts/file),shapable=False))
@@ -134,7 +134,7 @@ def main():
     sub('1.4 Dataset revisions')
     for language in ('english','telugu'):
         para(d['data_splits']['datasets'][language]['dataset'],'small');code(d['data_splits']['datasets'][language]['revision'])
-    para('Evidence: Results/DataSplits/summary.json, verification.json; Results/DatasetAudit/*-audit.json; Results/Preprocessing/gap-fixed-v2/rebuild-summary.json. Earlier preprocessing notes contain superseded feature hours and are not used for the final table.','small')
+    para('Evidence: src/artifacts/DataSplits/summary.json, verification.json; src/artifacts/DatasetAudit/*-audit.json; src/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json. Earlier preprocessing notes contain superseded feature hours and are not used for the final table.','small')
 
     # 3
     page('2. Method: architecture and language support')
@@ -169,7 +169,7 @@ def main():
     sub('Feature extraction and normalization')
     para('WORLD DIO plus StoneMask estimates F0; interpolated F0 and frame energy are averaged over phones. Spectral energy is the linear L2 norm. Pitch/energy mean, standard deviation and bins are fitted on training features only, with per-example IQR filtering for fitting; validation uses frozen parameters. Aligned edge silence is cropped; internal gaps are retained. Arrays must be finite, known-phone compatible and length-consistent.')
     para('For the English pause pilot, all 3,654 corrected usable clips are retained. Every real gap has its measured frame target; absent gaps have zero. Lexical phone durations/pitch/energy, source mel bytes, split membership, speaker mapping and normalization statistics are unchanged. This prevents fabricated pauses from becoming supervision.')
-    para('Evidence: Report/Alignment_Gap_Fix.txt; Results/Preprocessing/gap-fixed-v2/; Results/Preprocessing/learned-pauses-v1/. No validation audio fits a normalization statistic, speaker centroid or Telugu alignment model.','small')
+    para('Evidence: Report/Alignment_Gap_Fix.txt; src/artifacts/Preprocessing/gap-fixed-v2/; src/artifacts/Preprocessing/learned-pauses-v1/. No validation audio fits a normalization statistic, speaker centroid or Telugu alignment model.','small')
 
     # 5
     page('3. Experimental setup and loss functions')
@@ -255,7 +255,7 @@ def main():
         para('Author follow-up: '+listening['comparison']['user_comparative_comment'])
     sub('Interpretation alongside the diagnostics')
     para('Overall acceptance and recognizer disagreement address different questions. English E1/E3/E4 remain flagged by the local recognizer even though the author accepted the recordings. E2b exact recognition does not prove natural stress or freedom from noise. Telugu has no usable recognition score because its natural-audio control failed. These differences in measurement coverage cannot establish that either language sounds better.')
-    para('Evidence: Results/Assignment/analysis/final-listening-review.json contains only the ten final-recording ratings, their audio hashes, saved times and review limitations. It excludes unrelated private listening history. The author follow-up supplies the qualitative language comparison. Detailed phonetic review and an independent listening panel remain future evaluation work.','small')
+    para('Evidence: src/artifacts/Assignment/analysis/final-listening-review.json contains only the ten final-recording ratings, their audio hashes, saved times and review limitations. It excludes unrelated private listening history. The author follow-up supplies the qualitative language comparison. Detailed phonetic review and an independent listening panel remain future evaluation work.','small')
 
     # One complete source + all three compact curves + individual analysis per test.
     challenges={'E1':'Long English word','E2a':'Conduct as a noun','E2b':'Conduct as a verb','E3':'Visible split word','E4':'Date, clock and code-mixing',
@@ -316,7 +316,7 @@ def main():
         item=listening_map[sid]
         observation=item.get('pronunciation_observation') or 'Pronunciation was not separately rated; no word-level notes were saved.'
         para('Author listening observation: '+item['overall_status'].title()+'. '+observation,'small')
-        para('Files: Results/'+s['language'].title()+'/test_generated_audios/'+sid+'.wav, .txt, .json, _predictions.npz and _variance.csv.','small')
+        para('WAV: Results/'+s['language'].title()+'/test_generated_audios/'+sid+'.wav. Text, metadata, predictions and CSV: src/artifacts/'+s['language'].title()+'/test_generated_audios/.','small')
 
     # 20
     page('6. Discussion and conclusions')
@@ -367,13 +367,14 @@ def main():
     table(['Artifact','Location'],[
       ['Frozen weights / metadata','English/checkpoints/ and Telugu/checkpoints/'],
       ['Inference configs/resources','English/config.yaml, Telugu/config.yaml; resources/ in each'],
-      ['Audios, source text, predictions','Results/{English,Telugu}/test_generated_audios/'],
+      ['Audios','Results/{English,Telugu}/test_generated_audios/'],
+      ['Text, metadata and predictions','src/artifacts/{English,Telugu}/test_generated_audios/'],
       ['Thirty full-label variance figures','Results/{English,Telugu}/variance_adaptor_plots/'],
       ['Final selected-run loss plots','Results/{English,Telugu}/{training,validation}_loss.png'],
-      ['Interactive local review / output ZIP','Results/Assignment/index.html; assignment_test_outputs.zip'],
-      ['Measured analyses / recognition','Results/Assignment/analysis/'],
+      ['Interactive local review / output ZIP','src/artifacts/Assignment/index.html; assignment_test_outputs.zip'],
+      ['Measured analyses / recognition','src/artifacts/Assignment/analysis/'],
       ['Report source and figure scripts','src/setup/build_technical_report.py; create_report_figures.py']], [W*.40,W*.60])
-    para('The repository root is the assignment\'s project/ directory: English/, Telugu/, Results/, Report/, README.md and requirements.txt. Shared modules and tools are grouped under src/; original upstream demos are isolated in src/reference/. Historical training records retain their original paths and hashes. Current commands above use the reorganized source paths.','small')
+    para('The repository root is the assignment\'s project/ directory: English/, Telugu/, Results/, Report/, README.md and requirements.txt. Shared modules and tools are grouped under src/; original upstream demos are isolated in src/reference/. Results/ contains only required loss PNGs, WAVs and variance PNGs. Supporting records are in src/artifacts/; src/artifact-layout.json maps their historical paths. Historical run records retain recorded paths and hashes. Current commands above use the reorganized source paths.','small')
     para('The assignment release contains a complete project/ archive with separate English/Telugu model-only checkpoints and the frozen vocoder. SHA256SUMS verifies the archive; src/setup/download_checkpoints.py verifies each restored model. Per-language training wrappers, updated requirements and the README are included. The repository URL remains to be submitted through the assignment form.','small')
     story.append(P('<link href="https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/'+release+'" color="#087b78">Corrected '+release+' release: complete project and checkpoint download</link>','small',True))
     story.append(P('<link href="https://github.com/ParichayMago/fastspeech2-english-telugu" color="#087b78">GitHub repository: ParichayMago/fastspeech2-english-telugu</link>','small',True))
@@ -421,7 +422,7 @@ def main():
     para('All ten frozen tests now have a hash-matched Good rating from one informal author review. Per-recording written notes and separate pronunciation, clarity and prosody ratings were not supplied. The author subsequently reported both languages acceptable, with no specific pronunciation issues noticed. These observations establish author acceptance, not detailed phonetic correctness or an independent English/Telugu quality ranking. Earlier preview ratings are excluded. ASR disagreement (including E4 at 54.5%) flags investigation but does not identify exact audible errors. No MOS or audible parent-versus-pause improvement is established.')
     para('English pause occurrence improves against simple baselines, but 1,705 false positives exceed 1,022 true positives; duration MAE worsens and the E4 comma has zero frames. Telugu removes punctuation and supplies no pause slots despite internal silence in training; T4 inputs are unchanged when its comma is removed. The review-server and STOP fixes address software behavior, not these acoustic-model limitations.')
     code('python src/setup/analyze_speaker_coverage.py')
-    para('Recomputes coverage from distributed selection-membership.jsonl, rejected feature IDs and saved clustering metadata. Full per-label counts, durations and input SHA256 values: Results/Assignment/analysis/english-speaker-coverage.json. No raw audio, new training or cloud compute is required.','small')
+    para('Recomputes coverage from distributed selection-membership.jsonl, rejected feature IDs and saved clustering metadata. Full per-label counts, durations and input SHA256 values: src/artifacts/Assignment/analysis/english-speaker-coverage.json. No raw audio, new training or cloud compute is required.','small')
 
     # 25
     page('References')
@@ -442,13 +443,13 @@ def main():
         story.append(P('<link href="'+url+'" color="#087b78">'+esc(url)+'</link>','small',True))
     sub('Project records, 4 November 2026')
     for text in [
-      'Dataset revisions, split integrity and hours: Results/DatasetAudit/; Results/DataSplits/summary.json and verification.json.',
-      'Corrected feature integrity and restored gaps: Results/Preprocessing/gap-fixed-v2/rebuild-summary.json.',
-      'Optimizer logs: Results/Training/{gap-fixed-v2-20261103,english-finetune-pilot-20261104,english-learned-pauses-pilot-20261104}/<language>/metrics.jsonl; copied unchanged from local output/runs/ backups.',
+      'Dataset revisions, split integrity and hours: src/artifacts/DatasetAudit/; src/artifacts/DataSplits/summary.json and verification.json.',
+      'Corrected feature integrity and restored gaps: src/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json.',
+      'Optimizer logs: src/artifacts/Training/{gap-fixed-v2-20261103,english-finetune-pilot-20261104,english-learned-pauses-pilot-20261104}/<language>/metrics.jsonl; copied unchanged from local output/runs/ backups.',
       'Exact source strings: src/setup/assignment_test_sentences.json; source PDF SHA256 a88e379253c50a018ff6319c05a372a57a0d416cf7c4dc20807d7752e67e323f.',
-      'Final output hashes and software checks: Results/Assignment/verification.json; checkpoint-selection.json; CLI smoke verification.',
-      'Computed analysis and ASR hypotheses: Results/Assignment/analysis/measured-analysis.json and english-asr.json. All numerical tables and report plots derive from these saved records.',
-      'Telugu-recognizer exclusion evidence: Results/InitialSpeechReview/review.json, including natural-Telugu control. Final-recording author ratings: Results/Assignment/analysis/final-listening-review.json. Native-speaker status and panel MOS were not established.'
+      'Final output hashes and software checks: src/artifacts/Assignment/verification.json; checkpoint-selection.json; CLI smoke verification.',
+      'Computed analysis and ASR hypotheses: src/artifacts/Assignment/analysis/measured-analysis.json and english-asr.json. All numerical tables and report plots derive from these saved records.',
+      'Telugu-recognizer exclusion evidence: src/artifacts/InitialSpeechReview/review.json, including natural-Telugu control. Final-recording author ratings: src/artifacts/Assignment/analysis/final-listening-review.json. Native-speaker status and panel MOS were not established.'
     ]:para(text,'small')
 
     class NumberedCanvas(Canvas):

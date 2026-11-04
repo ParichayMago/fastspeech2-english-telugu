@@ -22,7 +22,7 @@ def main():
     report={'source_manifest':'src/setup/assignment_test_sentences.json','source_pdf_sha256':manifest['source_sha256'],
             'source_transcription_note':manifest['transcription_note'],'device':'cpu',
             'additional_cloud_compute_cost_usd':0,'samples':[]}
-    target=ROOT/'Results/Assignment/generation.json';target.parent.mkdir(exist_ok=True)
+    target=ROOT/'src/artifacts/Assignment/generation.json';target.parent.mkdir(exist_ok=True)
     for language in ('english','telugu'):
         if args.language not in ('both',language):continue
         cases=[s for s in manifest['samples'] if s['language']==language]

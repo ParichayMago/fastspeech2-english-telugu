@@ -11,7 +11,7 @@ import re
 
 def main():
     root = Path(__file__).resolve().parents[2]
-    output = root / 'Results/DatasetAudit'
+    output = root / 'src/artifacts/DatasetAudit'
     script_hash = hashlib.sha256((root / 'src/setup/audit_datasets.py').read_bytes()).hexdigest()
     summary = {'verified_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
                'status': 'passed', 'datasets': {}}
@@ -105,7 +105,7 @@ def main():
                 split_grouping_note='Keep matching normalized transcripts together across splits.')
         summary['datasets'][language] = item
     (output / 'summary.json').write_text(json.dumps(summary, indent=2) + '\n')
-    estimated_path = root / 'Results/Preprocessing/english-estimated-speakers.json'
+    estimated_path = root / 'src/artifacts/Preprocessing/english-estimated-speakers.json'
     if estimated_path.exists():
         estimated = json.loads(estimated_path.read_text())
         summary['datasets']['english']['estimated_training_labels'] = {
