@@ -30,7 +30,9 @@ def main():
                     'setup/prepare_final_inference.py','setup/verify_assignment_outputs.py',
                     'English/inference.py','Telugu/inference.py',
                     'setup/assignment_test_sentences.json','model/learned_pause.py','model/fastspeech2.py',
-                    'transformer/Models.py','text/symbols.py','text/assignment_phones.json'):
+                    'transformer/Models.py','text/symbols.py','text/assignment_phones.json',
+                    'model/modules.py','utils/tools.py','setup/training_recovery.py',
+                    'setup/learned_pause_config.py','setup/train_assignment.py'):
         for p in ROOT.glob(pattern):verification['source_sha256'][str(p.relative_to(ROOT))]=sha(p)
     infos=[]
     for lang in ('english','telugu'):

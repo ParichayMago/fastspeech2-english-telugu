@@ -1,0 +1,33 @@
+{
+  "verified_utc": "2026-11-04T06:41:45.912327+00:00",
+  "release": "assignment-v2",
+  "setup_tests_passed": 33,
+  "audio_review_tests_passed": 5,
+  "total_local_tests_passed": 38,
+  "new_review_regression_tests": 10,
+  "tested_resume_modes": [
+    "base",
+    "fixed-rate English",
+    "learned-pause English",
+    "legacy fixed-rate checkpoint",
+    "legacy learned-pause checkpoint"
+  ],
+  "configuration_reconstruction": "passed without a pre-existing destination directory",
+  "historical_best_preserved_when_worse": true,
+  "fixed_adam_next_update_exact_after_restore": true,
+  "frozen_audio_SHA256_matches": 10,
+  "all_frozen_prediction_arrays_identical": true,
+  "trained_weight_SHA256": {
+    "English/checkpoints/final.pth.tar": "74ce8b28183ec37f98a001bfcd5b484cb660a2eea2d1a780ef6dc8ea7e6a38bc",
+    "Telugu/checkpoints/final.pth.tar": "2268f94c05c0c90d9a4b85780971b40dd07297bc39a16271b375311d4b7fcfb8",
+    "hifigan/generator_universal.pth.tar": "771eaf4876485a35e25577563d390c262e23c2421e4a8c929eacfde34a5b7a60"
+  },
+  "real_data_integration_passed_locally": true,
+  "synthetic_fixture_tests_portable": true,
+  "real_NVIDIA_host_retested": false,
+  "fresh_dependency_install_repeated": false,
+  "cloud_resources_used": false,
+  "retraining_required_for_these_fixes": false,
+  "scope_limit": "Listening observations remain outstanding; no auditory improvement is inferred from these fixes.",
+  "published_pause_preprocessing_and_model_configs_match_historical_run": true
+}

@@ -34,6 +34,7 @@ def allowed_path(path, root=ROOT):
 
 
 def build_catalog(root=ROOT):
+    root=Path(root).resolve()
     items = {}
     def add(path, **metadata):
         try:
@@ -72,7 +73,8 @@ def build_catalog(root=ROOT):
         add(path, kind='generated', language=lang, split='generated',
             speaker=info.get('speaker_label', ''), estimated=info.get('speaker_label_estimated', False),
             flagged=False, sample_id=path.parent.name, title=('Corrected' if corrected else 'Previous') + ' · step ' + str(info.get('checkpoint_step', '?')),
-            text=info['text'], version='Corrected / untreated' if corrected else 'Previous run / untreated', flags=[])
+            text=info.get('text') or info.get('source_text') or info.get('raw_text',''),
+            version='Corrected / untreated' if corrected else 'Previous run / untreated', flags=[])
     run = root / 'Results/Training/gap-fixed-v2-20261103'
     diagnosis_path = run / 'english_diagnostics/diagnosis.json'
     if diagnosis_path.exists():
@@ -136,7 +138,7 @@ def range_bounds(header, size):
     return start, end
 
 
-def handler_for(catalog, store, token):
+def handler_for(catalog, store, token, root=ROOT):
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args):
             pass
@@ -198,7 +200,7 @@ def handler_for(catalog, store, token):
                     return self.send_json({'error': 'Unknown audio'}, 404)
                 size = 0
                 try:
-                    path = allowed_path(ROOT / item['path'])
+                    path = allowed_path(root / item['path'],root)
                     size = path.stat().st_size
                     partial = self.headers.get('Range')
                     start, end = range_bounds(partial, size) if partial else (0, size - 1)

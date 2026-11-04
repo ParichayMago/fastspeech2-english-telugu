@@ -1,20 +1,60 @@
 {
-  "archive_sha256": "ef256c5b00f4db91a3571a932376ca9aa780ca149ce9294c036bc552884532f7",
-  "packaged_inference": {
-    "English": {
-      "sample": "E2b",
-      "sha256": "78d7827a7c470bfcab6d1a701e6a660d718a6d9d55cb7d5ec91e8dbe1c4a9314",
-      "byte_identical_to_canonical": true
+  "release": "assignment-v2",
+  "commands": [
+    {
+      "command": [
+        "setup/download_checkpoints.py",
+        "--check-only"
+      ],
+      "exit_code": 0
     },
-    "Telugu": {
-      "sample": "T2a",
-      "sha256": "646f268dbe612993172486ee3ba20587f513d2d9522967b3d14230b1b89fb407",
-      "byte_identical_to_canonical": true
+    {
+      "command": [
+        "setup/prepare_final_inference.py",
+        "--nltk-only"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "setup",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "audio_review",
+        "-p",
+        "test_server.py",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "setup/verify_frozen_regeneration.py"
+      ],
+      "exit_code": 0
     }
-  },
-  "packaged_frontend_tests": 4,
-  "checkpoint_restoration_verified": true,
-  "source_pdf_not_required": true,
-  "raw_training_data_not_required_for_inference": true,
-  "cloud_compute_used": false
+  ],
+  "full_local_tests": 38,
+  "public_package_real_data_integration": "Explicitly skipped because private fixtures are absent",
+  "all_ten_WAVs_and_arrays_exact": true,
+  "cuda_host_tested": false,
+  "cloud_resources_changed": false,
+  "archive_sha256": "f3e8f8bee436efdea7114d44216988a792bb6f789648ee906a8d451987f45428",
+  "public_package_setup_summary": "Ran 30 portable tests successfully; one real-data integration class explicitly skipped",
+  "public_package_ui_tests_passed": 5,
+  "trained_models_retrained": false
 }

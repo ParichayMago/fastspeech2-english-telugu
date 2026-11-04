@@ -51,9 +51,9 @@ learned-pause experiment uses `data/rebuild-config/learned-pauses-v1/English/`.
 
 ## Complete submission download
 
-Download [fastspeech2-assignment-v1.zip](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v1/fastspeech2-assignment-v1.zip)
-and [SHA256SUMS](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v1/SHA256SUMS)
-from the [assignment release](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/assignment-v1).
+Download [fastspeech2-assignment-v2.zip](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v2/fastspeech2-assignment-v2.zip)
+and [SHA256SUMS](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v2/SHA256SUMS)
+from the [assignment release](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/assignment-v2).
 The ZIP contains a `project/` folder matching the required layout, including all
 three model files, the report, code, 10 audios and 30 variance plots. Verify it
 with `shasum -a 256 -c SHA256SUMS` before extracting.
@@ -106,7 +106,7 @@ Required local files:
 
 Inference verifies weights, resources, symbol inventory and vocoder hashes.
 It does not require raw datasets or training feature directories. Run `python3 setup/download_checkpoints.py` to download the submission archive
-and restore only these three hash-verified files. Use `--archive /path/to/fastspeech2-assignment-v1.zip`
+and restore only these three hash-verified files. Use `--archive /path/to/fastspeech2-assignment-v2.zip`
 to reuse a download, or `--check-only` to verify existing weights without network
 access. `setup/prepare_final_inference.py --nltk-only` downloads text resources
 while leaving frozen weights/configs intact.
@@ -179,13 +179,19 @@ python setup/verify_preprocessed_features.py --language telugu --feature-version
 
 Stages are `corpus`, `align`, `features`, and `check`. The `check` stage performs a
 throwaway batch update to verify gradients, without producing a trained model.
-The pause feature builder below requires an unbuilt destination and refuses to
-overwrite completed features:
+The pause feature builder derives all three training YAMLs from measured
+training-only pause statistics. It requires an unbuilt feature destination and
+refuses to overwrite completed features:
 
 ```bash
 python setup/build_learned_pause_features.py
 python setup/test_learned_pause.py
 ```
+
+If features already exist, recreate only their configurations with
+`python setup/build_learned_pause_features.py --configs-only`. The published
+`config/learned-pauses-v1/English/` also records the original experiment
+configuration; newly measured data must use its regenerated configuration.
 
 See `Report/Alignment_Gap_Fix.txt` and `Report/Learned_Pause_Pilot.txt` for target
 verification. Older preprocessing/training notes are historical; the report and
@@ -193,10 +199,25 @@ verification. Older preprocessing/training notes are historical; the report and
 
 ## Training
 
-Training requires CUDA and prepared features; the scripts do not rent machines.
+Training defaults to CUDA and requires prepared features; the scripts do not
+rent machines. Explicit `--device cpu` supports local synthetic smoke tests.
 Each language entry point fixes its language and requires an isolated run ID.
-Use a new ID with `--fresh` to initialize new weights. Without `--fresh`, the
-runner can resume that run's latest checkpoint, including optimizer state.
+Use a new ID with `--fresh` to initialize new weights. Use `--resume` without
+initialization flags to restore the existing run's saved
+model type, exact configurations, optimizer groups, rates, best checkpoint and
+early-stopping counter. Original parent files and generated YAMLs are not needed
+for resume; the checkpoint contains the configurations. Missing or inconsistent
+best files/metadata cause an error instead of silently replacing the best.
+
+```bash
+python English/train.py --run-id english-new --resume --minutes 30 --max-steps 35000
+python Telugu/train.py --run-id telugu-new --resume --minutes 30 --max-steps 35000
+```
+
+Resume preserves the original run-config.json and appends resume-history.jsonl.
+Full latest checkpoints with Adam state are required; released model-only best
+weights alone cannot resume an optimizer. Omitting both --fresh and --resume also
+resumes an existing checkpoint, but never starts a new run implicitly.
 Resume reshuffles data and is not a bit-exact mid-epoch continuation.
 
 ```bash
@@ -242,6 +263,37 @@ Duration plots are in seconds, F0 plots are denormalized **model conditioning**
 in Hz, and energy is linear spectral L2, not dB. These are not measured waveform
 pitch or subjective quality scores. English ASR is diagnostic; Telugu recognition
 was excluded after its natural-audio control failed. Native listening is pending.
+
+## Corrected release: assignment-v2
+
+This release fixes best-checkpoint preservation, base/fine-tune/pause resume,
+pause-configuration reconstruction, tensor device allocation, energy-control
+wiring and review-UI metadata compatibility. Frozen weights are unchanged; all
+ten WAVs and every prediction array regenerate identically under unity controls.
+No retraining was performed or required for these fixes.
+
+Install the full `requirements.txt` stack, including TensorBoard, before running
+the training-recovery tests below. The minimal inference profile is sufficient
+for frozen regeneration and final-frontend checks; HTTP server tests use only
+Python's standard library.
+
+```bash
+python -m unittest discover -s setup -p test_review_fixes.py -v
+python -m unittest discover -s audio_review -p test_server.py -v
+python setup/verify_frozen_regeneration.py
+```
+
+The first suite uses portable synthetic fixtures and tests real CPU interrupted
+runs for base, fixed-rate and learned-pause models, including legacy checkpoints.
+The full setup suite also includes local real-data integration tests; those tests
+explicitly skip when their private fixtures are absent. A skip is not a pass.
+CUDA host execution was not rerun for this correction.
+
+Pause occurrence baselines are saved in
+`Results/Assignment/analysis/pause-baselines.json` and the updated report. Model
+F1 is 45.6%, versus 38.5% for every-boundary and 21.0% for punctuation-only
+prediction. This does not establish audible improvement. Per-sentence native
+listening observations are still required; no MOS ratings are invented.
 
 ## References and delivery status
 

@@ -18,7 +18,7 @@ def sha(path):
 
 
 def submission_files():
-    files={ROOT/'README.md',ROOT/'requirements.txt',ROOT/'LICENSE',ROOT/'.gitignore'}
+    files={ROOT/'README.md',ROOT/'requirements.txt',ROOT/'LICENSE',ROOT/'.gitignore',ROOT/'.gitattributes'}
     files.update(ROOT.glob('*.py'))
     for name in ('English','Telugu','audio','model','preprocessor','transformer','utils','text','config','lexicon','docs','img','audio_review'):
         files.update((ROOT/name).rglob('*'))
@@ -34,7 +34,7 @@ def submission_files():
         for pattern in ('*loss.png','*loss.svg','loss_history.csv'):
             files.update((ROOT/'Results'/language).glob(pattern))
     files.update((ROOT/'Results/Assignment/analysis').glob('*.json'))
-    for name in ('index.html','verification.json','generation.json','checkpoint-selection.json','cli-verification.json','training-entrypoint-verification.json','variance_contact_sheet.png','assignment_test_outputs.zip'):
+    for name in ('index.html','verification.json','generation.json','checkpoint-selection.json','cli-verification.json','training-entrypoint-verification.json','variance_contact_sheet.png','assignment_test_outputs.zip','frozen-regeneration-verification.json','review-fix-verification.json'):
         files.add(ROOT/'Results/Assignment'/name)
     for name in ('DataSplits','DatasetAudit','Preprocessing'):
         files.update((ROOT/'Results'/name).rglob('*.json'))
@@ -59,7 +59,10 @@ def main():
     required=['English/train.py','Telugu/train.py','English/preprocess.py','Telugu/preprocess.py',
               'English/inference.py','Telugu/inference.py','English/config.yaml','Telugu/config.yaml',
               'English/checkpoints/final.pth.tar','Telugu/checkpoints/final.pth.tar',
-              'hifigan/generator_universal.pth.tar','Report/Technical_Report.pdf','README.md','requirements.txt']
+              'hifigan/generator_universal.pth.tar','Report/Technical_Report.pdf','README.md','requirements.txt',
+              'setup/training_recovery.py','setup/learned_pause_config.py',
+              'config/learned-pauses-v1/English/preprocess.yaml','config/learned-pauses-v1/English/model.yaml',
+              'config/learned-pauses-v1/English/train.yaml']
     paths={p.relative_to(ROOT).as_posix() for p in files}
     if not set(required)<=paths:raise ValueError('Required artifacts missing: '+repr(set(required)-paths))
     for language in ('English','Telugu'):
@@ -71,13 +74,14 @@ def main():
             raw=p.read_bytes()
             if any(re.search(pattern,raw) for pattern in patterns):
                 raise ValueError('Credential pattern in selected file: '+str(p.relative_to(ROOT)))
-    manifest={'created_utc':datetime.now(timezone.utc).isoformat(),'release_tag':'assignment-v1',
+    release=json.loads((ROOT/'setup/checkpoint_manifest.json').read_text())['release_tag']
+    manifest={'created_utc':datetime.now(timezone.utc).isoformat(),'release_tag':release,
               'archive_layout':'project/','audios':10,'variance_plots':30,
               'exclusions':['raw datasets','credentials','account runtime state','environments','historical optimizer checkpoints','unrelated upstream demos'],
               'files':{str(p.relative_to(ROOT)):{'bytes':p.stat().st_size,'sha256':sha(p)} for p in files}}
     path=destination/'package-manifest.json';path.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
     files.append(path)
-    archive=destination/'fastspeech2-assignment-v1.zip'
+    archive=destination/('fastspeech2-'+release+'.zip')
     with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=4,allowZip64=True) as bundle:
         for p in files:bundle.write(p,'project/'+str(p.relative_to(ROOT)))
     with zipfile.ZipFile(archive) as bundle:

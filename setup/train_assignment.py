@@ -5,6 +5,7 @@ One process alternates independent optimizer updates. No weights are shared.
 Training duration is a compute limit, not a convergence criterion.
 """
 import argparse
+import copy
 import hashlib
 import json
 import os
@@ -19,6 +20,7 @@ os.environ.setdefault('OMP_NUM_THREADS', '2')
 os.environ.setdefault('OPENBLAS_NUM_THREADS', '1')
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+from setup.training_recovery import recover_arguments, restore_selection, select_best, run_directory
 
 
 def utc():
@@ -51,6 +53,9 @@ class FixedLearningRateOptim:
     def step_and_update_lr(self):
         self._optimizer.step()
 
+    def load_state_dict(self, state):
+        self._optimizer.load_state_dict(state)
+
 
 def main(argv=None, language=None):
     if language not in (None, 'english', 'telugu'):
@@ -58,38 +63,43 @@ def main(argv=None, language=None):
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--minutes', type=float, default=40)
     p.add_argument('--max-steps', type=int, default=10000)
-    p.add_argument('--batch-size', type=int, default=8)
+    p.add_argument('--batch-size', type=int)
     p.add_argument('--checkpoint-every', type=int, default=100)
     p.add_argument('--validation-every', type=int, default=500)
     p.add_argument('--run-id',default=None,required=language is not None,
                    help='Isolated experiment name under output/runs/; required by language entrypoints')
-    p.add_argument('--fresh',action='store_true')
+    mode=p.add_mutually_exclusive_group()
+    mode.add_argument('--fresh',action='store_true')
+    mode.add_argument('--resume',action='store_true',help='Restore the saved model/optimizer policy and selection state')
+    p.add_argument('--device',choices=['cuda','cpu'],default='cuda',help='CUDA by default; CPU supports local smoke tests')
     p.add_argument('--language', choices=[language] if language else ['both','english','telugu'],
                    default=language or 'both')
     p.add_argument('--initialize-from', help='Model-only checkpoint for a separate English fine-tuning run')
     p.add_argument('--initialize-sha256')
     p.add_argument('--learning-rate', type=float)
-    p.add_argument('--early-stop-patience', type=int, default=0,
+    p.add_argument('--early-stop-patience', type=int,
                    help='Fine-tuning only: stop after this many full evaluations without improvement')
-    p.add_argument('--learned-pauses', action='store_true')
-    p.add_argument('--config-root', default='config')
-    p.add_argument('--new-head-learning-rate', type=float, default=.0002)
+    p.add_argument('--learned-pauses', action='store_true',default=None)
+    p.add_argument('--config-root')
+    p.add_argument('--new-head-learning-rate', type=float)
     args = p.parse_args(argv)
-    if not 0 < args.minutes <= 180 or args.batch_size < 1:
+    if not 0 < args.minutes <= 180 or (args.batch_size is not None and args.batch_size < 1):
         p.error('Session must be positive and at most 180 minutes')
     if args.run_id and not args.run_id.replace('-','').replace('_','').isalnum():
         p.error('Run ID must be a simple directory name')
     if args.fresh and not args.run_id:
         p.error('Fresh training requires an isolated run ID')
+    try:resume_metadata=recover_arguments(args,ROOT)
+    except ValueError as exc:p.error(str(exc))
     if args.initialize_from and (not args.fresh or args.language != 'english' or not args.initialize_sha256):
         p.error('Initialization requires --fresh, --language english and --initialize-sha256')
     if args.initialize_from and (args.learning_rate is None or not 0 < args.learning_rate <= .001):
         p.error('Fine-tuning requires an explicit positive learning rate <= 0.001')
-    if not args.initialize_from and (args.learning_rate is not None or args.initialize_sha256):
+    if not args.initialize_from and not args.resuming and (args.learning_rate is not None or args.initialize_sha256):
         p.error('Fine-tuning options require --initialize-from')
-    if args.early_stop_patience < 0 or (args.early_stop_patience and not args.initialize_from):
+    if args.early_stop_patience < 0 or (args.early_stop_patience and not args.initialize_from and not args.resuming):
         p.error('Early stopping requires fine-tuning initialization and nonnegative patience')
-    if args.learned_pauses and (args.language != 'english' or not args.initialize_from):
+    if args.learned_pauses and (args.language != 'english' or not (args.initialize_from or args.resuming)):
         p.error('Learned pauses require an initialized English-only experiment')
     os.chdir(ROOT)
     import numpy as np
@@ -107,8 +117,9 @@ def main(argv=None, language=None):
     random.seed(20261103)
     np.random.seed(20261103)
     torch.manual_seed(20261103)
-    assert torch.cuda.is_available(), 'CUDA is required; no silent CPU fallback'
-    device = torch.device('cuda')
+    if args.device=='cuda' and not torch.cuda.is_available():
+        raise RuntimeError('CUDA is required by default; choose --device cpu explicitly for local tests')
+    device = torch.device(args.device)
     run_root=ROOT/'output/runs'/args.run_id if args.run_id else None
     out = run_root/'session' if run_root else ROOT/'output/training-session'
     if args.fresh and (out/'status.json').exists():
@@ -129,11 +140,16 @@ def main(argv=None, language=None):
              'run_id':args.run_id,'fresh_initialization':args.fresh and not args.initialize_from,
              'new_run':args.fresh,
              'pid': os.getpid(), 'settings': vars(args),
-             'gpu': torch.cuda.get_device_name(0),
+             'gpu': torch.cuda.get_device_name(0) if device.type=='cuda' else None,
+             'device':str(device),
              'scope': 'bounded_initial_training_not_convergence_or_quality_validation',
              'english_speaker_labels': 'estimated_acoustic_clusters_not_verified_identities',
              'languages': {}}
     initialization = None
+    if args.resuming:
+        initialization=next(iter(resume_metadata.values())).get('initialization')
+        if args.learning_rate is not None and not initialization:
+            raise ValueError('Fine-tuning initialization metadata is missing; restore run-config.json')
     if args.initialize_from:
         initial_path = (ROOT / args.initialize_from).resolve()
         if not initial_path.is_relative_to(ROOT / 'output'):
@@ -156,7 +172,7 @@ def main(argv=None, language=None):
     def publish():
         state['updated_utc'] = utc()
         state['elapsed_seconds'] = round(time.monotonic() - started, 2)
-        state['peak_gpu_gib'] = torch.cuda.max_memory_allocated() / 1024**3
+        state['peak_gpu_gib'] = torch.cuda.max_memory_allocated() / 1024**3 if device.type=='cuda' else 0
         atomic_json(out / 'status.json', state)
 
     def record(t, phase, losses, **extra):
@@ -192,8 +208,15 @@ def main(argv=None, language=None):
                     'step': t['step'], 'epoch': t['epoch'],
                     'language': t['language'], 'configs': t['configs'],
                     'estimated_speaker_labels': t['language'] == 'english',
+                    'training_policy':{'optimizer_type':'fixed' if initialization else 'scheduled',
+                        'learning_rate':args.learning_rate,'new_head_learning_rate':args.new_head_learning_rate,
+                        'early_stop_patience':args.early_stop_patience,'learned_pauses':args.learned_pauses},
+                    'best_validation':t['best_validation'],'best_checkpoint':t.get('best_checkpoint'),
+                    'stale_validations':t.get('stale_validations',0),
+                    'last_validation_step':t.get('last_validation_step',-1),
                     'torch_rng_state': torch.get_rng_state(),
-                    'cuda_rng_state': torch.cuda.get_rng_state()}, tmp)
+                    'python_rng_state':random.getstate(),'numpy_rng_state':np.random.get_state(),
+                    'cuda_rng_state': torch.cuda.get_rng_state() if device.type=='cuda' else None}, tmp)
         tmp.replace(path)
         digest = hashlib.sha256(path.read_bytes()).hexdigest()
         entry = {'step': t['step'], 'path': str(path.relative_to(ROOT)),
@@ -236,32 +259,20 @@ def main(argv=None, language=None):
                     f1=2*tp/max(1,2*tp+fp+fn),positive_pause_mae_seconds=
                     prosody['positive_duration_abs_frame_error']/max(1,prosody['positive_boundaries'])*256/22050)
             record(t, 'validation', sums / count, examples=count,
-                   complete=count == len(t['valid']), **({'pause_metrics':prosody} if prosody else {}))
-            improved = count == len(t['valid']) and sums[0]/count < t['best_validation']
-            if count==len(t['valid']) and sums[0]/count<t['best_validation']:
-                # Retain the best complete validation model independently of latest.
-                # Model-only best weights are sufficient for inference; latest also
-                # retains Adam state for an explicitly authorized continuation.
-                t['best_validation']=float(sums[0]/count)
-                path=t['directory']/'best.pth.tar';tmp=path.with_suffix('.tmp')
-                torch.save({'model':t['model'].state_dict(),'step':t['step'],
-                            'model_type':'learned_pause_v1' if args.learned_pauses else 'fastspeech2',
-                            'initialization':initialization,
-                            'language':t['language'],'configs':t['configs'],
-                            'validation_total_loss':t['best_validation']},tmp)
-                tmp.replace(path)
-                entry={'step':t['step'],'path':str(path.relative_to(ROOT)),
-                       'model_type':'learned_pause_v1' if args.learned_pauses else 'fastspeech2',
-                       'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
-                       'bytes':path.stat().st_size,'validation_total_loss':t['best_validation']}
-                atomic_json(t['directory']/'best.json',entry)
-                state['languages'][t['language']]['best_checkpoint']=entry
+                   complete=count == len(t['valid']), final=final,
+                   **({'pause_metrics':prosody} if prosody else {}))
+            improved = count == len(t['valid']) and select_best(
+                t,float(sums[0]/count),initialization,args.learned_pauses,ROOT,atomic_json)
+            if improved:
+                state['languages'][t['language']]['best_checkpoint']=t['best_checkpoint']
                 publish()
-            if initialization and args.early_stop_patience and count == len(t['valid']) and not final:
+            if (initialization and args.early_stop_patience and count == len(t['valid'])
+                    and not final and t.get('last_validation_step')!=t['step']):
                 t['stale_validations'] = 0 if improved else t.get('stale_validations', 0) + 1
                 state['languages'][t['language']]['validations_without_improvement'] = t['stale_validations']
                 if t['stale_validations'] >= args.early_stop_patience:
                     early_stop[0] = True
+            if count==len(t['valid']):t['last_validation_step']=t['step']
         t['model'].train()
 
     try:
@@ -269,14 +280,32 @@ def main(argv=None, language=None):
         if args.language != 'both':
             languages = [entry for entry in languages if entry[0] == args.language]
         for language, folder in languages:
-            configs = [yaml.safe_load((ROOT / args.config_root / folder / name).read_text())
-                       for name in ('preprocess.yaml', 'model.yaml', 'train.yaml')]
+            d=run_directory(ROOT,args.run_id,language)
+            checkpoint=None
+            if args.resuming:
+                checkpoint=torch.load(d/'latest.pth.tar',map_location='cpu',weights_only=False)
+                if checkpoint['language']!=language:raise ValueError('Checkpoint language differs')
+                expected_type='learned_pause_v1' if args.learned_pauses else 'fastspeech2'
+                if checkpoint.get('model_type','fastspeech2')!=expected_type:
+                    raise ValueError('Saved model type differs from the run policy')
+                expected_policy={'optimizer_type':'fixed' if initialization else 'scheduled',
+                    'learning_rate':args.learning_rate,'new_head_learning_rate':args.new_head_learning_rate,
+                    'early_stop_patience':args.early_stop_patience,'learned_pauses':args.learned_pauses}
+                if checkpoint.get('training_policy') and checkpoint['training_policy']!=expected_policy:
+                    raise ValueError('Saved optimizer policy differs from run-config.json')
+                selection_state=restore_selection(d,checkpoint)
+                configs=copy.deepcopy(checkpoint['configs'])
+                for filename,digest in resume_metadata[language].get('data_sha256',{}).items():
+                    if hashlib.sha256((ROOT/filename).read_bytes()).hexdigest()!=digest:
+                        raise ValueError('Training data identity changed on resume: '+filename)
+            else:
+                configs = [yaml.safe_load((ROOT / args.config_root / folder / name).read_text())
+                           for name in ('preprocess.yaml', 'model.yaml', 'train.yaml')]
             pre, mod, cfg = configs
             cfg['optimizer']['batch_size'] = args.batch_size
             cfg['optimizer']['grad_acc_step'] = 1
             cfg['step'].update(total_step=args.max_steps,log_step=20,
                                save_step=args.checkpoint_every,val_step=args.validation_every)
-            d = run_root/language if run_root else ROOT/'output'/language/'bounded'
             if args.fresh and d.exists():raise ValueError('Fresh output exists: '+str(d))
             d.mkdir(parents=True, exist_ok=True)
             dataset_class = LearnedPauseDataset if args.learned_pauses else Dataset
@@ -284,7 +313,7 @@ def main(argv=None, language=None):
             valid = dataset_class('val.txt', pre, cfg)
             model_class = LearnedPauseFastSpeech2 if args.learned_pauses else FastSpeech2
             model = model_class(pre, mod).to(device)
-            if initialization:
+            if initialization and not args.resuming:
                 if args.learned_pauses:
                     old_root = ROOT/initial['configs'][0]['path']['preprocessed_path']
                     new_root = ROOT/pre['path']['preprocessed_path']
@@ -298,14 +327,7 @@ def main(argv=None, language=None):
                         raise ValueError('Fine-tuning preprocessing/model configuration differs from checkpoint')
                     model.load_state_dict(initial['model'], strict=True)
             step, epoch = 0, 1
-            checkpoint = None
-            if (d / 'latest.pth.tar').exists():
-                checkpoint = torch.load(d / 'latest.pth.tar', map_location=device, weights_only=False)
-                assert checkpoint['language'] == language
-                old_pre = checkpoint['configs'][0]
-                if old_pre.get('feature_version','legacy') != pre.get('feature_version','legacy'):
-                    raise ValueError('Feature protocol changed: preserved legacy checkpoints cannot '
-                                     'resume against rebuilt targets. Prepare a separate fresh training run.')
+            if checkpoint:
                 model.load_state_dict(checkpoint['model'])
                 step, epoch = checkpoint['step'], checkpoint['epoch'] + 1
             optim = (FixedLearningRateOptim(model, cfg, args.learning_rate,
@@ -313,6 +335,11 @@ def main(argv=None, language=None):
                      else ScheduledOptim(model, cfg, mod, step))
             if checkpoint:
                 optim.load_state_dict(checkpoint['optimizer'])
+                if checkpoint.get('torch_rng_state') is not None:torch.set_rng_state(checkpoint['torch_rng_state'].cpu())
+                if checkpoint.get('python_rng_state') is not None:random.setstate(checkpoint['python_rng_state'])
+                if checkpoint.get('numpy_rng_state') is not None:np.random.set_state(checkpoint['numpy_rng_state'])
+                if device.type=='cuda' and checkpoint.get('cuda_rng_state') is not None:
+                    torch.cuda.set_rng_state(checkpoint['cuda_rng_state'].cpu())
             loader = DataLoader(train, batch_size=args.batch_size * 4, shuffle=True,
                                 collate_fn=train.collate_fn, num_workers=0)
             vl = DataLoader(valid, batch_size=args.batch_size, shuffle=False,
@@ -324,30 +351,39 @@ def main(argv=None, language=None):
                  'optimizer': optim, 'loss': (LearnedPauseLoss(mod) if args.learned_pauses else FastSpeech2Loss(pre,mod)).to(device),
                  'step': step, 'epoch': epoch,
                  'writer': SummaryWriter(str(d / 'tensorboard'))}
+            if checkpoint:t.update(selection_state)
             trainers.append(t)
             state['languages'][language] = {'step': step, 'train_examples': len(train),
                                            'feature_version':pre.get('feature_version','legacy'),
                                            'initialized_from_checkpoint':checkpoint is not None,
                                            'validation_examples': len(valid)}
+            if t.get('best_checkpoint'):
+                state['languages'][language]['best_checkpoint']=t['best_checkpoint']
+            if initialization and args.early_stop_patience and t.get('stale_validations',0)>=args.early_stop_patience:
+                early_stop[0]=True
             if initialization:
                 state['languages'][language].update(initialized_from_checkpoint=True,
-                    initialization=initialization, step_semantics='additional fine-tuning updates; starts at zero')
+                    initialization=initialization, step_semantics='additional fine-tuning updates; saved counter retained on resume')
             # Snapshot exact feature/config identity with the checkpoints.
             files = [ROOT / pre['path']['preprocessed_path'] / n for n in
                      ('train.txt', 'val.txt', 'stats.json', 'speakers.json')]
             if args.learned_pauses:
                 files.append(ROOT/pre['path']['preprocessed_path']/'boundary-schema.json')
-            atomic_json(d / 'run-config.json', {'configs': configs, 'session': vars(args),
+            run_record={'configs': configs, 'session': vars(args),
                 'initialization': initialization,
                 'data_sha256': {str(f.relative_to(ROOT)): hashlib.sha256(f.read_bytes()).hexdigest() for f in files},
                 'source_sha256':{str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest()
                     for pattern in ('model/*.py','transformer/*.py','text/*.py','utils/*.py',
-                                    'dataset.py','setup/train_assignment.py','setup/learned_pause_*.py') for f in sorted(ROOT.glob(pattern))},
+                                    'dataset.py','setup/train_assignment.py','setup/training_recovery.py','setup/learned_pause_*.py') for f in sorted(ROOT.glob(pattern))},
                 'resume_semantics': 'weights, Adam state, scheduler step; reshuffle on resume, not bit-exact mid-epoch',
-                'source_hours_note': 'source selections approximately 5h/1h; aligned feature hours are smaller; see Preprocessing_Methods.txt'})
+                'source_hours_note': 'source selections approximately 5h/1h; aligned feature hours are smaller; see Preprocessing_Methods.txt'}
+            if args.resuming:
+                with (d/'resume-history.jsonl').open('a') as stream:
+                    stream.write(json.dumps({'utc':utc(),**run_record})+'\n')
+            else:atomic_json(d/'run-config.json',run_record)
             model.train()
             if args.run_id:save(t)
-            if initialization:
+            if initialization and not args.resuming:
                 # Establish a full baseline before any updates. The parent model
                 # remains this run's best until a complete evaluation improves.
                 validate(t)
@@ -398,6 +434,7 @@ def main(argv=None, language=None):
         if not stop[0] and not (out / 'STOP').exists():
             for t in trainers:
                 validate(t, final=True)
+        for t in trainers:save(t)
         state['status'] = 'completed_bounded_session'
         state['stop_reason'] = ('validation_plateau' if early_stop[0] else
             'stop_requested' if stop[0] or (out / 'STOP').exists() else 'wall_clock_or_step_limit')
@@ -411,6 +448,7 @@ def main(argv=None, language=None):
         for t in trainers:
             t['writer'].close()
         publish()
+        lock_handle.close()
 
 
 if __name__ == '__main__':

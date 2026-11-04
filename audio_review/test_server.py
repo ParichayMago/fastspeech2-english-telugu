@@ -1,5 +1,6 @@
 """Check saved reviews, export boundaries, local access and seekable playback."""
 import csv
+import hashlib
 import http.client
 import io
 import json
@@ -7,6 +8,7 @@ from pathlib import Path
 import tempfile
 import threading
 import unittest
+import wave
 from http.server import ThreadingHTTPServer
 
 from server import ROOT, ReviewStore, allowed_path, build_catalog, handler_for, range_bounds
@@ -15,14 +17,33 @@ from server import ROOT, ReviewStore, allowed_path, build_catalog, handler_for, 
 class ReviewTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.catalog = build_catalog()
+        cls.fixtures=tempfile.TemporaryDirectory()
+        cls.root=Path(cls.fixtures.name)
+        directory=cls.root/'data/splits/v1/english';directory.mkdir(parents=True)
+        wav=directory/'fixture.wav'
+        with wave.open(str(wav),'wb') as stream:
+            stream.setnchannels(1);stream.setsampwidth(2);stream.setframerate(22050);stream.writeframes(b'\0\0'*1000)
+        row=dict(prepared_audio_path=str(wav.relative_to(cls.root)),sample_id='synthetic-english',
+                 speaker_id='fixture',text='Synthetic HTTP fixture',flags=[],audio_sha256=hashlib.sha256(wav.read_bytes()).hexdigest())
+        (directory/'train-prepared.jsonl').write_text(json.dumps(row)+'\n')
+        generated=cls.root/'Results/Training/english/fixture';generated.mkdir(parents=True)
+        (generated/'preview.wav').write_bytes(wav.read_bytes())
+        (generated/'preview.json').write_text(json.dumps(dict(source_text='Source-text metadata fixture',speaker_label='en_fixture',checkpoint_step=1)))
+        cls.catalog = build_catalog(cls.root)
         cls.item = next(i for i in cls.catalog.values() if i['kind'] == 'dataset' and i['language'] == 'english' and i['split'] == 'train')
+
+    @classmethod
+    def tearDownClass(cls):cls.fixtures.cleanup()
+
+    def test_catalog_accepts_source_text_metadata(self):
+        item=next(i for i in self.catalog.values() if i['kind']=='generated')
+        self.assertEqual(item['text'],'Source-text metadata fixture')
 
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.path = Path(self.temp.name) / 'reviews.json'
         self.store = ReviewStore(self.path)
-        self.server = ThreadingHTTPServer(('127.0.0.1', 0), handler_for({self.item['id']: self.item}, self.store, 'test-token'))
+        self.server = ThreadingHTTPServer(('127.0.0.1', 0), handler_for({self.item['id']: self.item}, self.store, 'test-token',self.root))
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True); self.thread.start()
 
     def tearDown(self):

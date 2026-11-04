@@ -22,6 +22,7 @@ def main():
     from reportlab.pdfgen.canvas import Canvas
     r=ROOT;d=json.loads((r/'Results/Assignment/analysis/measured-analysis.json').read_text())
     asr=json.loads((r/'Results/Assignment/analysis/english-asr.json').read_text())
+    baselines=json.loads((r/'Results/Assignment/analysis/pause-baselines.json').read_text())
     gen=json.loads((r/'Results/Assignment/generation.json').read_text());info={s['id']:s for s in gen['samples']}
     audits=d['dataset_audits'];runs=d['training_runs'];samples=d['samples']
     selected=json.loads((r/'Results/Assignment/checkpoint-selection.json').read_text())
@@ -106,7 +107,7 @@ def main():
     para('The first implementation stage established the data pipeline. We checked usable audio duration, built reproducible train/validation splits and handled speaker conditioning. English required estimated acoustic speaker labels because original speaker IDs were unavailable in the audited snapshot. Telugu required a pronunciation lexicon and a stable phone mapping compatible with the reference implementation.')
     para('We next trained separate English and Telugu models using aligned duration, pitch and energy targets. Inspection of the initial synthesized speech led to an alignment audit: omitted internal gaps had shortened acoustic targets. We repaired the feature extractor, rebuilt both languages\' features and trained fresh models while preserving the earlier experiments.')
     para('The later English experiments addressed remaining clarity and pacing concerns. A low-learning-rate fine-tune was followed by an extension with word-boundary and punctuation embeddings and learned pause-presence and pause-duration predictors. Finally, we selected checkpoints using complete validation evaluations, generated the required test audios and analysed their variance predictions alongside the loss curves.')
-    para('The report follows an introduction-method-experiments-discussion structure, informed by the Seed-TTS technical report [11]. Methods and data appear on pp. 2-5, experimental results on pp. 6-9, sentence-level analysis on pp. 10-19, and discussion, reproducibility and references on pp. 20-23.','small')
+    para('The report follows an introduction-method-experiments-discussion structure, informed by the Seed-TTS technical report [11]. Methods and data appear on pp. 2-5, experimental results on pp. 6-9, sentence-level analysis on pp. 10-19, and discussion, reproducibility, corrections and references on pp. 20-24.','small')
 
     # 2
     page('1. Introduction and dataset preparation')
@@ -212,13 +213,14 @@ def main():
       ['TP / FP / FN',f"{pm['tp']} / {pm['fp']} / {pm['fn']}"],
       ['Positive-pause duration MAE',f"{pm['positive_pause_mae_seconds']*1000:.1f} ms (baseline {basepm['positive_pause_mae_seconds']*1000:.1f} ms)"],
       ['Positive / all boundaries: train; validation','8,994 / 35,249; 1,751 / 7,348']], [W*.53,W*.47])
-    table(['Internal training boundary','Positive / total','Interpretation'],[
-      ['No punctuation','7,727 / 33,532','Dominant class; many observed pauses lack punctuation'],
-      ['Comma','1,050 / 1,445','More informative but far less frequent'],
-      ['Period','204 / 258','Most period markers are terminal, excluded from pause loss'],
-      ['Question / clause','12 / 12; 1 / 2','Tiny samples; no reliable broad conclusion'],
-      ['Exclamation','0 internal examples','No internal pause supervision']], [W*.32,W*.24,W*.44])
-    para('The gain in occurrence detection is real at the predictor level, but timing error remains around 0.2 s and false positives outnumber true positives at the selected point. On E4 the comma receives zero pause frames despite its category marker. Sparse categories and weak occurrence calibration limit learned punctuation control; no natural intonation claim follows from the lower total.')
+    baseline_rows=[]
+    for name,label in [('every_internal_boundary','Every internal boundary'),('punctuation_only','Punctuation only')]:
+        v=baselines['baselines'][name];baseline_rows.append([label,pct(v['precision']),pct(v['recall']),pct(v['f1'])])
+    v=baselines['selected_model'];baseline_rows.append(['Selected model (+1,000)',pct(v['precision']),pct(v['recall']),pct(v['f1'])])
+    table(['Held-out occurrence policy','Precision','Recall','F1'],baseline_rows,[W*.43,W*.19,W*.19,W*.19])
+    para('The baselines use the same 7,348 internal validation boundaries, with 1,751 positive targets; terminal slots are excluded. Every-boundary prediction gives TP/FP/FN 1,751/5,597/0; punctuation-only gives 214/75/1,537. They are evaluation comparators and do not alter synthesized audio. Model counts come from the saved complete validation, not a new GPU evaluation.','small')
+    para('The selected model improves F1 over the every-boundary baseline by 7.2 percentage points. Its false positives still outnumber true positives, and pause-duration MAE rises from 204.5 to 207.3 ms. E4 assigns zero frames at its comma. A matched listening comparison is still needed to establish a useful prosody improvement.')
+    para('Training coverage is sparse: commas have 1,050 positive pauses among 1,445 internal markers; questions have 12/12, clauses 1/2, and exclamations no internal examples. Most period/question markers are terminal. Full counts are retained in the preprocessing summary.','small')
 
     # 9
     page('4.3 Generated speech evaluation')
@@ -304,7 +306,7 @@ def main():
       ['Quality evidence','Five ASR diagnostics; no MOS panel','Signals/variance only; recognizer control failed']], [105,197,W-302])
     para('The two language totals cannot rank language quality. They differ in loss terms, masking, dataset content, speaker composition and normalization. Lower validation loss, a smooth variance curve, non-clipped WAVs and exact ASR text each address different properties; none alone demonstrates natural speech.')
     sub('Conclusions')
-    para('The system is operational, source-preserving and reproducible for the ten tests. It learns nonconstant phoneme-level variance, realizes the frontend-supplied conduct stress contrast in its input representation, and changes pattu predictions across contexts. The corrected runs exhibit validation plateaus, and the English pause pilot improves detection more clearly than length accuracy. These are bounded empirical conclusions, not paper-level quality reproduction.')
+    para('The system is operational, source-preserving and reproducible for the ten tests. It predicts nonconstant phoneme-level variance, uses frontend-supplied conduct stress and changes pattu predictions across contexts. Validation plateaus favor earlier checkpoints. English pause F1 is 45.6% versus 38.5% and 21.0% for simple occurrence baselines; selected pause-duration MAE is slightly worse than initialization. These results establish limited predictor-level gains, while audible prosody improvement remains unproven.')
     sub('Limitations and future work')
     para('First, collect native per-test listening observations using the existing review page and preserve those observations separately from automated scores. Audit OOV and number/cross-language pronunciations, especially E1/E3/E4 and T1/T3/T4. Improve speaker-label confidence and coherent voice coverage before assuming more English steps will fix clarity. Rebalance informative punctuation examples and validate occurrence calibration and pause timing independently; held-out clause/exclamation coverage is currently insufficient.')
     para('Only after those checks should another bounded pilot be considered. Finer pitch trajectories, a voiced/unvoiced model, Telugu punctuation supervision or a better-matched vocoder may help, but no such improvement was measured here. They are future experiments, not completed results.')
@@ -326,11 +328,11 @@ def main():
     code('python English/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2')
     code('python Telugu/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2')
     code('python setup/build_learned_pause_features.py')
-    para('The last command creates learned-pauses-v1 English features and refuses to overwrite a completed build. Initial auditing, selection, speaker estimation and raw export use setup/{audit_datasets,prepare_splits,estimate_english_speakers,export_split_audio}.py; the saved manifests and hashes are the authority for this report. Raw data access follows each dataset\'s license and gate.','small')
+    para('The last command builds measured pause features and the three training YAMLs. For existing features, add --configs-only to reconstruct the YAMLs without rewriting targets. The committed config/learned-pauses-v1/English/ snapshot records the original experiment. Dataset access follows source license/gate conditions.','small')
     sub('Training reconstruction')
     code('python English/train.py --run-id english-new --fresh --minutes 120 --max-steps 30000 --batch-size 8')
     code('python Telugu/train.py --run-id telugu-new --fresh --minutes 120 --max-steps 30000 --batch-size 8')
-    para('This describes a new CUDA run; it is not needed for inference. The English fine-tune adds --language english, --initialize-from, its matching --initialize-sha256, --learning-rate 2e-5 and --early-stop-patience 5. The pause pilot uses the fine-tune parent, --learned-pauses, --config-root data/rebuild-config/learned-pauses-v1, --new-head-learning-rate 2e-4 and patience 8. Exact arguments and parent hashes are in each language/run-config.json. No cloud resource was started for this analysis.')
+    para('These commands start new CUDA runs. Fine-tuning adds --initialize-from, its matching --initialize-sha256, --learning-rate 2e-5 and patience 5. Pause training also adds --learned-pauses, its generated --config-root, --new-head-learning-rate 2e-4 and patience 8. Resume an existing run with --resume and its run ID, without initialization flags; policy, configurations, optimizer and best selection are restored. Explicit --device cpu supports local tests. See Appendix C for corrected recovery validation.')
 
     # 22
     page('Appendix B. Checkpoints and artifacts')
@@ -348,7 +350,7 @@ def main():
       ['Measured analyses / recognition','Results/Assignment/analysis/'],
       ['Report source and figure scripts','setup/build_technical_report.py; create_report_figures.py']], [W*.40,W*.60])
     para('The assignment release contains a complete project/ archive with separate English/Telugu model-only checkpoints and the frozen vocoder. SHA256SUMS verifies the archive; setup/download_checkpoints.py verifies each restored model. Per-language training wrappers, updated requirements and the README are included. The repository URL remains to be submitted through the assignment form.','small')
-    story.append(P('<link href="https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/assignment-v1" color="#087b78">Assignment release: complete project and checkpoint download</link>','small',True))
+    story.append(P('<link href="https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/assignment-v2" color="#087b78">Corrected assignment-v2 release: complete project and checkpoint download</link>','small',True))
     story.append(P('<link href="https://github.com/ParichayMago/fastspeech2-english-telugu" color="#087b78">GitHub repository: ParichayMago/fastspeech2-english-telugu</link>','small',True))
     sub('Recreate the report without cloud compute')
     code('.venvs/inference/bin/python setup/analyze_assignment_outputs.py')
@@ -356,7 +358,27 @@ def main():
     code('.venvs/report/bin/python setup/build_technical_report.py')
     para('The report builder consumes the saved English recognition cache. Optional analysis flag --asr computes missing or changed Whisper-small results and requires openai-whisper==20250625. Report dependencies are pinned in Report/requirements-report.txt. The included Noto Sans Telugu font is shaped with HarfBuzz and distributed under the accompanying SIL Open Font License.','small')
 
-    # 23
+    # 23 - distinguish implementation corrections from historical model training.
+    page('Appendix C. Post-review corrections')
+    para('Release assignment-v2 corrects recovery and portability defects identified after the first public package. The historical training logs, selected weights, ten test WAVs and predicted arrays are preserved. These changes require no retraining and do not claim to improve the existing speech acoustically.')
+    table(['Correction','Verified behavior'],[
+      ['Best-checkpoint preservation','Restore historical best loss/hash and stale-validation count; worse evaluations cannot replace best; missing/corrupt best files fail closed.'],
+      ['Base and fine-tune recovery','Restore saved model/configuration and Adam state, including fixed learning-rate groups and early stopping. Resume does not reread the original parent checkpoint.'],
+      ['Pause configurations','Feature construction writes all three YAMLs from measured training statistics. --configs-only reconstructs them; original configs are also distributed.'],
+      ['Tensor device allocation','Masks use lengths.device and length-regulator output uses x.device, independent of CUDA availability.'],
+      ['Energy control','Both phoneme-level and frame-level energy paths receive e_control. Unity-control generation remains identical.'],
+      ['Review interface','Accept source_text metadata and use isolated synthetic HTTP/audio fixtures instead of requiring private dataset recordings.']], [W*.31,W*.69])
+    sub('Local validation and its scope')
+    para('The setup suite passes 33 tests, including ten new recovery/config/device/control regression tests. Five audio-review server tests pass. Real-data pause integration runs locally against existing features and parent weights. Portable synthetic CPU tests interrupt and resume base, fixed-rate and learned-pause runs; they also exercise legacy checkpoints, exact Adam continuation, historical-best preservation and clean configuration reconstruction.')
+    para('All ten frozen sentences regenerate with identical WAV SHA256 values and exact equality of every exported array, including mels and pause-head outputs. No released model parameters were updated. No Runpod resource was started or modified. CUDA-host execution and a fresh dependency installation were not repeated; CPU device tests simulate CUDA availability and include meta-device allocation.')
+    sub('Reproduce the correction checks')
+    code('python -m unittest discover -s setup -p test_review_fixes.py -v')
+    code('python -m unittest discover -s audio_review -p test_server.py -v')
+    code('python setup/verify_frozen_regeneration.py')
+    code('python setup/evaluate_pause_baselines.py')
+    para('Recovery tests require the full requirements.txt stack, including TensorBoard. The baseline command needs local held-out pause targets; its saved result is distributed. Real-data integration explicitly skips when private fixtures are absent; skips are not passes. Per-sentence listening observations, especially Telugu pronunciation, remain outstanding. MOS scores and audible pause improvements are not asserted.','small')
+
+    # 24
     page('References')
     refs=[
       ('1','Ren et al. FastSpeech 2: Fast and High-Quality End-to-End Text to Speech. ICLR 2021.','https://arxiv.org/abs/2006.04558'),

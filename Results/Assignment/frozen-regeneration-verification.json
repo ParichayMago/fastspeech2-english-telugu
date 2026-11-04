@@ -1,0 +1,160 @@
+{
+  "samples": [
+    {
+      "id": "E1",
+      "same_audio_sha256": true,
+      "same_arrays": {
+        "mel": true,
+        "duration_frames": true,
+        "duration_seconds": true,
+        "normalized_pitch": true,
+        "predicted_f0_hz": true,
+        "normalized_energy": true,
+        "predicted_spectral_energy": true,
+        "boundary_types": true,
+        "pause_probability": true,
+        "pause_log_duration": true
+      }
+    },
+    {
+      "id": "E2a",
+      "same_audio_sha256": true,
+      "same_arrays": {
+        "mel": true,
+        "duration_frames": true,
+        "duration_seconds": true,
+        "normalized_pitch": true,
+        "predicted_f0_hz": true,
+        "normalized_energy": true,
+        "predicted_spectral_energy": true,
+        "boundary_types": true,
+        "pause_probability": true,
+        "pause_log_duration": true
+      }
+    },
+    {
+      "id": "E2b",
+      "same_audio_sha256": true,
+      "same_arrays": {
+        "mel": true,
+        "duration_frames": true,
+        "duration_seconds": true,
+        "normalized_pitch": true,
+        "predicted_f0_hz": true,
+        "normalized_energy": true,
+        "predicted_spectral_energy": true,
+        "boundary_types": true,
+        "pause_probability": true,
+        "pause_log_duration": true
+      }
+    },
+    {
+      "id": "E3",
+      "same_audio_sha256": true,
+      "same_arrays": {
+        "mel": true,
+        "duration_frames": true,
+        "duration_seconds": true,
+        "normalized_pitch": true,
+        "predicted_f0_hz": true,
+        "normalized_energy": true,
+        "predicted_spectral_energy": true,
+        "boundary_types": true,
+        "pause_probability": true,
+        "pause_log_duration": true
+      }
+    },
+    {
+      "id": "E4",
+      "same_audio_sha256": true,
+      "same_arrays": {
+        "mel": true,
+        "duration_frames": true,
+        "duration_seconds": true,
+        "normalized_pitch": true,
+        "predicted_f0_hz": true,
+        "normalized_energy": true,
+        "predicted_spectral_energy": true,
+        "boundary_types": true,
+        "pause_probability": true,
+        "pause_log_duration": true
+      }
+    },
+    {
+      "id": "T1",
+      "same_audio_sha256": true,
+      "same_arrays": {
+        "mel": true,
+        "duration_frames": true,
+        "duration_seconds": true,
+        "normalized_pitch": true,
+        "predicted_f0_hz": true,
+        "normalized_energy": true,
+        "predicted_spectral_energy": true,
+        "boundary_types": true
+      }
+    },
+    {
+      "id": "T2a",
+      "same_audio_sha256": true,
+      "same_arrays": {
+        "mel": true,
+        "duration_frames": true,
+        "duration_seconds": true,
+        "normalized_pitch": true,
+        "predicted_f0_hz": true,
+        "normalized_energy": true,
+        "predicted_spectral_energy": true,
+        "boundary_types": true
+      }
+    },
+    {
+      "id": "T2b",
+      "same_audio_sha256": true,
+      "same_arrays": {
+        "mel": true,
+        "duration_frames": true,
+        "duration_seconds": true,
+        "normalized_pitch": true,
+        "predicted_f0_hz": true,
+        "normalized_energy": true,
+        "predicted_spectral_energy": true,
+        "boundary_types": true
+      }
+    },
+    {
+      "id": "T3",
+      "same_audio_sha256": true,
+      "same_arrays": {
+        "mel": true,
+        "duration_frames": true,
+        "duration_seconds": true,
+        "normalized_pitch": true,
+        "predicted_f0_hz": true,
+        "normalized_energy": true,
+        "predicted_spectral_energy": true,
+        "boundary_types": true
+      }
+    },
+    {
+      "id": "T4",
+      "same_audio_sha256": true,
+      "same_arrays": {
+        "mel": true,
+        "duration_frames": true,
+        "duration_seconds": true,
+        "normalized_pitch": true,
+        "predicted_f0_hz": true,
+        "normalized_energy": true,
+        "predicted_spectral_energy": true,
+        "boundary_types": true
+      }
+    }
+  ],
+  "same_audio_count": 10,
+  "all_arrays_identical": true,
+  "device": "cpu",
+  "trained_weights_changed": false,
+  "cloud_resources_used": false,
+  "software_scope": "Numerical regression, not a new listening assessment"
+}

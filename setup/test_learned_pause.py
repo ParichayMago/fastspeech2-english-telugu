@@ -19,6 +19,8 @@ class LearnedPauseTests(unittest.TestCase):
     def setUpClass(cls):
         torch.set_num_threads(4)
         configs = ROOT/'data/rebuild-config/learned-pauses-v1/English'
+        if not (configs/'preprocess.yaml').exists() or not (ROOT/'output/runs/english-finetune-pilot-20261104/english/best.pth.tar').exists():
+            raise unittest.SkipTest('Real-data integration needs local measured features, generated configs and parent weights; portable fixtures are in test_review_fixes.py')
         cls.pre,cls.mod,cls.cfg = [yaml.safe_load((configs/n).read_text()) for n in ['preprocess.yaml','model.yaml','train.yaml']]
         cls.cfg['optimizer']['batch_size']=2
         cls.dataset = LearnedPauseDataset('train.txt',cls.pre,cls.cfg)
@@ -31,14 +33,6 @@ class LearnedPauseTests(unittest.TestCase):
         for key in self.parent['model']:
             self.assertTrue(torch.equal(net.state_dict()[key],self.parent['model'][key]),key)
         return net
-
-    def test_boundary_inputs_are_text_derived_not_pause_labels(self):
-        lexicon={'hello':['HH','EH1','L','OW0'],'world':['W','ER1','L','D']}
-        words,types=words_and_types('Hello, world?')
-        phones,b=encode_words(words,types,lexicon)
-        self.assertEqual([x for x in b if x],[2,4])
-        self.assertEqual(phones.count('sp'),2)
-        self.assertEqual(words_and_types('Hello world')[1],[1,1])
 
     def test_all_saved_targets_preserve_acoustics_and_no_pause_examples(self):
         old=ROOT/'data/features/gap-fixed-v2/english';new=ROOT/self.pre['path']['preprocessed_path']
@@ -85,6 +79,16 @@ class LearnedPauseTests(unittest.TestCase):
         self.assertEqual(int(yes_pause[5][0,-1]),0)
         self.assertEqual(int(yes_pause[9][0]-no_pause[9][0]),5*int(mask.sum()))
         self.assertEqual(yes_pause[1].shape[1],int(yes_pause[5].sum()))
+
+
+class LearnedPauseFrontendTests(unittest.TestCase):
+    def test_boundary_inputs_are_text_derived_not_pause_labels(self):
+        lexicon={'hello':['HH','EH1','L','OW0'],'world':['W','ER1','L','D']}
+        words,types=words_and_types('Hello, world?')
+        phones,b=encode_words(words,types,lexicon)
+        self.assertEqual([x for x in b if x],[2,4])
+        self.assertEqual(phones.count('sp'),2)
+        self.assertEqual(words_and_types('Hello world')[1],[1,1])
 
 
 if __name__=='__main__':

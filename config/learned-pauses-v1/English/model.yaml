@@ -1,0 +1,44 @@
+transformer:
+  encoder_layer: 4
+  encoder_head: 2
+  encoder_hidden: 256
+  decoder_layer: 6
+  decoder_head: 2
+  decoder_hidden: 256
+  conv_filter_size: 1024
+  conv_kernel_size:
+  - 9
+  - 1
+  encoder_dropout: 0.2
+  decoder_dropout: 0.2
+variance_predictor:
+  filter_size: 256
+  kernel_size: 3
+  dropout: 0.5
+variance_embedding:
+  pitch_quantization: linear
+  energy_quantization: linear
+  n_bins: 256
+multi_speaker: true
+max_seq_len: 2048
+vocoder:
+  model: HiFi-GAN
+  speaker: LJSpeech
+learned_pause:
+  version: learned-pauses-v1
+  boundary_types:
+    none: 1
+    comma: 2
+    period: 3
+    question: 4
+    exclamation: 5
+    clause: 6
+  target_units: integer mel frames measured from original word/phone alignments
+  train_pause_prior: 0.2551561746432523
+  train_pause_pos_weight: 2.9191683344451858
+  train_mean_positive_log_duration: 2.7825553409837633
+  train_max_pause_frames: 354
+  terminal_boundary: conditioning feature only; no trailing-silence target or pause
+    loss
+  fixed_pause_lengths: false
+  statistics_fit: training only; existing pitch/energy normalization frozen

@@ -82,6 +82,14 @@ def sha(path):
 
 
 def main():
+    import argparse
+    from setup.learned_pause_config import write_configs
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--configs-only',action='store_true',help='Reconstruct YAMLs from existing measured pause features')
+    args=parser.parse_args()
+    if args.configs_only:
+        print(json.dumps({'config_directory':str(write_configs(ROOT).relative_to(ROOT))}))
+        return
     old = ROOT/'data/features/gap-fixed-v2/english'
     out = ROOT/'data/features'/VERSION/'english'
     report_dir = ROOT/'Results/Preprocessing'/VERSION; report_dir.mkdir(parents=True, exist_ok=True)
@@ -153,6 +161,8 @@ def main():
                'checks':['word/phone/transcript identity','exact measured boundary frames','zero targets for absent pauses',
                          'full mel frame coverage','unchanged speech phone targets','byte-identical source mel arrays',
                          'frozen normalization and speaker maps'], 'boundary_schema':schema}
+    (report_dir/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+    summary['config_directory']=str(write_configs(ROOT).relative_to(ROOT))
     (report_dir/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     print(json.dumps(summary,indent=2),flush=True)
 

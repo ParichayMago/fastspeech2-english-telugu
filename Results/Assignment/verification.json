@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "verified_utc": "2026-11-04T05:38:48.891800+00:00",
+  "verified_utc": "2026-11-04T06:43:57.309106+00:00",
   "scope": "File/shape/unit/provenance checks; not perceptual quality assessment",
   "samples": [
     {
@@ -399,7 +399,7 @@
     "setup/final_inference.py": "a342e3e786dcf11963689a0d278c132b076de2488b72cf25a8a73af82bbeb912",
     "setup/generate_assignment_outputs.py": "127f17393c3ebd1dd3f27cc655d40c5a13a0071a4c3fff0a8746d8db84cbfd05",
     "setup/prepare_final_inference.py": "726ef313b42ecdc2fc7e7ed3ae1077d8412add6e2faf1cf81be48494b1121adf",
-    "setup/verify_assignment_outputs.py": "7dcca8dd8f22522cad4916c4bd1e5c98b8cf0129e14a7d615720b7cfe65c61cf",
+    "setup/verify_assignment_outputs.py": "16bb11ce72fbd6fc6068ee4dff70760a8b3fc0b26e37cab274965b5cd2541847",
     "English/inference.py": "52a28d9ab36f4dc39f2e11700190ffb72c77fb7d2aa64d29f4a7b48243343f4a",
     "Telugu/inference.py": "d57d152cf8089833f3cf2023eaad2f56130a990e5750f475d7a89142ec22de11",
     "setup/assignment_test_sentences.json": "93a7155c1b7b1e67d6d1cf3629f5fe3a5568d038de8d5713e424a426657f54e1",
@@ -407,7 +407,12 @@
     "model/fastspeech2.py": "bf7b8c5e38167bacdf98371eb255ec5e0a5d252b5159f590b36c810336b0bb6b",
     "transformer/Models.py": "3067ade94c06d4f685c691100ba71b5af01790341226d452d6264f7342a4402e",
     "text/symbols.py": "5b22e6925ae2825c7c1993dc415d33db1d6103291e47c7667a2bc74774ad1326",
-    "text/assignment_phones.json": "2eb116c380cd93d8918ff93ae286a8eb988203d2561d8435c4e2f54ce52dc9c8"
+    "text/assignment_phones.json": "2eb116c380cd93d8918ff93ae286a8eb988203d2561d8435c4e2f54ce52dc9c8",
+    "model/modules.py": "eb3737bd9989755f561c96e4c34a98564f071f2d079b958de1d49a0d5f58fa83",
+    "utils/tools.py": "038b05e53c3cdcad52dfef2282c3885496873cfb236dc6de64fbfa25b377426c",
+    "setup/training_recovery.py": "63e525756d2d3a2eb7d2339adf7ae55187c134667cdcee1d245e004b8b0e8c13",
+    "setup/learned_pause_config.py": "6c10d25275b9f7c4a2716952c0deef9b3f49001ff8b0fb6eb6916d2525657fd6",
+    "setup/train_assignment.py": "8fa1f4f3b4897c0b5d7b5277dd719f1522121cd5102d8709c8504e48430bfe78"
   },
   "audio_count": 10,
   "variance_plot_count": 30,

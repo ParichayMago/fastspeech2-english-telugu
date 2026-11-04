@@ -30,9 +30,9 @@ validation evaluations, generated the required test audios and analysed their va
 alongside the loss curves.
 The report follows an introduction-method-experiments-discussion structure, informed by the Seed-TTS technical report [11].
 Methods and data appear on pp. 2-5, experimental results on pp. 6-9, sentence-level analysis on pp. 10-19, and discussion,
-reproducibility and references on pp. 20-23.
+reproducibility, corrections and references on pp. 20-24.
 FastSpeech 2 | English and Telugu | 4 November 2026
-1 / 23
+1 / 24
 
 
 PAGE 2
@@ -89,7 +89,7 @@ Evidence: Results/DataSplits/summary.json, verification.json; Results/DatasetAud
 Results/Preprocessing/gap-fixed-v2/rebuild-summary.json. Earlier preprocessing notes contain superseded feature hours and
 are not used for the final table.
 FastSpeech 2 | English and Telugu | 4 November 2026
-2 / 23
+2 / 24
 
 
 PAGE 3
@@ -142,7 +142,7 @@ and checkpoint. Unknown phones are rejected. Telugu uses the base variance adapt
 word-boundary/pause heads were added. The models share a frozen vocoder, not acoustic parameters or
 optimizers.
 FastSpeech 2 | English and Telugu | 4 November 2026
-3 / 23
+3 / 24
 
 
 PAGE 4
@@ -191,7 +191,7 @@ pauses from becoming supervision.
 Evidence: Report/Alignment_Gap_Fix.txt; Results/Preprocessing/gap-fixed-v2/; Results/Preprocessing/learned-pauses-v1/. No
 validation audio fits a normalization statistic, speaker centroid or Telugu alignment model.
 FastSpeech 2 | English and Telugu | 4 November 2026
-4 / 23
+4 / 24
 
 
 PAGE 5
@@ -257,7 +257,7 @@ target duration/pitch/energy while their predictor errors are still recorded. Th
 does not establish free-running waveform quality. Training minibatch losses have dropout and variable
 content, so their gap to validation is only suggestive.
 FastSpeech 2 | English and Telugu | 4 November 2026
-5 / 23
+5 / 24
 
 
 PAGE 6
@@ -286,7 +286,7 @@ composition and normalized target distribution. Alignment, pronunciation, speake
 optimizer effects cannot be disentangled from these curves alone. No restart after the 30k cap is treated
 as additional completed training.
 FastSpeech 2 | English and Telugu | 4 November 2026
-6 / 23
+6 / 24
 
 
 PAGE 7
@@ -315,7 +315,7 @@ does not demonstrate clearer acoustics. The final checkpoint choice preserves th
 learned-pause behavior and uses the best complete validation within that run, not a claim of audible
 superiority over the retained parent.
 FastSpeech 2 | English and Telugu | 4 November 2026
-7 / 23
+7 / 24
 
 
 PAGE 8
@@ -334,32 +334,35 @@ Positive-pause duration MAE
 207.3 ms (baseline 204.5 ms)
 Positive / all boundaries: train; validation
 8,994 / 35,249; 1,751 / 7,348
-Internal training boundary
-Positive / total
-Interpretation
-No punctuation
-7,727 / 33,532
-Dominant class; many observed pauses lack
-punctuation
-Comma
-1,050 / 1,445
-More informative but far less frequent
-Period
-204 / 258
-Most period markers are terminal, excluded from
-pause loss
-Question / clause
-12 / 12; 1 / 2
-Tiny samples; no reliable broad conclusion
-Exclamation
-0 internal examples
-No internal pause supervision
-The gain in occurrence detection is real at the predictor level, but timing error remains around 0.2 s and
-false positives outnumber true positives at the selected point. On E4 the comma receives zero pause
-frames despite its category marker. Sparse categories and weak occurrence calibration limit learned
-punctuation control; no natural intonation claim follows from the lower total.
+Held-out occurrence policy
+Precision
+Recall
+F1
+Every internal boundary
+23.8%
+100.0%
+38.5%
+Punctuation only
+74.0%
+12.2%
+21.0%
+Selected model (+1,000)
+37.5%
+58.4%
+45.6%
+The baselines use the same 7,348 internal validation boundaries, with 1,751 positive targets; terminal slots are excluded.
+Every-boundary prediction gives TP/FP/FN 1,751/5,597/0; punctuation-only gives 214/75/1,537. They are evaluation
+comparators and do not alter synthesized audio. Model counts come from the saved complete validation, not a new GPU
+evaluation.
+The selected model improves F1 over the every-boundary baseline by 7.2 percentage points. Its false
+positives still outnumber true positives, and pause-duration MAE rises from 204.5 to 207.3 ms. E4 assigns
+zero frames at its comma. A matched listening comparison is still needed to establish a useful prosody
+improvement.
+Training coverage is sparse: commas have 1,050 positive pauses among 1,445 internal markers; questions have 12/12,
+clauses 1/2, and exclamations no internal examples. Most period/question markers are terminal. Full counts are retained in
+the preprocessing summary.
 FastSpeech 2 | English and Telugu | 4 November 2026
-8 / 23
+8 / 24
 
 
 PAGE 9
@@ -449,7 +452,7 @@ F0 ranges above are model conditioning, not waveform measurements. Spectral high
 fractions were also computed, but neither is reported as SNR or a noise score. Earlier user feedback on other English previews
 mentioned hiss and limited clarity; it is not a per-test listening rating for this freeze.
 FastSpeech 2 | English and Telugu | 4 November 2026
-9 / 23
+9 / 24
 
 
 PAGE 10
@@ -473,7 +476,7 @@ ASR diagnostic: The anti-disastergism-mentarianism movement gained considerable 
 proceedings.
 Files: Results/English/test_generated_audios/E1.wav, .txt, .json, _predictions.npz and _variance.csv.
 FastSpeech 2 | English and Telugu | 4 November 2026
-10 / 23
+10 / 24
 
 
 PAGE 11
@@ -492,7 +495,7 @@ possessive mismatch, so it cannot be interpreted as a failed audible consonant o
 ASR diagnostic: The orchestras conduct during the ceremony was praised by the audience.
 Files: Results/English/test_generated_audios/E2a.wav, .txt, .json, _predictions.npz and _variance.csv.
 FastSpeech 2 | English and Telugu | 4 November 2026
-11 / 23
+11 / 24
 
 
 PAGE 12
@@ -513,7 +516,7 @@ this recognizer, while naturalness, stress realization and speaker identity rema
 ASR diagnostic: The researchers will conduct an experiment to evaluate the proposed method.
 Files: Results/English/test_generated_audios/E2b.wav, .txt, .json, _predictions.npz and _variance.csv.
 FastSpeech 2 | English and Telugu | 4 November 2026
-12 / 23
+12 / 24
 
 
 PAGE 13
@@ -533,7 +536,7 @@ unusual source segmentation; it is evidence of a problematic test, not a validat
 ASR diagnostic: The right end of the orchestra changed unexpectedly.
 Files: Results/English/test_generated_audios/E3.wav, .txt, .json, _predictions.npz and _variance.csv.
 FastSpeech 2 | English and Telugu | 4 November 2026
-13 / 23
+13 / 24
 
 
 PAGE 14
@@ -555,7 +558,7 @@ number-format normalization and ASR failure also contribute uncertainty.
 ASR diagnostic: The meeting will start at 10.45.11.12.22.26. Soot and the rule should arrive on that.
 Files: Results/English/test_generated_audios/E4.wav, .txt, .json, _predictions.npz and _variance.csv.
 FastSpeech 2 | English and Telugu | 4 November 2026
-14 / 23
+14 / 24
 
 
 PAGE 15
@@ -575,7 +578,7 @@ Automatic technical-term pronunciation and aspirated/retroflex distinctions requ
 Telugu recognition score is used; signal validity alone cannot establish correct medical terminology.
 Files: Results/Telugu/test_generated_audios/T1.wav, .txt, .json, _predictions.npz and _variance.csv.
 FastSpeech 2 | English and Telugu | 4 November 2026
-15 / 23
+15 / 24
 
 
 PAGE 16
@@ -594,7 +597,7 @@ The source concerns grip/hold. Correct lexical meaning, gemination and sentence-
 checked by a Telugu listener; none is inferred from the phoneme trace alone.
 Files: Results/Telugu/test_generated_audios/T2a.wav, .txt, .json, _predictions.npz and _variance.csv.
 FastSpeech 2 | English and Telugu | 4 November 2026
-16 / 23
+16 / 24
 
 
 PAGE 17
@@ -613,7 +616,7 @@ The decoded waveform has no clipping. Native listening remains necessary for the
 and inflection; the report does not assign an unsupported Telugu pronunciation or MOS score.
 Files: Results/Telugu/test_generated_audios/T2b.wav, .txt, .json, _predictions.npz and _variance.csv.
 FastSpeech 2 | English and Telugu | 4 November 2026
-17 / 23
+17 / 24
 
 
 PAGE 18
@@ -633,7 +636,7 @@ A native listener should distinguish source-spacing effects from acoustic pronun
 recognition-based Telugu quality claim is made.
 Files: Results/Telugu/test_generated_audios/T3.wav, .txt, .json, _predictions.npz and _variance.csv.
 FastSpeech 2 | English and Telugu | 4 November 2026
-18 / 23
+18 / 24
 
 
 PAGE 19
@@ -654,7 +657,7 @@ The complete date/time sequence is represented by trained phones, but correct sp
 natural phrasing still require native review. No word-accuracy percentage is fabricated for this sentence.
 Files: Results/Telugu/test_generated_audios/T4.wav, .txt, .json, _predictions.npz and _variance.csv.
 FastSpeech 2 | English and Telugu | 4 November 2026
-19 / 23
+19 / 24
 
 
 PAGE 20
@@ -695,11 +698,12 @@ content, speaker composition and normalization. Lower validation loss, a smooth 
 non-clipped WAVs and exact ASR text each address different properties; none alone demonstrates
 natural speech.
 Conclusions
-The system is operational, source-preserving and reproducible for the ten tests. It learns nonconstant
-phoneme-level variance, realizes the frontend-supplied conduct stress contrast in its input
-representation, and changes pattu predictions across contexts. The corrected runs exhibit validation
-plateaus, and the English pause pilot improves detection more clearly than length accuracy. These are
-bounded empirical conclusions, not paper-level quality reproduction.
+The system is operational, source-preserving and reproducible for the ten tests. It predicts nonconstant
+phoneme-level variance, uses frontend-supplied conduct stress and changes pattu predictions across
+contexts. Validation plateaus favor earlier checkpoints. English pause F1 is 45.6% versus 38.5% and
+21.0% for simple occurrence baselines; selected pause-duration MAE is slightly worse than initialization.
+These results establish limited predictor-level gains, while audible prosody improvement remains
+unproven.
 Limitations and future work
 First, collect native per-test listening observations using the existing review page and preserve those
 observations separately from automated scores. Audit OOV and number/cross-language pronunciations,
@@ -711,7 +715,7 @@ Only after those checks should another bounded pilot be considered. Finer pitch 
 voiced/unvoiced model, Telugu punctuation supervision or a better-matched vocoder may help, but no
 such improvement was measured here. They are future experiments, not completed results.
 FastSpeech 2 | English and Telugu | 4 November 2026
-20 / 23
+20 / 24
 
 
 PAGE 21
@@ -738,20 +742,19 @@ wrappers build corpora, alignments and corrected features, then check a real bat
 python English/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2
 python Telugu/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2
 python setup/build_learned_pause_features.py
-The last command creates learned-pauses-v1 English features and refuses to overwrite a completed build. Initial auditing,
-selection, speaker estimation and raw export use
-setup/{audit_datasets,prepare_splits,estimate_english_speakers,export_split_audio}.py; the saved manifests and hashes are
-the authority for this report. Raw data access follows each dataset's license and gate.
+The last command builds measured pause features and the three training YAMLs. For existing features, add --configs-only to
+reconstruct the YAMLs without rewriting targets. The committed config/learned-pauses-v1/English/ snapshot records the
+original experiment. Dataset access follows source license/gate conditions.
 Training reconstruction
 python English/train.py --run-id english-new --fresh --minutes 120 --max-steps 30000 --batch-size 8
 python Telugu/train.py --run-id telugu-new --fresh --minutes 120 --max-steps 30000 --batch-size 8
-This describes a new CUDA run; it is not needed for inference. The English fine-tune adds --language
-english, --initialize-from, its matching --initialize-sha256, --learning-rate 2e-5 and --early-stop-patience 5.
-The pause pilot uses the fine-tune parent, --learned-pauses, --config-root
-data/rebuild-config/learned-pauses-v1, --new-head-learning-rate 2e-4 and patience 8. Exact arguments
-and parent hashes are in each language/run-config.json. No cloud resource was started for this analysis.
+These commands start new CUDA runs. Fine-tuning adds --initialize-from, its matching --initialize-sha256,
+--learning-rate 2e-5 and patience 5. Pause training also adds --learned-pauses, its generated
+--config-root, --new-head-learning-rate 2e-4 and patience 8. Resume an existing run with --resume and its
+run ID, without initialization flags; policy, configurations, optimizer and best selection are restored.
+Explicit --device cpu supports local tests. See Appendix C for corrected recovery validation.
 FastSpeech 2 | English and Telugu | 4 November 2026
-21 / 23
+21 / 24
 
 
 PAGE 22
@@ -786,7 +789,7 @@ The assignment release contains a complete project/ archive with separate Englis
 frozen vocoder. SHA256SUMS verifies the archive; setup/download_checkpoints.py verifies each restored model.
 Per-language training wrappers, updated requirements and the README are included. The repository URL remains to be
 submitted through the assignment form.
-Assignment release: complete project and checkpoint download
+Corrected assignment-v2 release: complete project and checkpoint download
 GitHub repository: ParichayMago/fastspeech2-english-telugu
 Recreate the report without cloud compute
 .venvs/inference/bin/python setup/analyze_assignment_outputs.py
@@ -797,10 +800,60 @@ Whisper-small results and requires openai-whisper==20250625. Report dependencies
 Report/requirements-report.txt. The included Noto Sans Telugu font is shaped with HarfBuzz and distributed under the
 accompanying SIL Open Font License.
 FastSpeech 2 | English and Telugu | 4 November 2026
-22 / 23
+22 / 24
 
 
 PAGE 23
+IMPLEMENTATION AND EVALUATION
+Appendix C. Post-review corrections
+Release assignment-v2 corrects recovery and portability defects identified after the first public package.
+The historical training logs, selected weights, ten test WAVs and predicted arrays are preserved. These
+changes require no retraining and do not claim to improve the existing speech acoustically.
+Correction
+Verified behavior
+Best-checkpoint preservation
+Restore historical best loss/hash and stale-validation count; worse evaluations
+cannot replace best; missing/corrupt best files fail closed.
+Base and fine-tune recovery
+Restore saved model/configuration and Adam state, including fixed learning-rate
+groups and early stopping. Resume does not reread the original parent
+checkpoint.
+Pause configurations
+Feature construction writes all three YAMLs from measured training statistics.
+--configs-only reconstructs them; original configs are also distributed.
+Tensor device allocation
+Masks use lengths.device and length-regulator output uses x.device, independent
+of CUDA availability.
+Energy control
+Both phoneme-level and frame-level energy paths receive e_control. Unity-control
+generation remains identical.
+Review interface
+Accept source_text metadata and use isolated synthetic HTTP/audio fixtures
+instead of requiring private dataset recordings.
+Local validation and its scope
+The setup suite passes 33 tests, including ten new recovery/config/device/control regression tests. Five
+audio-review server tests pass. Real-data pause integration runs locally against existing features and
+parent weights. Portable synthetic CPU tests interrupt and resume base, fixed-rate and learned-pause
+runs; they also exercise legacy checkpoints, exact Adam continuation, historical-best preservation and
+clean configuration reconstruction.
+All ten frozen sentences regenerate with identical WAV SHA256 values and exact equality of every
+exported array, including mels and pause-head outputs. No released model parameters were updated.
+No Runpod resource was started or modified. CUDA-host execution and a fresh dependency installation
+were not repeated; CPU device tests simulate CUDA availability and include meta-device allocation.
+Reproduce the correction checks
+python -m unittest discover -s setup -p test_review_fixes.py -v
+python -m unittest discover -s audio_review -p test_server.py -v
+python setup/verify_frozen_regeneration.py
+python setup/evaluate_pause_baselines.py
+Recovery tests require the full requirements.txt stack, including TensorBoard. The baseline command needs local held-out
+pause targets; its saved result is distributed. Real-data integration explicitly skips when private fixtures are absent; skips are
+not passes. Per-sentence listening observations, especially Telugu pronunciation, remain outstanding. MOS scores and
+audible pause improvements are not asserted.
+FastSpeech 2 | English and Telugu | 4 November 2026
+23 / 24
+
+
+PAGE 24
 IMPLEMENTATION AND EVALUATION
 References
 [1] Ren et al. FastSpeech 2: Fast and High-Quality End-to-End Text to Speech. ICLR 2021.
@@ -841,4 +894,4 @@ numerical tables and report plots derive from these saved records.
 Telugu-recognizer exclusion evidence: Results/InitialSpeechReview/review.json, including natural-Telugu control. No
 native-listener or panel MOS ratings were available at generation time.
 FastSpeech 2 | English and Telugu | 4 November 2026
-23 / 23
+24 / 24

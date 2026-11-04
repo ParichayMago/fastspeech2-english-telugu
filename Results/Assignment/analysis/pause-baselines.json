@@ -1,0 +1,35 @@
+{
+  "validation_utterances": 617,
+  "boundary_targets_sha256": "16aa196fd6f86e458400867d14a00043e045053e313b8fc331bc8ff40506b015",
+  "mask": "All text-derived internal word boundaries; terminal slots excluded",
+  "baselines": {
+    "every_internal_boundary": {
+      "tp": 1751,
+      "fp": 5597,
+      "fn": 0,
+      "precision": 0.23829613500272184,
+      "recall": 1.0,
+      "f1": 0.38487745906143533
+    },
+    "punctuation_only": {
+      "tp": 214,
+      "fp": 75,
+      "fn": 1537,
+      "precision": 0.740484429065744,
+      "recall": 0.12221587664191891,
+      "f1": 0.20980392156862746
+    }
+  },
+  "selected_model": {
+    "step": 1000,
+    "tp": 1022,
+    "fp": 1705,
+    "fn": 729,
+    "precision": 0.37477081041437477,
+    "recall": 0.5836664762992576,
+    "f1": 0.4564537740062528
+  },
+  "model_measurement_source": "Saved complete validation, not a new GPU evaluation",
+  "interpretation": "Occurrence classifiers only; no pause lengths, waveform edits or auditory quality claims",
+  "F1_gain_over_every_boundary_percentage_points": 7.157631494481747
+}
