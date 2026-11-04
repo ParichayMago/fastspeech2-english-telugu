@@ -1,6 +1,7 @@
 {
-  "release": "assignment-v5",
-  "scope": "Documentation and artifact audit; model/inference/training code unchanged from verified assignment-v4",
+  "release": "assignment-v6",
+  "scope": "Report, author listening evidence and release documentation only; no training/inference runtime changes.",
+  "verified_utc": "2026-11-04T16:06:06.935172+00:00",
   "commands": [
     {
       "command": [
@@ -39,22 +40,28 @@
   ],
   "prior_runtime_validation": {
     "release": "assignment-v4",
-    "full_local_tests": 45,
-    "exported_setup_tests": "33 tests, with one private-data integration class explicitly skipped",
-    "exported_server_tests": 9,
-    "all_ten_WAVs_and_prediction_arrays_exact": true
+    "local_setup_tests": 36,
+    "local_server_tests": 9,
+    "scope": "Prior runtime checks; not rerun or counted as new tests for this documentation release."
   },
-  "readme_lines": 50,
-  "reproduction_guide_included": true,
-  "report_pages": 25,
-  "strict_submission_layout_passed": true,
-  "checkpoint_hashes_verified": true,
-  "audio_count": 10,
-  "variance_plot_count": 30,
-  "archive_sha256": "baade810984c60ccb13f133a0c5600c965d1277b48c9a07ee54853ac3496b477",
-  "local_Runpod_state_excluded": true,
-  "missing_report_content": "Per-sentence pronunciation/quality observations and listening-based language comparison",
-  "form_submission_performed": false,
-  "cloud_resources_changed": false,
-  "trained_models_retrained": false
+  "final_audio_files_unchanged_and_export_equal": [
+    "Results/English/test_generated_audios/E2b.wav",
+    "Results/English/test_generated_audios/E2a.wav",
+    "Results/English/test_generated_audios/E1.wav",
+    "Results/English/test_generated_audios/E3.wav",
+    "Results/English/test_generated_audios/E4.wav",
+    "Results/Telugu/test_generated_audios/T3.wav",
+    "Results/Telugu/test_generated_audios/T1.wav",
+    "Results/Telugu/test_generated_audios/T4.wav",
+    "Results/Telugu/test_generated_audios/T2a.wav",
+    "Results/Telugu/test_generated_audios/T2b.wav"
+  ],
+  "author_ratings_sha256_verified": 10,
+  "author_followup_included": true,
+  "report_pages": 26,
+  "archive_sha256": "673f415883e55d6ad245f3d0425a7f4d5daa7532ba2ca3b64eabc2130ba263c6",
+  "archive_crc_and_every_manifest_sha256": "Verified by package_submission.py",
+  "cloud_compute_used": false,
+  "full_dependency_install_repeated": false,
+  "raw_data_or_unrelated_listening_history_distributed": false
 }

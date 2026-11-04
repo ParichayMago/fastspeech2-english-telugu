@@ -24,9 +24,14 @@ def main():
     asr=json.loads((r/'Results/Assignment/analysis/english-asr.json').read_text())
     baselines=json.loads((r/'Results/Assignment/analysis/pause-baselines.json').read_text())
     coverage=json.loads((r/'Results/Assignment/analysis/english-speaker-coverage.json').read_text())
+    listening=json.loads((r/'Results/Assignment/analysis/final-listening-review.json').read_text())
+    listening_map={x['id']:x for x in listening['samples']}
     release=json.loads((r/'src/setup/checkpoint_manifest.json').read_text())['release_tag']
     gen=json.loads((r/'Results/Assignment/generation.json').read_text());info={s['id']:s for s in gen['samples']}
     audits=d['dataset_audits'];runs=d['training_runs'];samples=d['samples']
+    assert set(listening_map)==set(samples)
+    for sid,sample in samples.items():
+        assert listening_map[sid]['audio_sha256']==sample['audio_sha256']
     selected=json.loads((r/'Results/Assignment/checkpoint-selection.json').read_text())
     fonts=r/'Report/fonts'
     for name,file in [('Body','DejaVuSans.ttf'),('Bold','DejaVuSans-Bold.ttf'),('Mono','DejaVuSansMono.ttf')]:
@@ -239,7 +244,20 @@ def main():
     para('Recognition is exact for E2b; E2a differs only in possessive spelling. E1, E3 and especially E4 remain problematic. ASR can make its own errors on rare words, altered spacing and code-mixing; it does not score stress, identity, expressiveness or MOS. Telugu WER is intentionally absent because the earlier recognizer failed on natural Telugu as well as synthesized Telugu.')
     para('F0 ranges above are model conditioning, not waveform measurements. Spectral high-band energy and low-level frame fractions were also computed, but neither is reported as SNR or a noise score. Earlier user feedback on other English previews mentioned hiss and limited clarity; it is not a per-test listening rating for this freeze.','small')
 
-    # 10-19 - one complete source + all three compact curves + individual analysis per test.
+    page('4.4 Author listening review')
+    para('After the outputs were frozen, the project author reviewed the English and Telugu recordings through the final-recordings tab of the listening interface. The author stated an ability to review both languages. All ten saved ratings match the SHA256 of the distributed WAVs; earlier previews are excluded. This is one informal, non-blind author review, not an independent panel or a MOS experiment. The assistant did not directly listen to the audio.')
+    table(['Test','Language','Overall rating','Per-recording written notes'],[
+        [sid,item['language'].title(),item['overall_status'].title(),item['notes'] or 'None saved']
+        for sid,item in listening_map.items()],[55,90,100,W-245])
+    para('Each recording was marked Good. No issue boxes or per-recording notes were saved. The category records overall acceptance; it does not separately rate pronunciation, clarity, noise, pacing or intonation. In a subsequent chat response, the author found both language sets acceptable and noticed no specific pronunciation issues. This broad observation does not establish word-level correctness or supply a specific stress/gemination judgment.')
+    para(listening['comparison']['summary'])
+    if listening['comparison'].get('user_comparative_comment'):
+        para('Author follow-up: '+listening['comparison']['user_comparative_comment'])
+    sub('Interpretation alongside the diagnostics')
+    para('Overall acceptance and recognizer disagreement address different questions. English E1/E3/E4 remain flagged by the local recognizer even though the author accepted the recordings. E2b exact recognition does not prove natural stress or freedom from noise. Telugu has no usable recognition score because its natural-audio control failed. These differences in measurement coverage cannot establish that either language sounds better.')
+    para('Evidence: Results/Assignment/analysis/final-listening-review.json contains only the ten final-recording ratings, their audio hashes, saved times and review limitations. It excludes unrelated private listening history. The author follow-up supplies the qualitative language comparison. Detailed phonetic review and an independent listening panel remain future evaluation work.','small')
+
+    # One complete source + all three compact curves + individual analysis per test.
     challenges={'E1':'Long English word','E2a':'Conduct as a noun','E2b':'Conduct as a verb','E3':'Visible split word','E4':'Date, clock and code-mixing',
                 'T1':'Long Telugu technical term','T2a':'Pattu in the grip context','T2b':'Pattu in the silk context','T3':'Visible split Telugu word','T4':'Telugu date and clock'}
     comments={
@@ -295,6 +313,9 @@ def main():
         for text in comments[sid]:para(text)
         if sid in asrmap:
             para('ASR diagnostic: '+asrmap[sid]['ASR_text'].strip(),'small')
+        item=listening_map[sid]
+        observation=item.get('pronunciation_observation') or 'Pronunciation was not separately rated; no word-level notes were saved.'
+        para('Author listening observation: '+item['overall_status'].title()+'. '+observation,'small')
         para('Files: Results/'+s['language'].title()+'/test_generated_audios/'+sid+'.wav, .txt, .json, _predictions.npz and _variance.csv.','small')
 
     # 20
@@ -305,12 +326,13 @@ def main():
       ['Validation result','3.0544 under new seven-term objective','2.1065 under base five-term objective'],
       ['Observed text-sensitive issue','Long word, split word and mixed date/time recognition','Automatic OOV pronunciation and visible split-word handling need native review'],
       ['Punctuation timing','Pause detection F1 45.6%; E4 comma 0 frames','No explicit punctuation pause slots in final frontend'],
-      ['Quality evidence','Five ASR diagnostics; no MOS panel','Signals/variance only; recognizer control failed']], [105,197,W-302])
+      ['Author overall acceptance','5/5 recordings marked Good','5/5 recordings marked Good'],
+      ['Quality evidence','Author ratings plus five ASR diagnostics; no MOS panel','Author ratings plus signals/variance; recognizer control failed']], [105,197,W-302])
     para('The two language totals cannot rank language quality. They differ in loss terms, masking, dataset content, speaker composition and normalization. Lower validation loss, a smooth variance curve, non-clipped WAVs and exact ASR text each address different properties; none alone demonstrates natural speech.')
     sub('Conclusions')
     para('The system is operational, source-preserving and reproducible for the ten tests. It predicts nonconstant phoneme-level variance, uses frontend-supplied conduct stress and changes pattu predictions across contexts. Validation plateaus favor earlier checkpoints. English pause F1 is 45.6% versus 38.5% and 21.0% for simple occurrence baselines; selected pause-duration MAE is slightly worse than initialization. These results establish limited predictor-level gains, while audible prosody improvement remains unproven.')
     sub('Limitations and future work')
-    para('First, collect native per-test listening observations using the existing review page and preserve those observations separately from automated scores. Audit OOV and number/cross-language pronunciations, especially E1/E3/E4 and T1/T3/T4. Improve speaker-label confidence and coherent voice coverage before assuming more English steps will fix clarity. Rebalance informative punctuation examples and validate occurrence calibration and pause timing independently; held-out clause/exclamation coverage is currently insufficient.')
+    para('The author accepted all ten final recordings and found both languages acceptable, with no specific pronunciation issues noticed. This single author review supplies no detailed phonetic notes or quality ranking. Follow with independent, language-competent per-test review, preserving concrete observations separately from automated scores. Audit OOV and number/cross-language pronunciations, especially E1/E3/E4 and T1/T3/T4. Improve speaker-label confidence and coherent voice coverage before assuming more English steps will fix clarity. Rebalance informative punctuation examples and validate occurrence calibration and pause timing independently; held-out clause/exclamation coverage is currently insufficient.')
     para('Only after those checks should another bounded pilot be considered. T4 has identical phonemes and all-zero boundary inputs with or without its comma: Telugu punctuation cannot condition the current acoustic output. Fixing this requires consistent training and inference supervision. Finer pitch trajectories, a voiced/unvoiced model or a better-matched vocoder are also unmeasured future experiments. Appendix D quantifies speaker sparsity and the remaining quality-evaluation limits.')
 
     # 21
@@ -380,7 +402,7 @@ def main():
     code('python -m unittest discover -s src/audio_review -p test_server.py -v')
     code('python src/setup/verify_frozen_regeneration.py')
     code('python src/setup/evaluate_pause_baselines.py')
-    para('Recovery tests require the full requirements.txt stack, including TensorBoard. The baseline command needs local held-out pause targets; its saved result is distributed. Real-data integration explicitly skips when private fixtures are absent; skips are not passes. Per-sentence listening observations, especially Telugu pronunciation, remain outstanding. MOS scores and audible pause improvements are not asserted.','small')
+    para('Recovery tests require the full requirements.txt stack, including TensorBoard. The baseline command needs local held-out pause targets; its saved result is distributed. Real-data integration explicitly skips when private fixtures are absent; skips are not passes. All ten final recordings have an informal author Good rating, followed by a report of no specific pronunciation issues in either language; detailed phonetic notes, independent listening and MOS remain absent. Audible pause improvements are not asserted.','small')
 
     # 24
     page('Appendix D. Speaker coverage and remaining limits')
@@ -396,7 +418,7 @@ def main():
     para('ECAPA clustering uses training recordings with at least 3 s of speech, average-linkage cosine distance and an uncalibrated 0.30 threshold. Short training and validation recordings use frozen training centroids. The publisher reports 117 speakers [4], while this pipeline estimates 254 labels. That mismatch warrants a fragmentation/merge audit; it cannot establish exact identity errors or causation for poor English speech.')
     para('The final label is third by selected source duration and is retained for continuity with earlier previews. No systematic perceptual ranking of labels was recorded. Sparse per-label coverage and uncertain membership are plausible conditioning risks, not experimentally isolated causes. A verified label map or coherent voice subset would change the modeling experiment and require new training/evaluation.')
     sub('Remaining evaluation and modeling limits')
-    para('Pronunciation, clarity and overall-quality observations for every frozen test recording remain incomplete, particularly for Telugu. Ratings on earlier previews do not substitute for those observations. ASR disagreement (including E4 at 54.5%) flags investigation but does not identify exact audible errors. No MOS or audible parent-versus-pause improvement is established.')
+    para('All ten frozen tests now have a hash-matched Good rating from one informal author review. Per-recording written notes and separate pronunciation, clarity and prosody ratings were not supplied. The author subsequently reported both languages acceptable, with no specific pronunciation issues noticed. These observations establish author acceptance, not detailed phonetic correctness or an independent English/Telugu quality ranking. Earlier preview ratings are excluded. ASR disagreement (including E4 at 54.5%) flags investigation but does not identify exact audible errors. No MOS or audible parent-versus-pause improvement is established.')
     para('English pause occurrence improves against simple baselines, but 1,705 false positives exceed 1,022 true positives; duration MAE worsens and the E4 comma has zero frames. Telugu removes punctuation and supplies no pause slots despite internal silence in training; T4 inputs are unchanged when its comma is removed. The review-server and STOP fixes address software behavior, not these acoustic-model limitations.')
     code('python src/setup/analyze_speaker_coverage.py')
     para('Recomputes coverage from distributed selection-membership.jsonl, rejected feature IDs and saved clustering metadata. Full per-label counts, durations and input SHA256 values: Results/Assignment/analysis/english-speaker-coverage.json. No raw audio, new training or cloud compute is required.','small')
@@ -426,7 +448,7 @@ def main():
       'Exact source strings: src/setup/assignment_test_sentences.json; source PDF SHA256 a88e379253c50a018ff6319c05a372a57a0d416cf7c4dc20807d7752e67e323f.',
       'Final output hashes and software checks: Results/Assignment/verification.json; checkpoint-selection.json; CLI smoke verification.',
       'Computed analysis and ASR hypotheses: Results/Assignment/analysis/measured-analysis.json and english-asr.json. All numerical tables and report plots derive from these saved records.',
-      'Telugu-recognizer exclusion evidence: Results/InitialSpeechReview/review.json, including natural-Telugu control. No native-listener or panel MOS ratings were available at generation time.'
+      'Telugu-recognizer exclusion evidence: Results/InitialSpeechReview/review.json, including natural-Telugu control. Final-recording author ratings: Results/Assignment/analysis/final-listening-review.json. Native-speaker status and panel MOS were not established.'
     ]:para(text,'small')
 
     class NumberedCanvas(Canvas):

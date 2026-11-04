@@ -52,7 +52,7 @@ Required local files:
 
 Inference verifies weights, resources, symbol inventory and vocoder hashes.
 It does not require raw datasets or training feature directories. Run `python3 src/setup/download_checkpoints.py` to download the submission archive
-and restore only these three hash-verified files. Use `--archive /path/to/fastspeech2-assignment-v5.zip`
+and restore only these three hash-verified files. Use `--archive /path/to/fastspeech2-assignment-v6.zip`
 to reuse a download, or `--check-only` to verify existing weights without network
 access. `src/setup/prepare_final_inference.py --nltk-only` downloads text resources
 while leaving frozen weights/configs intact.

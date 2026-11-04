@@ -1,8 +1,8 @@
 {
-  "audited_utc": "2026-11-04T15:27:38.040601+00:00",
+  "audited_utc": "2026-11-04T16:01:19.618814+00:00",
   "instructions": "FastSpeech2_Assignment.pdf, pages 1-3",
   "code_base_commit": "a6723d3ef01e01c42accf2802a5b826f45949dfc",
-  "documentation_release": "assignment-v5",
+  "documentation_release": "assignment-v6",
   "present": {
     "public_repository": true,
     "required_code_configs_and_layout": true,
@@ -11,9 +11,11 @@
     "exact_test_texts": 10,
     "generated_audios": 10,
     "variance_adaptor_plots": 30,
-    "report_pages": 25,
+    "report_pages": 26,
     "architecture_language_changes_data_loss_and_variance_analysis": true,
-    "reproducibility_details": true
+    "reproducibility_details": true,
+    "informal_author_overall_ratings": 10,
+    "author_pronunciation_followup_and_language_comparison": true
   },
   "source_selection_and_separation": {
     "english": {
@@ -43,20 +45,16 @@
   "documentation_fixes": {
     "main_readme_lines": 50,
     "detailed_reproduction_guide": "src/docs/REPRODUCIBILITY.md",
-    "stale_test_discovery_paths_corrected_in_readme_guide_report": true
+    "stale_test_discovery_paths_corrected_in_readme_guide_report": true,
+    "final_recording_author_review_added": true
   },
-  "missing_report_content": [
-    "Pronunciation and overall speech-quality observations for E1, E2a, E2b, E3, E4, T1, T2a, T2b, T3 and T4",
-    "Listening-based English/Telugu quality comparison using those observations"
-  ],
+  "missing_report_content": [],
   "final_recording_reviews_saved": {
-    "ratings.json": 0,
-    "listening-review-v1.json": 0
+    "listening-review-v1.json": 10,
+    "ratings.json": 0
   },
   "remaining_actions": [
-    "Listen to each of the ten final recordings and record concrete observations",
-    "Add observations and language comparison to the report, then publish the revised report/package",
-    "Submit the public repository URL through the assignment form"
+    "Submit the public repository URL through the assignment form."
   ],
   "form": {
     "url": "https://forms.gle/7tgHgKJLjpBXwcBj6",
@@ -68,6 +66,10 @@
     "Formal MOS panel",
     "Additional retraining"
   ],
-  "current_readiness": "Report listening evaluation incomplete; files and software deliverables present",
-  "cloud_resources_used": false
+  "current_readiness": "Requested code, artifacts, per-test author overall ratings and set-level pronunciation/language comparison are documented; informal evaluation limitations disclosed.",
+  "cloud_resources_used": false,
+  "remaining_evaluation_limits": [
+    "Author reported no specific pronunciation issues across both language sets; no detailed word-level notes or separate clarity/noise/prosody ratings were supplied.",
+    "Single informal author review; no independent panel, MOS or established audible pause-training gain."
+  ]
 }

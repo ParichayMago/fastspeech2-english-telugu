@@ -34,8 +34,8 @@ python3 src/setup/download_checkpoints.py
 ```
 
 Large checkpoints are available in the
-[complete submission ZIP](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v5/fastspeech2-assignment-v5.zip)
-with [SHA256SUMS](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v5/SHA256SUMS).
+[complete submission ZIP](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v6/fastspeech2-assignment-v6.zip)
+with [SHA256SUMS](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v6/SHA256SUMS).
 Model hashes are recorded in [checkpoint_manifest.json](src/setup/checkpoint_manifest.json).
 
 ## Results and reproduction
@@ -45,6 +45,6 @@ Model hashes are recorded in [checkpoint_manifest.json](src/setup/checkpoint_man
 - [Preprocessing, training, dependencies and verification commands](src/docs/REPRODUCIBILITY.md)
 - [License](LICENSE)
 
-English speaker labels are estimated. Per-sentence pronunciation and overall
-speech-quality observations for the final recordings remain incomplete; see the
-report's limitations.
+English speaker labels are estimated. All 10 final recordings received a Good
+rating in one informal author review, with no specific pronunciation issues
+noticed in either language. Independent listening evaluation remains limited.
