@@ -614,8 +614,8 @@
       "sha256": "1cef0d77e4a094cef98247d553784f6dbc2ee3d5b77e05ebe3ac95aee8d6219d"
     },
     "English/docs/REPRODUCIBILITY.md": {
-      "bytes": 13171,
-      "sha256": "bd8e21d324ac07a673e602857aed2bdd86b440345f0c819128e440feb7e4aea6"
+      "bytes": 13155,
+      "sha256": "8236c37955e2e07c422b00a16eae8f01e9a05bf79342b406874a2dc65d7302fd"
     },
     "English/docs/UPSTREAM_README.md": {
       "bytes": 7305,
@@ -794,8 +794,8 @@
       "sha256": "df597b8e3b043b83142c341e979eaf9a4e90ccba4e91b5ed2c84d06b0ece3138"
     },
     "English/setup/build_technical_report.py": {
-      "bytes": 63502,
-      "sha256": "c427528c24cf77007a4fadaccde8345f233889e614868979c8df25c717f7bf00"
+      "bytes": 53216,
+      "sha256": "4972772a678e8ed68976a25ded07f6f94a51ad792ca8b1a5fec906e8fb86feff"
     },
     "English/setup/check_environment.py": {
       "bytes": 4799,
@@ -830,8 +830,8 @@
       "sha256": "9d860a38fa7a38e4548191e57b46e068682ee7df75be28da4aa0a08cf3e4ddd4"
     },
     "English/setup/create_report_figures.py": {
-      "bytes": 7810,
-      "sha256": "a09d53a88241b6a90497ac0d4022f25313093f1db2f1cf0dca9a0b7121374aff"
+      "bytes": 7803,
+      "sha256": "bc783bc44112776c356ca81a85a378ddd7a68ce5fd17d228fc9172bb9bc3f1fa"
     },
     "English/setup/diagnose_english_speech.py": {
       "bytes": 8516,
@@ -1166,8 +1166,8 @@
       "sha256": "11323fed33c99ba9330fcede2c6f2661f53bcbf9f119bfc515c02ac09e8b3ee5"
     },
     "Report/Final_Inference_and_Test_Outputs.txt": {
-      "bytes": 10123,
-      "sha256": "4bf3c703e19ab0fedc97e40eb4946873a26df5fc357712a921a63bde479165db"
+      "bytes": 10120,
+      "sha256": "dc344362c1136b0f7a808f0c20cb9cd63744bc7dfed0992b4878217640056bf8"
     },
     "Report/Initial_Speech_Review.txt": {
       "bytes": 1962,
@@ -1182,8 +1182,8 @@
       "sha256": "826eb682ef27c9547a360436c06cbd1187519706260fa9949974688a9376e281"
     },
     "Report/Technical_Report.pdf": {
-      "bytes": 2362442,
-      "sha256": "10451f92ffd22c15bc829d123c879d75986c1f26379386a8d86dffbfda67e11f"
+      "bytes": 2362367,
+      "sha256": "0ba46f67ab72d1413872161f48649a9730359b58ea149bd7b5a51944580b3489"
     },
     "Report/Training_Methods.txt": {
       "bytes": 2468,
@@ -1242,8 +1242,8 @@
       "sha256": "3c1e4cbf9f1b7a97358ef97d32b5f7d1343c29c76c266170ee20cd43dadc6a2b"
     },
     "Report/figures/pause_validation.png": {
-      "bytes": 106957,
-      "sha256": "04d16ae696104c453de1bdc4250af578a917044a7a0a0ea79f4ec1b64e5524e1"
+      "bytes": 106593,
+      "sha256": "3534fa9e53e20075ec46b6efb5bbf66d843de86d1498e7f0faa4c07cab0dfb54"
     },
     "Report/fonts/DejaVuSans-Bold.ttf": {
       "bytes": 704128,
@@ -1274,12 +1274,12 @@
       "sha256": "481c72a8f1b4f645a7e6b10326be41b2da2c15cb470ff48a07fab773eed00102"
     },
     "Report/report-section-plan.json": {
-      "bytes": 1129,
-      "sha256": "670b8a457283e40cbb4a5be1e31900bfa7fb9b36a29336be371dd04766dfada4"
+      "bytes": 1097,
+      "sha256": "a529c8ed1ab9cffd874416ad28df812dc0671fa5fa424f92d60ee5afd38144a2"
     },
     "Report/report-text.txt": {
-      "bytes": 56166,
-      "sha256": "03c7d6549d670b11d06e8de5df59f6a0df9b6558d3d15451dafbcab7b88fe05f"
+      "bytes": 44923,
+      "sha256": "3ddda21df3aa8e7b34f4e53b79109d25958082fbe20d09ddbc5ac7de3ae8c064"
     },
     "Report/report-verification.json": {
       "bytes": 15520,
@@ -1826,8 +1826,8 @@
       "sha256": "72e9887f074c3eb6f3891801b35d5a4f6156d55d2f0a474222d320df8e364e55"
     },
     "Telugu/setup/build_technical_report.py": {
-      "bytes": 63502,
-      "sha256": "c427528c24cf77007a4fadaccde8345f233889e614868979c8df25c717f7bf00"
+      "bytes": 53216,
+      "sha256": "4972772a678e8ed68976a25ded07f6f94a51ad792ca8b1a5fec906e8fb86feff"
     },
     "Telugu/setup/check_environment.py": {
       "bytes": 4795,
@@ -1862,8 +1862,8 @@
       "sha256": "fde9527ba6e8f0200a1b650da258f18db15c52c74068f363f02c8797f0fca328"
     },
     "Telugu/setup/create_report_figures.py": {
-      "bytes": 7809,
-      "sha256": "e5dffd769b3695ac38edcb76f799249a430677d623606afb52111552ebb5eb71"
+      "bytes": 7802,
+      "sha256": "b00fdb55d91ff60a6633daae5ffdf623eebc16aae02f08a4f5255e5492803717"
     },
     "Telugu/setup/diagnose_english_speech.py": {
       "bytes": 8513,

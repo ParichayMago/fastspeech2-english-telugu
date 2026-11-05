@@ -1,5 +1,5 @@
 Submission delivery update - 4 November 2026
-The assignment-v1 release packages the final checkpoints, frozen vocoder, report,
+The submission archive packages the final checkpoints, frozen vocoder, report,
 code and outputs. The README documents restoration and SHA256 verification.
 References below to pending packaging describe the earlier local output freeze.
 

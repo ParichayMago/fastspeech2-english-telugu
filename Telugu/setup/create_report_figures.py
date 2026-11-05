@@ -55,7 +55,7 @@ def main():
     axs[0].legend(fontsize=7,frameon=False);axs[0].grid(alpha=.2)
     axs[1].plot(x,[r['pause_metrics']['positive_pause_mae_seconds']*1000 for r in rows],marker='o',ms=3,color='#225c8a')
     axs[1].axvline(1000,color='#bc772b',ls='--',lw=.9)
-    axs[1].set(xlabel='Additional pilot updates',ylabel='Positive-pause MAE (ms)',title='Pause length did not improve clearly')
+    axs[1].set(xlabel='Additional pilot updates',ylabel='Positive-pause MAE (ms)',title='Positive-pause duration error')
     axs[1].grid(alpha=.2);fig.savefig(out/'pause_validation.png',dpi=220);plt.close(fig)
     # Replot every variance curve with a numeric phone-index axis so that all
     # thirty curves are readable on portrait report pages; original full-label

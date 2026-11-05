@@ -3,7 +3,7 @@
     "Abstract and implementation overview",
     "1. Introduction and dataset preparation",
     "2. Method: architecture and language support",
-    "2.1 Preprocessing and alignment repair",
+    "2.1 Preprocessing and alignment",
     "3. Experimental setup and loss functions",
     "4. Results: baseline model training",
     "4.1 English fine-tuning experiments",
@@ -22,9 +22,9 @@
     "6. Discussion and conclusions",
     "Appendix A. Reproducibility",
     "Appendix B. Checkpoints and artifacts",
-    "Appendix C. Post-review corrections",
-    "Appendix D. Speaker coverage and remaining limits",
-    "Appendix E. Independent-review follow-up",
+    "Appendix C. Software verification",
+    "Appendix D. Speaker coverage",
+    "Appendix E. Additional software checks",
     "References"
   ],
   "planned_page_count": 26

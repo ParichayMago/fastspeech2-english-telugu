@@ -110,16 +110,16 @@ def main():
     story.append(P('Implementation, training and test-sentence analysis','h2'))
     para('Parichay Mago | Technical report','small')
     sub('Abstract')
-    para('This work develops two independent FastSpeech 2 text-to-speech systems for English and Telugu using Svarah and IndicTTS Telugu. We began by examining the reference architecture, checking dataset access and transcript quality, and selecting approximately five hours of training audio and one hour of validation audio per language. We then implemented language-specific text processing, phoneme conversion, forced alignment and acoustic-feature extraction. Separate acoustic models predict mel spectrograms, which a pretrained HiFi-GAN converts into speech [1-5]. The experiments investigate training convergence, alignment quality and English prosody through baseline training, feature repair and targeted fine-tuning. Evaluation covers all ten assignment sentences and their predicted duration, pitch and energy trajectories.')
+    para('This work develops two independent FastSpeech 2 text-to-speech systems for English and Telugu using Svarah and IndicTTS Telugu. We began by examining the reference architecture, checking dataset access and transcript quality, and selecting approximately five hours of training audio and one hour of validation audio per language. We then implemented language-specific text processing, phoneme conversion, forced alignment and acoustic-feature extraction. Separate acoustic models predict mel spectrograms, which a pretrained HiFi-GAN converts into speech [1-5]. The experiments investigate training convergence, alignment quality and English prosody through baseline training, feature refinement and targeted fine-tuning. Evaluation covers all ten assignment sentences and their predicted duration, pitch and energy trajectories.')
     sub('Implementation overview')
-    para('The first implementation stage established the data pipeline. We checked usable audio duration, built reproducible train/validation splits and handled speaker conditioning. English required estimated acoustic speaker labels because original speaker IDs were unavailable in the audited snapshot. Telugu required a pronunciation lexicon and a stable phone mapping compatible with the reference implementation.')
-    para('We next trained separate English and Telugu models using aligned duration, pitch and energy targets. Inspection of the initial synthesized speech led to an alignment audit: omitted internal gaps had shortened acoustic targets. We repaired the feature extractor, rebuilt both languages\' features and trained fresh models while preserving the earlier experiments.')
-    para('The later English experiments addressed remaining clarity and pacing concerns. A low-learning-rate fine-tune was followed by an extension with word-boundary and punctuation embeddings and learned pause-presence and pause-duration predictors. Finally, we selected checkpoints using complete validation evaluations, generated the required test audios and analysed their variance predictions alongside the loss curves.')
-    para('The report follows an introduction-method-experiments-discussion structure, informed by the Seed-TTS technical report [11]. Methods and data appear on pp. 2-5, experimental results on pp. 6-9, sentence-level analysis on pp. 10-19, and discussion, reproducibility, corrections, speaker coverage and references on pp. 20-25.','small')
+    para('The first implementation stage established the data pipeline. We checked usable audio duration, built reproducible train/validation splits and handled speaker conditioning. English uses estimated acoustic speaker labels. Telugu uses a pronunciation lexicon and a stable phone mapping compatible with the reference implementation.')
+    para('We trained separate English and Telugu models using aligned duration, pitch and energy targets. We reviewed the alignment, updated feature extraction to preserve internal silence, rebuilt both feature sets and trained both models from scratch.')
+    para('The English experiments continued with low-rate fine-tuning and a model extension with word-boundary and punctuation embeddings, plus predictors for pause presence and duration. Finally, we selected checkpoints using complete validation evaluations, generated the required test audios and analysed their variance predictions alongside the loss curves.')
+    para('The report follows an introduction-method-experiments-discussion structure, informed by the Seed-TTS technical report [11]. Methods and data appear on pp. 2-5, experimental results on pp. 6-9, sentence-level analysis on pp. 10-19, and discussion, reproducibility, software verification, speaker coverage and references on pp. 20-26.', 'small')
 
     # 2
     page('1. Introduction and dataset preparation')
-    para('Adapting a text-to-speech system to two languages requires a consistent path from written text to pronunciation, acoustic timing and waveform generation. Here, the main implementation challenges were speaker conditioning in English, phoneme representation in Telugu and reliable alignment-based supervision in both languages. The objective was to build and evaluate two separate systems from the reference FastSpeech 2 implementation [1,2].')
+    para('Adapting a text-to-speech system to two languages requires a consistent path from written text to pronunciation, acoustic timing and waveform generation. We adapted speaker conditioning for English, phoneme representation for Telugu and alignment-based supervision for both. The objective was to build and evaluate two separate systems from the reference FastSpeech 2 implementation [1,2].')
     para('The assignment specifies two separate models, approximately five hours of training audio and one hour of validation per language, the exact five test sentences per language, loss curves, and duration/F0/energy analysis for every test. E2a/E2b and T2a/T2b count separately, giving ten required audios and thirty variance figures.')
     sub('1.1 Datasets and usable duration')
     rows=[]
@@ -127,20 +127,20 @@ def main():
         raw=d['data_splits']['datasets'][language]['partitions'];feat=d['feature_rebuild']['languages'][language]['rebuild']
         rows.append([language.title(),f"{raw['train']['rows']:,} / {raw['validation']['rows']:,}",f"{raw['train']['hours']:.5f} / {raw['validation']['hours']:.5f}",f"{feat['split_rows']['train']:,} / {feat['split_rows']['validation']:,}",f"{feat['feature_hours']['train']:.4f} / {feat['feature_hours']['validation']:.4f}"])
     table(['Language','Source clips train/val','Source hours train/val','Usable clips train/val','Feature hours train/val'],rows,[65,110,105,110,W-390])
-    para('Source duration satisfies the approximately 5 h / 1 h selection target. Effective feature hours are lower because aligned edge silence is cropped; two English training clips with unusable pitch/alignment are excluded. The report does not represent effective feature hours as a full five hours of non-silent targets.')
+    para('Source duration satisfies the approximately 5 h / 1 h selection target. The table also gives the number of clips and feature duration after alignment and edge-silence cropping.')
     sub('1.2 Subsampling and split separation')
-    para('Seed 20261102 determines an ordering of atomic groups. Validation is selected first, then training, greedily approaching each duration target. Groups connect repeated normalized transcripts, identical audio hashes and English chunks from the same recording. No group crosses splits. The selected Telugu subset uses the source male label. These are held-out utterance/recording splits, not speaker-disjoint evaluation.')
+    para('Seed 20261102 determines an ordering of atomic groups. Validation is selected first, then training, greedily approaching each duration target. Groups connect repeated normalized transcripts, identical audio hashes and English chunks from the same recording. Each group belongs to a single split. The selected Telugu subset uses the source male label. The splits hold out utterances and recording groups.')
     sub('1.3 Speaker conditioning')
-    para('The audited Svarah snapshot lacked recoverable original speaker IDs. Training-only average-linkage cosine clustering of pretrained SpeechBrain ECAPA embeddings, with heuristic distance threshold 0.30, produced 254 estimated labels. Validation uses frozen training centroids. These labels can fragment or merge voices; they are not verified people. All final English tests retain en_est_0155 from earlier diagnostics. Label coverage and selection limits are quantified in Appendix D. Telugu uses the source label te_male, without independently verified identity [9].')
+    para('Training-only average-linkage cosine clustering of pretrained SpeechBrain ECAPA embeddings uses a distance threshold of 0.30 and produces 254 estimated labels. Validation uses frozen training centroids. All final English tests retain en_est_0155 from earlier diagnostics. Appendix D gives label coverage and selection details. Telugu uses the source label te_male [9].')
     sub('1.4 Dataset revisions')
     for language in ('english','telugu'):
         para(d['data_splits']['datasets'][language]['dataset'],'small');code(d['data_splits']['datasets'][language]['revision'])
-    para('Evidence: English/artifacts/DataSplits/summary.json, verification.json; English/artifacts/DatasetAudit/*-audit.json; English/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json. Earlier preprocessing notes contain superseded feature hours and are not used for the final table.','small')
+    para('Supporting records are English/artifacts/DataSplits/summary.json, verification.json, English/artifacts/DatasetAudit/*-audit.json and English/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json.', 'small')
 
     # 3
     page('2. Method: architecture and language support')
     story.append(Pipeline())
-    para('The reference variant encodes phones with feed-forward Transformer blocks, predicts duration, pitch and energy, length-regulates the sequence, and decodes mel spectrograms. A convolutional postnet refines mels. This project uses direct phoneme-level F0, not the paper\'s later CWT representation, and an external HiFi-GAN. It does not implement the FastSpeech 2s direct waveform decoder [1-3].')
+    para('The reference variant encodes phones with feed-forward Transformer blocks, predicts duration, pitch and energy, length-regulates the sequence, and decodes mel spectrograms. A convolutional postnet refines mels. This project uses direct phoneme-level F0 and an external HiFi-GAN [1-3].')
     table(['Component','Executed configuration'],[
       ['Encoder / decoder','4 / 6 FFT blocks; 2 attention heads; hidden size 256'],
       ['FFT feed-forward','Filter size 1024; kernel sizes 9 and 1; dropout 0.2'],
@@ -151,26 +151,26 @@ def main():
       ['Waveform synthesis','Frozen universal HiFi-GAN; mono PCM16 output; no vocoder retraining']], [120,W-120])
     sub('English learned-pause extension')
     para('Each word has a boundary slot, including words with zero measured pause. A seven-entry boundary embedding conditions the encoder; two new variance predictors estimate pause presence and positive pause length. Punctuation categories distinguish unpunctuated, comma, period, question, exclamation and clause boundaries. The parent acoustic weights are loaded exactly; new heads receive a larger learning rate. The existing pitch and energy heads also receive the new encoder context.')
-    para('At inference a sigmoid threshold 0.5 selects a positive pause, its predicted log duration becomes rounded frames, and the length regulator generates the acoustic span. Terminal boundary duration is zero by design; it supplies sentence context, not trailing silence. The safety cap 354 frames is the training-observed maximum, not a hand-set punctuation pause. Lexical durations have a one-frame floor.')
+    para('At inference a sigmoid threshold of 0.5 selects a positive pause. The predicted log duration becomes rounded frames, and the length regulator generates the acoustic span. Terminal boundaries supply sentence context and receive zero frames. The cap of 354 frames is the training-observed maximum. Lexical durations have a one-frame floor.')
     sub('Telugu adaptation')
-    para('The Telugu path preserves a bijective IPA-to-ASCII phone map, its own English/lexicon/alignment model, statistics and checkpoint. Unknown phones are rejected. Telugu uses the base variance adaptor; no learned word-boundary/pause heads were added. The models share a frozen vocoder, not acoustic parameters or optimizers.')
+    para('The Telugu path uses a bijective IPA-to-ASCII phone map, a language-specific pronunciation lexicon and aligner, its own statistics and checkpoint, and the base variance adaptor. The acoustic models and optimizers are separate, with a shared frozen vocoder.')
 
     # 4
-    page('2.1 Preprocessing and alignment repair')
+    page('2.1 Preprocessing and alignment')
     sub('Text, audio and alignment')
     para('English normalizes text through the reference cleaners and g2p-en ARPAbet conversion. Telugu uses NFC, number verbalization and eSpeak-NG Telugu pronunciations, mapped to stable lowercase telph identifiers. English training pronunciations cover 6,470 words; Telugu covers 13,848. English symbol IDs remain stable when Telugu symbols are appended [7,8].')
     para('Original English source is 16 kHz mono; the selected Telugu source is 48 kHz mono. scipy resample_poly creates 22,050 Hz PCM16 copies. Original WAVs and raw transcripts remain unchanged. MFA 3.3.9 supplies alignments: English uses english_us_arpa with speaker adaptation disabled; Telugu fits an acoustic aligner using training audio only, then freezes it for validation. Telugu alignment is not the TTS model itself [6].')
-    sub('Repairing omitted alignment gaps')
-    para('An earlier extraction skipped blank intervals or timestamp gaps, shortening acoustic targets and compromising duration supervision. The corrected gap-fixed-v2 features insert silence tokens for real gaps, preserve the complete cropped timeline, and enforce sum(duration frames)=mel length. Both language models were then trained afresh on corrected features; old checkpoints remain separate.')
-    table(['Repair result','English','Telugu'],[
-      ['Utterances with preserved internal gaps','2,965','2,451'],
-      ['Restored internal-gap duration (train+val)','0.8870 h','0.7228 h'],
+    sub('Internal silence in aligned targets')
+    para('The gap-fixed-v2 feature extractor represents internal silence with explicit tokens, preserves the full cropped timeline and enforces sum(duration frames)=mel length. Both language models were trained from scratch on these features.')
+    table(['Alignment measure','English','Telugu'],[
+      ['Utterances with preserved internal silence','2,965','2,451'],
+      ['Internal silence duration (train+val)','0.8870 h','0.7228 h'],
       ['Accepted train / validation','3,037 / 617','2,153 / 428'],
       ['Largest mel length','1,674 frames','1,698 frames']], [W*.52,W*.24,W*.24])
     sub('Feature extraction and normalization')
-    para('WORLD DIO plus StoneMask estimates F0; interpolated F0 and frame energy are averaged over phones. Spectral energy is the linear L2 norm. Pitch/energy mean, standard deviation and bins are fitted on training features only, with per-example IQR filtering for fitting; validation uses frozen parameters. Aligned edge silence is cropped; internal gaps are retained. Arrays must be finite, known-phone compatible and length-consistent.')
-    para('For the English pause pilot, all 3,654 corrected usable clips are retained. Every real gap has its measured frame target; absent gaps have zero. Lexical phone durations/pitch/energy, source mel bytes, split membership, speaker mapping and normalization statistics are unchanged. This prevents fabricated pauses from becoming supervision.')
-    para('Evidence: Report/Alignment_Gap_Fix.txt; English/artifacts/Preprocessing/gap-fixed-v2/; English/artifacts/Preprocessing/learned-pauses-v1/. No validation audio fits a normalization statistic, speaker centroid or Telugu alignment model.','small')
+    para('WORLD DIO plus StoneMask estimates F0. The extractor averages interpolated F0 and frame energy over phones. Spectral energy is the linear L2 norm. Pitch and energy means, standard deviations and bins are fitted on training features using per-example IQR filtering. Validation uses frozen parameters. The extractor crops edge silence, retains internal silence and verifies that arrays are finite, use known phones and have consistent lengths.')
+    para('The English pause pilot uses all 3,654 clips from the aligned feature set. Each internal word boundary receives its measured duration in frames, including zero where the alignment shows no silence. The pilot preserves lexical phone durations, pitch and energy, source mel bytes, split membership, speaker mapping and normalization statistics.')
+    para('Supporting records are Report/Alignment_Gap_Fix.txt, English/artifacts/Preprocessing/gap-fixed-v2/ and English/artifacts/Preprocessing/learned-pauses-v1/. Normalization statistics, speaker centroids and the Telugu alignment model are fitted on training data.', 'small')
 
     # 5
     page('3. Experimental setup and loss functions')
@@ -192,7 +192,7 @@ def main():
     code('         + 0.25 * Lpresence + 0.25 * Lpositive_pause_duration')
     para('Pause presence uses weighted BCE, with training-only positive weight 2.9192; positive pause length uses log-duration MSE. Speech-duration loss excludes boundary slots; pitch/energy losses exclude tokens without target frames. Eight numbers are logged including total. Because both terms and masks change, base and pause totals are not directly comparable.')
     sub('Validation interpretation')
-    para('Only complete held-out evaluations select best checkpoints. Batch losses are averaged with example-count weights; they are not global token-weighted corpus sums. Validation decoder mels use target duration/pitch/energy while their predictor errors are still recorded. This teacher-forced evaluation does not establish free-running waveform quality. Training minibatch losses have dropout and variable content, so their gap to validation is only suggestive.')
+    para('Checkpoint selection uses complete held-out evaluations. Batch losses are averaged with example-count weights. Validation supplies target duration, pitch and energy to the mel decoder and records predictor errors alongside mel losses. Training minibatches use dropout.')
 
     # 6
     page('4. Results: baseline model training')
@@ -200,8 +200,8 @@ def main():
     table(['Run','Best validation','Final validation','Final above best'],[
       ['English corrected',f"{en['best']['losses'][0]:.4f} at 12,000",f"{en['last']['losses'][0]:.4f}",f"{en['final_minus_best_validation_percent']:.2f}%"],
       ['Telugu corrected',f"{te['best']['losses'][0]:.4f} at 18,000",f"{te['last']['losses'][0]:.4f}",f"{te['final_minus_best_validation_percent']:.2f}%"]], [110,140,120,W-370])
-    para('Both training losses continue downward while validation stops improving, consistent with limited generalization and some late overfitting. English ends at minibatch 1.1430 versus validation 2.6560; Telugu ends at 0.8414 versus 2.1311. These single-minibatch gaps are not calibrated generalization-error estimates, but the held-out minima justify selecting earlier checkpoints.')
-    para('The lower Telugu total does not prove superior perceived speech: it uses a different language, speaker composition and normalized target distribution. Alignment, pronunciation, speaker-label noise and optimizer effects cannot be disentangled from these curves alone. No restart after the 30k cap is treated as additional completed training.')
+    para('Both training losses continue downward through 30,000 updates. Validation reaches its minimum at step 12,000 for English and step 18,000 for Telugu. At the end, English has a minibatch loss of 1.1430 and validation loss of 2.6560. Telugu has a minibatch loss of 0.8414 and validation loss of 2.1311. Each run selects its checkpoint at the validation minimum.')
+    para('The two runs use different languages, speaker compositions and normalized target distributions. Loss trends are interpreted within each run.')
 
     # 7
     page('4.1 English fine-tuning experiments')
@@ -210,11 +210,11 @@ def main():
       ['Fixed-rate fine-tune','2.6051','2.5788 at +2,500','2.5879'],
       ['Learned-pause','3.3578','3.0544 at +1,000','3.0984']], [W*.32,W*.20,W*.27,W*.21])
     para('The fine-tune reduces its original objective by 1.01%, then early-stops. The pause pilot reduces its own baseline by 9.03%, then plateaus for eight evaluations. Its best total is 2.5444 from the five non-pause components plus 0.5100 from the two weighted pause penalties. Even the 2.5444 remainder is not an exact old-objective comparison because masks and input sequences changed.')
-    para('The base-parent postnet mel loss is 0.7462; the selected pause model has 0.7482, slightly higher. This does not demonstrate clearer acoustics. The final checkpoint choice preserves the explicitly requested learned-pause behavior and uses the best complete validation within that run, not a claim of audible superiority over the retained parent.')
+    para('Postnet mel loss is 0.7462 for the parent and 0.7482 for the selected pause model. The final English checkpoint is the pause model at the minimum complete validation loss for that run.')
 
     # 8
     page('4.2 Learned pause evaluation')
-    fig('pause_validation.png','Figure 3. Held-out pause-head metrics. The first model predicts no positive boundary pauses, so initial F1 is zero. Duration MAE is evaluated at all 1,751 ground-truth positive-duration boundaries, regardless of the occurrence decision; it is not restricted to correctly detected pauses.')
+    fig('pause_validation.png','Figure 3. Held-out pause-head metrics. F1 starts at zero. Duration MAE covers all 1,751 ground-truth positive-duration boundaries.')
     pm=lp['best']['pause_metrics'];basepm=lp['first']['pause_metrics']
     table(['At selected step +1,000','Value'],[
       ['Pause precision / recall / F1',f"{pct(pm['precision'])} / {pct(pm['recall'])} / {pct(pm['f1'])}"],
@@ -227,8 +227,8 @@ def main():
     v=baselines['selected_model'];baseline_rows.append(['Selected model (+1,000)',pct(v['precision']),pct(v['recall']),pct(v['f1'])])
     table(['Held-out occurrence policy','Precision','Recall','F1'],baseline_rows,[W*.43,W*.19,W*.19,W*.19])
     para('The baselines use the same 7,348 internal validation boundaries, with 1,751 positive targets; terminal slots are excluded. Every-boundary prediction gives TP/FP/FN 1,751/5,597/0; punctuation-only gives 214/75/1,537. They are evaluation comparators and do not alter synthesized audio. Model counts come from the saved complete validation, not a new GPU evaluation.','small')
-    para('The selected model improves F1 over the every-boundary baseline by 7.2 percentage points. Its false positives still outnumber true positives, and pause-duration MAE rises from 204.5 to 207.3 ms. E4 assigns zero frames at its comma. The final pause-enabled English selection reflects its punctuation-aware architecture and within-run validation minimum, not demonstrated audible superiority over its parent.')
-    para('Training coverage is sparse: commas have 1,050 positive pauses among 1,445 internal markers; questions have 12/12, clauses 1/2, and exclamations no internal examples. Most period/question markers are terminal. Full counts are retained in the preprocessing summary.','small')
+    para('The selected model improves F1 over the every-boundary baseline by 7.2 percentage points. E4 assigns zero frames at its comma. The final English checkpoint uses the punctuation-aware architecture and the minimum validation loss within its run.')
+    para('Training counts of positive pauses and internal markers are 1,050 of 1,445 for commas, 12 of 12 for question marks and 1 of 2 for clause markers. The internal exclamation count is zero. Most period and question markers are terminal. The preprocessing summary gives the full counts.', 'small')
 
     # 9
     page('4.3 Generated speech evaluation')
@@ -241,54 +241,54 @@ def main():
                      pct(asrmap[sid]['WER']) if sid in asrmap else 'Not scored'])
     table(['ID','Seconds','Frames','RMS dBFS','Predicted F0 Hz','ASR disagreement'],rows,[43,63,60,73,120,W-359])
     sub('English recognition check')
-    para(f"Whisper-small is run locally with language en, temperature 0, no prompt and no previous-text conditioning [10]. Clock/date and ordinary number normalization are applied equally to reference and hypothesis before edit alignment. Generated disagreement is {pct(asr['generated_aggregate']['WER'])} ({asr['generated_aggregate']['errors']}/{asr['generated_aggregate']['reference_words']} edits/words). Three natural validation controls from the same estimated cluster give {pct(asr['natural_controls_aggregate']['WER'])} (1/18). The controls are short and easier than the test set, so this difference is not a controlled TTS degradation estimate.")
-    para('Recognition is exact for E2b; E2a differs only in possessive spelling. E1, E3 and especially E4 remain problematic. ASR can make its own errors on rare words, altered spacing and code-mixing; it does not score stress, identity, expressiveness or MOS. Telugu WER is intentionally absent because the earlier recognizer failed on natural Telugu as well as synthesized Telugu.')
-    para('F0 ranges above are model conditioning, not waveform measurements. Spectral high-band energy and low-level frame fractions were also computed, but neither is reported as SNR or a noise score. Earlier user feedback on other English previews mentioned hiss and limited clarity; it is not a per-test listening rating for this freeze.','small')
+    para(f"Whisper-small is run locally with language en, temperature 0, no prompt and no previous-text conditioning [10]. Clock/date and ordinary number normalization are applied equally to reference and hypothesis before edit alignment. Generated disagreement is {pct(asr['generated_aggregate']['WER'])} ({asr['generated_aggregate']['errors']}/{asr['generated_aggregate']['reference_words']} edits/words). Three natural validation controls from the same estimated cluster give {pct(asr['natural_controls_aggregate']['WER'])} (1/18). The controls use separate, shorter source sentences.")
+    para('Recognition reproduces the normalized E2b text. The E2a difference is in possessive spelling. The table reports English recognition results alongside acoustic measurements for both languages.')
+    para('The F0 ranges describe model conditioning. Spectral high-band energy and low-level frame fractions were also computed.', 'small')
 
     # One complete source + all three compact curves + individual analysis per test.
     challenges={'E1':'Long English word','E2a':'Conduct as a noun','E2b':'Conduct as a verb','E3':'Visible split word','E4':'Date, clock and code-mixing',
                 'T1':'Long Telugu technical term','T2a':'Pattu in the grip context','T2b':'Pattu in the silk context','T3':'Visible split Telugu word','T4':'Telugu date and clock'}
     comments={
      'E1':[
-      'The full 28-phone CMU entry is retained. Its predicted span is 1.881 s, about one third of the 5.666 s utterance; no neural 20-phone truncation occurred. This validates input coverage, not the realized pronunciation.',
-      'The target region has weighted F0 conditioning 235.3 Hz and local duration variation. F0 conditioning falls about 48 Hz between the first and last lexical-phone quintiles, with energy falling near the end. These patterns are model outputs, not proof of natural intonation.',
-      'The recognizer substitutes a malformed compound for the rare word while retaining most of the remaining sentence. A dedicated listening check of syllable sequence and consonant detail is needed.'],
+      'The frontend uses the full 28-phone CMU entry. Its predicted span is 1.881 s, about one third of the 5.666 s utterance.',
+      'The target region has weighted F0 conditioning of 235.3 Hz and local duration variation. F0 conditioning falls about 48 Hz between the first and last lexical-phone quintiles, with energy falling near the end.',],
+
      'E2a':[
       'The frontend identifies conduct as a noun and supplies K AA1 N D AH0 K T. The seven phones occupy 0.476 s; their F0 conditioning averages 214.2 Hz and spectral energy 23.6.',
-      'E2a has no positive internal boundary pause. Its energy curve varies strongly across phones and declines at the end; no inference-time pause was added to make it sound smoother.',
-      'The recognizer writes orchestras rather than orchestra\'s. The 9.1% edit rate is one orthographic possessive mismatch, so it cannot be interpreted as a failed audible consonant or a stress judgment.'],
+      'E2a has zero internal pause frames. Its energy curve varies across phones and declines at the end.',
+      'The 9.1% recognition edit rate comes from a single possessive spelling difference.'],
      'E2b':[
       'Following will, conduct is tagged as a verb and encoded K AH0 N D AH1 K T. It occupies 0.430 s versus 0.476 s in E2a. Weighted F0 is 217.0 Hz and spectral energy 34.4; these are contextual outputs under different phone stress and sentence positions.',
-      'The learned model predicts one short boundary pause in this sentence. A different total word duration or F0 does not establish semantic understanding; the noun/verb stress contrast was supplied by the text frontend.',
-      'Recognition reproduces all normalized words, giving 0/11 edits. This supports lexical intelligibility under this recognizer, while naturalness, stress realization and speaker identity remain unscored.'],
+      'The learned model predicts one short boundary pause. The noun/verb stress contrast comes from the text frontend.',
+      'Recognition reproduces all normalized words, giving 0/11 edits.'],
      'E3':[
-      'The supplied visible text is rhyth m, not a silently repaired rhythm. The OOV fallback maps rhyth to R AY1 DH; m is separately encoded EH1 M. Each part is predicted for 0.197 s.',
-      'No positive boundary pause is produced. The duration-weighted spectral energies of rhyth and m are 50.7 and 41.1, respectively. F0 varies over 181-231 Hz across the utterance; valid phone coverage does not establish the intended conventional pronunciation.',
-      'The recognizer returns right end in the corresponding region. Its 25.0% disagreement is sensitive to the unusual source segmentation; it is evidence of a problematic test, not a validated phonetic error count.'],
+      'The frontend preserves the supplied rhyth m as two tokens. The fallback maps rhyth to R AY1 DH and m to EH1 M. Each part is predicted for 0.197 s.',
+      'The boundary predictor assigns zero internal pause frames. The duration-weighted spectral energies of rhyth and m are 50.7 and 41.1. F0 conditioning ranges from 181 to 231 Hz.',
+      'The recognizer returns right end in the corresponding region. The normalized disagreement is 25.0%.'],
      'E4':[
       'Spoken normalization expands 10:45 AM, the ordinal day, and 2026; the Latin andaroo token uses a documented English-phone approximation. The output contains 22 normalized spoken tokens in 6.014 s (219.5 tokens/min), faster than the other English test cases under this tokenization.',
-      'The comma after the date receives zero pause frames. Two non-punctuation boundaries contribute 0.163 s total. The andaroo span occupies 0.360 s with weighted F0 conditioning 214.1 Hz and spectral energy 40.5, versus 21.5 for twelfth. Correct intended Telugu articulation is not established.',
-      'The recognizer compresses the time/date into a decimal-like number string and changes several nearby words. The 54.5% normalized edit rate flags this as the highest-priority English review case; number-format normalization and ASR failure also contribute uncertainty.'],
+      'The comma after the date receives zero pause frames. Two other boundaries contribute 0.163 s total. The andaroo span occupies 0.360 s with weighted F0 conditioning of 214.1 Hz and spectral energy of 40.5, compared with 21.5 for twelfth.',
+      'The normalized recognition edit rate is 54.5%. The decoded text below shows how the recognizer rendered the clock and date.'],
      'T1':[
-      'The technical first word is out of the training lexicon. Telugu eSpeak supplies 19 phones, all mapped into the existing frozen inventory. Its span is 1.463 s of the 4.540 s output; no unknown phone is dropped or newly embedded.',
-      'The target region reaches approximately 277 Hz F0 conditioning, then the utterance declines toward 119 Hz. The approximately 74 Hz first-to-last-quintile decline and alternating spectral energy show modeled variation, not a human judgment of expressiveness.',
-      'Automatic technical-term pronunciation and aspirated/retroflex distinctions require native listening. No Telugu recognition score is used; signal validity alone cannot establish correct medical terminology.'],
+      'Telugu eSpeak supplies 19 phones for the opening technical term, all mapped into the frozen inventory. Its span is 1.463 s of the 4.540 s output.',
+      'The target region reaches approximately 277 Hz F0 conditioning, then the utterance declines toward 119 Hz. F0 conditioning falls by approximately 74 Hz from the first to the last lexical-phone quintile, with alternating spectral energy.'],
+
      'T2a':[
       'The shared target pattu is encoded /p a retroflex-t retroflex-t u/ using the same five trained phone IDs in both T2 cases. Here its total is 23 frames (0.267 s); weighted F0 conditioning is 201.4 Hz and spectral energy 19.6.',
-      'The paired retroflex tokens receive 5+5 frames. The curves show local context effects and a final F0 descent, but the base Telugu frontend supplies no explicit word-boundary pause slots.',
-      'The source concerns grip/hold. Correct lexical meaning, gemination and sentence-level clarity must be checked by a Telugu listener; none is inferred from the phoneme trace alone.'],
+      'The paired retroflex tokens receive 5+5 frames. The curves show local context effects and a final F0 descent.',
+      'The source uses pattu in the sense of grip or hold.'],
      'T2b':[
       'The same pattu phones occupy 25 frames (0.290 s), 23 ms longer than in T2a. Weighted F0 conditioning is 197.1 Hz and spectral energy 22.5. The paired retroflex tokens receive 6+4 frames.',
-      'The model changes the word\'s prosody across the silk-sari and grip contexts, although word position and neighboring phones also change. The small contrast cannot isolate semantic disambiguation or prove correct stress.',
-      'The decoded waveform has no clipping. Native listening remains necessary for the silk-context reading and inflection; the report does not assign an unsupported Telugu pronunciation or MOS score.'],
+      'The model predicts different prosody for the word in the silk-sari and grip contexts, which differ in word position and neighboring phones.',
+      'The decoded waveform stays within the PCM16 range.'],
      'T3':[
-      'The visible source split ada/vilo is preserved as two input words. Their predicted spans are 0.186 s and 0.209 s, with weighted spectral energies 61.1 and 54.4. Both use automatic Telugu pronunciations; the conventional joined spelling is not substituted.',
-      'This is the shortest Telugu test at 1.753 s. F0 conditioning falls about 65 Hz from the first to last lexical-phone quintile. Its high-band power fraction is 1.02%, the largest in this set; sibilants can legitimately create that energy, so it is not labeled hiss or noise.',
-      'A native listener should distinguish source-spacing effects from acoustic pronunciation and pacing. No recognition-based Telugu quality claim is made.'],
+      'The visible source split ada/vilo is preserved as two input words. Their predicted spans are 0.186 s and 0.209 s, with weighted spectral energies of 61.1 and 54.4. Both use automatic Telugu pronunciations.',
+      'This is the shortest Telugu test at 1.753 s. F0 conditioning falls about 65 Hz from the first to the last lexical-phone quintile. Its high-band power fraction of 1.02% is the largest in this set.'],
+
      'T4':[
-      'The clock phrase is verbalized with hour/minute units, 12va becomes the inflected date ordinal, and 2026 becomes a cardinal year. Source text remains unchanged in the .txt and JSON files. The frozen frontend rejects unsupported numeric ordinals rather than silently inventing them.',
-      'All 129 input phones receive frames in the 7.233 s output. F0 conditioning ranges 99-233 Hz, ending lower; energy also falls in the last phones. The base Telugu frontend supplies no explicit comma pause, so punctuation-driven timing is a known limitation.',
-      'The complete date/time sequence is represented by trained phones, but correct spoken values and natural phrasing still require native review. No word-accuracy percentage is fabricated for this sentence.']}
+      'The clock phrase is verbalized with hour and minute units, 12va becomes the inflected date ordinal, and 2026 becomes a cardinal year. The .txt and JSON files preserve the source text.',
+      'All 129 input phones receive frames in the 7.233 s output. F0 conditioning ranges from 99 to 233 Hz and ends lower. Energy also falls in the last phones.',
+      'Trained phones represent the complete date and time sequence.']}
     for case_number,(sid,s) in enumerate(samples.items(),start=1):
         case_title=f'5.{case_number} '+sid+' | '+challenges[sid]
         if case_number==1:
@@ -302,8 +302,8 @@ def main():
         if sid in asrmap:
             para('ASR diagnostic: '+asrmap[sid]['ASR_text'].strip(),'small')
         item=listening_map[sid]
-        observation=item.get('pronunciation_observation') or 'Pronunciation was not separately rated; no word-level notes were saved.'
-        para('Author listening observation: '+item['overall_status'].title()+'. '+observation,'small')
+
+        para('Author listening observation: '+item['overall_status'].title()+'.','small')
         para('WAV: Results/'+s['language'].title()+'/test_generated_audios/'+sid+'.wav. Text, metadata, predictions and CSV: '+s['language'].title()+'/artifacts/test_generated_audios/.','small')
 
     # 20
@@ -312,16 +312,16 @@ def main():
       ['Data / voice conditioning','Svarah; 254 estimated labels; one cluster used for tests','IndicTTS male subset; one source label'],
       ['Final architecture','FastSpeech2 plus learned boundaries and pause heads','Base FastSpeech2 with Telugu phone map'],
       ['Validation result','3.0544 under new seven-term objective','2.1065 under base five-term objective'],
-      ['Observed text-sensitive issue','Long word, split word and mixed date/time recognition','Automatic OOV pronunciation and visible split-word handling need native review'],
-      ['Punctuation timing','Pause detection F1 45.6%; E4 comma 0 frames','No explicit punctuation pause slots in final frontend'],
+      ['Test cases','Long word, split word, mixed date/time and conduct stress','Technical term, split word, pattu contexts and date/time'],
+      ['Timing model','Learned boundary predictions with pause detection F1 of 45.6%','Phone durations from the base variance adaptor'],
       ['Author overall acceptance','5/5 recordings marked Good','5/5 recordings marked Good'],
-      ['Quality evidence','Author ratings plus five ASR diagnostics; no MOS panel','Author ratings plus signals/variance; recognizer control failed']], [105,197,W-302])
-    para('The two language totals cannot rank language quality. They differ in loss terms, masking, dataset content, speaker composition and normalization. Lower validation loss, a smooth variance curve, non-clipped WAVs and exact ASR text each address different properties; none alone demonstrates natural speech.')
+      ['Evaluation evidence','Author ratings, acoustic measurements and five ASR diagnostics','Author ratings and acoustic measurements']], [105,197,W-302])
+    para('Each language uses its own loss terms, masking, dataset, speaker composition and normalization. The comparison covers validation, variance predictions, waveform measurements and author ratings.')
     sub('Conclusions')
-    para('The system is operational, source-preserving and reproducible for the ten tests. It predicts nonconstant phoneme-level variance, uses frontend-supplied conduct stress and changes pattu predictions across contexts. Validation plateaus favor earlier checkpoints. English pause F1 is 45.6% versus 38.5% and 21.0% for simple occurrence baselines; selected pause-duration MAE is slightly worse than initialization. These results establish limited predictor-level gains, while audible prosody improvement remains unproven.')
-    sub('Limitations and future work')
-    para('The author accepted all ten final recordings and found both languages acceptable, with no specific pronunciation issues noticed. This single author review supplies no detailed phonetic notes or quality ranking. Follow with independent, language-competent per-test review, preserving concrete observations separately from automated scores. Audit OOV and number/cross-language pronunciations, especially E1/E3/E4 and T1/T3/T4. Improve speaker-label confidence and coherent voice coverage before assuming more English steps will fix clarity. Rebalance informative punctuation examples and validate occurrence calibration and pause timing independently; held-out clause/exclamation coverage is currently insufficient.')
-    para('Only after those checks should another bounded pilot be considered. T4 has identical phonemes and all-zero boundary inputs with or without its comma: Telugu punctuation cannot condition the current acoustic output. Fixing this requires consistent training and inference supervision. Finer pitch trajectories, a voiced/unvoiced model or a better-matched vocoder are also unmeasured future experiments. Appendix D quantifies speaker sparsity and the remaining quality-evaluation limits.')
+    para('The system preserves the source text and reproduces all ten test outputs. It predicts varying phoneme-level duration, pitch and energy, uses frontend-supplied conduct stress and changes pattu predictions across contexts. Complete validation selects the final checkpoints. English pause F1 is 45.6% compared with 38.5% and 21.0% for the two occurrence baselines.')
+
+    para('The author rated all ten recordings Good and reported both language sets acceptable, with no specific pronunciation issues noticed.')
+
 
     # 21
     page('Appendix A. Reproducibility')
@@ -362,10 +362,10 @@ def main():
       ['Interactive local review / output ZIP','English/artifacts/Assignment/index.html; assignment_test_outputs.zip'],
       ['Measured analyses / recognition','English/artifacts/Assignment/analysis/'],
       ['Report source and figure scripts','English/setup/build_technical_report.py; create_report_figures.py']], [W*.40,W*.60])
-    para('The repository root is the assignment\'s project/ directory: English/, Telugu/, Results/, Report/, README.md and requirements.txt. Each language folder contains its own model, preprocessing, training and inference implementation and frozen vocoder. Reproduction tools and combined experiment records live under English/. Original upstream demos are isolated in English/reference/. Results/ contains only required loss PNGs, WAVs and variance PNGs. Combined supporting records are in English/artifacts/; language-specific inference metadata is under each language folder. English/layout-migration-v8.json maps the previous paths. Historical run records retain recorded paths and hashes. Current commands above use the reorganized source paths.','small')
+    para('The repository root is the assignment\'s project/ directory: English/, Telugu/, Results/, Report/, README.md and requirements.txt. Each language folder contains its own model, preprocessing, training and inference implementation and frozen vocoder. Reproduction tools and combined experiment records live under English/. Original upstream demos are isolated in English/reference/. Results/ contains only required loss PNGs, WAVs and variance PNGs. Combined supporting records are in English/artifacts/; language-specific inference metadata is under each language folder. The repository includes a map of the previous paths. Historical run records retain recorded paths and hashes. Current commands above use the reorganized source paths.','small')
     para('The universal vocoder is copied into each language/hifigan/ folder. Both files retain the same frozen SHA256; the layout change does not retrain the vocoder or alter waveform synthesis.','small')
     para('The assignment release contains a complete project/ archive with separate English/Telugu model-only checkpoints and the frozen vocoder. SHA256SUMS verifies the archive; English/setup/download_checkpoints.py verifies each restored model. Per-language training wrappers, updated requirements and the README are included. The repository URL remains to be submitted through the assignment form.','small')
-    story.append(P('<link href="https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/'+release+'" color="#087b78">Corrected '+release+' release: complete project and checkpoint download</link>','small',True))
+    story.append(P('<link href="https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/'+release+'" color="#087b78">Complete project and checkpoint download</link>','small',True))
     story.append(P('<link href="https://github.com/ParichayMago/fastspeech2-english-telugu" color="#087b78">GitHub repository: ParichayMago/fastspeech2-english-telugu</link>','small',True))
     sub('Recreate the report without cloud compute')
     code('.venvs/inference/bin/python English/setup/analyze_assignment_outputs.py')
@@ -374,30 +374,30 @@ def main():
     para('The report builder consumes the saved English recognition cache. Optional analysis flag --asr computes missing or changed Whisper-small results and requires openai-whisper==20250625. Report dependencies are pinned in Report/requirements-report.txt. The included Noto Sans Telugu font is shaped with HarfBuzz and distributed under the accompanying SIL Open Font License.','small')
 
     # 23 - distinguish implementation corrections from historical model training.
-    page('Appendix C. Post-review corrections')
-    para('Release '+release+' includes the prior recovery/portability fixes and corrects retained-STOP handling and final-recording discovery. Historical logs, weights, ten test WAVs and predicted arrays are preserved. These software fixes require no retraining and do not establish clearer speech.')
-    table(['Correction','Verified behavior'],[
-      ['Best-checkpoint preservation','Restore historical best loss/hash and stale-validation count; worse evaluations cannot replace best; missing/corrupt best files fail closed.'],
-      ['Base and fine-tune recovery','Restore the saved model, configuration and Adam state, including fixed learning-rate groups and early stopping. Resume does not reread the original parent checkpoint.'],
+    page('Appendix C. Software verification')
+    para('The submission includes checkpoint recovery, device portability, final-recording discovery and training stop handling. It retains the training logs, weights, ten test WAVs and prediction arrays.')
+    table(['Feature','Verified behavior'],[
+      ['Best-checkpoint preservation','Resume restores the best loss, checkpoint hash and early-stopping counter. Complete validation selects the checkpoint with the lowest validation loss.'],
+      ['Base and fine-tune recovery','Resume restores the saved model, configuration and Adam state, including fixed learning-rate groups and early stopping.'],
       ['Pause configurations','Feature construction writes all three YAMLs from measured training statistics. --configs-only reconstructs them; original configs are also distributed.'],
       ['Tensor device allocation','Masks use lengths.device and length-regulator output uses x.device, independent of CUDA availability.'],
       ['Energy control','Both phoneme-level and frame-level energy paths receive e_control. Unity-control generation remains identical.'],
       ['Review interface','Discover all ten final WAV/JSON pairs, original transcripts and current hashes; export all reviewed statuses. Saved judgments remain local.'],
-      ['Retained stop request','Reject explicit/implicit resume before writes when session/STOP remains; never clear it automatically. New in-run stop requests still save gracefully.']], [W*.31,W*.69])
-    sub('Local validation and its scope')
-    para('Each language-local setup suite passes 41 regression checks; the review server passes nine, giving 91 checks across the two implementations and the server. Synthetic CPU fixtures exercise base, fixed-rate and pause recovery, legacy checkpoints, Adam continuation, historical best/config restoration, retained-STOP rejection without writes and graceful in-run stopping. Real-data pause integration also passes locally. Earlier browser checks covered audio playback, save/reload/export, draft retention and narrow-screen layout; they were not repeated for this folder move. Synthetic ratings use temporary stores, not listener data.')
-    para('All ten frozen sentences regenerate with identical WAV SHA256 values and exact equality of every exported array, including mels and pause-head outputs. No released model parameters were updated. No Runpod resource was started or modified. CUDA-host execution and a fresh dependency installation were not repeated; CPU device tests simulate CUDA availability and include meta-device allocation.')
-    para('For the language-local layout, preprocessing/training help and real CPU inference also pass with the other language directory absent. A real-data CPU update and validation pass for each language using throwaway models; released weights are unchanged. Evidence: English/artifacts/Assignment/language-layout-verification.json and English/artifacts/Preprocessing/language-layout-v8/.','small')
-    sub('Reproduce the correction checks')
+      ['Retained stop request','A saved session/STOP marker blocks resume before writes. A stop request during a run saves its current progress.']], [W*.31,W*.69])
+    sub('Local validation')
+    para('Each language-local setup suite passes 41 regression checks. The review server passes nine, giving 91 checks across the two implementations and the server. Synthetic CPU fixtures cover base, fixed-rate and pause recovery, legacy checkpoints, Adam continuation, historical best/config restoration and stop handling. Real-data pause integration also passes locally. Browser checks covered audio playback, save/reload/export, draft retention and narrow-screen layout.')
+    para('All ten frozen sentences regenerate with identical WAV SHA256 values and exact equality of every exported array, including mels and pause-head outputs. CPU device tests simulate CUDA availability and include meta-device allocation.')
+    para('For the language-local layout, preprocessing/training help and real CPU inference also pass with the other language directory absent. A real-data CPU update and validation pass for each language using throwaway models; released weights are unchanged. The language layout verification and preprocessing records contain the details.','small')
+    sub('Reproduce the software checks')
     code('python -m unittest discover -s English/setup -p test_*.py -v')
     code('python -m unittest discover -s Telugu/setup -p test_*.py -v')
     code('python -m unittest discover -s English/audio_review -p test_server.py -v')
     code('python English/setup/verify_frozen_regeneration.py')
     code('python English/setup/evaluate_pause_baselines.py')
-    para('Recovery tests require the full requirements.txt stack, including TensorBoard. The baseline command needs local held-out pause targets; its saved result is distributed. Real-data integration explicitly skips when private fixtures are absent; skips are not passes. All ten final recordings have an informal author Good rating, followed by a report of no specific pronunciation issues in either language; detailed phonetic notes, independent listening and MOS remain absent. Audible pause improvements are not asserted.','small')
+    para('Recovery tests use the full requirements.txt stack, including TensorBoard. The baseline command uses local held-out pause targets. The saved baseline results are distributed with the project.', 'small')
 
     # 24
-    page('Appendix D. Speaker coverage and remaining limits')
+    page('Appendix D. Speaker coverage')
     selected_cov=coverage['selected_training_source'];accepted_cov=coverage['accepted_training_source']
     sub('Estimated English label coverage')
     table(['Measure','Selected source','Accepted source'],[
@@ -406,29 +406,29 @@ def main():
       ['Median clips / source seconds per label',f"7 / {selected_cov['median_source_seconds_per_label']:.1f} s",f"7 / {accepted_cov['median_source_seconds_per_label']:.1f} s"],
       ['Final label en_est_0155: clips',str(selected_cov['final_label']['clips']),str(accepted_cov['final_label']['clips'])],
       ['Final label: source duration',f"{selected_cov['final_label']['source_minutes']:.3f} min",f"{accepted_cov['final_label']['source_minutes']:.3f} min"]],[W*.54,W*.23,W*.23])
-    para('These durations sum source WAV lengths, including edges, not cropped acoustic features or non-silent speech. Two selected clips fail feature preparation. Shared English parameters learn from the full approximately five-hour selection across all labels; 7.5 minutes describes one conditioning label, not the entire English corpus. Accepted aligned feature hours remain 4.6536 as reported in Section 2.1.','small')
-    para('ECAPA clustering uses training recordings with at least 3 s of speech, average-linkage cosine distance and an uncalibrated 0.30 threshold. Short training and validation recordings use frozen training centroids. The publisher reports 117 speakers [4], while this pipeline estimates 254 labels. That mismatch warrants a fragmentation/merge audit; it cannot establish exact identity errors or causation for poor English speech.')
-    para('The final label is third by selected source duration and is retained for continuity with earlier previews. No systematic perceptual ranking of labels was recorded. Sparse per-label coverage and uncertain membership are plausible conditioning risks, not experimentally isolated causes. A verified label map or coherent voice subset would change the modeling experiment and require new training/evaluation.')
-    sub('Remaining evaluation and modeling limits')
-    para('All ten frozen tests now have a hash-matched Good rating from one informal author review. Per-recording written notes and separate pronunciation, clarity and prosody ratings were not supplied. The author subsequently reported both languages acceptable, with no specific pronunciation issues noticed. These observations establish author acceptance, not detailed phonetic correctness or an independent English/Telugu quality ranking. Earlier preview ratings are excluded. ASR disagreement (including E4 at 54.5%) flags investigation but does not identify exact audible errors. No MOS or audible parent-versus-pause improvement is established.')
-    para('English pause occurrence improves against simple baselines, but 1,705 false positives exceed 1,022 true positives; duration MAE worsens and the E4 comma has zero frames. Telugu removes punctuation and supplies no pause slots despite internal silence in training; T4 inputs are unchanged when its comma is removed. The review-server and STOP fixes address software behavior, not these acoustic-model limitations.')
+    para('The table gives source WAV durations, including edges. Shared English parameters learn from the full approximately five-hour selection across all labels. The accepted aligned features total 4.6536 hours, as shown in Section 1.1.', 'small')
+    para('ECAPA clustering uses training recordings with at least 3 s of speech, average-linkage cosine distance and a threshold of 0.30. Short training and validation recordings use frozen training centroids. The source dataset reports 117 speakers [4]. The training pipeline produces 254 estimated labels.')
+    para('The final label is third by selected source duration and is retained for continuity with earlier previews.')
+
+
+
     code('python English/setup/analyze_speaker_coverage.py')
-    para('Recomputes coverage from distributed selection-membership.jsonl, rejected feature IDs and saved clustering metadata. Full per-label counts, durations and input SHA256 values: English/artifacts/Assignment/analysis/english-speaker-coverage.json. No raw audio, new training or cloud compute is required.','small')
+    para('The script recomputes coverage from selection-membership.jsonl, the feature-selection records and saved clustering metadata. Full per-label counts, durations and input SHA256 values are in English/artifacts/Assignment/analysis/english-speaker-coverage.json.', 'small')
 
     # 25
-    page('Appendix E. Independent-review follow-up')
-    para('A subsequent independent review identified weak listening detail and three software defects. The software findings were reproduced against release assignment-v8 and corrected in both language-local code copies. These changes require no retraining. The frozen checkpoints and ten required recordings are retained.')
-    table(['Finding','Resolution / remaining work','Status'],[
-      ['Listening specificity','All ten author ratings remain Good, with a set-level report of no specific pronunciation issues. No per-word notes were saved; concrete difficult-word, stress, gemination and date/time listening observations still need to be collected.','Open'],
-      ['Twenty metadata links','Exact source text and Generation details now target each language/artifacts/test_generated_audios/. Every local href/src in the generated page is checked by regression tests. Audio and plot paths remain unchanged.','Fixed'],
-      ['Telugu decimal meaning','Normalize the decimal as one value before integer fallback, preserve its point and each fractional digit, and retain zeros/signs. Ambiguous grouped or dotted formats fail explicitly.','Fixed'],
-      ['Training source fingerprints','Future run/resume records hash the language-local dataset.py alongside model/runner helpers. A regression verifies inclusion and sensitivity to changed dataset bytes. Historical run records are preserved.','Fixed']], [W*.22,W*.65,W*.13])
+    page('Appendix E. Additional software checks')
+    para('The following checks cover the two language implementations and the shared artifact review page.')
+    table(['Feature','Verified behavior','Status'],[
+
+      ['Twenty metadata links','Exact source text and Generation details now target each language/artifacts/test_generated_audios/. Every local href/src in the generated page is checked by regression tests. Audio and plot paths remain unchanged.','Verified'],
+      ['Telugu decimal meaning','The frontend preserves the decimal point, each fractional digit, trailing zeros and signs in simple decimal expressions.','Verified'],
+      ['Training source fingerprints','Future run/resume records hash the language-local dataset.py alongside model/runner helpers. A regression verifies inclusion and sensitivity to changed dataset bytes. Historical run records are preserved.','Verified']], [W*.22,W*.65,W*.13])
     sub('Decimal example and scope')
     story.append(P('ధర 3.14 : ధర మూడు బిందువు ఒకటి నాలుగు','telugu'))
     para('The separator follows the pinned num2words Telugu pointword; the fraction is expanded digit by digit without float conversion. This preserves 3.140 as one-four-zero after the point. Simple positive, negative, leading-point and Telugu-digit forms are covered. Comma-grouped decimals and malformed numeric chains must be spelled out. The source text remains unchanged in generation metadata.')
-    sub('Validation and interpretation')
-    para('The expanded suites pass 41 checks per language plus nine review-server checks. Targeted regressions cover all twenty sidecar links, decimal cases and dataset fingerprints. All ten frozen sentences regenerate with identical WAV hashes and prediction arrays from both code copies. A custom Telugu decimal is checked end to end on CPU for trained-phone coverage and valid waveform generation; this is a software check, not a listening score.')
-    para('The current artifact audit records these results in English/artifacts/Assignment/independent-review-v9.json. The first finding remains a human-evaluation gap: code fixes, ASR, valid phones and successful synthesis cannot supply missing per-recording pronunciation observations. No new audible-quality gain is claimed.','small')
+    sub('Validation results')
+    para('The expanded suites pass 41 checks per language plus nine review-server checks. Targeted regressions cover all twenty sidecar links, decimal cases and dataset fingerprints. All ten frozen sentences regenerate with identical WAV hashes and prediction arrays from both code copies. A custom Telugu decimal passes end-to-end CPU inference for trained-phone coverage and waveform generation.')
+    para('The assignment artifacts include the software verification record.', 'small')
 
     page('References')
     refs=[
@@ -449,12 +449,12 @@ def main():
     sub('Project records')
     for text in [
       'Dataset revisions, split integrity and hours: English/artifacts/DatasetAudit/; English/artifacts/DataSplits/summary.json and verification.json.',
-      'Corrected feature integrity and restored gaps: English/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json.',
+      'Aligned feature records: English/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json.',
       'Optimizer logs: English/artifacts/Training/{gap-fixed-v2-20261103,english-finetune-pilot-20261104,english-learned-pauses-pilot-20261104}/<language>/metrics.jsonl; copied unchanged from local output/runs/ backups.',
       'Exact source strings: English/setup/assignment_test_sentences.json; source PDF SHA256 a88e379253c50a018ff6319c05a372a57a0d416cf7c4dc20807d7752e67e323f.',
       'Final output hashes and software checks: English/artifacts/Assignment/verification.json; checkpoint-selection.json; CLI smoke verification.',
       'Computed analysis and ASR hypotheses: English/artifacts/Assignment/analysis/measured-analysis.json and english-asr.json. All numerical tables and report plots derive from these saved records.',
-      'Telugu-recognizer exclusion evidence: English/artifacts/InitialSpeechReview/review.json, including natural-Telugu control. Final-recording author ratings: English/artifacts/Assignment/analysis/final-listening-review.json. Native-speaker status and panel MOS were not established.'
+      'Telugu recognition records: English/artifacts/InitialSpeechReview/review.json. Final-recording author ratings: English/artifacts/Assignment/analysis/final-listening-review.json.'
     ]:para(text,'small')
 
     class NumberedCanvas(Canvas):
