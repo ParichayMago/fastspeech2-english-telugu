@@ -81,6 +81,22 @@ def telugu_spoken_form(text):
         changes.append({'source':m[0],'spoken':spoken,'kind':'clock_with_telugu_unit'})
         return spoken
     expanded = re.sub(r'\b(\d{1,2}):(\d{2})\s+గంటలకు',time,text)
+    # Read decimal fractional digits individually: no float rounding or loss of zeros.
+    # The separator matches num2words' Telugu pointword, బిందువు.
+    if re.search(r'\d+(?:,\d+)+\.\d+|\d+\.\d+(?:,\d+)+',expanded):
+        raise ValueError('Comma-grouped Telugu decimals must be spelled out explicitly')
+    def decimal(m):
+        spoken=cardinal(m['whole'] or '0')+' బిందువు '+' '.join(cardinal(d) for d in m['fraction'])
+        if m['sign'] in ('-','−'):spoken='మైనస్ '+spoken
+        elif m['sign']=='+':spoken='ప్లస్ '+spoken
+        changes.append({'source':m[0],'spoken':spoken,'kind':'decimal_number',
+                        'fraction_digits':m['fraction']})
+        return ' '+spoken+' '
+    expanded=re.sub(r'(?<![\d.])(?P<sign>[+−-]?)(?P<whole>\d*)\.(?P<fraction>\d+)(?!\d|\.\d|[\u0C00-\u0C7F])',decimal,expanded)
+    if re.search(r'\.\d+',expanded):
+        raise ValueError('Unsupported Telugu decimal format; spell it out explicitly')
+    if any(c['kind']=='decimal_number' for c in changes):
+        expanded=re.sub(r'\s+',' ',expanded).strip()
     def ordinal(m):
         if int(m[1]) != 12:
             raise ValueError('Unsupported Telugu numeric ordinal; spell it out explicitly')

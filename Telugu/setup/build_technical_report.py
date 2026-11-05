@@ -26,7 +26,7 @@ def main():
     coverage=json.loads((r/'English/artifacts/Assignment/analysis/english-speaker-coverage.json').read_text())
     listening=json.loads((r/'English/artifacts/Assignment/analysis/final-listening-review.json').read_text())
     listening_map={x['id']:x for x in listening['samples']}
-    release=json.loads((r/'Telugu/setup/checkpoint_manifest.json').read_text())['release_tag']
+    release=json.loads((r/'English/setup/checkpoint_manifest.json').read_text())['release_tag']
     gen=json.loads((r/'English/artifacts/Assignment/generation.json').read_text());info={s['id']:s for s in gen['samples']}
     audits=d['dataset_audits'];runs=d['training_runs'];samples=d['samples']
     assert set(listening_map)==set(samples)
@@ -152,7 +152,7 @@ def main():
     para('Each word has a boundary slot, including words with zero measured pause. A seven-entry boundary embedding conditions the encoder; two new variance predictors estimate pause presence and positive pause length. Punctuation categories distinguish unpunctuated, comma, period, question, exclamation and clause boundaries. The parent acoustic weights are loaded exactly; new heads receive a larger learning rate. The existing pitch and energy heads also receive the new encoder context.')
     para('At inference a sigmoid threshold 0.5 selects a positive pause, its predicted log duration becomes rounded frames, and the length regulator generates the acoustic span. Terminal boundary duration is zero by design; it supplies sentence context, not trailing silence. The safety cap 354 frames is the training-observed maximum, not a hand-set punctuation pause. Lexical durations have a one-frame floor.')
     sub('Telugu adaptation')
-    para('The Telugu path preserves a bijective IPA-to-ASCII phone map, its own Telugu/lexicon/alignment model, statistics and checkpoint. Unknown phones are rejected. Telugu uses the base variance adaptor; no learned word-boundary/pause heads were added. The models share a frozen vocoder, not acoustic parameters or optimizers.')
+    para('The Telugu path preserves a bijective IPA-to-ASCII phone map, its own English/lexicon/alignment model, statistics and checkpoint. Unknown phones are rejected. Telugu uses the base variance adaptor; no learned word-boundary/pause heads were added. The models share a frozen vocoder, not acoustic parameters or optimizers.')
 
     # 4
     page('2.1 Preprocessing and alignment repair')
@@ -316,7 +316,7 @@ def main():
         item=listening_map[sid]
         observation=item.get('pronunciation_observation') or 'Pronunciation was not separately rated; no word-level notes were saved.'
         para('Author listening observation: '+item['overall_status'].title()+'. '+observation,'small')
-        para('WAV: Results/'+s['language'].title()+'/test_generated_audios/'+sid+'.wav. Text, metadata, predictions and CSV: English/artifacts/'+s['language'].title()+'/test_generated_audios/.','small')
+        para('WAV: Results/'+s['language'].title()+'/test_generated_audios/'+sid+'.wav. Text, metadata, predictions and CSV: '+s['language'].title()+'/artifacts/test_generated_audios/.','small')
 
     # 20
     page('6. Discussion and conclusions')
@@ -337,22 +337,22 @@ def main():
 
     # 21
     page('Appendix A. Reproducibility')
-    para('Run commands from the repository root. Use an isolated Python 3.10 environment. Telugu/setup/requirements-inference.txt pins inference packages; root requirements.txt combines preprocessing, training and inference dependencies. Recorded GPU training used PyTorch 2.8.0+cu128. The short README covers inference; Telugu/docs/REPRODUCIBILITY.md gives CUDA wheels, MFA setup, preprocessing, training and verification commands.')
+    para('Run commands from the repository root. Use an isolated Python 3.10 environment. English/setup/requirements-inference.txt pins inference packages; root requirements.txt combines preprocessing, training and inference dependencies. Recorded GPU training used PyTorch 2.8.0+cu128. The short README covers inference; English/docs/REPRODUCIBILITY.md gives CUDA wheels, MFA setup, preprocessing, training and verification commands.')
     for command in ['uv venv --python 3.10 .venvs/final-inference',
-       'uv pip install --python .venvs/final-inference/bin/python -r Telugu/setup/requirements-inference.txt',
-       'python3 Telugu/setup/download_checkpoints.py',
-       '.venvs/final-inference/bin/python Telugu/setup/prepare_final_inference.py --nltk-only',
+       'uv pip install --python .venvs/final-inference/bin/python -r English/setup/requirements-inference.txt',
+       'python3 English/setup/download_checkpoints.py',
+       '.venvs/final-inference/bin/python English/setup/prepare_final_inference.py --nltk-only',
        '.venvs/final-inference/bin/python English/inference.py --test-id E1',
        '.venvs/final-inference/bin/python Telugu/inference.py --test-id T1',
-       '.venvs/final-inference/bin/python Telugu/setup/generate_assignment_outputs.py',
-       '.venvs/final-inference/bin/python Telugu/setup/verify_assignment_outputs.py']:
+       '.venvs/final-inference/bin/python English/setup/generate_assignment_outputs.py',
+       '.venvs/final-inference/bin/python English/setup/verify_assignment_outputs.py']:
         code(command)
     sub('Preprocessing in a clean reconstruction')
-    para('The reproduction guide lists pinned dataset-audit commands, Telugu/setup/restore_assignment_splits.py and export_split_audio.py to restore source membership and frozen speaker labels after authorized dataset access. Linux alignment expects MFA 3.3.9 at /workspace/.venvs/mfa and english_us_arpa.zip under /workspace/.cache/mfa/pretrained_models/acoustic/. These wrappers build corpora, alignments and corrected features, then check a real batch:')
+    para('The reproduction guide lists pinned dataset-audit commands, English/setup/restore_assignment_splits.py and export_split_audio.py to restore source membership and frozen speaker labels after authorized dataset access. Linux alignment expects MFA 3.3.9 at /workspace/.venvs/mfa and english_us_arpa.zip under /workspace/.cache/mfa/pretrained_models/acoustic/. These wrappers build corpora, alignments and corrected features, then check a real batch:')
     code('python English/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2')
     code('python Telugu/preprocess.py --stage all --device cpu --feature-version gap-fixed-v2')
-    code('python Telugu/setup/build_learned_pause_features.py')
-    para('The last command builds measured pause features and the three training YAMLs. For existing features, add --configs-only to reconstruct the YAMLs without rewriting targets. The committed Telugu/config/learned-pauses-v1/English/ snapshot records the original experiment. Dataset access follows source license/gate conditions.','small')
+    code('python English/setup/build_learned_pause_features.py')
+    para('The last command builds measured pause features and the three training YAMLs. For existing features, add --configs-only to reconstruct the YAMLs without rewriting targets. The committed English/config/learned-pauses-v1/English/ snapshot records the original experiment. Dataset access follows source license/gate conditions.','small')
     sub('Training reconstruction')
     code('python English/train.py --run-id english-new --fresh --minutes 120 --max-steps 30000 --batch-size 8')
     code('python Telugu/train.py --run-id telugu-new --fresh --minutes 120 --max-steps 30000 --batch-size 8')
@@ -368,20 +368,21 @@ def main():
       ['Frozen weights / metadata','English/checkpoints/ and Telugu/checkpoints/'],
       ['Inference configs/resources','English/config.yaml, Telugu/config.yaml; resources/ in each'],
       ['Audios','Results/{English,Telugu}/test_generated_audios/'],
-      ['Text, metadata and predictions','English/artifacts/{English,Telugu}/test_generated_audios/'],
+      ['Text, metadata and predictions','{English,Telugu}/artifacts/test_generated_audios/'],
       ['Thirty full-label variance figures','Results/{English,Telugu}/variance_adaptor_plots/'],
       ['Final selected-run loss plots','Results/{English,Telugu}/{training,validation}_loss.png'],
       ['Interactive local review / output ZIP','English/artifacts/Assignment/index.html; assignment_test_outputs.zip'],
       ['Measured analyses / recognition','English/artifacts/Assignment/analysis/'],
-      ['Report source and figure scripts','Telugu/setup/build_technical_report.py; create_report_figures.py']], [W*.40,W*.60])
-    para('The repository root is the assignment\'s project/ directory: English/, Telugu/, Results/, Report/, README.md and requirements.txt. Shared modules and tools are grouped under Telugu/; original upstream demos are isolated in Telugu/reference/. Results/ contains only required loss PNGs, WAVs and variance PNGs. Supporting records are in English/artifacts/; Telugu/artifact-layout.json maps their historical paths. Historical run records retain recorded paths and hashes. Current commands above use the reorganized source paths.','small')
-    para('The assignment release contains a complete project/ archive with separate English/Telugu model-only checkpoints and the frozen vocoder. SHA256SUMS verifies the archive; Telugu/setup/download_checkpoints.py verifies each restored model. Per-language training wrappers, updated requirements and the README are included. The repository URL remains to be submitted through the assignment form.','small')
+      ['Report source and figure scripts','English/setup/build_technical_report.py; create_report_figures.py']], [W*.40,W*.60])
+    para('The repository root is the assignment\'s project/ directory: English/, Telugu/, Results/, Report/, README.md and requirements.txt. Each language folder contains its own model, preprocessing, training and inference implementation and frozen vocoder. Reproduction tools and combined experiment records live under English/. Original upstream demos are isolated in English/reference/. Results/ contains only required loss PNGs, WAVs and variance PNGs. Combined supporting records are in English/artifacts/; language-specific inference metadata is under each language folder. English/layout-migration-v8.json maps the previous paths. Historical run records retain recorded paths and hashes. Current commands above use the reorganized source paths.','small')
+    para('The universal vocoder is copied into each language/hifigan/ folder. Both files retain the same frozen SHA256; the layout change does not retrain the vocoder or alter waveform synthesis.','small')
+    para('The assignment release contains a complete project/ archive with separate English/Telugu model-only checkpoints and the frozen vocoder. SHA256SUMS verifies the archive; English/setup/download_checkpoints.py verifies each restored model. Per-language training wrappers, updated requirements and the README are included. The repository URL remains to be submitted through the assignment form.','small')
     story.append(P('<link href="https://github.com/ParichayMago/fastspeech2-english-telugu/releases/tag/'+release+'" color="#087b78">Corrected '+release+' release: complete project and checkpoint download</link>','small',True))
     story.append(P('<link href="https://github.com/ParichayMago/fastspeech2-english-telugu" color="#087b78">GitHub repository: ParichayMago/fastspeech2-english-telugu</link>','small',True))
     sub('Recreate the report without cloud compute')
-    code('.venvs/inference/bin/python Telugu/setup/analyze_assignment_outputs.py')
-    code('.venvs/inference/bin/python Telugu/setup/create_report_figures.py')
-    code('.venvs/report/bin/python Telugu/setup/build_technical_report.py')
+    code('.venvs/inference/bin/python English/setup/analyze_assignment_outputs.py')
+    code('.venvs/inference/bin/python English/setup/create_report_figures.py')
+    code('.venvs/report/bin/python English/setup/build_technical_report.py')
     para('The report builder consumes the saved English recognition cache. Optional analysis flag --asr computes missing or changed Whisper-small results and requires openai-whisper==20250625. Report dependencies are pinned in Report/requirements-report.txt. The included Noto Sans Telugu font is shaped with HarfBuzz and distributed under the accompanying SIL Open Font License.','small')
 
     # 23 - distinguish implementation corrections from historical model training.
@@ -396,13 +397,15 @@ def main():
       ['Review interface','Discover all ten final WAV/JSON pairs, original transcripts and current hashes; export all reviewed statuses. Saved judgments remain local.'],
       ['Retained stop request','Reject explicit/implicit resume before writes when session/STOP remains; never clear it automatically. New in-run stop requests still save gracefully.']], [W*.31,W*.69])
     sub('Local validation and its scope')
-    para('The local setup suite passes 36 tests and the review server passes nine: 45 total. Synthetic CPU fixtures exercise base, fixed-rate and pause recovery, legacy checkpoints, Adam continuation, historical best/config restoration, retained-STOP rejection without writes and graceful in-run stopping. Real-data pause integration also passes locally. Browser checks cover audio playback, save/reload/export, draft retention and narrow-screen layout; synthetic ratings use temporary stores, not listener data.')
+    para('Each language-local setup suite passes 41 regression checks; the review server passes nine, giving 91 checks across the two implementations and the server. Synthetic CPU fixtures exercise base, fixed-rate and pause recovery, legacy checkpoints, Adam continuation, historical best/config restoration, retained-STOP rejection without writes and graceful in-run stopping. Real-data pause integration also passes locally. Earlier browser checks covered audio playback, save/reload/export, draft retention and narrow-screen layout; they were not repeated for this folder move. Synthetic ratings use temporary stores, not listener data.')
     para('All ten frozen sentences regenerate with identical WAV SHA256 values and exact equality of every exported array, including mels and pause-head outputs. No released model parameters were updated. No Runpod resource was started or modified. CUDA-host execution and a fresh dependency installation were not repeated; CPU device tests simulate CUDA availability and include meta-device allocation.')
+    para('For the language-local layout, preprocessing/training help and real CPU inference also pass with the other language directory absent. A real-data CPU update and validation pass for each language using throwaway models; released weights are unchanged. Evidence: English/artifacts/Assignment/language-layout-verification.json and English/artifacts/Preprocessing/language-layout-v8/.','small')
     sub('Reproduce the correction checks')
-    code('python -m unittest discover -s Telugu/setup -p test_review_fixes.py -v')
-    code('python -m unittest discover -s Telugu/audio_review -p test_server.py -v')
-    code('python Telugu/setup/verify_frozen_regeneration.py')
-    code('python Telugu/setup/evaluate_pause_baselines.py')
+    code('python -m unittest discover -s English/setup -p test_*.py -v')
+    code('python -m unittest discover -s Telugu/setup -p test_*.py -v')
+    code('python -m unittest discover -s English/audio_review -p test_server.py -v')
+    code('python English/setup/verify_frozen_regeneration.py')
+    code('python English/setup/evaluate_pause_baselines.py')
     para('Recovery tests require the full requirements.txt stack, including TensorBoard. The baseline command needs local held-out pause targets; its saved result is distributed. Real-data integration explicitly skips when private fixtures are absent; skips are not passes. All ten final recordings have an informal author Good rating, followed by a report of no specific pronunciation issues in either language; detailed phonetic notes, independent listening and MOS remain absent. Audible pause improvements are not asserted.','small')
 
     # 24
@@ -421,10 +424,24 @@ def main():
     sub('Remaining evaluation and modeling limits')
     para('All ten frozen tests now have a hash-matched Good rating from one informal author review. Per-recording written notes and separate pronunciation, clarity and prosody ratings were not supplied. The author subsequently reported both languages acceptable, with no specific pronunciation issues noticed. These observations establish author acceptance, not detailed phonetic correctness or an independent English/Telugu quality ranking. Earlier preview ratings are excluded. ASR disagreement (including E4 at 54.5%) flags investigation but does not identify exact audible errors. No MOS or audible parent-versus-pause improvement is established.')
     para('English pause occurrence improves against simple baselines, but 1,705 false positives exceed 1,022 true positives; duration MAE worsens and the E4 comma has zero frames. Telugu removes punctuation and supplies no pause slots despite internal silence in training; T4 inputs are unchanged when its comma is removed. The review-server and STOP fixes address software behavior, not these acoustic-model limitations.')
-    code('python Telugu/setup/analyze_speaker_coverage.py')
+    code('python English/setup/analyze_speaker_coverage.py')
     para('Recomputes coverage from distributed selection-membership.jsonl, rejected feature IDs and saved clustering metadata. Full per-label counts, durations and input SHA256 values: English/artifacts/Assignment/analysis/english-speaker-coverage.json. No raw audio, new training or cloud compute is required.','small')
 
     # 25
+    page('Appendix E. Independent-review follow-up')
+    para('A subsequent independent review identified weak listening detail and three software defects. The software findings were reproduced against release assignment-v8 and corrected in both language-local code copies. These changes require no retraining. The frozen checkpoints and ten required recordings are retained.')
+    table(['Finding','Resolution / remaining work','Status'],[
+      ['Listening specificity','All ten author ratings remain Good, with a set-level report of no specific pronunciation issues. No per-word notes were saved; concrete difficult-word, stress, gemination and date/time listening observations still need to be collected.','Open'],
+      ['Twenty metadata links','Exact source text and Generation details now target each language/artifacts/test_generated_audios/. Every local href/src in the generated page is checked by regression tests. Audio and plot paths remain unchanged.','Fixed'],
+      ['Telugu decimal meaning','Normalize the decimal as one value before integer fallback, preserve its point and each fractional digit, and retain zeros/signs. Ambiguous grouped or dotted formats fail explicitly.','Fixed'],
+      ['Training source fingerprints','Future run/resume records hash the language-local dataset.py alongside model/runner helpers. A regression verifies inclusion and sensitivity to changed dataset bytes. Historical run records are preserved.','Fixed']], [W*.22,W*.65,W*.13])
+    sub('Decimal example and scope')
+    story.append(P('ధర 3.14 : ధర మూడు బిందువు ఒకటి నాలుగు','telugu'))
+    para('The separator follows the pinned num2words Telugu pointword; the fraction is expanded digit by digit without float conversion. This preserves 3.140 as one-four-zero after the point. Simple positive, negative, leading-point and Telugu-digit forms are covered. Comma-grouped decimals and malformed numeric chains must be spelled out. The source text remains unchanged in generation metadata.')
+    sub('Validation and interpretation')
+    para('The expanded suites pass 41 checks per language plus nine review-server checks. Targeted regressions cover all twenty sidecar links, decimal cases and dataset fingerprints. All ten frozen sentences regenerate with identical WAV hashes and prediction arrays from both code copies. A custom Telugu decimal is checked end to end on CPU for trained-phone coverage and valid waveform generation; this is a software check, not a listening score.')
+    para('The current artifact audit records these results in English/artifacts/Assignment/independent-review-v9.json. The first finding remains a human-evaluation gap: code fixes, ASR, valid phones and successful synthesis cannot supply missing per-recording pronunciation observations. No new audible-quality gain is claimed.','small')
+
     page('References')
     refs=[
       ('1','Ren et al. FastSpeech 2: Fast and High-Quality End-to-End Text to Speech. ICLR 2021.','https://arxiv.org/abs/2006.04558'),
@@ -441,12 +458,12 @@ def main():
     for number,title,url in refs:
         para('['+number+'] '+title,'small')
         story.append(P('<link href="'+url+'" color="#087b78">'+esc(url)+'</link>','small',True))
-    sub('Project records, 4 November 2026')
+    sub('Project records, 2-5 November 2026')
     for text in [
       'Dataset revisions, split integrity and hours: English/artifacts/DatasetAudit/; English/artifacts/DataSplits/summary.json and verification.json.',
       'Corrected feature integrity and restored gaps: English/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json.',
       'Optimizer logs: English/artifacts/Training/{gap-fixed-v2-20261103,english-finetune-pilot-20261104,english-learned-pauses-pilot-20261104}/<language>/metrics.jsonl; copied unchanged from local output/runs/ backups.',
-      'Exact source strings: Telugu/setup/assignment_test_sentences.json; source PDF SHA256 a88e379253c50a018ff6319c05a372a57a0d416cf7c4dc20807d7752e67e323f.',
+      'Exact source strings: English/setup/assignment_test_sentences.json; source PDF SHA256 a88e379253c50a018ff6319c05a372a57a0d416cf7c4dc20807d7752e67e323f.',
       'Final output hashes and software checks: English/artifacts/Assignment/verification.json; checkpoint-selection.json; CLI smoke verification.',
       'Computed analysis and ASR hypotheses: English/artifacts/Assignment/analysis/measured-analysis.json and english-asr.json. All numerical tables and report plots derive from these saved records.',
       'Telugu-recognizer exclusion evidence: English/artifacts/InitialSpeechReview/review.json, including natural-Telugu control. Final-recording author ratings: English/artifacts/Assignment/analysis/final-listening-review.json. Native-speaker status and panel MOS were not established.'
@@ -464,7 +481,7 @@ def main():
             for state in self._states:
                 self.__dict__.update(state)
                 self.setFont('Body',7.5);self.setFillColor(gray)
-                self.drawString(48,28,'FastSpeech 2 | English and Telugu | 4 November 2026')
+                self.drawString(48,28,'FastSpeech 2 | English and Telugu | 5 November 2026')
                 self.drawRightString(A4[0]-48,28,f'{self._pageNumber} / {count}')
                 Canvas.showPage(self)
             Canvas.save(self)

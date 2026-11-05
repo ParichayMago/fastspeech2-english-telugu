@@ -397,7 +397,7 @@ def main():
       ['Review interface','Discover all ten final WAV/JSON pairs, original transcripts and current hashes; export all reviewed statuses. Saved judgments remain local.'],
       ['Retained stop request','Reject explicit/implicit resume before writes when session/STOP remains; never clear it automatically. New in-run stop requests still save gracefully.']], [W*.31,W*.69])
     sub('Local validation and its scope')
-    para('Each language-local setup suite passes 36 regression checks; the review server passes nine, giving 81 checks across the two implementations and the server. Synthetic CPU fixtures exercise base, fixed-rate and pause recovery, legacy checkpoints, Adam continuation, historical best/config restoration, retained-STOP rejection without writes and graceful in-run stopping. Real-data pause integration also passes locally. Earlier browser checks covered audio playback, save/reload/export, draft retention and narrow-screen layout; they were not repeated for this folder move. Synthetic ratings use temporary stores, not listener data.')
+    para('Each language-local setup suite passes 41 regression checks; the review server passes nine, giving 91 checks across the two implementations and the server. Synthetic CPU fixtures exercise base, fixed-rate and pause recovery, legacy checkpoints, Adam continuation, historical best/config restoration, retained-STOP rejection without writes and graceful in-run stopping. Real-data pause integration also passes locally. Earlier browser checks covered audio playback, save/reload/export, draft retention and narrow-screen layout; they were not repeated for this folder move. Synthetic ratings use temporary stores, not listener data.')
     para('All ten frozen sentences regenerate with identical WAV SHA256 values and exact equality of every exported array, including mels and pause-head outputs. No released model parameters were updated. No Runpod resource was started or modified. CUDA-host execution and a fresh dependency installation were not repeated; CPU device tests simulate CUDA availability and include meta-device allocation.')
     para('For the language-local layout, preprocessing/training help and real CPU inference also pass with the other language directory absent. A real-data CPU update and validation pass for each language using throwaway models; released weights are unchanged. Evidence: English/artifacts/Assignment/language-layout-verification.json and English/artifacts/Preprocessing/language-layout-v8/.','small')
     sub('Reproduce the correction checks')
@@ -428,6 +428,20 @@ def main():
     para('Recomputes coverage from distributed selection-membership.jsonl, rejected feature IDs and saved clustering metadata. Full per-label counts, durations and input SHA256 values: English/artifacts/Assignment/analysis/english-speaker-coverage.json. No raw audio, new training or cloud compute is required.','small')
 
     # 25
+    page('Appendix E. Independent-review follow-up')
+    para('A subsequent independent review identified weak listening detail and three software defects. The software findings were reproduced against release assignment-v8 and corrected in both language-local code copies. These changes require no retraining. The frozen checkpoints and ten required recordings are retained.')
+    table(['Finding','Resolution / remaining work','Status'],[
+      ['Listening specificity','All ten author ratings remain Good, with a set-level report of no specific pronunciation issues. No per-word notes were saved; concrete difficult-word, stress, gemination and date/time listening observations still need to be collected.','Open'],
+      ['Twenty metadata links','Exact source text and Generation details now target each language/artifacts/test_generated_audios/. Every local href/src in the generated page is checked by regression tests. Audio and plot paths remain unchanged.','Fixed'],
+      ['Telugu decimal meaning','Normalize the decimal as one value before integer fallback, preserve its point and each fractional digit, and retain zeros/signs. Ambiguous grouped or dotted formats fail explicitly.','Fixed'],
+      ['Training source fingerprints','Future run/resume records hash the language-local dataset.py alongside model/runner helpers. A regression verifies inclusion and sensitivity to changed dataset bytes. Historical run records are preserved.','Fixed']], [W*.22,W*.65,W*.13])
+    sub('Decimal example and scope')
+    story.append(P('ధర 3.14 : ధర మూడు బిందువు ఒకటి నాలుగు','telugu'))
+    para('The separator follows the pinned num2words Telugu pointword; the fraction is expanded digit by digit without float conversion. This preserves 3.140 as one-four-zero after the point. Simple positive, negative, leading-point and Telugu-digit forms are covered. Comma-grouped decimals and malformed numeric chains must be spelled out. The source text remains unchanged in generation metadata.')
+    sub('Validation and interpretation')
+    para('The expanded suites pass 41 checks per language plus nine review-server checks. Targeted regressions cover all twenty sidecar links, decimal cases and dataset fingerprints. All ten frozen sentences regenerate with identical WAV hashes and prediction arrays from both code copies. A custom Telugu decimal is checked end to end on CPU for trained-phone coverage and valid waveform generation; this is a software check, not a listening score.')
+    para('The current artifact audit records these results in English/artifacts/Assignment/independent-review-v9.json. The first finding remains a human-evaluation gap: code fixes, ASR, valid phones and successful synthesis cannot supply missing per-recording pronunciation observations. No new audible-quality gain is claimed.','small')
+
     page('References')
     refs=[
       ('1','Ren et al. FastSpeech 2: Fast and High-Quality End-to-End Text to Speech. ICLR 2021.','https://arxiv.org/abs/2006.04558'),
@@ -444,7 +458,7 @@ def main():
     for number,title,url in refs:
         para('['+number+'] '+title,'small')
         story.append(P('<link href="'+url+'" color="#087b78">'+esc(url)+'</link>','small',True))
-    sub('Project records, 4 November 2026')
+    sub('Project records, 2-5 November 2026')
     for text in [
       'Dataset revisions, split integrity and hours: English/artifacts/DatasetAudit/; English/artifacts/DataSplits/summary.json and verification.json.',
       'Corrected feature integrity and restored gaps: English/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json.',
@@ -467,7 +481,7 @@ def main():
             for state in self._states:
                 self.__dict__.update(state)
                 self.setFont('Body',7.5);self.setFillColor(gray)
-                self.drawString(48,28,'FastSpeech 2 | English and Telugu | 4 November 2026')
+                self.drawString(48,28,'FastSpeech 2 | English and Telugu | 5 November 2026')
                 self.drawRightString(A4[0]-48,28,f'{self._pageNumber} / {count}')
                 Canvas.showPage(self)
             Canvas.save(self)

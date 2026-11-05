@@ -3,10 +3,12 @@ import hashlib
 import json
 from pathlib import Path
 import unittest
-
-from final_text_frontend import TextFrontend,english_spoken_form,telugu_spoken_form,parent_english_inputs
+import sys
 
 ROOT=Path(__file__).resolve().parents[2]
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+
+from final_text_frontend import TextFrontend,english_spoken_form,telugu_spoken_form,parent_english_inputs
 
 
 class FinalFrontendTests(unittest.TestCase):
@@ -67,6 +69,39 @@ class FinalFrontendTests(unittest.TestCase):
         self.assertNotIn('వేయిల',b['normalized_words'])
         self.assertTrue(set(b['phones']).issubset(set(json.loads((ROOT/'English/text/assignment_phones.json').read_text()))))
         split=self.te.encode(self.cases['T3']['text']);self.assertEqual(split['normalized_words'][1:3],['అడ','విలో'])
+
+
+    def test_telugu_decimal_preserves_point_digits_zeros_and_sign(self):
+        cases={
+            'ధర 3.14':'ధర మూడు బిందువు ఒకటి నాలుగు',
+            'ధర 3.140':'ధర మూడు బిందువు ఒకటి నాలుగు సున్న',
+            'ధర 0.05':'ధర సున్న బిందువు సున్న అయిదు',
+            'ధర .5':'ధర సున్న బిందువు అయిదు',
+            'ధర -3.14':'ధర మైనస్ మూడు బిందువు ఒకటి నాలుగు',
+            'ధర +3.14':'ధర ప్లస్ మూడు బిందువు ఒకటి నాలుగు',
+            'ధర −.05':'ధర మైనస్ సున్న బిందువు సున్న అయిదు',
+            'ధర ౩.౧౪':'ధర మూడు బిందువు ఒకటి నాలుగు',
+        }
+        for text,expected in cases.items():
+            with self.subTest(text=text):
+                spoken,changes=telugu_spoken_form(text)
+                self.assertEqual(spoken,expected)
+                decimal=next(c for c in changes if c['kind']=='decimal_number')
+                self.assertEqual(decimal['fraction_digits'],text.split('.')[-1])
+        spoken,_=telugu_spoken_form('ధర 3.14.')
+        self.assertIn('బిందువు ఒకటి నాలుగు',spoken)
+
+    def test_telugu_unsupported_decimal_formats_fail_before_integer_fallback(self):
+        for text in ('ధర 3.14.15','ధర 3..14','ధర 1,234.56','ధర 3.14,15','ధర 3.14వ'):
+            with self.subTest(text=text),self.assertRaises(ValueError):telugu_spoken_form(text)
+
+    def test_telugu_decimal_frontend_preserves_source_and_uses_trained_phones(self):
+        text='ధర 3.14'
+        encoded=self.te.encode(text)
+        self.assertEqual(encoded['source_text'],text)
+        self.assertEqual(encoded['normalized_words'],['ధర','మూడు','బిందువు','ఒకటి','నాలుగు'])
+        self.assertEqual(len(encoded['sequence']),len(encoded['phones']))
+        self.assertTrue(all(span['end']>span['start'] for span in encoded['word_spans']))
 
 
 if __name__=='__main__':unittest.main()

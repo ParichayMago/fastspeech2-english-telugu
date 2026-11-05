@@ -55,7 +55,7 @@ Required local files:
 
 Inference verifies weights, resources, symbol inventory and vocoder hashes.
 It does not require raw datasets or training feature directories. Run `python3 English/setup/download_checkpoints.py` to download the submission archive
-and restore only these four hash-verified files. Use `--archive /path/to/fastspeech2-assignment-v8.zip`
+and restore only these four hash-verified files. Use `--archive /path/to/fastspeech2-assignment-v9.zip`
 to reuse a download, or `--check-only` to verify existing weights without network
 access. `English/setup/prepare_final_inference.py --nltk-only` downloads text resources
 while leaving frozen weights/configs intact.
@@ -72,6 +72,8 @@ Run commands from the repository root:
 ```
 
 The ten exact source strings are in `English/setup/assignment_test_sentences.json`.
+
+Custom Telugu decimals retain the decimal point and read fractional digits individually, including zeros (`3.140` keeps its final zero). Simple signed and leading-point forms are supported. Comma-grouped decimals, dotted numeric chains and unsupported attached suffixes raise an explicit error; spell those values out. This text normalization change does not alter the ten required recordings.
 The supplied split words `rhyth m` and `అడ విలో` are preserved. Spoken number/date
 normalization is stored separately from source text. Unsupported Telugu phones
 or numeric ordinals fail explicitly rather than being silently removed.

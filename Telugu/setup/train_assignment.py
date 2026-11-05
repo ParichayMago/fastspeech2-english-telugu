@@ -23,6 +23,14 @@ sys.path.insert(0, str(ROOT/'Telugu'))
 from setup.training_recovery import recover_arguments, restore_selection, select_best, run_directory, equivalent_preprocessing
 
 
+def source_fingerprints():
+    """Hash the language-local source used by future training/resume records."""
+    patterns=('Telugu/model/*.py','Telugu/transformer/*.py','Telugu/text/*.py','Telugu/utils/*.py',
+                     'Telugu/dataset.py','Telugu/setup/train_assignment.py','Telugu/setup/training_recovery.py','Telugu/setup/learned_pause_*.py')
+    return {str(path.relative_to(ROOT)):hashlib.sha256(path.read_bytes()).hexdigest()
+            for pattern in patterns for path in sorted(ROOT.glob(pattern))}
+
+
 def utc():
     return datetime.now(timezone.utc).isoformat()
 
@@ -376,9 +384,7 @@ def main(argv=None, language=None):
             run_record={'configs': configs, 'session': vars(args),
                 'initialization': initialization,
                 'data_sha256': {str(f.relative_to(ROOT)): hashlib.sha256(f.read_bytes()).hexdigest() for f in files},
-                'source_sha256':{str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest()
-                    for pattern in ('Telugu/model/*.py','Telugu/transformer/*.py','Telugu/text/*.py','Telugu/utils/*.py',
-                                    'dataset.py','Telugu/setup/train_assignment.py','Telugu/setup/training_recovery.py','Telugu/setup/learned_pause_*.py') for f in sorted(ROOT.glob(pattern))},
+                'source_sha256':source_fingerprints(),
                 'resume_semantics': 'weights, Adam state, scheduler step; reshuffle on resume, not bit-exact mid-epoch',
                 'source_hours_note': 'source selections approximately 5h/1h; aligned feature hours are smaller; see Preprocessing_Methods.txt'}
             if args.resuming:

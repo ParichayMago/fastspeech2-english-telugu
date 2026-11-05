@@ -1,7 +1,7 @@
 {
-  "audited_utc": "2026-11-04T17:24:17.126410+00:00",
+  "audited_utc": "2026-11-05T03:32:10.716374+00:00",
   "instructions": "FastSpeech2_Assignment.pdf, pages 1-3",
-  "documentation_release": "assignment-v8",
+  "documentation_release": "assignment-v9",
   "present": {
     "public_repository": true,
     "required_code_configs_and_layout": true,
@@ -10,7 +10,7 @@
     "exact_test_texts": 10,
     "generated_audios": 10,
     "variance_adaptor_plots": 30,
-    "report_pages": 26,
+    "report_pages": 27,
     "architecture_language_changes_data_loss_and_variance_analysis": true,
     "reproducibility_details": true,
     "informal_author_overall_ratings": 10,
@@ -59,6 +59,7 @@
     "ratings.json": 0
   },
   "remaining_actions": [
+    "Additional detailed per-recording listening notes would strengthen the pronunciation/quality evaluation; this limitation remains disclosed.",
     "Submit the public repository URL through the assignment form."
   ],
   "form": {
@@ -78,5 +79,6 @@
     "Single informal author review; no independent panel, MOS or established audible pause-training gain."
   ],
   "supporting_evidence_location": "English/artifacts/ (combined records); each language/artifacts/ for inference sidecars",
-  "previous_release_commit": "a65c223e02d141df4a459b834562945c569eefc5"
+  "previous_release_commit": "f577b24bb479c3115d87ec4fc2104df8d96e3919",
+  "independent_review_corrections": "English/artifacts/Assignment/independent-review-v9.json"
 }

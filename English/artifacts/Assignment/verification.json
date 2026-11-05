@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "verified_utc": "2026-11-04T17:24:17.854135+00:00",
+  "verified_utc": "2026-11-05T03:34:44.402635+00:00",
   "scope": "File/shape/unit/provenance checks; not perceptual quality assessment",
   "samples": [
     {
@@ -395,11 +395,11 @@
     }
   },
   "source_sha256": {
-    "English/setup/final_text_frontend.py": "329ebf66af1fdee1ea24427ac49e951e2b6a1b63e069945a08fdb64090a2de88",
+    "English/setup/final_text_frontend.py": "1e2661eab57c14b7ca53e7bb50d75073bc3542cfd00d1bec5d0dd2aaf56b5465",
     "English/setup/final_inference.py": "4d9c7c0e97cdb0312989090503d0a56e0694c0dc64cd9f118eb7060e3fe5e573",
     "English/setup/generate_assignment_outputs.py": "02bc480c57a5363546b642d10590b9257f5516c400ada72652922ebf7a565c60",
     "English/setup/prepare_final_inference.py": "6e53003d84c2aefab11558fb938e1b4a20f87bfc0f660a120f3a3b98f657e826",
-    "English/setup/verify_assignment_outputs.py": "0aab3cddbb2ea33b0b824b94b43dfb712f7144323b041e8eb7f66ad4d43c1545",
+    "English/setup/verify_assignment_outputs.py": "7970eba19e96a219994fa101c00d798a037b1a5301628cd300ce0a52b7cee739",
     "English/inference.py": "612ab24857fd5e2f76fe2c993d65ae7987f589ee4d36ab2241556feef61b6686",
     "Telugu/inference.py": "989609b08e44ce137bf72b200b39d7ed07c4d8139ad94e7c6d8697b7e1e30692",
     "English/setup/assignment_test_sentences.json": "93a7155c1b7b1e67d6d1cf3629f5fe3a5568d038de8d5713e424a426657f54e1",
@@ -412,7 +412,7 @@
     "English/utils/tools.py": "038b05e53c3cdcad52dfef2282c3885496873cfb236dc6de64fbfa25b377426c",
     "English/setup/training_recovery.py": "da393871430e9030c2cef189193a9c333541594478cbbae1e917fe63506d85be",
     "English/setup/learned_pause_config.py": "4d079a707515e357f6d5b0cd8ccd8d683d9bf61120f3053ccb15cdff4459acf9",
-    "English/setup/train_assignment.py": "8384625c3f97851e1c8df7d36280f70c77818251bdbe826105a8b349ceace0f6"
+    "English/setup/train_assignment.py": "e1695200571d8ef718613312cf6f0dbc513afcd71daf89ebc19028e3f5720f1e"
   },
   "audio_count": 10,
   "variance_plot_count": 30,

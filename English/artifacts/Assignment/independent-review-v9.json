@@ -1,0 +1,59 @@
+{
+  "reviewed_base_commit": "f577b24bb479c3115d87ec4fc2104df8d96e3919",
+  "corrected_release": "assignment-v9",
+  "verified_utc": "2026-11-05T03:32:10.716374+00:00",
+  "findings": {
+    "listening_detail": {
+      "status": "open",
+      "reason": "No additional per-recording listener notes were supplied; the ten Good ratings and set-level pronunciation comment are retained without invented details."
+    },
+    "review_metadata_links": {
+      "status": "fixed",
+      "broken_before": 20,
+      "broken_after": 0,
+      "all_local_href_and_src_targets_checked": 100,
+      "metadata_links_fixed": 20,
+      "http_sidecar_links_returning_200": 20
+    },
+    "telugu_decimals": {
+      "status": "fixed",
+      "scope": "Simple dot decimals, preserved fractional digits/zeros, ASCII and Unicode minus, plus, leading-point and Telugu digit forms. Ambiguous comma-grouped and dotted-chain formats fail explicitly.",
+      "cpu_inference_smoke": {
+        "source_text": "ధర 3.14",
+        "spoken_form_before_generic_normalization": "ధర మూడు బిందువు ఒకటి నాలుగు",
+        "normalized_words": [
+          "ధర",
+          "మూడు",
+          "బిందువు",
+          "ఒకటి",
+          "నాలుగు"
+        ],
+        "frames": 129,
+        "seconds": 1.497687074829932,
+        "checkpoint_sha256": "2268f94c05c0c90d9a4b85780971b40dd07297bc39a16271b375311d4b7fcfb8",
+        "scope": "CPU software inference smoke test; no direct audio listening or quality score."
+      }
+    },
+    "training_dataset_fingerprints": {
+      "status": "fixed",
+      "language_paths": [
+        "English/dataset.py",
+        "Telugu/dataset.py"
+      ],
+      "historical_training_records_modified": false,
+      "current_dataset_sha256": {
+        "English/dataset.py": "1cef0d77e4a094cef98247d553784f6dbc2ee3d5b77e05ebe3ac95aee8d6219d",
+        "Telugu/dataset.py": "1cef0d77e4a094cef98247d553784f6dbc2ee3d5b77e05ebe3ac95aee8d6219d"
+      }
+    }
+  },
+  "regression_checks": {
+    "English_setup": 41,
+    "Telugu_setup": 41,
+    "review_server": 9,
+    "total": 91
+  },
+  "all_ten_frozen_audio_and_prediction_arrays_exact_with_each_code_copy": true,
+  "cloud_resources_used": false,
+  "retraining_required": false
+}
