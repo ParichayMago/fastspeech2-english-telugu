@@ -1,6 +1,6 @@
 {
   "created_utc": "2026-11-05T07:09:51.348871+00:00",
-  "release_tag": "assignment-v11",
+  "release_tag": "assignment",
   "archive_layout": "project/",
   "audios": 10,
   "variance_plots": 30,
@@ -814,8 +814,8 @@
       "sha256": "5915ce62222c9c29f20aa95ee6ba4f2e8d0ced50672900b457b24ebce37dabca"
     },
     "English/setup/checkpoint_manifest.json": {
-      "bytes": 906,
-      "sha256": "0f1f80974eb0b7da698f91b3cdd40b12f445508ae08d649fa5c3becb84ccff38"
+      "bytes": 894,
+      "sha256": "b155e04ceb09de6ce608e6fa148f4868bfd8d5a9fbc042b1d9f553dcc40653c3"
     },
     "English/setup/compare_corrected_speech.py": {
       "bytes": 3746,
@@ -1138,8 +1138,8 @@
       "sha256": "9102553bdab46360c8b4c488b765d9baeafa939cddc65546de2973be2dd6f909"
     },
     "README.md": {
-      "bytes": 2025,
-      "sha256": "95e019f4edbaece0b4ce278ba8fb45a53df5abb4b4b019d240e55e042f9b06a8"
+      "bytes": 2013,
+      "sha256": "b30b81009bdc18938558dfc07303b1e570737adcd8e2d27425c7005a0688f8b6"
     },
     "Report/Alignment_Gap_Fix.txt": {
       "bytes": 5397,
@@ -1182,8 +1182,8 @@
       "sha256": "826eb682ef27c9547a360436c06cbd1187519706260fa9949974688a9376e281"
     },
     "Report/Technical_Report.pdf": {
-      "bytes": 2362367,
-      "sha256": "0ba46f67ab72d1413872161f48649a9730359b58ea149bd7b5a51944580b3489"
+      "bytes": 2362360,
+      "sha256": "05484d22b46fdf2eb4d5fbd7543a037883f067de261e7339776588a21ce23e9c"
     },
     "Report/Training_Methods.txt": {
       "bytes": 2468,
@@ -1846,8 +1846,8 @@
       "sha256": "e1b91cee6b0e6a0dd1faf7dd6de8d0bb99f2025ed8b229d96bcc8ba211b29a42"
     },
     "Telugu/setup/checkpoint_manifest.json": {
-      "bytes": 906,
-      "sha256": "0f1f80974eb0b7da698f91b3cdd40b12f445508ae08d649fa5c3becb84ccff38"
+      "bytes": 894,
+      "sha256": "b155e04ceb09de6ce608e6fa148f4868bfd8d5a9fbc042b1d9f553dcc40653c3"
     },
     "Telugu/setup/compare_corrected_speech.py": {
       "bytes": 3746,
