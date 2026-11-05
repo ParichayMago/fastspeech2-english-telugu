@@ -32,7 +32,7 @@ The report follows an introduction-method-experiments-discussion structure, info
 Methods and data appear on pp. 2-5, experimental results on pp. 6-9, sentence-level analysis on pp. 10-19, and discussion,
 reproducibility, corrections, speaker coverage and references on pp. 20-25.
 FastSpeech 2 | English and Telugu | 5 November 2026
-1 / 27
+1 / 26
 
 
 PAGE 2
@@ -90,7 +90,7 @@ Evidence: English/artifacts/DataSplits/summary.json, verification.json; English/
 English/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json. Earlier preprocessing notes contain superseded feature
 hours and are not used for the final table.
 FastSpeech 2 | English and Telugu | 5 November 2026
-2 / 27
+2 / 26
 
 
 PAGE 3
@@ -143,7 +143,7 @@ statistics and checkpoint. Unknown phones are rejected. Telugu uses the base var
 learned word-boundary/pause heads were added. The models share a frozen vocoder, not acoustic
 parameters or optimizers.
 FastSpeech 2 | English and Telugu | 5 November 2026
-3 / 27
+3 / 26
 
 
 PAGE 4
@@ -193,7 +193,7 @@ Evidence: Report/Alignment_Gap_Fix.txt; English/artifacts/Preprocessing/gap-fixe
 English/artifacts/Preprocessing/learned-pauses-v1/. No validation audio fits a normalization statistic, speaker centroid or
 Telugu alignment model.
 FastSpeech 2 | English and Telugu | 5 November 2026
-4 / 27
+4 / 26
 
 
 PAGE 5
@@ -259,7 +259,7 @@ target duration/pitch/energy while their predictor errors are still recorded. Th
 does not establish free-running waveform quality. Training minibatch losses have dropout and variable
 content, so their gap to validation is only suggestive.
 FastSpeech 2 | English and Telugu | 5 November 2026
-5 / 27
+5 / 26
 
 
 PAGE 6
@@ -288,7 +288,7 @@ composition and normalized target distribution. Alignment, pronunciation, speake
 optimizer effects cannot be disentangled from these curves alone. No restart after the 30k cap is treated
 as additional completed training.
 FastSpeech 2 | English and Telugu | 5 November 2026
-6 / 27
+6 / 26
 
 
 PAGE 7
@@ -317,7 +317,7 @@ does not demonstrate clearer acoustics. The final checkpoint choice preserves th
 learned-pause behavior and uses the best complete validation within that run, not a claim of audible
 superiority over the retained parent.
 FastSpeech 2 | English and Telugu | 5 November 2026
-7 / 27
+7 / 26
 
 
 PAGE 8
@@ -364,7 +364,7 @@ Training coverage is sparse: commas have 1,050 positive pauses among 1,445 inter
 clauses 1/2, and exclamations no internal examples. Most period/question markers are terminal. Full counts are retained in
 the preprocessing summary.
 FastSpeech 2 | English and Telugu | 5 November 2026
-8 / 27
+8 / 26
 
 
 PAGE 9
@@ -454,85 +454,10 @@ F0 ranges above are model conditioning, not waveform measurements. Spectral high
 fractions were also computed, but neither is reported as SNR or a noise score. Earlier user feedback on other English previews
 mentioned hiss and limited clarity; it is not a per-test listening rating for this freeze.
 FastSpeech 2 | English and Telugu | 5 November 2026
-9 / 27
+9 / 26
 
 
 PAGE 10
-IMPLEMENTATION AND EVALUATION
-4.4 Author listening review
-After the outputs were frozen, the project author reviewed the English and Telugu recordings through the
-final-recordings tab of the listening interface. The author stated an ability to review both languages. All
-ten saved ratings match the SHA256 of the distributed WAVs; earlier previews are excluded. This is one
-informal, non-blind author review, not an independent panel or a MOS experiment. The assistant did not
-directly listen to the audio.
-Test
-Language
-Overall rating
-Per-recording written notes
-E1
-English
-Good
-None saved
-E2a
-English
-Good
-None saved
-E2b
-English
-Good
-None saved
-E3
-English
-Good
-None saved
-E4
-English
-Good
-None saved
-T1
-Telugu
-Good
-None saved
-T2a
-Telugu
-Good
-None saved
-T2b
-Telugu
-Good
-None saved
-T3
-Telugu
-Good
-None saved
-T4
-Telugu
-Good
-None saved
-Each recording was marked Good. No issue boxes or per-recording notes were saved. The category
-records overall acceptance; it does not separately rate pronunciation, clarity, noise, pacing or intonation.
-In a subsequent chat response, the author found both language sets acceptable and noticed no specific
-pronunciation issues. This broad observation does not establish word-level correctness or supply a
-specific stress/gemination judgment.
-All five English and all five Telugu recordings were marked Good. In a follow-up, the author found both
-language sets acceptable and noticed no specific pronunciation issues. No preference or finer quality
-ranking was expressed.
-Author follow-up: Both acceptable; no specific pronunciation issues noticed
-Interpretation alongside the diagnostics
-Overall acceptance and recognizer disagreement address different questions. English E1/E3/E4 remain
-flagged by the local recognizer even though the author accepted the recordings. E2b exact recognition
-does not prove natural stress or freedom from noise. Telugu has no usable recognition score because its
-natural-audio control failed. These differences in measurement coverage cannot establish that either
-language sounds better.
-Evidence: English/artifacts/Assignment/analysis/final-listening-review.json contains only the ten final-recording ratings, their
-audio hashes, saved times and review limitations. It excludes unrelated private listening history. The author follow-up
-supplies the qualitative language comparison. Detailed phonetic review and an independent listening panel remain future
-evaluation work.
-FastSpeech 2 | English and Telugu | 5 November 2026
-10 / 27
-
-
-PAGE 11
 IMPLEMENTATION AND EVALUATION
 5. Test-sentence analysis
 5.1 E1 | Long English word
@@ -556,10 +481,10 @@ language sets; no word-level notes were supplied.
 WAV: Results/English/test_generated_audios/E1.wav. Text, metadata, predictions and CSV:
 English/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 5 November 2026
-11 / 27
+10 / 26
 
 
-PAGE 12
+PAGE 11
 IMPLEMENTATION AND EVALUATION
 5.2 E2a | Conduct as a noun
 The orchestra's conduct during the ceremony was praised by the audience.
@@ -578,10 +503,10 @@ language sets; no word-level notes were supplied.
 WAV: Results/English/test_generated_audios/E2a.wav. Text, metadata, predictions and CSV:
 English/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 5 November 2026
-12 / 27
+11 / 26
 
 
-PAGE 13
+PAGE 12
 IMPLEMENTATION AND EVALUATION
 5.3 E2b | Conduct as a verb
 The researchers will conduct an experiment to evaluate the proposed method.
@@ -602,10 +527,10 @@ language sets; no word-level notes were supplied.
 WAV: Results/English/test_generated_audios/E2b.wav. Text, metadata, predictions and CSV:
 English/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 5 November 2026
-13 / 27
+12 / 26
 
 
-PAGE 14
+PAGE 13
 IMPLEMENTATION AND EVALUATION
 5.4 E3 | Visible split word
 The rhyth m of the orchestra changed unexpectedly.
@@ -625,10 +550,10 @@ language sets; no word-level notes were supplied.
 WAV: Results/English/test_generated_audios/E3.wav. Text, metadata, predictions and CSV:
 English/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 5 November 2026
-14 / 27
+13 / 26
 
 
-PAGE 15
+PAGE 14
 IMPLEMENTATION AND EVALUATION
 5.5 E4 | Date, clock and code-mixing
 The meeting will start at 10:45 AM on 12 November 2026, so andaroo should arrive on time.
@@ -650,10 +575,10 @@ language sets; no word-level notes were supplied.
 WAV: Results/English/test_generated_audios/E4.wav. Text, metadata, predictions and CSV:
 English/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 5 November 2026
-15 / 27
+14 / 26
 
 
-PAGE 16
+PAGE 15
 IMPLEMENTATION AND EVALUATION
 5.6 T1 | Long Telugu technical term
 నూరక పధన నూతన ఔషల ప ంరు.
@@ -673,10 +598,10 @@ language sets; no word-level notes were supplied.
 WAV: Results/Telugu/test_generated_audios/T1.wav. Text, metadata, predictions and CSV:
 Telugu/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 5 November 2026
-16 / 27
+15 / 26
 
 
-PAGE 17
+PAGE 16
 IMPLEMENTATION AND EVALUATION
 5.7 T2a | Pattu in the grip context
 డు అత పటు    బలం ఉం.
@@ -695,10 +620,10 @@ language sets; no word-level notes were supplied.
 WAV: Results/Telugu/test_generated_audios/T2a.wav. Text, metadata, predictions and CSV:
 Telugu/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 5 November 2026
-17 / 27
+16 / 26
 
 
-PAGE 18
+PAGE 17
 IMPLEMENTATION AND EVALUATION
 5.8 T2b | Pattu in the silk context
 ఆ పటు   రను ధం డుకకు వం.
@@ -717,10 +642,10 @@ language sets; no word-level notes were supplied.
 WAV: Results/Telugu/test_generated_audios/T2b.wav. Text, metadata, predictions and CSV:
 Telugu/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 5 November 2026
-18 / 27
+17 / 26
 
 
-PAGE 19
+PAGE 18
 IMPLEMENTATION AND EVALUATION
 5.9 T3 | Visible split Telugu word
  అడ  శబం నం.
@@ -740,10 +665,10 @@ language sets; no word-level notes were supplied.
 WAV: Results/Telugu/test_generated_audios/T3.wav. Text, metadata, predictions and CSV:
 Telugu/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 5 November 2026
-19 / 27
+18 / 26
 
 
-PAGE 20
+PAGE 19
 IMPLEMENTATION AND EVALUATION
 5.10 T4 | Telugu date and clock
 ఈ సశం 2026 నవంబ 12వ  ఉదయం 10:45 గంటలకు   రంభమతుం, సమ
@@ -764,10 +689,10 @@ language sets; no word-level notes were supplied.
 WAV: Results/Telugu/test_generated_audios/T4.wav. Text, metadata, predictions and CSV:
 Telugu/artifacts/test_generated_audios/.
 FastSpeech 2 | English and Telugu | 5 November 2026
-20 / 27
+19 / 26
 
 
-PAGE 21
+PAGE 20
 IMPLEMENTATION AND EVALUATION
 6. Discussion and conclusions
 Aspect
@@ -831,10 +756,10 @@ acoustic output. Fixing this requires consistent training and inference supervis
 trajectories, a voiced/unvoiced model or a better-matched vocoder are also unmeasured future
 experiments. Appendix D quantifies speaker sparsity and the remaining quality-evaluation limits.
 FastSpeech 2 | English and Telugu | 5 November 2026
-21 / 27
+20 / 26
 
 
-PAGE 22
+PAGE 21
 IMPLEMENTATION AND EVALUATION
 Appendix A. Reproducibility
 Run commands from the repository root. Use an isolated Python 3.10 environment.
@@ -872,10 +797,10 @@ flags. A retained session/STOP is rejected before writes; remove only that run's
 deciding to continue. Policy, optimizer and best selection are restored. Explicit --device cpu supports local
 tests.
 FastSpeech 2 | English and Telugu | 5 November 2026
-22 / 27
+21 / 26
 
 
-PAGE 23
+PAGE 22
 IMPLEMENTATION AND EVALUATION
 Appendix B. Checkpoints and artifacts
 The final English weights are learned-pause step +1,000 on fine-tune step +2,500, itself initialized from
@@ -918,7 +843,7 @@ The assignment release contains a complete project/ archive with separate Englis
 frozen vocoder. SHA256SUMS verifies the archive; English/setup/download_checkpoints.py verifies each restored model.
 Per-language training wrappers, updated requirements and the README are included. The repository URL remains to be
 submitted through the assignment form.
-Corrected assignment-v9 release: complete project and checkpoint download
+Corrected assignment-v10 release: complete project and checkpoint download
 GitHub repository: ParichayMago/fastspeech2-english-telugu
 Recreate the report without cloud compute
 .venvs/inference/bin/python English/setup/analyze_assignment_outputs.py
@@ -929,13 +854,13 @@ Whisper-small results and requires openai-whisper==20250625. Report dependencies
 Report/requirements-report.txt. The included Noto Sans Telugu font is shaped with HarfBuzz and distributed under the
 accompanying SIL Open Font License.
 FastSpeech 2 | English and Telugu | 5 November 2026
-23 / 27
+22 / 26
 
 
-PAGE 24
+PAGE 23
 IMPLEMENTATION AND EVALUATION
 Appendix C. Post-review corrections
-Release assignment-v9 includes the prior recovery/portability fixes and corrects retained-STOP handling
+Release assignment-v10 includes the prior recovery/portability fixes and corrects retained-STOP handling
 and final-recording discovery. Historical logs, weights, ten test WAVs and predicted arrays are preserved.
 These software fixes require no retraining and do not establish clearer speech.
 Correction
@@ -990,10 +915,10 @@ not passes. All ten final recordings have an informal author Good rating, follow
 issues in either language; detailed phonetic notes, independent listening and MOS remain absent. Audible pause
 improvements are not asserted.
 FastSpeech 2 | English and Telugu | 5 November 2026
-24 / 27
+23 / 26
 
 
-PAGE 25
+PAGE 24
 IMPLEMENTATION AND EVALUATION
 Appendix D. Speaker coverage and remaining
 limits
@@ -1047,10 +972,10 @@ Recomputes coverage from distributed selection-membership.jsonl, rejected featur
 per-label counts, durations and input SHA256 values: English/artifacts/Assignment/analysis/english-speaker-coverage.json. No
 raw audio, new training or cloud compute is required.
 FastSpeech 2 | English and Telugu | 5 November 2026
-25 / 27
+24 / 26
 
 
-PAGE 26
+PAGE 25
 IMPLEMENTATION AND EVALUATION
 Appendix E. Independent-review follow-up
 A subsequent independent review identified weak listening detail and three software defects. The
@@ -1100,10 +1025,10 @@ The current artifact audit records these results in English/artifacts/Assignment
 remains a human-evaluation gap: code fixes, ASR, valid phones and successful synthesis cannot supply missing per-recording
 pronunciation observations. No new audible-quality gain is claimed.
 FastSpeech 2 | English and Telugu | 5 November 2026
-26 / 27
+25 / 26
 
 
-PAGE 27
+PAGE 26
 IMPLEMENTATION AND EVALUATION
 References
 [1] Ren et al. FastSpeech 2: Fast and High-Quality End-to-End Text to Speech. ICLR 2021.
@@ -1146,4 +1071,4 @@ Telugu-recognizer exclusion evidence: English/artifacts/InitialSpeechReview/revi
 Final-recording author ratings: English/artifacts/Assignment/analysis/final-listening-review.json. Native-speaker status and
 panel MOS were not established.
 FastSpeech 2 | English and Telugu | 5 November 2026
-27 / 27
+26 / 26

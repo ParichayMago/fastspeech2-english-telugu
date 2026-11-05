@@ -1,8 +1,8 @@
 {
-  "release": "assignment-v9",
-  "verified_utc": "2026-11-05T03:37:45.213710+00:00",
-  "scope": "Independent-review fixes: review links, Telugu decimals and future dataset fingerprints; listening detail remains open.",
-  "clean_export_commands": [
+  "release": "assignment-v10",
+  "verified_utc": "2026-11-05T03:53:23.454213+00:00",
+  "scope": "Report-only removal of section 4.4; runtime implementation and frozen outputs unchanged from v9.",
+  "artifact_commands": [
     {
       "command": [
         "English/setup/verify_submission_layout.py",
@@ -19,151 +19,24 @@
     },
     {
       "command": [
-        "Telugu/setup/download_checkpoints.py",
-        "--check-only"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "English/preprocess.py",
-        "--help"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "Telugu/preprocess.py",
-        "--help"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "English/train.py",
-        "--help"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "Telugu/train.py",
-        "--help"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "English/setup/prepare_final_inference.py",
-        "--nltk-only"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "Telugu/setup/prepare_final_inference.py",
-        "--nltk-only"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "-m",
-        "unittest",
-        "discover",
-        "-s",
-        "English/setup",
-        "-p",
-        "test_independent_review.py",
-        "-v"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "-m",
-        "unittest",
-        "discover",
-        "-s",
-        "Telugu/setup",
-        "-p",
-        "test_independent_review.py",
-        "-v"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "-m",
-        "unittest",
-        "discover",
-        "-s",
-        "English/setup",
-        "-p",
-        "test_final_inference.py",
-        "-v"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "-m",
-        "unittest",
-        "discover",
-        "-s",
-        "Telugu/setup",
-        "-p",
-        "test_final_inference.py",
-        "-v"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "English/inference.py",
-        "--test-id",
-        "E2b"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "Telugu/inference.py",
-        "--test-id",
-        "T2b"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
         "English/setup/verify_assignment_outputs.py"
-      ],
-      "exit_code": 0
-    },
-    {
-      "command": [
-        "English/setup/verify_submission_layout.py"
       ],
       "exit_code": 0
     }
   ],
-  "current_local_setup_regression_checks": {
-    "English": 41,
-    "Telugu": 41
+  "report_pages": 26,
+  "requested_section_absent": true,
+  "exported_report_matches_local": true,
+  "required_results_files_unchanged": 44,
+  "archive_sha256": "eb8de2e6ab914613eae014e998795ee2c043c8ab23a27ae275fc3e55e6351d11",
+  "archive_crc_and_every_manifest_sha256": "Verified by package_submission.py",
+  "prior_runtime_validation": {
+    "release": "assignment-v9",
+    "english_setup": 41,
+    "telugu_setup": 41,
+    "server": 9,
+    "total": 91,
+    "scope": "Previously passed; not rerun for this report-only edit."
   },
-  "current_local_server_tests": 9,
-  "total_local_regression_checks": 91,
-  "prior_v8_language_isolation_check": "Both languages passed CPU inference with counterpart folder absent during the previous layout migration; not repeated for these narrow fixes.",
-  "prior_v8_real_data_cpu_batch_checks": "Both languages previously passed; not repeated because the three fixes do not change model math or training batches.",
-  "all_ten_frozen_WAVs_and_arrays_exact_with_each_code_copy": true,
-  "all_44_required_results_files_unchanged_before_export_inference": true,
-  "clean_export_final_WAVs_unchanged": true,
-  "top_level_src_rejected": true,
-  "model_files": 4,
-  "vocoder_copies": "Identical frozen weights, one copy per language.",
-  "archive_sha256": "17344e7618c5c25bc53f065dd04d1f158588adb81d94fd594562660c424356a1",
-  "archive_crc_and_manifest_SHA256": "Verified for every member by package_submission.py",
-  "cloud_resources_used": false,
-  "CUDA_host_retest": false,
-  "full_dependency_reinstall": false
+  "cloud_resources_used": false
 }

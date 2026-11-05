@@ -244,19 +244,6 @@ def main():
     para('Recognition is exact for E2b; E2a differs only in possessive spelling. E1, E3 and especially E4 remain problematic. ASR can make its own errors on rare words, altered spacing and code-mixing; it does not score stress, identity, expressiveness or MOS. Telugu WER is intentionally absent because the earlier recognizer failed on natural Telugu as well as synthesized Telugu.')
     para('F0 ranges above are model conditioning, not waveform measurements. Spectral high-band energy and low-level frame fractions were also computed, but neither is reported as SNR or a noise score. Earlier user feedback on other English previews mentioned hiss and limited clarity; it is not a per-test listening rating for this freeze.','small')
 
-    page('4.4 Author listening review')
-    para('After the outputs were frozen, the project author reviewed the English and Telugu recordings through the final-recordings tab of the listening interface. The author stated an ability to review both languages. All ten saved ratings match the SHA256 of the distributed WAVs; earlier previews are excluded. This is one informal, non-blind author review, not an independent panel or a MOS experiment. The assistant did not directly listen to the audio.')
-    table(['Test','Language','Overall rating','Per-recording written notes'],[
-        [sid,item['language'].title(),item['overall_status'].title(),item['notes'] or 'None saved']
-        for sid,item in listening_map.items()],[55,90,100,W-245])
-    para('Each recording was marked Good. No issue boxes or per-recording notes were saved. The category records overall acceptance; it does not separately rate pronunciation, clarity, noise, pacing or intonation. In a subsequent chat response, the author found both language sets acceptable and noticed no specific pronunciation issues. This broad observation does not establish word-level correctness or supply a specific stress/gemination judgment.')
-    para(listening['comparison']['summary'])
-    if listening['comparison'].get('user_comparative_comment'):
-        para('Author follow-up: '+listening['comparison']['user_comparative_comment'])
-    sub('Interpretation alongside the diagnostics')
-    para('Overall acceptance and recognizer disagreement address different questions. English E1/E3/E4 remain flagged by the local recognizer even though the author accepted the recordings. E2b exact recognition does not prove natural stress or freedom from noise. Telugu has no usable recognition score because its natural-audio control failed. These differences in measurement coverage cannot establish that either language sounds better.')
-    para('Evidence: English/artifacts/Assignment/analysis/final-listening-review.json contains only the ten final-recording ratings, their audio hashes, saved times and review limitations. It excludes unrelated private listening history. The author follow-up supplies the qualitative language comparison. Detailed phonetic review and an independent listening panel remain future evaluation work.','small')
-
     # One complete source + all three compact curves + individual analysis per test.
     challenges={'E1':'Long English word','E2a':'Conduct as a noun','E2b':'Conduct as a verb','E3':'Visible split word','E4':'Date, clock and code-mixing',
                 'T1':'Long Telugu technical term','T2a':'Pattu in the grip context','T2b':'Pattu in the silk context','T3':'Visible split Telugu word','T4':'Telugu date and clock'}
