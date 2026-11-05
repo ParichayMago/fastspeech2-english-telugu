@@ -1,7 +1,7 @@
 {
-  "release": "assignment-v10",
-  "verified_utc": "2026-11-05T03:53:23.454213+00:00",
-  "scope": "Report-only removal of section 4.4; runtime implementation and frozen outputs unchanged from v9.",
+  "release": "assignment-v11",
+  "verified_utc": "2026-11-05T07:10:46.325371+00:00",
+  "scope": "Report-only removal of authored dates and PDF date metadata; exact test excerpts and citation years preserved.",
   "artifact_commands": [
     {
       "command": [
@@ -25,10 +25,11 @@
     }
   ],
   "report_pages": 26,
-  "requested_section_absent": true,
+  "report_datelines_and_date_metadata_removed": true,
+  "test_dates_and_reference_years_preserved": true,
   "exported_report_matches_local": true,
   "required_results_files_unchanged": 44,
-  "archive_sha256": "eb8de2e6ab914613eae014e998795ee2c043c8ab23a27ae275fc3e55e6351d11",
+  "archive_sha256": "074f165038df380d391c6ef720f4f51a4f9f6c2308f2f990d3175555acfc72ff",
   "archive_crc_and_every_manifest_sha256": "Verified by package_submission.py",
   "prior_runtime_validation": {
     "release": "assignment-v9",

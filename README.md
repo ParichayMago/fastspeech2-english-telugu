@@ -33,8 +33,8 @@ python3 English/setup/download_checkpoints.py
 ```
 
 Large checkpoints are available in the
-[complete submission ZIP](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v10/fastspeech2-assignment-v10.zip)
-with [SHA256SUMS](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v10/SHA256SUMS).
+[complete submission ZIP](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v11/fastspeech2-assignment-v11.zip)
+with [SHA256SUMS](https://github.com/ParichayMago/fastspeech2-english-telugu/releases/download/assignment-v11/SHA256SUMS).
 Model hashes are recorded in [checkpoint_manifest.json](English/setup/checkpoint_manifest.json).
 
 ## Results and reproduction

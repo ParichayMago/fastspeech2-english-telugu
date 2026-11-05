@@ -6,12 +6,13 @@ import html
 import json
 import math
 import sys
-from datetime import datetime, timezone, timedelta
+from io import BytesIO
 
 ROOT=Path(__file__).resolve().parents[2]
 
 
 def main():
+    from pypdf import PdfReader, PdfWriter
     from reportlab.lib import colors
     from reportlab.lib.enums import TA_LEFT
     from reportlab.lib.pagesizes import A4
@@ -107,7 +108,7 @@ def main():
     pages.append('Abstract and implementation overview');story.append(Spacer(1,22))
     story.append(P('FastSpeech 2<br/>English and Telugu','title',True))
     story.append(P('Implementation, training and test-sentence analysis','h2'))
-    para('Parichay Mago | Technical report | 4 November 2026','small')
+    para('Parichay Mago | Technical report','small')
     sub('Abstract')
     para('This work develops two independent FastSpeech 2 text-to-speech systems for English and Telugu using Svarah and IndicTTS Telugu. We began by examining the reference architecture, checking dataset access and transcript quality, and selecting approximately five hours of training audio and one hour of validation audio per language. We then implemented language-specific text processing, phoneme conversion, forced alignment and acoustic-feature extraction. Separate acoustic models predict mel spectrograms, which a pretrained HiFi-GAN converts into speech [1-5]. The experiments investigate training convergence, alignment quality and English prosody through baseline training, feature repair and targeted fine-tuning. Evaluation covers all ten assignment sentences and their predicted duration, pitch and energy trajectories.')
     sub('Implementation overview')
@@ -445,7 +446,7 @@ def main():
     for number,title,url in refs:
         para('['+number+'] '+title,'small')
         story.append(P('<link href="'+url+'" color="#087b78">'+esc(url)+'</link>','small',True))
-    sub('Project records, 2-5 November 2026')
+    sub('Project records')
     for text in [
       'Dataset revisions, split integrity and hours: English/artifacts/DatasetAudit/; English/artifacts/DataSplits/summary.json and verification.json.',
       'Corrected feature integrity and restored gaps: English/artifacts/Preprocessing/gap-fixed-v2/rebuild-summary.json.',
@@ -460,15 +461,13 @@ def main():
         def __init__(self,*args,**kwargs):
             super().__init__(*args,**kwargs)
             self._states=[]
-            stamp=datetime.now(timezone(timedelta(hours=5,minutes=30))).strftime("D:%Y%m%d%H%M%S+05'30'")
-            self.setDateFormatter(lambda *parts: stamp)
         def showPage(self):self._states.append(dict(self.__dict__));self._startPage()
         def save(self):
             count=len(self._states)
             for state in self._states:
                 self.__dict__.update(state)
                 self.setFont('Body',7.5);self.setFillColor(gray)
-                self.drawString(48,28,'FastSpeech 2 | English and Telugu | 5 November 2026')
+                self.drawString(48,28,'FastSpeech 2 | English and Telugu')
                 self.drawRightString(A4[0]-48,28,f'{self._pageNumber} / {count}')
                 Canvas.showPage(self)
             Canvas.save(self)
@@ -479,10 +478,18 @@ def main():
         canvas.setStrokeColor(C('#cad7df'));canvas.setLineWidth(.5);canvas.line(48,A4[1]-36,A4[0]-48,A4[1]-36)
         canvas.restoreState()
     destination=r/'Report/Technical_Report.pdf'
-    doc=SimpleDocTemplate(str(destination),pagesize=A4,rightMargin=48,leftMargin=48,topMargin=54,bottomMargin=45,
+    buffer=BytesIO()
+    doc=SimpleDocTemplate(buffer,pagesize=A4,rightMargin=48,leftMargin=48,topMargin=54,bottomMargin=45,
            title='FastSpeech 2 - English and Telugu: Technical Report',author='Parichay Mago',
            subject='Assignment implementation, training losses, generated speech and variance analysis')
     doc.build(story,onFirstPage=header,onLaterPages=header,canvasmaker=NumberedCanvas)
+    buffer.seek(0)
+    reader=PdfReader(buffer)
+    writer=PdfWriter(clone_from=reader)
+    writer.metadata={key:value for key,value in reader.metadata.items()
+                     if key not in ('/CreationDate','/ModDate')}
+    with destination.open('wb') as stream:
+        writer.write(stream)
     (r/'Report/report-section-plan.json').write_text(json.dumps({'planned_pages':pages,'planned_page_count':len(pages)},indent=2)+'\n')
     print(json.dumps({'report':str(destination),'planned_pages':len(pages),'bytes':destination.stat().st_size}))
 

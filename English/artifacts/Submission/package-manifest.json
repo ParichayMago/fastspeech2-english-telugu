@@ -1,6 +1,6 @@
 {
-  "created_utc": "2026-11-05T03:51:51.763867+00:00",
-  "release_tag": "assignment-v10",
+  "created_utc": "2026-11-05T07:09:51.348871+00:00",
+  "release_tag": "assignment-v11",
   "archive_layout": "project/",
   "audios": 10,
   "variance_plots": 30,
@@ -46,8 +46,8 @@
       "sha256": "bd2978a11936c128b691bf8f008963f0b0a63ab984b20db0cc21cc0b6f6e6701"
     },
     "English/artifacts/Assignment/assignment_test_outputs.zip": {
-      "bytes": 8866288,
-      "sha256": "2e34994498c77448498e0f29e26ef03aa7e280d39c8655cfc58215e64f03d984"
+      "bytes": 8867877,
+      "sha256": "7af7605f0dd37432ebd54a5da5692e1ad1958017c271c35a1d37dcb36af4d7a0"
     },
     "English/artifacts/Assignment/checkpoint-selection.json": {
       "bytes": 1444,
@@ -82,8 +82,8 @@
       "sha256": "d77de9aed65737848782db896dca925cc55b278f46e1c4f5bfab98910a31f7e3"
     },
     "English/artifacts/Assignment/pre-submission-audit.json": {
-      "bytes": 3453,
-      "sha256": "7300d8600bd9ed9fff377dd98c5fd2d5604e8cffef5401a71e2981b6c74d288f"
+      "bytes": 3491,
+      "sha256": "fab63b17b72860daf2b402334448954ac1692e6746423111fd66a6c6c3463b64"
     },
     "English/artifacts/Assignment/review-fix-verification.json": {
       "bytes": 3641,
@@ -99,7 +99,7 @@
     },
     "English/artifacts/Assignment/verification.json": {
       "bytes": 15138,
-      "sha256": "abb055ec02b818d95ad04bb3b8bcfb318853175b9a5e2d0bbb1332ca7a846b54"
+      "sha256": "a953bb88b4135cd05cacaf8f4d4fe60c75eb78f359be4bc555081ab55d71e7fc"
     },
     "English/artifacts/DataSplits/english-speaker-recovery.json": {
       "bytes": 1543,
@@ -615,7 +615,7 @@
     },
     "English/docs/REPRODUCIBILITY.md": {
       "bytes": 13171,
-      "sha256": "f25fbddf4fa404241f8d867b82c27518a630b80b7ffdf274da52f101aa75c773"
+      "sha256": "bd8e21d324ac07a673e602857aed2bdd86b440345f0c819128e440feb7e4aea6"
     },
     "English/docs/UPSTREAM_README.md": {
       "bytes": 7305,
@@ -794,8 +794,8 @@
       "sha256": "df597b8e3b043b83142c341e979eaf9a4e90ccba4e91b5ed2c84d06b0ece3138"
     },
     "English/setup/build_technical_report.py": {
-      "bytes": 63396,
-      "sha256": "8a4925b810a4300a6f896b576727670e610722c067570718b63610f82429a18e"
+      "bytes": 63502,
+      "sha256": "c427528c24cf77007a4fadaccde8345f233889e614868979c8df25c717f7bf00"
     },
     "English/setup/check_environment.py": {
       "bytes": 4799,
@@ -815,7 +815,7 @@
     },
     "English/setup/checkpoint_manifest.json": {
       "bytes": 906,
-      "sha256": "1d0e0592d4e015079986fd6aea0f548f7800a51b4744a401b745c74bdc9edf4b"
+      "sha256": "0f1f80974eb0b7da698f91b3cdd40b12f445508ae08d649fa5c3becb84ccff38"
     },
     "English/setup/compare_corrected_speech.py": {
       "bytes": 3746,
@@ -1139,7 +1139,7 @@
     },
     "README.md": {
       "bytes": 2025,
-      "sha256": "1fc15f0986f40b813ad6480e8e0ccbf7f81938a04822c7a85cd51bdf3f022139"
+      "sha256": "95e019f4edbaece0b4ce278ba8fb45a53df5abb4b4b019d240e55e042f9b06a8"
     },
     "Report/Alignment_Gap_Fix.txt": {
       "bytes": 5397,
@@ -1182,8 +1182,8 @@
       "sha256": "826eb682ef27c9547a360436c06cbd1187519706260fa9949974688a9376e281"
     },
     "Report/Technical_Report.pdf": {
-      "bytes": 2371844,
-      "sha256": "ca7dd15e43d8e712cb384f247375e4bf778715e973dfa712cf204c3e8adb7a5f"
+      "bytes": 2371330,
+      "sha256": "9a15fb00ad34a8069a5cc9937483476c7d32a63573feaf46f6fab0032f1d9d34"
     },
     "Report/Training_Methods.txt": {
       "bytes": 2468,
@@ -1278,12 +1278,12 @@
       "sha256": "670b8a457283e40cbb4a5be1e31900bfa7fb9b36a29336be371dd04766dfada4"
     },
     "Report/report-text.txt": {
-      "bytes": 56671,
-      "sha256": "908ec3811b1530040409827bcbeb8e58a75f985a594660ec74e1df8af1e5c21f"
+      "bytes": 56166,
+      "sha256": "03c7d6549d670b11d06e8de5df59f6a0df9b6558d3d15451dafbcab7b88fe05f"
     },
     "Report/report-verification.json": {
-      "bytes": 15351,
-      "sha256": "d9107894ec0b847e9a2d3255bd6085f5929187dc9016babbd4e9e865690edd79"
+      "bytes": 15520,
+      "sha256": "c445cf6f0912e22f3c43385177fea69042735d8331af6ca6863b79d29f65da1e"
     },
     "Report/requirements-report.txt": {
       "bytes": 160,
@@ -1826,8 +1826,8 @@
       "sha256": "72e9887f074c3eb6f3891801b35d5a4f6156d55d2f0a474222d320df8e364e55"
     },
     "Telugu/setup/build_technical_report.py": {
-      "bytes": 63396,
-      "sha256": "8a4925b810a4300a6f896b576727670e610722c067570718b63610f82429a18e"
+      "bytes": 63502,
+      "sha256": "c427528c24cf77007a4fadaccde8345f233889e614868979c8df25c717f7bf00"
     },
     "Telugu/setup/check_environment.py": {
       "bytes": 4795,
@@ -1847,7 +1847,7 @@
     },
     "Telugu/setup/checkpoint_manifest.json": {
       "bytes": 906,
-      "sha256": "1d0e0592d4e015079986fd6aea0f548f7800a51b4744a401b745c74bdc9edf4b"
+      "sha256": "0f1f80974eb0b7da698f91b3cdd40b12f445508ae08d649fa5c3becb84ccff38"
     },
     "Telugu/setup/compare_corrected_speech.py": {
       "bytes": 3746,
